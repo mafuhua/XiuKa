@@ -116,6 +116,8 @@
         </activity>
         <activity android:name=".activity.BangDingTelActivity">
         </activity>
+        <activity android:name=".activity.GuanZhuListActivity">
+        </activity>
     </application>
 
 </manifest>

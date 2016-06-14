@@ -66,7 +66,7 @@ public class AnQuanActivity extends BaseActivity implements View.OnClickListener
 
                 break;
             case R.id.rl_phone:
-
+                startActivity(BangDingTelActivity.class);
                 break;
             case R.id.btn_tijiao:
 

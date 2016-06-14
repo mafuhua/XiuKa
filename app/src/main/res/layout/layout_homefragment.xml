@@ -4,9 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
     <RelativeLayout
         android:layout_width="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -15,12 +16,13 @@
             android:layout_margin="5dp"
             android:src="@drawable/sousuokuang"/>
 
-        <TextView
+        <EditText
             android:id="@+id/tv_sousuo"
+            android:background="@null"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="搜索用户和标签"/>
+            android:hint="搜索用户和标签"/>
 
         <ImageView
             android:layout_width="20dp"

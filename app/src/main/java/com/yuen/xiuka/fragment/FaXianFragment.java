@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -19,6 +20,7 @@ import com.yuen.baselib.adapter.BaseHolder;
 import com.yuen.baselib.adapter.DefaultAdapter;
 import com.yuen.xiuka.MyUtils;
 import com.yuen.xiuka.R;
+import com.yuen.xiuka.activity.ZhuBoListActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +38,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
     private static String[] settingString = new String[]{"意见", "更新", "缓存", "中心", "我们", "退出", "意见", "更新", "缓存", "中心", "我们", "退出", "意见", "更新", "缓存", "中心", "我们", "退出"};
     private Context context;
     private GridView gv_renqi;
-    private TextView tv_sousuo;
+
     private ImageView iv_baoming;
     private TextView tv_gengduo;
     private TextView tv_gengduo1;
@@ -44,12 +46,14 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
     private TextView tv_gengduo2;
     private GridView gv_xinren;
     private MyAdapter myAdapter;
-
+    private EditText tv_sousuo;
     @Override
     public View initView() {
         context = getActivity();
         View view = View.inflate(getActivity(), R.layout.layout_homefragment, null);
         mRcHomeHorizontal = (RecyclerView) view.findViewById(R.id.rc_home_horizontal);
+        tv_sousuo = (EditText) view.findViewById(R.id.tv_sousuo);
+        tv_sousuo.setOnClickListener(this);
         gv_renqi = (GridView) view.findViewById(R.id.gv_renqi);
         //设置布局管理器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
@@ -79,8 +83,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
                         : false;
             }
         });
-        tv_sousuo = (TextView) view.findViewById(R.id.tv_sousuo);
-        tv_sousuo.setOnClickListener(this);
+
         iv_baoming = (ImageView) view.findViewById(R.id.iv_baoming);
         iv_baoming.setOnClickListener(this);
         tv_gengduo = (TextView) view.findViewById(R.id.tv_gengduo);
@@ -106,7 +109,12 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()){
+            case R.id.tv_gengduo:
+                Toast.makeText(context, "haha", Toast.LENGTH_SHORT).show();
+                startActivity(ZhuBoListActivity.class);
+                break;
+        }
     }
     static class MyRCAdapter extends RecyclerView.Adapter<MyRCAdapter.ViewHolder> {
 

@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -48,6 +49,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void initView() {
+
         fl_home_content = (FrameLayout) findViewById(R.id.fl_home_content);
         fl_home_content.setOnClickListener(this);
         rb_home_faxian = (RadioButton) findViewById(R.id.rb_home_faxian);

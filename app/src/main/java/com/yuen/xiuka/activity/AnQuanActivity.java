@@ -60,12 +60,12 @@ public class AnQuanActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_fanhui:
-
+                finish();
                 break;
             case R.id.btn_sousuo:
 
                 break;
-            case R.id.btn_jia:
+            case R.id.rl_phone:
 
                 break;
             case R.id.btn_tijiao:

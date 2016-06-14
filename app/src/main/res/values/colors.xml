@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="bg_line">#C8C8C8</color>
+
+    <color name="search_tab_nomarl">#363636</color>
+    <color name="search_tab_select">#E82926</color>
+    <color name="menu_item_text_color">#E60200</color>
+    <color name="rcybg">#F7F2EF</color>
+
+    <color name="color_text_selected">#FF5A60</color>
+    <color name="color_text_normal">#AFADB8</color>
+
+</resources>

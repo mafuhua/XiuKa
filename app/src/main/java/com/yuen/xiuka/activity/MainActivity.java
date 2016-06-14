@@ -1,4 +1,4 @@
-package com.yuen.xiuka;
+package com.yuen.xiuka.activity;
 
 
 import android.graphics.drawable.Drawable;
@@ -8,13 +8,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.yuen.baselib.utils.SysExitUtil;
+import com.yuen.xiuka.R;
 import com.yuen.xiuka.fragment.FragmentFractory;
+import com.yuen.xiuka.utils.MyUtils;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private FragmentManager supportFragmentManager;
@@ -117,6 +118,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.rb_home_wode:
                 switchContent(currentFragment, woDeFragment, "个人中心", View.GONE);
+                break;
+            case R.id.rb_home_fabu:
+                startActivity(FaBuActivity.class);
                 break;
         }
     }

@@ -9,8 +9,10 @@
     <color name="search_tab_select">#E82926</color>
     <color name="menu_item_text_color">#E60200</color>
     <color name="rcybg">#F7F2EF</color>
-
+    <color name="grey">#0A9A9B</color>
+    <color name="grey_line">#ABABAB</color>
     <color name="color_text_selected">#FF5A60</color>
     <color name="color_text_normal">#AFADB8</color>
+    <color name="line">#F5EFED</color>
 
 </resources>

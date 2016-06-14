@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    >
+    <include layout="@layout/layout_titlebar"/>
+    <RelativeLayout
+        android:id="@+id/rl_user_icon"
+        android:background="@android:color/white"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="10dp">
+
+        <ImageView
+            android:id="@+id/iv_user_icon"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/touxiang"
+            android:layout_marginRight="40dp" />
+        <!--  zhy:src="@drawable/icon"
+          zhy:type="circle"-->
+
+
+
+        <TextView
+            android:id="@+id/tv_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="头像"/>
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/line"
+        android:layout_height="10dp"/>
+    <ListView
+        android:id="@+id/lv_ziliao"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
+</LinearLayout>

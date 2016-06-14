@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@android:color/white"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/iv_wode_item_icon"
+            android:layout_width="20dp"
+            android:background="@drawable/renzheng"
+            android:layout_height="20dp"/>
+
+        <TextView
+            android:id="@+id/tv_wode_item_dec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/iv_wode_item_icon"
+            android:text="我常买"
+            android:textSize="16sp"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

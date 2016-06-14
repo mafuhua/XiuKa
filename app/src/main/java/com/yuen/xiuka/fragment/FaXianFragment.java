@@ -18,9 +18,9 @@ import android.widget.Toast;
 import com.yuen.baselib.activity.BaseFragment;
 import com.yuen.baselib.adapter.BaseHolder;
 import com.yuen.baselib.adapter.DefaultAdapter;
-import com.yuen.xiuka.MyUtils;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.activity.ZhuBoListActivity;
+import com.yuen.xiuka.utils.MyUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,12 +30,12 @@ import java.util.List;
  * Created by Administrator on 2016/6/13.
  */
 public class FaXianFragment extends BaseFragment implements View.OnClickListener {
-    private RecyclerView mRcHomeHorizontal;
-    private MyRCAdapter myRCAdapter;
     public static int mPosition;
     public static int mRCPosition = 0;
-    private List settingString2 = new ArrayList(Arrays.asList("意见", "更新", "缓存", "中心", "我们", "退出"));
     private static String[] settingString = new String[]{"意见", "更新", "缓存", "中心", "我们", "退出", "意见", "更新", "缓存", "中心", "我们", "退出", "意见", "更新", "缓存", "中心", "我们", "退出"};
+    private RecyclerView mRcHomeHorizontal;
+    private MyRCAdapter myRCAdapter;
+    private List settingString2 = new ArrayList(Arrays.asList("意见", "更新", "缓存", "中心", "我们", "退出"));
     private Context context;
     private GridView gv_renqi;
 
@@ -47,6 +47,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
     private GridView gv_xinren;
     private MyAdapter myAdapter;
     private EditText tv_sousuo;
+
     @Override
     public View initView() {
         context = getActivity();
@@ -68,6 +69,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
                 // Log.d("mafuhua", "mrcPosition------:" + position);
                 MyUtils.toastShow(context, settingString[position], Toast.LENGTH_SHORT);
                 myRCAdapter.notifyDataSetChanged();
+                startActivity(ZhuBoListActivity.class);
 
             }
         });
@@ -109,13 +111,43 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tv_gengduo:
-                Toast.makeText(context, "haha", Toast.LENGTH_SHORT).show();
+                startActivity(ZhuBoListActivity.class);
+                break;
+            case R.id.tv_gengduo1:
+                startActivity(ZhuBoListActivity.class);
+                break;
+            case R.id.tv_gengduo2:
                 startActivity(ZhuBoListActivity.class);
                 break;
         }
     }
+
+    public void setListViewHeightBasedOnChildren(GridView listView) {
+        // 获取ListView对应的Adapter
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0, len = listAdapter.getCount(); i < 2; i++) {
+            // listAdapter.getCount()返回数据项的数目
+            View listItem = listAdapter.getView(i, null, listView);
+            // 计算子项View 的宽高
+            listItem.measure(0, 0);
+            // 统计所有子项的总高度
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight;//+ (listView.getHeight() * (listAdapter.getCount() - 1));
+        // listView.getDividerHeight()获取子项间分隔符占用的高度
+        // params.height最后得到整个ListView完整显示需要的高度
+        listView.setLayoutParams(params);
+    }
+
     static class MyRCAdapter extends RecyclerView.Adapter<MyRCAdapter.ViewHolder> {
 
         public int mrcPosition;
@@ -199,8 +231,6 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
 
     }
 
-
-
     class MyAdapter extends DefaultAdapter {
         public MyAdapter(List datas) {
             super(datas);
@@ -228,28 +258,5 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         public void refreshView(Object data, int position) {
 
         }
-    }
-    public void setListViewHeightBasedOnChildren(GridView listView) {
-        // 获取ListView对应的Adapter
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            return;
-        }
-
-        int totalHeight = 0;
-        for (int i = 0, len = listAdapter.getCount(); i < 2; i++) {
-            // listAdapter.getCount()返回数据项的数目
-            View listItem = listAdapter.getView(i, null, listView);
-            // 计算子项View 的宽高
-            listItem.measure(0, 0);
-            // 统计所有子项的总高度
-            totalHeight += listItem.getMeasuredHeight();
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight;//+ (listView.getHeight() * (listAdapter.getCount() - 1));
-        // listView.getDividerHeight()获取子项间分隔符占用的高度
-        // params.height最后得到整个ListView完整显示需要的高度
-        listView.setLayoutParams(params);
     }
 }

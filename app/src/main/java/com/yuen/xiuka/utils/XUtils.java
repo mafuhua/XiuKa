@@ -1,4 +1,4 @@
-package com.yuen.xiuka;
+package com.yuen.xiuka.utils;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;

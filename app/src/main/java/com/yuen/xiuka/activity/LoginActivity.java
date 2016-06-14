@@ -1,4 +1,4 @@
-package com.yuen.xiuka;
+package com.yuen.xiuka.activity;
 
 
 import android.os.Bundle;
@@ -8,10 +8,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.yuen.baselib.utils.VerifyUtil;
+import com.yuen.xiuka.R;
+
+import java.util.Map;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
-
+    private UMShareAPI mShareAPI;
     private EditText et_tel;
     private EditText et_yzm;
     private Button btn_get_yzm;
@@ -24,6 +30,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        mShareAPI = UMShareAPI.get(this);
         initView();
     }
 
@@ -53,6 +60,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
+        SHARE_MEDIA platform;
         switch (v.getId()) {
             case R.id.btn_get_yzm:
 
@@ -61,16 +69,37 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 startActivity(MainActivity.class);
                 break;
             case R.id.btn_qq:
-
+                 platform = SHARE_MEDIA.QQ;
+                mShareAPI.doOauthVerify(this, platform, umAuthListener);
                 break;
             case R.id.btn_weixin:
-
+                 platform = SHARE_MEDIA.WEIXIN;
+                mShareAPI.doOauthVerify(this, platform, umAuthListener);
                 break;
             case R.id.btn_weobo:
+                 platform = SHARE_MEDIA.SINA;
+                mShareAPI.doOauthVerify(this, platform, umAuthListener);
+
 
                 break;
         }
     }
+    private UMAuthListener umAuthListener = new UMAuthListener() {
+        @Override
+        public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
+            Toast.makeText( getApplicationContext(), "Authorize succeed", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, int action, Throwable t) {
+            Toast.makeText( getApplicationContext(), "Authorize fail", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform, int action) {
+            Toast.makeText( getApplicationContext(), "Authorize cancel", Toast.LENGTH_SHORT).show();
+        }
+    };
 
     private void submit() {
         // validate

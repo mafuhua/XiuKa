@@ -1,4 +1,4 @@
-package com.yuen.xiuka;
+package com.yuen.xiuka.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.yuen.baselib.utils.ToastUtil;
+import com.yuen.xiuka.R;
 
 import java.io.Serializable;
 

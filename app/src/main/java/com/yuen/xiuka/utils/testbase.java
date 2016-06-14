@@ -1,4 +1,4 @@
-package com.yuen.xiuka;
+package com.yuen.xiuka.utils;
 
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import com.yuen.baselib.adapter.BaseHolder;
 import com.yuen.baselib.adapter.DefaultAdapter;
+import com.yuen.xiuka.R;
 
 import java.util.List;
 

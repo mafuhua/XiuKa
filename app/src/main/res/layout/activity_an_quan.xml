@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include layout="@layout/layout_titlebar"/>
+<ImageView
+    android:layout_gravity="center_horizontal"
+    android:layout_width="100dp"
+    android:id="@+id/iv_user_icon"
+    android:background="@drawable/touxiang"
+    android:layout_margin="30dp"
+    android:layout_height="100dp"/>
+    <TextView
+        android:id="@+id/tv_anquandengji"
+        android:text="安全等级:低"
+        android:textColor="@android:color/black"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content"/>
+    <ImageView
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_marginRight="40dp"
+        android:layout_marginLeft="40dp"
+        android:background="@drawable/zhanghuanquan"
+        android:layout_height="50dp"/>
+    <TextView
+        android:text="通过一下设置,可提高安全等级"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content"/>
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/line"
+        android:layout_height="1dp"/>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:id="@+id/rl_phone"
+        android:background="@android:color/white"
+        android:layout_height="50dp">
+
+        <TextView
+            android:text="绑定手机"
+            android:padding="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/iv_shop_item_image"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="10dp"
+            android:background="@drawable/gegnduo"
+            android:layout_marginRight="5dp"
+            android:layout_height="15dp"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/line"
+        android:layout_height="1dp"/>
+</LinearLayout>

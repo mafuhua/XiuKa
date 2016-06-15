@@ -3,7 +3,10 @@ package com.yuen.xiuka;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.umeng.socialize.PlatformConfig;
@@ -12,6 +15,10 @@ import com.yuen.xiuka.galleryfinal.GlidePauseOnScrollListener;
 
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Locale;
 
 import cn.finalteam.galleryfinal.CoreConfig;
 import cn.finalteam.galleryfinal.FunctionConfig;
@@ -67,13 +74,13 @@ public class MyApplication extends Application {
         //设置主题
         // ThemeConfig theme = ThemeConfig.ORANGE;
         ThemeConfig theme = new ThemeConfig.Builder()
-                .setTitleBarBgColor(Color.RED)
+                .setTitleBarBgColor(Color.parseColor("#FF7478"))
                 .setTitleBarTextColor(Color.WHITE)
                 .setTitleBarIconColor(Color.WHITE)
-                .setFabNornalColor(Color.RED)
-                .setFabPressedColor(Color.RED)
+                .setFabNornalColor(Color.parseColor("#FF7478"))
+                .setFabPressedColor(Color.parseColor("#FF7478"))
                 .setCheckNornalColor(Color.WHITE)
-                .setCheckSelectedColor(Color.RED)
+                .setCheckSelectedColor(Color.parseColor("#FF7478"))
                 .build();
 
       /*  ThemeConfig theme = new ThemeConfig.Builder()
@@ -92,6 +99,7 @@ public class MyApplication extends Application {
                 .setPauseOnScrollListener(new GlidePauseOnScrollListener(false, true))
                 .build();
         GalleryFinal.init(coreConfig);
+       // sHA1(context);
     }
     /**
      * 获得当前进程的名字
@@ -112,6 +120,33 @@ public class MyApplication extends Application {
             if (appProcess.pid == pid) {
                 return appProcess.processName;
             }
+        }
+        return null;
+    }
+
+
+    public static String sHA1(Context context) {
+        try {
+            PackageInfo info = context.getPackageManager().getPackageInfo(
+                    context.getPackageName(), PackageManager.GET_SIGNATURES);
+            byte[] cert = info.signatures[0].toByteArray();
+            MessageDigest md = MessageDigest.getInstance("SHA1");
+            byte[] publicKey = md.digest(cert);
+            StringBuffer hexString = new StringBuffer();
+            for (int i = 0; i < publicKey.length; i++) {
+                String appendString = Integer.toHexString(0xFF & publicKey[i])
+                        .toUpperCase(Locale.US);
+                if (appendString.length() == 1)
+                    hexString.append("0");
+                hexString.append(appendString);
+                hexString.append(":");
+            }
+            Log.d("mafuhua", hexString.toString());
+            return hexString.toString();
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
         }
         return null;
     }

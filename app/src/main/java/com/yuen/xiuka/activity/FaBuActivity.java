@@ -14,14 +14,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.yuen.baselib.adapter.BaseHolder;
 import com.yuen.baselib.adapter.DefaultAdapter;
+import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import cn.finalteam.galleryfinal.FunctionConfig;
@@ -30,6 +37,50 @@ import cn.finalteam.galleryfinal.model.PhotoInfo;
 
 public class FaBuActivity extends BaseActivity implements View.OnClickListener {
 
+    //声明AMapLocationClient类对象
+    public static AMapLocationClient mLocationClient = null;
+    //声明mLocationOption对象
+    public static AMapLocationClientOption mLocationOption = null;
+    public static String province;
+    public static String city;
+    public static String district;
+    public static String street;
+    //声明定位回调监听器
+    public static AMapLocationListener mLocationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation aMapLocation) {
+            if (aMapLocation != null) {
+                if (aMapLocation.getErrorCode() == 0) {
+                    //定位成功回调信息，设置相关消息
+                    aMapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
+                    aMapLocation.getLatitude();//获取纬度
+                    aMapLocation.getLongitude();//获取经度
+                    aMapLocation.getAccuracy();//获取精度信息
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date = new Date(aMapLocation.getTime());
+                    df.format(date);//定位时间
+                    aMapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
+                    aMapLocation.getCountry();//国家信息
+                    province = aMapLocation.getProvince();
+                    city = aMapLocation.getCity();
+                    district = aMapLocation.getDistrict();
+                    street = aMapLocation.getStreet();
+                    aMapLocation.getStreetNum();//街道门牌号信息
+                    aMapLocation.getCityCode();//城市编码
+                    aMapLocation.getAdCode();//地区编码
+                    Log.d("mafuhua", province + city + district + street);
+                    tv_add.setText(city);
+               //     Toast.makeText(MyApplication.context, province + city + district + street, Toast.LENGTH_SHORT).show();
+                    //  aMapLocation.getAOIName();//获取当前定位点的AOI信息
+                } else {
+                    //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
+                    Log.e("mafuhua", "location Error, ErrCode:"
+                            + aMapLocation.getErrorCode() + ", errInfo:"
+                            + aMapLocation.getErrorInfo());
+                }
+            }
+        }
+    };
     private final int REQUEST_CODE_GALLERY = 1001;
     private Button btn_fanhui;
     private Button btn_sousuo;
@@ -39,7 +90,7 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
     private EditText et_content;
     private GridView gv_pic;
     private ImageView iv_add;
-    private TextView tv_add;
+    private static TextView tv_add;
     private Button btn_fabu;
     private List<String> mPhotoList = new ArrayList<>();
     private List<String> ImageList = new ArrayList<>();
@@ -71,6 +122,31 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
             Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show();
         }
     };
+
+    public static void getLoc() {
+        //初始化定位
+        mLocationClient = new AMapLocationClient(MyApplication.context);
+        //设置定位回调监听
+        mLocationClient.setLocationListener(mLocationListener);
+        //初始化定位参数
+        mLocationOption = new AMapLocationClientOption();
+        //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //设置是否返回地址信息（默认返回地址信息）
+        mLocationOption.setNeedAddress(true);
+        //设置是否只定位一次,默认为false
+        mLocationOption.setOnceLocation(true);
+        //设置是否强制刷新WIFI，默认为强制刷新
+        mLocationOption.setWifiActiveScan(true);
+        //设置是否允许模拟位置,默认为false，不允许模拟位置
+        mLocationOption.setMockEnable(false);
+        //设置定位间隔,单位毫秒,默认为2000ms
+        //  mLocationOption.setInterval(2000);
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+        //启动定位
+        mLocationClient.startLocation();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +186,7 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
         tv_add.setOnClickListener(this);
         btn_fabu = (Button) findViewById(R.id.btn_fabu);
         btn_fabu.setOnClickListener(this);
+        getLoc();
     }
 
     @Override
@@ -173,7 +250,7 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
             case R.id.btn_fabu:
                 //带配置
                 FunctionConfig config = new FunctionConfig.Builder()
-                        .setMutiSelectMaxSize(6)
+                        .setMutiSelectMaxSize(9)
                         .build();
                 GalleryFinal.openGalleryMuti(REQUEST_CODE_GALLERY, config, mOnHanlderResultCallback);
 

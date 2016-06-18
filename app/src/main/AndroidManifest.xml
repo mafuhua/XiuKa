@@ -48,7 +48,6 @@
     <!-- 写入扩展存储，向扩展卡写入数据，用于写入缓存定位数据 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
-
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -143,6 +142,9 @@
             android:name="com.amap.api.v2.apikey"
             android:value="48a6f84be79b393112fbe390c34d7876">
         </meta-data>
+
+        <activity android:name=".activity.GongHuiRenZhengActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -11,6 +11,7 @@ import com.yuen.baselib.activity.BaseFragment;
 import com.yuen.baselib.adapter.BaseHolder;
 import com.yuen.baselib.adapter.DefaultAdapter;
 import com.yuen.xiuka.R;
+import com.yuen.xiuka.activity.GongHuiRenZhengActivity;
 import com.yuen.xiuka.activity.GuanZhuListActivity;
 import com.yuen.xiuka.activity.RenZhengActivity;
 import com.yuen.xiuka.activity.SettingActivity;
@@ -35,6 +36,8 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
     private void assignViews(View view) {
         tvGuanzhu = (TextView) view.findViewById(R.id.tv_guanzhu);
         tvFensi = (TextView) view.findViewById(R.id.tv_fensi);
+        TextView textView = new TextView(getActivity());
+
         lvWode = (ListView) view.findViewById(R.id.lv_wode);
         ll_guanzhu = (LinearLayout) view.findViewById(R.id.ll_guanzhu);
         ll_fensi = (LinearLayout) view.findViewById(R.id.ll_fensi);
@@ -50,6 +53,7 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
                         startActivity(RenZhengActivity.class);
                         break;
                     case 1:
+                        startActivity(GongHuiRenZhengActivity.class);
                         break;
                     case 2:
                         startActivity(ZhuBoXinXiActivity.class);
@@ -106,6 +110,7 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
     class WoDeHolder extends BaseHolder<String> {
         public ImageView ivwodeitemicon;
         public TextView tvwodeitemdec;
+        public View line;
         private int[] wodeItemImg = new int[]{R.drawable.renzheng, R.drawable.renzheng, R.drawable.xinxi,
                 R.drawable.huihua, R.drawable.shezhi};
 
@@ -115,6 +120,7 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
             View root = View.inflate(getActivity(), R.layout.layout_wode_list_item, null);
 
             ivwodeitemicon = (ImageView) root.findViewById(R.id.iv_wode_item_icon);
+            line =  root.findViewById(R.id.line);
             tvwodeitemdec = (TextView) root.findViewById(R.id.tv_wode_item_dec);
 
             return root;
@@ -122,6 +128,11 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
 
         @Override
         public void refreshView(String data, int position) {
+            if (position==2||position==3||position==4){
+                line.setVisibility(View.VISIBLE);
+            }else {
+                line.setVisibility(View.GONE);
+            }
             tvwodeitemdec.setText(data);
             ivwodeitemicon.setBackgroundResource(wodeItemImg[position]);
         }

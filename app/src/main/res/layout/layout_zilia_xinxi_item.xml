@@ -3,6 +3,13 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="50dp">
+    <View
+        android:id="@+id/line"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/line"
+        android:layout_height="10dp"/>
 <RelativeLayout
     android:layout_width="fill_parent"
     android:background="@android:color/white"

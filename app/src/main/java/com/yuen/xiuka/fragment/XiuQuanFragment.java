@@ -1,9 +1,9 @@
 package com.yuen.xiuka.fragment;
 
 import android.view.View;
-import android.widget.TextView;
 
 import com.yuen.baselib.activity.BaseFragment;
+import com.yuen.xiuka.R;
 
 /**
  * Created by Administrator on 2016/6/13.
@@ -11,9 +11,8 @@ import com.yuen.baselib.activity.BaseFragment;
 public class XiuQuanFragment extends BaseFragment {
     @Override
     public View initView() {
-        TextView textView = new TextView(getActivity());
-        textView.setText("XiuQuanFragment");
-        return textView;
+        View view = View.inflate(getActivity(), R.layout.layout_xiuquanfragment,null);
+        return view;
     }
 
     @Override

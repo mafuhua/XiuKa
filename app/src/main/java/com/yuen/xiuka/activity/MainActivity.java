@@ -17,6 +17,10 @@ import com.yuen.xiuka.R;
 import com.yuen.xiuka.fragment.FragmentFractory;
 import com.yuen.xiuka.utils.MyUtils;
 
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
+
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private FragmentManager supportFragmentManager;
     private FrameLayout fl_home_content;
@@ -46,6 +50,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         SysExitUtil.activityList.add(this);
         setContentView(R.layout.activity_main);
         initView();
+        loadData();
     }
 
     @Override
@@ -99,6 +104,30 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void loadData() {
 
+        RequestParams requestParams = new RequestParams("http://172.17.21.86:8080/TaskService/getFollowups");
+        requestParams.addParameter("taskid",10110023);
+        requestParams.addParameter("pagenum",(long)1);
+        x.http().post(requestParams, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("MainActivity", result);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.d("MainActivity", "isOnCallback:" + isOnCallback);
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+                Log.d("MainActivity", "cex:" + cex);
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     @Override

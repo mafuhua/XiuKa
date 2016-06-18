@@ -98,11 +98,12 @@ public class ZhuBoXinXiActivity extends BaseActivity implements View.OnClickList
         public TextView tvshopmanagerleft;
         public TextView tvshopmanagerright;
         public ImageView ivShopItemImage;
-
+        public View line;
         @Override
         public View initView() {
             View root = View.inflate(context, R.layout.layout_zilia_xinxi_item, null);
             tvshopmanagerleft = (TextView) root.findViewById(R.id.tv_shop_manager_left);
+            line =  root.findViewById(R.id.line);
             ivShopItemImage = (ImageView) root.findViewById(R.id.iv_shop_item_image);
             tvshopmanagerright = (TextView) root.findViewById(R.id.tv_shop_manager_right);
             return root;
@@ -110,6 +111,11 @@ public class ZhuBoXinXiActivity extends BaseActivity implements View.OnClickList
 
         @Override
         public void refreshView(String data, int position) {
+            if (position==6){
+                line.setVisibility(View.VISIBLE);
+            }else {
+                line.setVisibility(View.GONE);
+            }
             tvshopmanagerleft.setText(data);
             tvshopmanagerright.setText(data);
         }

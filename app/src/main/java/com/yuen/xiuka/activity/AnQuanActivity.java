@@ -36,7 +36,7 @@ public class AnQuanActivity extends BaseActivity implements View.OnClickListener
         btn_sousuo = (Button) findViewById(R.id.btn_sousuo);
         btn_sousuo.setOnClickListener(this);
         tv_titlecontent = (TextView) findViewById(R.id.tv_titlecontent);
-        tv_titlecontent.setOnClickListener(this);
+        tv_titlecontent.setText("账号安全");
         btn_jia = (Button) findViewById(R.id.btn_jia);
         btn_jia.setOnClickListener(this);
         btn_tijiao = (Button) findViewById(R.id.btn_tijiao);

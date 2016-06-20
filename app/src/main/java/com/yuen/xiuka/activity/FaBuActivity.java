@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -20,8 +21,12 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.yuen.baselib.adapter.BaseHolder;
 import com.yuen.baselib.adapter.DefaultAdapter;
+import com.yuen.baselib.utils.ToastUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
+import com.yuen.xiuka.utils.MyUtils;
+
+import org.xutils.x;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -112,7 +117,7 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
                     Log.d("mafuhua", destDir.toString() + "/" + i + ".jpg");
                     Compresspic(ImageList.get(i), mPhotoList.get(i));
                 }
-                // mChoosePhotoListAdapter.notifyDataSetChanged();
+                 myAdapter.notifyDataSetChanged();
 
             }
         }
@@ -122,6 +127,7 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
             Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show();
         }
     };
+    private MyAdapter myAdapter;
 
     public static void getLoc() {
         //初始化定位
@@ -180,6 +186,16 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
         et_content = (EditText) findViewById(R.id.et_content);
         et_content.setOnClickListener(this);
         gv_pic = (GridView) findViewById(R.id.gv_pic);
+        myAdapter = new MyAdapter(mPhotoList);
+        gv_pic.setAdapter(myAdapter);
+        gv_pic.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+                }
+
+        });
         iv_add = (ImageView) findViewById(R.id.iv_add);
         iv_add.setOnClickListener(this);
         tv_add = (TextView) findViewById(R.id.tv_add);
@@ -205,7 +221,7 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
                 BitmapFactory.Options opts = new BitmapFactory.Options();
                 opts.inSampleSize = 2;
                 Bitmap bitmap = BitmapFactory.decodeFile(old, opts);
-                Log.d("mafuhua", "bitmap.getByteCount():" + bitmap.getByteCount() / 1024);
+              //  Log.d("mafuhua", "bitmap.getByteCount():" + bitmap.getByteCount() / 1024);
                 options = 80;
                 bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);
                 //质量压缩方法，把压缩后的数据存放到baos中 (100表示不压缩，0表示压缩到最小)
@@ -248,11 +264,15 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
 
                 break;
             case R.id.btn_fabu:
-                //带配置
-                FunctionConfig config = new FunctionConfig.Builder()
-                        .setMutiSelectMaxSize(9)
-                        .build();
-                GalleryFinal.openGalleryMuti(REQUEST_CODE_GALLERY, config, mOnHanlderResultCallback);
+                    if (myAdapter.getCount()>=9){
+                        ToastUtil.toastShortShow(FaBuActivity.this,"最多选择九张图片");
+                    }else {
+                        //带配置
+                        FunctionConfig config = new FunctionConfig.Builder()
+                                .setMutiSelectMaxSize(9)
+                                .build();
+                        GalleryFinal.openGalleryMuti(REQUEST_CODE_GALLERY, config, mOnHanlderResultCallback);
+                    }
 
                 break;
         }
@@ -282,21 +302,19 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    public class ViewHolder extends BaseHolder {
-        public TextView tvname;
-        public TextView tvadd;
+    public class ViewHolder extends BaseHolder<String> {
+        private ImageView iditemimage;
 
         @Override
         public View initView() {
-            View root = View.inflate(context, R.layout.layout_grid_item, null);
-            tvname = (TextView) root.findViewById(R.id.tv_name);
-            tvadd = (TextView) root.findViewById(R.id.tv_add);
+            View root = View.inflate(context, R.layout.layout_selector_gridview, null);
+            iditemimage = (ImageView) root.findViewById(R.id.iv_grid_item_image);
             return root;
         }
 
         @Override
-        public void refreshView(Object data, int position) {
-
+        public void refreshView(String data, int position) {
+                x.image().bind(iditemimage,data, MyUtils.options);
         }
     }
 }

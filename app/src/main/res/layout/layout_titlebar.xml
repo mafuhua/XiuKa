@@ -8,7 +8,7 @@
     android:background="@drawable/fanhui"
     android:layout_width="25dp"
     android:layout_centerVertical="true"
-    android:layout_margin="5dp"
+    android:layout_margin="10dp"
     android:layout_height="25dp"/>
     <Button
         android:id="@+id/btn_sousuo"
@@ -16,7 +16,7 @@
         android:background="@drawable/sousuo"
         android:layout_width="25dp"
         android:layout_centerVertical="true"
-        android:layout_margin="5dp"
+        android:layout_margin="10dp"
         android:layout_height="25dp"/>
     <TextView
         android:text="人气主播"

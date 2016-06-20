@@ -117,7 +117,7 @@
             android:name="com.tencent.connect.common.AssistActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-        <activity android:name=".activity.ZhuBoXinXiActivity">
+        <activity android:name=".activity.BianJiZiLiaoActivity">
         </activity>
         <activity android:name=".activity.SettingActivity">
         </activity>
@@ -144,6 +144,12 @@
         </meta-data>
 
         <activity android:name=".activity.GongHuiRenZhengActivity">
+        </activity>
+        <activity android:name=".activity.SouSuoActivity">
+        </activity>
+        <activity android:name=".activity.ZhuBoXinXiActivity">
+        </activity>
+        <activity android:name=".activity.ZhuBoXiangXiActivity">
         </activity>
     </application>
 

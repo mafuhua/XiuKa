@@ -19,34 +19,22 @@
 
         <TextView
             android:id="@+id/tv_shop_manager_left"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:padding="15dp"
-            android:text="营业时间"/>
+            android:text="营业时间"
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/tv_shop_manager_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
-            android:padding="15dp"/>
+            android:layout_marginLeft="20dp"
+            android:textSize="13sp"
+            android:layout_toRightOf="@id/tv_shop_manager_left"
+            android:padding="15dp"
+            android:text="夏明"/>
 
-        <ImageView
-            android:id="@+id/iv_shop_item_image"
-            android:layout_width="10dp"
-            android:layout_height="15dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/gegnduo"/>
 
-        <ImageView
-            android:id="@+id/iv_user_icon"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="40dp"/>
     </RelativeLayout>
 </LinearLayout>

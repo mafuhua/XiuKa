@@ -5,12 +5,14 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.yuen.baselib.activity.BaseFragment;
 import com.yuen.baselib.adapter.BaseHolder;
 import com.yuen.baselib.adapter.DefaultAdapter;
 import com.yuen.xiuka.R;
+import com.yuen.xiuka.activity.BianJiZiLiaoActivity;
 import com.yuen.xiuka.activity.GongHuiRenZhengActivity;
 import com.yuen.xiuka.activity.GuanZhuListActivity;
 import com.yuen.xiuka.activity.RenZhengActivity;
@@ -32,16 +34,17 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
     private ListView lvWode;
     private LinearLayout ll_guanzhu;
     private LinearLayout ll_fensi;
+    private LinearLayout layout_title_usericon;
 
     private void assignViews(View view) {
         tvGuanzhu = (TextView) view.findViewById(R.id.tv_guanzhu);
         tvFensi = (TextView) view.findViewById(R.id.tv_fensi);
-        TextView textView = new TextView(getActivity());
-
         lvWode = (ListView) view.findViewById(R.id.lv_wode);
         ll_guanzhu = (LinearLayout) view.findViewById(R.id.ll_guanzhu);
+        layout_title_usericon = (LinearLayout) view.findViewById(R.id.layout_title_usericon);
         ll_fensi = (LinearLayout) view.findViewById(R.id.ll_fensi);
         ll_guanzhu.setOnClickListener(this);
+        layout_title_usericon.setOnClickListener(this);
         ll_fensi.setOnClickListener(this);
         lvWode.setAdapter(new MyAdapter(wodeItemDec));
         lvWode.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -92,9 +95,13 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
             case R.id.ll_guanzhu:
                 startActivity(GuanZhuListActivity.class);
                 break;
+            case R.id.layout_title_usericon:
+                startActivity(BianJiZiLiaoActivity.class);
+                break;
 
         }
     }
+
 
     class MyAdapter extends DefaultAdapter {
         public MyAdapter(List datas) {
@@ -110,6 +117,7 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
     class WoDeHolder extends BaseHolder<String> {
         public ImageView ivwodeitemicon;
         public TextView tvwodeitemdec;
+        public Switch sw_tixing;
         public View line;
         private int[] wodeItemImg = new int[]{R.drawable.renzheng, R.drawable.renzheng, R.drawable.xinxi,
                 R.drawable.huihua, R.drawable.shezhi};
@@ -120,7 +128,8 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
             View root = View.inflate(getActivity(), R.layout.layout_wode_list_item, null);
 
             ivwodeitemicon = (ImageView) root.findViewById(R.id.iv_wode_item_icon);
-            line =  root.findViewById(R.id.line);
+            sw_tixing = (Switch) root.findViewById(R.id.sw_tixing);
+            line = root.findViewById(R.id.line);
             tvwodeitemdec = (TextView) root.findViewById(R.id.tv_wode_item_dec);
 
             return root;
@@ -128,10 +137,15 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
 
         @Override
         public void refreshView(String data, int position) {
-            if (position==2||position==3||position==4){
+            if (position == 2 || position == 3 || position == 4) {
                 line.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 line.setVisibility(View.GONE);
+            }
+            if (position==3){
+                sw_tixing.setVisibility(View.VISIBLE);
+            }else {
+                sw_tixing.setVisibility(View.GONE);
             }
             tvwodeitemdec.setText(data);
             ivwodeitemicon.setBackgroundResource(wodeItemImg[position]);

@@ -35,7 +35,7 @@ public class SettingOption extends BaseActivity implements View.OnClickListener 
         btn_tijiao = (Button) findViewById(R.id.btn_tijiao);
         et_setting_opnion_content = (EditText) findViewById(R.id.et_setting_opnion_content);
         btn_setting_opnion_tijiao = (Button) findViewById(R.id.btn_setting_opnion_tijiao);
-
+        tv_titlecontent.setText("用户反馈");
         btn_fanhui.setOnClickListener(this);
         btn_sousuo.setOnClickListener(this);
         btn_jia.setOnClickListener(this);

@@ -31,7 +31,13 @@
             android:layout_toRightOf="@id/iv_wode_item_icon"
             android:text="我常买"
             android:textSize="16sp"/>
-
+        <Switch
+            android:id="@+id/sw_tixing"
+            android:checked="true"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content"/>
     </RelativeLayout>
 
 </LinearLayout>

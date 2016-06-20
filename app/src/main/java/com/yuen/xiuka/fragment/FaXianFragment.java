@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -19,7 +19,9 @@ import com.yuen.baselib.activity.BaseFragment;
 import com.yuen.baselib.adapter.BaseHolder;
 import com.yuen.baselib.adapter.DefaultAdapter;
 import com.yuen.xiuka.R;
+import com.yuen.xiuka.activity.SouSuoActivity;
 import com.yuen.xiuka.activity.ZhuBoListActivity;
+import com.yuen.xiuka.activity.ZhuBoXiangXiActivity;
 import com.yuen.xiuka.utils.MyUtils;
 
 import java.util.ArrayList;
@@ -46,14 +48,14 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
     private TextView tv_gengduo2;
     private GridView gv_xinren;
     private MyAdapter myAdapter;
-    private EditText tv_sousuo;
+    private TextView tv_sousuo;
 
     @Override
     public View initView() {
         context = getActivity();
         View view = View.inflate(getActivity(), R.layout.layout_homefragment, null);
         mRcHomeHorizontal = (RecyclerView) view.findViewById(R.id.rc_home_horizontal);
-        tv_sousuo = (EditText) view.findViewById(R.id.tv_sousuo);
+        tv_sousuo = (TextView) view.findViewById(R.id.tv_sousuo);
         tv_sousuo.setOnClickListener(this);
         gv_renqi = (GridView) view.findViewById(R.id.gv_renqi);
         //设置布局管理器
@@ -101,6 +103,24 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         setListViewHeightBasedOnChildren(gv_tuijian);
         setListViewHeightBasedOnChildren(gv_xinren);
         setListViewHeightBasedOnChildren(gv_renqi);
+        gv_renqi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startActivity(ZhuBoXiangXiActivity.class);
+            }
+        });
+        gv_xinren.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startActivity(ZhuBoXiangXiActivity.class);
+            }
+        });
+        gv_tuijian.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startActivity(ZhuBoXiangXiActivity.class);
+            }
+        });
         return view;
     }
 
@@ -120,6 +140,9 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.tv_gengduo2:
                 startActivity(ZhuBoListActivity.class);
+                break;
+            case R.id.tv_sousuo:
+                startActivity(SouSuoActivity.class);
                 break;
         }
     }
@@ -242,7 +265,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         }
     }
 
-    public class ViewHolder extends BaseHolder {
+    public class ViewHolder extends BaseHolder<String> {
         public TextView tvname;
         public TextView tvadd;
 
@@ -255,7 +278,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         }
 
         @Override
-        public void refreshView(Object data, int position) {
+        public void refreshView(String data, int position) {
 
         }
     }

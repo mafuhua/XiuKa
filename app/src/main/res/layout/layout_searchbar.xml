@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+    <Button
+        android:id="@+id/btn_fanhui"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_centerVertical="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/fanhui"/>
+
+
+    <EditText
+        android:id="@+id/tv_sousuo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/btn_fanhui"
+        android:background="@null"
+        android:hint="秀咖/昵称/标签"/>
+
+    <TextView
+        android:id="@+id/tv_quxiao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="10dp"
+        android:text="取消"/>
+
+    <Button
+        android:id="@+id/btn_search"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_centerVertical="true"
+        android:layout_margin="5dp"
+        android:layout_toLeftOf="@id/tv_quxiao"
+        android:background="@drawable/sousuo"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_below="@id/tv_sousuo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:layout_toLeftOf="@id/tv_quxiao"
+        android:layout_toRightOf="@id/btn_fanhui"
+        android:background="@color/color_text_normal"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_text_normal"/>
+</RelativeLayout>

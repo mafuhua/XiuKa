@@ -7,10 +7,10 @@
 <include layout="@layout/layout_titlebar"/>
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="300dp"
+        android:layout_height="350dp"
         android:background="@drawable/juxing"
-        android:layout_margin="20dp"
-        android:padding="15dp">
+        android:layout_margin="10dp"
+        android:padding="10dp">
 
         <EditText
             android:id="@+id/et_content"
@@ -18,11 +18,13 @@
             android:layout_height="wrap_content"
             android:hint="说点什么吧!"
             android:textSize="14sp"
+            android:maxLines="4"
             android:background="@null"
             />
         <GridView
             android:numColumns="4"
             android:scrollbars="none"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
             android:id="@+id/gv_pic"
             android:layout_width="match_parent"

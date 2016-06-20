@@ -7,10 +7,6 @@
 
     <include layout="@layout/layout_titlebar"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/grey_line"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -40,7 +36,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/grey_line"/>
+                android:background="@color/color_text_normal"/>
 
             <LinearLayout
                 style="@style/ShopDecLL">
@@ -59,7 +55,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/grey_line"/>
+                android:background="@color/color_text_normal"/>
 
             <LinearLayout
                 style="@style/ShopDecLL">
@@ -165,7 +161,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/grey_line"/>
+                android:background="@color/color_text_normal"/>
 
             <LinearLayout
                 style="@style/ShopDecLL">
@@ -184,7 +180,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/grey_line"/>
+                android:background="@color/color_text_normal"/>
 
             <LinearLayout
                 style="@style/ShopDecLL">
@@ -209,7 +205,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/grey_line"/>
+                android:background="@color/color_text_normal"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -217,12 +213,11 @@
                 android:text="提示:如果没有房间号则填写ID号"/>
 
             <Button
-                android:id="@+id/btn_提交"
+                android:id="@+id/btn_tijiao"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_margin="20dp"
                 android:background="@drawable/anniu"
-
                 android:text="提交"
                 android:textColor="@android:color/white"/>
 

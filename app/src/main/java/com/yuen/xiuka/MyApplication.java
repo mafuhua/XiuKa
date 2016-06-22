@@ -1,7 +1,6 @@
 package com.yuen.xiuka;
 
 import android.app.ActivityManager;
-import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -10,6 +9,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.umeng.socialize.PlatformConfig;
+import com.yuen.baselib.ApplicationEx;
 import com.yuen.xiuka.galleryfinal.GlideImageLoader;
 import com.yuen.xiuka.galleryfinal.GlidePauseOnScrollListener;
 
@@ -29,7 +29,7 @@ import cn.finalteam.galleryfinal.ThemeConfig;
 /**
  * Created by Administrator on 2016/3/22.
  */
-public class MyApplication extends Application {
+public class MyApplication extends ApplicationEx {
     public static Context context;
     public static ImageOptions options;
 

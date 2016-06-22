@@ -13,7 +13,7 @@ import android.view.ViewGroup;
  * @author wangdh
  *
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment<T> extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = initView();
@@ -48,6 +48,18 @@ public abstract class BaseFragment extends Fragment {
      */
     public void startActivity( Class<?> cls) {
         Intent intent = new Intent(getActivity(), cls);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+
+    }  /**
+     * 打开界面
+     *
+     * @param cls 需要打开的界面
+     */
+    public void startActivity( Class<?> cls,Bundle data) {
+        Intent intent = new Intent(getActivity(), cls);
+        intent.putExtra("data",data);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

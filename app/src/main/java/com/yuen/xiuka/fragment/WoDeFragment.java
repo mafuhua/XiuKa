@@ -1,5 +1,9 @@
 package com.yuen.xiuka.fragment;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -7,10 +11,13 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.yuen.baselib.activity.BaseFragment;
 import com.yuen.baselib.adapter.BaseHolder;
 import com.yuen.baselib.adapter.DefaultAdapter;
+import com.yuen.baselib.utils.SPUtil;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.activity.BianJiZiLiaoActivity;
 import com.yuen.xiuka.activity.GongHuiRenZhengActivity;
@@ -18,9 +25,15 @@ import com.yuen.xiuka.activity.GuanZhuListActivity;
 import com.yuen.xiuka.activity.RenZhengActivity;
 import com.yuen.xiuka.activity.SettingActivity;
 import com.yuen.xiuka.activity.ZhuBoXinXiActivity;
+import com.yuen.xiuka.beans.MYBean;
+import com.yuen.xiuka.utils.URLProvider;
+import com.yuen.xiuka.utils.XUtils;
+
+import org.xutils.common.Callback;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -35,8 +48,11 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
     private LinearLayout ll_guanzhu;
     private LinearLayout ll_fensi;
     private LinearLayout layout_title_usericon;
+    private Context context;
+    private MYBean.DataBean myBeanData;
 
     private void assignViews(View view) {
+        context = getActivity();
         tvGuanzhu = (TextView) view.findViewById(R.id.tv_guanzhu);
         tvFensi = (TextView) view.findViewById(R.id.tv_fensi);
         lvWode = (ListView) view.findViewById(R.id.lv_wode);
@@ -83,7 +99,7 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void initData() {
-
+        my();
     }
 
     @Override
@@ -96,12 +112,51 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(GuanZhuListActivity.class);
                 break;
             case R.id.layout_title_usericon:
-                startActivity(BianJiZiLiaoActivity.class);
+                Intent intent = new Intent(getActivity(), BianJiZiLiaoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user", myBeanData);
+                intent.putExtras(bundle);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
                 break;
 
         }
     }
+    public void my() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("uid", SPUtil.getInt("uid")+"");
+        XUtils.xUtilsPost(URLProvider.MY, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("mafuhua", "----MY------" + result);
+                System.out.print(result);
+               // Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+                Gson gson = new Gson();
+                MYBean myBean = gson.fromJson(result, MYBean.class);
+                myBeanData = myBean.getData();
 
+
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+
+    }
 
     class MyAdapter extends DefaultAdapter {
         public MyAdapter(List datas) {

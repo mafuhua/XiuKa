@@ -151,6 +151,8 @@
         </activity>
         <activity android:name=".activity.ZhuBoXiangXiActivity">
         </activity>
+        <activity android:name=".activity.EditUserActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -99,6 +99,12 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void initData() {
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         my();
     }
 

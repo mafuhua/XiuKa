@@ -41,7 +41,7 @@
             android:layout_marginRight="5dp"
             android:background="@drawable/gegnduo"/>
 
-        <ImageView
+        <com.yuen.xiuka.utils.RoundImageView
             android:id="@+id/iv_user_icon"
             android:layout_width="45dp"
             android:layout_height="45dp"

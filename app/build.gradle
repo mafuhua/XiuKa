@@ -43,9 +43,12 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:recyclerview-v7:24.0.0-alpha1'
     compile 'org.xutils:xutils:3.3.34'
+    compile 'com.loopj.android:android-async-http:1.4.9'
+    //  compile 'org.apache.httpcomponents:httpcore:4.3.2'
     compile 'com.github.bumptech.glide:glide:3.6.1'
     compile 'com.android.support:design:23.3.0'
     compile 'com.android.support:support-v4:23.3.0'
     compile 'cn.finalteam:galleryfinal:1.4.8.7'
     compile project(':baselib')
+
 }

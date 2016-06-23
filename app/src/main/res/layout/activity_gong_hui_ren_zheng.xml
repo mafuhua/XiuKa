@@ -24,8 +24,8 @@
 
                 <TextView
                     style="@style/ShopDecTv"
-                    android:layout_weight="1"
-                    android:text="真实姓名:"/>
+                    android:layout_weight="1.5"
+                    android:text="传媒公司名称:"/>
 
                 <EditText
                     android:id="@+id/et_name"
@@ -43,8 +43,8 @@
 
                 <TextView
                     style="@style/ShopDecTv"
-                    android:layout_weight="1"
-                    android:text="身份证号:"/>
+                    android:layout_weight="1.5"
+                    android:text="组织机构代码:"/>
 
                 <EditText
                     android:id="@+id/et_idcard"
@@ -63,7 +63,7 @@
                 <TextView
                     style="@style/ShopDecTv"
                     android:layout_weight="1"
-                    android:text="上传身份证照"/>
+                    android:text="上传工商营业执照"/>
 
 
             </LinearLayout>
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/line"
                 android:padding="5dp"
-                android:text="拍摄身份证正反面照片"/>
+                android:text="拍摄工商营业执正面"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
@@ -111,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/line"
                 android:padding="5dp"
-                android:text="拍摄本人手持身份证照片"/>
+                android:text="拍摄工商营业执反面"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -147,7 +147,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/btn_tijiao"
+                android:id="@+id/btn_tijiaoo"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_margin="20dp"

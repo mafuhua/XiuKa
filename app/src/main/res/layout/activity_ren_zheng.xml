@@ -240,12 +240,11 @@
                 android:text="提示:如果没有房间号则填写ID号"/>
 
             <Button
-                android:id="@+id/btn_tijiao"
+                android:id="@+id/btn_tijiaoo"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_margin="20dp"
                 android:background="@drawable/anniu"
-
                 android:text="提交"
                 android:textColor="@android:color/white"/>
 

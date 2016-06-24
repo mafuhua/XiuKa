@@ -6,6 +6,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.yuen.xiuka.R;
+
 import org.xutils.image.ImageOptions;
 
 import java.io.File;
@@ -16,9 +18,10 @@ import java.io.File;
 public class MyUtils {
     public static ImageOptions options = new ImageOptions.Builder()
             //设置使用缓存
-            .setUseMemCache(true)
+            .setUseMemCache(false)
             // 图片缩放模式
             .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+            .setFailureDrawableId(R.drawable.tianjiatupian)
             .build();
     private static Toast toast = null;
 

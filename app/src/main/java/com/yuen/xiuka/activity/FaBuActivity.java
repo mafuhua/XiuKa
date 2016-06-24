@@ -7,7 +7,9 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -19,8 +21,6 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.yuen.baselib.adapter.BaseHolder;
-import com.yuen.baselib.adapter.DefaultAdapter;
 import com.yuen.baselib.utils.ToastUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
@@ -50,6 +50,7 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
     public static String city;
     public static String district;
     public static String street;
+    private static TextView tv_add;
     //声明定位回调监听器
     public static AMapLocationListener mLocationListener = new AMapLocationListener() {
         @Override
@@ -75,7 +76,7 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
                     aMapLocation.getAdCode();//地区编码
                     Log.d("mafuhua", province + city + district + street);
                     tv_add.setText(city);
-               //     Toast.makeText(MyApplication.context, province + city + district + street, Toast.LENGTH_SHORT).show();
+                    //     Toast.makeText(MyApplication.context, province + city + district + street, Toast.LENGTH_SHORT).show();
                     //  aMapLocation.getAOIName();//获取当前定位点的AOI信息
                 } else {
                     //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
@@ -95,15 +96,16 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
     private EditText et_content;
     private GridView gv_pic;
     private ImageView iv_add;
-    private static TextView tv_add;
     private Button btn_fabu;
     private List<String> mPhotoList = new ArrayList<>();
     private List<String> ImageList = new ArrayList<>();
     private File destDir;
+    private MYAdapter myAdapter;
     private GalleryFinal.OnHanlderResultCallback mOnHanlderResultCallback = new GalleryFinal.OnHanlderResultCallback() {
         @Override
         public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
             mPhotoList.clear();
+            ImageList.clear();
             if (resultList != null) {
                 for (int i = 0; i < resultList.size(); i++) {
                     PhotoInfo photoInfo = resultList.get(i);
@@ -117,7 +119,8 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
                     Log.d("mafuhua", destDir.toString() + "/" + i + ".jpg");
                     Compresspic(ImageList.get(i), mPhotoList.get(i));
                 }
-                 myAdapter.notifyDataSetChanged();
+                mPhotoList.add("");
+                myAdapter.notifyDataSetChanged();
 
             }
         }
@@ -127,7 +130,6 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
             Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show();
         }
     };
-    private MyAdapter myAdapter;
 
     public static void getLoc() {
         //初始化定位
@@ -186,14 +188,25 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
         et_content = (EditText) findViewById(R.id.et_content);
         et_content.setOnClickListener(this);
         gv_pic = (GridView) findViewById(R.id.gv_pic);
-        myAdapter = new MyAdapter(mPhotoList);
+        mPhotoList.add("");
+        myAdapter = new MYAdapter();
         gv_pic.setAdapter(myAdapter);
         gv_pic.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
+                if (position == mPhotoList.size() - 1) {
+                    if (myAdapter.getCount() >= 9) {
+                        ToastUtil.toastShortShow(FaBuActivity.this, "最多选择九张图片");
+                    } else {
+                        //带配置
+                        FunctionConfig config = new FunctionConfig.Builder()
+                                .setMutiSelectMaxSize(9)
+                                .build();
+                        GalleryFinal.openGalleryMuti(REQUEST_CODE_GALLERY, config, mOnHanlderResultCallback);
+                    }
                 }
+
+            }
 
         });
         iv_add = (ImageView) findViewById(R.id.iv_add);
@@ -221,7 +234,7 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
                 BitmapFactory.Options opts = new BitmapFactory.Options();
                 opts.inSampleSize = 2;
                 Bitmap bitmap = BitmapFactory.decodeFile(old, opts);
-              //  Log.d("mafuhua", "bitmap.getByteCount():" + bitmap.getByteCount() / 1024);
+                //  Log.d("mafuhua", "bitmap.getByteCount():" + bitmap.getByteCount() / 1024);
                 options = 80;
                 bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);
                 //质量压缩方法，把压缩后的数据存放到baos中 (100表示不压缩，0表示压缩到最小)
@@ -264,15 +277,7 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
 
                 break;
             case R.id.btn_fabu:
-                    if (myAdapter.getCount()>=9){
-                        ToastUtil.toastShortShow(FaBuActivity.this,"最多选择九张图片");
-                    }else {
-                        //带配置
-                        FunctionConfig config = new FunctionConfig.Builder()
-                                .setMutiSelectMaxSize(9)
-                                .build();
-                        GalleryFinal.openGalleryMuti(REQUEST_CODE_GALLERY, config, mOnHanlderResultCallback);
-                    }
+
 
                 break;
         }
@@ -291,30 +296,48 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
-    class MyAdapter extends DefaultAdapter {
-        public MyAdapter(List datas) {
-            super(datas);
+    class MYAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return mPhotoList.size();
         }
 
         @Override
-        public BaseHolder getHolder() {
-            return new ViewHolder();
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder viewHolder;
+            if (convertView == null) {
+                convertView = View.inflate(context, R.layout.layout_selector_gridview, null);
+                viewHolder = new ViewHolder(convertView);
+                convertView.setTag(viewHolder);
+
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+            x.image().bind(viewHolder.ivgriditemimage, mPhotoList.get(position), MyUtils.options);
+            return convertView;
+        }
+
+        public class ViewHolder {
+            public final ImageView ivgriditemimage;
+            public final View root;
+
+            public ViewHolder(View root) {
+                ivgriditemimage = (ImageView) root.findViewById(R.id.iv_grid_item_image);
+                this.root = root;
+            }
         }
     }
 
-    public class ViewHolder extends BaseHolder<String> {
-        private ImageView iditemimage;
 
-        @Override
-        public View initView() {
-            View root = View.inflate(context, R.layout.layout_selector_gridview, null);
-            iditemimage = (ImageView) root.findViewById(R.id.iv_grid_item_image);
-            return root;
-        }
-
-        @Override
-        public void refreshView(String data, int position) {
-                x.image().bind(iditemimage,data, MyUtils.options);
-        }
-    }
 }

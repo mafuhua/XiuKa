@@ -224,7 +224,7 @@ public class GongHuiRenZhengActivity extends BaseActivity implements View.OnClic
         }
 
 
-        client.post(URLProvider.ADD_RENZHEN_IMG, rp, new AsyncHttpResponseHandler() {
+        client.post(URLProvider.ADD_JG_RENZHEN_IMG, rp, new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
@@ -257,7 +257,7 @@ public class GongHuiRenZhengActivity extends BaseActivity implements View.OnClic
         map.put("uid", SPUtil.getInt("uid") + "");
         map.put("name", name);
         map.put("daima", idcard);
-        XUtils.xUtilsPost(URLProvider.ADD_RENZHEN, map, new Callback.CommonCallback<String>() {
+        XUtils.xUtilsPost(URLProvider.ADD_JG_RENZHEN, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.d("mafuhuax", "result-----" + result);

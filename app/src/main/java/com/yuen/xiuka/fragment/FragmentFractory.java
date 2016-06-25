@@ -2,6 +2,8 @@ package com.yuen.xiuka.fragment;
 
 import android.support.v4.app.Fragment;
 
+import com.yuen.xiuka.xiuquan.XiuQuanFragment;
+
 import java.util.HashMap;
 
 /**

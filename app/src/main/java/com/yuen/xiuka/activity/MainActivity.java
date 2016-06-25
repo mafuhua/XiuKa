@@ -14,8 +14,12 @@ import android.widget.RadioGroup;
 
 import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.R;
+import com.yuen.xiuka.fragment.FaXianFragment;
 import com.yuen.xiuka.fragment.FragmentFractory;
+import com.yuen.xiuka.fragment.WoDeFragment;
+import com.yuen.xiuka.fragment.XiaoXiFragment;
 import com.yuen.xiuka.utils.MyUtils;
+import com.yuen.xiuka.xiuquan.XiuQuanFragment;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private FragmentManager supportFragmentManager;
@@ -26,10 +30,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private RadioButton rb_home_xiuquan;
     private RadioButton rb_home_wode;
     private RadioGroup rg_home;
-    private Fragment faxianFragment;
-    private Fragment xiaoxiFragment;
-    private Fragment xiuquanFragment;
-    private Fragment woDeFragment;
+    private FaXianFragment faxianFragment;
+    private XiaoXiFragment xiaoxiFragment;
+    private XiuQuanFragment xiuquanFragment;
+    private WoDeFragment woDeFragment;
     private Fragment currentFragment;
     private FragmentTransaction transaction;
 
@@ -84,10 +88,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         rb_home_fabu.setCompoundDrawables(null, drawable4, null, null);
         rg_home.check(R.id.rb_home_faxian);
         supportFragmentManager = getSupportFragmentManager();
-        faxianFragment = FragmentFractory.getInstance().createFragment(0);
-        xiaoxiFragment = FragmentFractory.getInstance().createFragment(1);
-        xiuquanFragment = FragmentFractory.getInstance().createFragment(2);
-        woDeFragment = FragmentFractory.getInstance().createFragment(3);
+        faxianFragment = (FaXianFragment) FragmentFractory.getInstance().createFragment(0);
+        xiaoxiFragment = (XiaoXiFragment) FragmentFractory.getInstance().createFragment(1);
+        xiuquanFragment = (XiuQuanFragment) FragmentFractory.getInstance().createFragment(2);
+        woDeFragment = (WoDeFragment) FragmentFractory.getInstance().createFragment(3);
         getSupportFragmentManager().beginTransaction().add(R.id.fl_home_content, faxianFragment, "faxianFragment")
                 .add(R.id.fl_home_content, xiaoxiFragment, "xiaoxiFragment").hide(xiaoxiFragment)
                 .add(R.id.fl_home_content, xiuquanFragment, "xiuquanFragment").hide(xiuquanFragment)

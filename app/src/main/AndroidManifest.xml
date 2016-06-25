@@ -78,6 +78,8 @@
 
         <activity android:name=".activity.ZhuBoListActivity">
         </activity>
+        <activity android:name=".xiuquan.PreviewImage">
+        </activity>
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"

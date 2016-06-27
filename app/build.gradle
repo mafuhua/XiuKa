@@ -52,5 +52,5 @@ dependencies {
     compile 'com.android.support:support-v4:23.3.0'
     compile 'cn.finalteam:galleryfinal:1.4.8.7'
     compile project(':baselib')
-
+    compile project(':IMKit')
 }

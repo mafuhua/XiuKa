@@ -108,10 +108,10 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_fensi:
-                startActivity(GuanZhuListActivity.class);
+                startActivity(GuanZhuListActivity.class,"fensi");
                 break;
             case R.id.ll_guanzhu:
-                startActivity(GuanZhuListActivity.class);
+                startActivity(GuanZhuListActivity.class,"guanzhu");
                 break;
             case R.id.layout_title_usericon:
                 Intent intent = new Intent(getActivity(), BianJiZiLiaoActivity.class);

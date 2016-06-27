@@ -57,7 +57,7 @@ public abstract class BaseFragment<T> extends Fragment {
      *
      * @param cls 需要打开的界面
      */
-    public void startActivity( Class<?> cls,Bundle data) {
+    public void startActivity( Class<?> cls,String data) {
         Intent intent = new Intent(getActivity(), cls);
         intent.putExtra("data",data);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

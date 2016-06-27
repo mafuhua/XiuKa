@@ -37,13 +37,20 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
     private ListView lv_guanzhu;
     private List<FENSIBean.DataBean> fensiBeanData;
     private MyAdapter myAdapter;
+    private String stringExtra;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guan_zhu_list);
+        stringExtra = getIntent().getStringExtra("data");
+        if (stringExtra.equals("fensi")){
+            getList(URLProvider.FANS);
+        }else if (stringExtra.equals("guanzhu")){
+            getList(URLProvider.GUANZHU);
+        }
         initView();
-        loadData();
+
     }
 
     @Override
@@ -65,9 +72,13 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void loadData() {
+
+    }
+
+    private void getList(String url) {
         HashMap<String, String> map = new HashMap<>();
         map.put("uid", SPUtil.getInt("uid") + "");
-        XUtils.xUtilsPost(URLProvider.GUANZHU, map, new Callback.CommonCallback<String>() {
+        XUtils.xUtilsPost(url, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.d("mafuhua", result);
@@ -145,7 +156,7 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
         @Override
         public void refreshView(final FENSIBean.DataBean data, int position) {
             tvusername.setText(data.getName());
-            Toast.makeText(context, data.getName(), Toast.LENGTH_SHORT).show();
+        //    Toast.makeText(context, data.getName(), Toast.LENGTH_SHORT).show();
             tvusercontent.setText(data.getQianming());
             x.image().bind(ivusericon, URLProvider.BaseImgUrl + data.getImage(), MyApplication.options);
             cbguanzhu.setChecked(data.getXianghu() == 1 ? true : false);
@@ -154,16 +165,24 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
                 public void onClick(View v) {
                     if (cbguanzhu.isChecked()) {
 
-                        addordelguanzhu(URLProvider.DEL_GUANZHU);
+                        addordelguanzhu(URLProvider.ADD_GUANZHU,data.getUid());
                     } else {
-                        addordelguanzhu(URLProvider.ADD_GUANZHU);
+
+                        if (stringExtra.equals("fensi")){
+                            addordelguanzhu(URLProvider.DEL_GUANZHU,data.getUid());
+                        }else if (stringExtra.equals("guanzhu")){
+                            addordelguanzhu(URLProvider.DEL_GUANZHU,data.getG_uid());
+                        }
+
                     }
                 }
 
-                private void addordelguanzhu(String url) {
+                private void addordelguanzhu(String url, String uid) {
+                    Toast.makeText(context, url, Toast.LENGTH_SHORT).show();
                     HashMap<String, String> map = new HashMap<>();
                     map.put("uid", SPUtil.getInt("uid") + "");
-                    map.put("g_uid", data.getUid());
+                    map.put("g_uid", uid);
+                    Toast.makeText(context, "uid" + SPUtil.getInt("uid") + "g_uid" + uid, Toast.LENGTH_SHORT).show();
                     XUtils.xUtilsPost(url, map, new Callback.CommonCallback<String>() {
                         @Override
                         public void onSuccess(String result) {

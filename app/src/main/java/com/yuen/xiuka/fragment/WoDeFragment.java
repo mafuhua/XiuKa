@@ -24,7 +24,6 @@ import com.yuen.xiuka.activity.GongHuiRenZhengActivity;
 import com.yuen.xiuka.activity.GuanZhuListActivity;
 import com.yuen.xiuka.activity.RenZhengActivity;
 import com.yuen.xiuka.activity.SettingActivity;
-import com.yuen.xiuka.activity.ZhuBoXinXiActivity;
 import com.yuen.xiuka.beans.MYBean;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
@@ -41,7 +40,7 @@ import java.util.List;
  */
 public class WoDeFragment extends BaseFragment implements View.OnClickListener {
     private List<String> wodeItemDec = new ArrayList<String>(Arrays.asList("主播认证", "传媒公司/工会认证",
-            "主播信息修改", "消息提醒", "设置"));
+           "消息提醒", "设置"));
     private TextView tvGuanzhu;
     private TextView tvFensi;
     private ListView lvWode;
@@ -75,13 +74,10 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
                         startActivity(GongHuiRenZhengActivity.class);
                         break;
                     case 2:
-                        startActivity(ZhuBoXinXiActivity.class);
+                      //  startActivity(ZhuBoXinXiActivity.class);
                         break;
 
                     case 3:
-
-                        break;
-                    case 4:
                         startActivity(SettingActivity.class);
                         break;
 
@@ -203,7 +199,7 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
             } else {
                 line.setVisibility(View.GONE);
             }
-            if (position==3){
+            if (position==2){
                 sw_tixing.setVisibility(View.VISIBLE);
             }else {
                 sw_tixing.setVisibility(View.GONE);

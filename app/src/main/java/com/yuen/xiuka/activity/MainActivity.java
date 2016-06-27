@@ -3,6 +3,7 @@ package com.yuen.xiuka.activity;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.R;
@@ -20,6 +22,12 @@ import com.yuen.xiuka.fragment.WoDeFragment;
 import com.yuen.xiuka.fragment.XiaoXiFragment;
 import com.yuen.xiuka.utils.MyUtils;
 import com.yuen.xiuka.xiuquan.XiuQuanFragment;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
+
+import java.io.File;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private FragmentManager supportFragmentManager;
@@ -99,7 +107,81 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .show(faxianFragment)
                 .commit();
         currentFragment = faxianFragment;
-    }
+
+
+        RequestParams requestParams = new RequestParams("http://h.hiphotos.baidu.com/image/pic/item/4e4a20a4462309f7475ff8ce770e0cf3d7cad63e.jpg");
+        requestParams.setAutoRename(true);
+        requestParams.setSaveFilePath(Environment.getExternalStorageDirectory() + "/imagcacahe/760e1d2.jpg");
+        x.http().get(requestParams, new Callback.CommonCallback<File>() {
+            @Override
+            public void onSuccess(File result) {
+                Toast.makeText(context, result.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+
+
+     /*   x.image().loadFile("http://d.hiphotos.baidu.com/image/h%3D200/sign=ea218b2c5566d01661199928a729d498/a08b87d6277f9e2fd4f215e91830e924b999f308.jpg", MyApplication.options, new Callback.CacheCallback<File>() {
+            @Override
+            public boolean onCache(File result) {
+                return false;
+            }
+
+            @Override
+            public void onSuccess(File result) {
+                Toast.makeText(context, result.getAbsolutePath(), Toast.LENGTH_LONG).show();
+                File newfile = new File(Environment.getExternalStorageDirectory() + "/imagcacahe/760e1d2.jpg");
+                try {
+                    FileInputStream fis = new FileInputStream(result);
+                    FileOutputStream fos = new FileOutputStream(newfile);
+                    byte[] buf = new byte[1024];
+                    int i = 0;
+                    while ((i = fis.read(buf)) != -1) {
+                        fos.write(buf, 0, i);
+                    }
+                    fis.close();
+                    fos.close();
+                    Toast.makeText(context, "下载成功", Toast.LENGTH_SHORT).show();
+
+                } catch (IOException ie) {
+                    ie.printStackTrace();
+
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Toast.makeText(context,isOnCallback+"", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+        Downloader downloader = new Downloader();
+        downloader.downloadImage("http://d.hiphotos.baidu.com/image/h%3D200/sign=ea218b2c5566d01661199928a729d498/a08b87d6277f9e2fd4f215e91830e924b999f308.jpg",Environment.getExternalStorageDirectory() + "/imagcaca646h.jpg");
+  */  }
 
     @Override
     public void loadData() {

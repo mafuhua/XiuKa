@@ -1,19 +1,30 @@
 package com.yuen.xiuka.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.yuen.baselib.adapter.BaseHolder;
 import com.yuen.baselib.adapter.DefaultAdapter;
+import com.yuen.baselib.utils.SPUtil;
+import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
+import com.yuen.xiuka.beans.BaseBean;
+import com.yuen.xiuka.beans.FENSIBean;
+import com.yuen.xiuka.utils.URLProvider;
+import com.yuen.xiuka.utils.XUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import org.xutils.common.Callback;
+import org.xutils.x;
+
+import java.util.HashMap;
 import java.util.List;
 
 public class GuanZhuListActivity extends BaseActivity implements View.OnClickListener {
@@ -24,12 +35,15 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
     private Button btn_jia;
     private Button btn_tijiao;
     private ListView lv_guanzhu;
+    private List<FENSIBean.DataBean> fensiBeanData;
+    private MyAdapter myAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guan_zhu_list);
         initView();
+        loadData();
     }
 
     @Override
@@ -46,12 +60,40 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
         btn_tijiao = (Button) findViewById(R.id.btn_tijiao);
         btn_tijiao.setOnClickListener(this);
         lv_guanzhu = (ListView) findViewById(R.id.lv_guanzhu);
-        lv_guanzhu.setAdapter(new MyAdapter(wodeItemDec));
+
     }
 
     @Override
     public void loadData() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("uid", SPUtil.getInt("uid") + "");
+        XUtils.xUtilsPost(URLProvider.GUANZHU, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("mafuhua", result);
+                Gson gson = new Gson();
+                FENSIBean fensiBean = gson.fromJson(result, FENSIBean.class);
+                fensiBeanData = fensiBean.getData();
+                Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+                myAdapter = new MyAdapter(fensiBeanData);
+                lv_guanzhu.setAdapter(myAdapter);
+            }
 
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
 
@@ -72,8 +114,7 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
                 break;
         }
     }
-    private List<String> wodeItemDec = new ArrayList<String>(Arrays.asList("主播认证", "传媒公司/工会认证",
-            "主播信息修改", "消息提醒", "设置", "消息提醒", "设置", "消息提醒", "设置", "消息提醒", "设置"));
+
     class MyAdapter extends DefaultAdapter {
         public MyAdapter(List datas) {
             super(datas);
@@ -85,7 +126,7 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    class WoDeHolder extends BaseHolder<String> {
+    class WoDeHolder extends BaseHolder<FENSIBean.DataBean> {
         public ImageView ivusericon;
         public TextView tvusername;
         public TextView tvusercontent;
@@ -102,8 +143,53 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
         }
 
         @Override
-        public void refreshView(String data, int position) {
+        public void refreshView(final FENSIBean.DataBean data, int position) {
+            tvusername.setText(data.getName());
+            Toast.makeText(context, data.getName(), Toast.LENGTH_SHORT).show();
+            tvusercontent.setText(data.getQianming());
+            x.image().bind(ivusericon, URLProvider.BaseImgUrl + data.getImage(), MyApplication.options);
+            cbguanzhu.setChecked(data.getXianghu() == 1 ? true : false);
+            cbguanzhu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (cbguanzhu.isChecked()) {
 
+                        addordelguanzhu(URLProvider.DEL_GUANZHU);
+                    } else {
+                        addordelguanzhu(URLProvider.ADD_GUANZHU);
+                    }
+                }
+
+                private void addordelguanzhu(String url) {
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put("uid", SPUtil.getInt("uid") + "");
+                    map.put("g_uid", data.getUid());
+                    XUtils.xUtilsPost(url, map, new Callback.CommonCallback<String>() {
+                        @Override
+                        public void onSuccess(String result) {
+                            Gson gson = new Gson();
+                            BaseBean baseBean = gson.fromJson(result, BaseBean.class);
+                            Toast.makeText(context, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        @Override
+                        public void onError(Throwable ex, boolean isOnCallback) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(CancelledException cex) {
+
+                        }
+
+                        @Override
+                        public void onFinished() {
+
+                        }
+                    });
+                }
+            });
         }
     }
 }

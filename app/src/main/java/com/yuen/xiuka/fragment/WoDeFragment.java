@@ -137,7 +137,7 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
                 Gson gson = new Gson();
                 MYBean myBean = gson.fromJson(result, MYBean.class);
                 myBeanData = myBean.getData();
-
+                SPUtil.saveString("name",myBeanData.getName());
 
 
             }

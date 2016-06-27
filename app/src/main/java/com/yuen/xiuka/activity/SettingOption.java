@@ -8,7 +8,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.yuen.baselib.utils.SPUtil;
 import com.yuen.xiuka.R;
+import com.yuen.xiuka.beans.BaseBean;
+import com.yuen.xiuka.utils.URLProvider;
+import com.yuen.xiuka.utils.XUtils;
+
+import org.xutils.common.Callback;
+
+import java.util.HashMap;
 
 public class SettingOption extends BaseActivity implements View.OnClickListener {
 
@@ -54,17 +63,8 @@ public class SettingOption extends BaseActivity implements View.OnClickListener 
             case R.id.btn_fanhui:
                 finish();
                 break;
-            case R.id.btn_sousuo:
-
-                break;
-            case R.id.btn_jia:
-
-                break;
-            case R.id.btn_tijiao:
-
-                break;
             case R.id.btn_setting_opnion_tijiao:
-
+                submit();
                 break;
         }
     }
@@ -73,12 +73,46 @@ public class SettingOption extends BaseActivity implements View.OnClickListener 
         // validate
         String content = et_setting_opnion_content.getText().toString().trim();
         if (TextUtils.isEmpty(content)) {
-            Toast.makeText(this, "content不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "内容不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
 
         // TODO validate success, do something
+        HashMap<String, String> map = new HashMap<>();
+        map.put("uid", SPUtil.getInt("uid") + "");
+        map.put("content", content);
+        map.put("name", SPUtil.getString("name"));
+
+        fankui(map);
 
 
+    }
+    private void fankui(HashMap<String, String> map) {
+        XUtils.xUtilsPost(URLProvider.MESSAGE, map, new Callback.CommonCallback<String>() {
+
+
+            @Override
+            public void onSuccess(String result) {
+                System.out.println(result);
+                Gson gson = new Gson();
+                BaseBean baseBean = gson.fromJson(result, BaseBean.class);
+                Toast.makeText(context, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 }

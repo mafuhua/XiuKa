@@ -64,6 +64,16 @@ public class FENSIBean {
         private String image;
         private int xianghu;
 
+        public int getGuanzhu() {
+            return guanzhu;
+        }
+
+        public void setGuanzhu(int guanzhu) {
+            this.guanzhu = guanzhu;
+        }
+
+        private int guanzhu;
+
         public String getId() {
             return id;
         }

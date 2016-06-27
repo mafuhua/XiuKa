@@ -166,6 +166,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     startActivity(MainActivity.class);
                     SPUtil.saveInt("uid",loginBean.getUid());
                     SPUtil.saveString("tel",loginBean.getTel());
+
                 }
 
             }

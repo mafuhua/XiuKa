@@ -19,6 +19,10 @@ public class URLProvider {
     public static String GUANZHU = BaseUrl + "guanzhu";
     public static String ADD_GUANZHU = BaseUrl + "add_guanzhu";
     public static String DEL_GUANZHU = BaseUrl + "del_guanzhu";
+    public static String SEARCH = BaseUrl + "search";
+    public static String MESSAGE = BaseUrl + "message";
+    public static String CIRCLE = BaseUrl + "circle";
+    public static String ADD_CIRCLE_IMG = BaseUrl + "add_circle_img";
 
 
 

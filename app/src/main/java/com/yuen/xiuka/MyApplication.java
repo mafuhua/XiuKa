@@ -47,7 +47,7 @@ public class MyApplication extends ApplicationEx {
         // 设置是否输出debug
         x.Ext.setDebug(true);
         options = new ImageOptions.Builder()
-                .setRadius(10)
+                .setRadius(15)
                         // 是否忽略GIF格式的图片
                 .setIgnoreGif(false)
                         // 图片缩放模式

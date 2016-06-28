@@ -68,6 +68,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public void initView() {
         if (!SPUtil.getString("tel").isEmpty()){
             startActivity(MainActivity.class);
+            finish();
         }
         context = this;
         et_tel = (EditText) findViewById(R.id.et_tel);
@@ -166,7 +167,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     startActivity(MainActivity.class);
                     SPUtil.saveInt("uid",loginBean.getUid());
                     SPUtil.saveString("tel",loginBean.getTel());
-
+                    finish();
                 }
 
             }

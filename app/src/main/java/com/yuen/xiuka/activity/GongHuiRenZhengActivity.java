@@ -229,6 +229,7 @@ public class GongHuiRenZhengActivity extends BaseActivity implements View.OnClic
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
                 String response = new String(responseBody);
+                Toast.makeText(context, response, Toast.LENGTH_SHORT).show();
                 // Log.d("mafuhua", "responseBody" + response);
                 Gson gson = new Gson();
              /*   IconResultBean iconResultBean = gson.fromJson(response, IconResultBean.class);

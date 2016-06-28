@@ -1,5 +1,6 @@
 package com.yuen.xiuka.activity;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -21,19 +22,29 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.google.gson.Gson;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.yuen.baselib.utils.SPUtil;
 import com.yuen.baselib.utils.ToastUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
+import com.yuen.xiuka.beans.ImgBean;
 import com.yuen.xiuka.utils.MyUtils;
+import com.yuen.xiuka.utils.URLProvider;
+import com.yuen.xiuka.utils.XUtils;
 
+import org.xutils.common.Callback;
 import org.xutils.x;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import cn.finalteam.galleryfinal.FunctionConfig;
@@ -130,6 +141,8 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
             Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show();
         }
     };
+    private String resultid;
+    private ProgressDialog mypDialog;
 
     public static void getLoc() {
         //初始化定位
@@ -277,7 +290,7 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
 
                 break;
             case R.id.btn_fabu:
-
+                submit();
 
                 break;
         }
@@ -292,7 +305,128 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
         }
 
         // TODO validate success, do something
+        HashMap<String, String> map = new HashMap<>();
+        map.put("uid", SPUtil.getInt("uid") + "");
+        map.put("content", content);
+        map.put("add", city);
 
+        fabu(map);
+
+    }
+
+    private void fabu(HashMap<String, String> map) {
+        addrenzhengimg();
+        XUtils.xUtilsPost(URLProvider.CIRCLE, map, new Callback.CommonCallback<String>() {
+
+            @Override
+            public void onSuccess(String result) {
+                System.out.println(result);
+                Gson gson = new Gson();
+                ImgBean imgBean = gson.fromJson(result, ImgBean.class);
+                if (ImageList.size()==0){
+                    Toast.makeText(context, imgBean.getMsg(), Toast.LENGTH_SHORT).show();
+                }   else {
+                    if (imgBean.getCode().equals("0")) {
+                        resultid = imgBean.getId() + "";
+                        Toast.makeText(context, imgBean.getMsg(), Toast.LENGTH_SHORT).show();
+                        sendComPic();
+                    } else {
+                        Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
+                        if (mypDialog.isShowing()) {
+                            mypDialog.dismiss();
+                        }
+                    }
+
+                }
+
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
+    public void sendComPic() {
+        for (int i = 0; i < ImageList.size(); i++) {
+            sendimg(ImageList.get(i));
+        }
+        if (mypDialog.isShowing()) {
+            mypDialog.dismiss();
+        }
+    }
+
+    private void sendimg(String path) {
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        com.loopj.android.http.RequestParams rp = new com.loopj.android.http.RequestParams();
+
+        File file = new File(path);
+        //  Log.d("mafuhua", path + "**************");
+        try {
+            rp.add("id", resultid);
+            rp.put("img", file);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        client.post(URLProvider.ADD_CIRCLE_IMG, rp, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
+                String response = new String(responseBody);
+                // Log.d("mafuhua", "responseBody" + response);
+                Gson gson = new Gson();
+             /*   IconResultBean iconResultBean = gson.fromJson(response, IconResultBean.class);
+                if (iconResultBean.getStatus().equals("0")) {
+                    Toast.makeText(context, "上传成功", Toast.LENGTH_SHORT).show();
+                    getUserIcon(ContactURL.SHOP_STORE_TOU + MainActivity.userid);
+                } else {
+                    Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
+                }*/
+                Toast.makeText(context, "上传成功", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
+                if (mypDialog.isShowing()) {
+                    mypDialog.dismiss();
+                }
+            }
+
+
+        });
+    }
+
+    private void addrenzhengimg() {
+        mypDialog = new ProgressDialog(context);
+        //实例化
+        mypDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        //设置进度条风格，风格为圆形，旋转的
+        //设置ProgressDialog 标题
+        mypDialog.setMessage("正在提交");
+        //设置ProgressDialog 提示信息
+        mypDialog.setIndeterminate(false);
+        //设置ProgressDialog 的进度条是否不明确
+        mypDialog.setCancelable(false);
+        //设置ProgressDialog 是否可以按退回按键取消
+        mypDialog.setCanceledOnTouchOutside(false);
+        mypDialog.show();
+        //让ProgressDialog显示
 
     }
 
@@ -338,6 +472,5 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
             }
         }
     }
-
 
 }

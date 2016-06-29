@@ -1,13 +1,22 @@
 package com.yuen.xiuka.xiuquan;
 
+import android.content.Context;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.yuen.baselib.activity.BaseFragment;
+import com.yuen.baselib.utils.SPUtil;
 import com.yuen.xiuka.R;
+import com.yuen.xiuka.utils.URLProvider;
+import com.yuen.xiuka.utils.XUtils;
+
+import org.xutils.common.Callback;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Administrator on 2016/6/13.
@@ -16,18 +25,69 @@ public class XiuQuanFragment extends BaseFragment {
     private MixListAdapter adapterData;
     private ArrayList<Mixinfo> data;
     public ListView mixlist;
+    private Context context;
+    private TextView tv_fensi;
+    private TextView tv_guanzhu;
+    private TextView tv_renzheng;
+    private TextView tv_name;
+    private ImageView iv_user_icon;
+    private LinearLayout header;
+    private ImageView iv_bj;
 
     @Override
     public View initView() {
+        context = getActivity();
         View view = View.inflate(getActivity(), R.layout.layout_xiuquanfragment,null);
         mixlist = (ListView) view.findViewById(R.id.mixlist);
-        LinearLayout header = (LinearLayout) View.inflate(getActivity(), R.layout.layout_xiuquan_header, null);
+        header = (LinearLayout) View.inflate(getActivity(), R.layout.layout_xiuquan_header, null);
+      /*  tv_fensi = (TextView) header.findViewById(R.id.tv_fensi);
+        tv_guanzhu = (TextView) header.findViewById(R.id.tv_guanzhu);
+        tv_renzheng = (TextView) header.findViewById(R.id.tv_renzheng);
+        tv_name = (TextView) header.findViewById(R.id.tv_name);
+        iv_user_icon = (ImageView) header.findViewById(R.id.iv_user_icon);
+        iv_bj = (ImageView) header.findViewById(R.id.iv_bj);*/
         mixlist.addHeaderView(header);
+
         return view;
+    }
+
+
+    public void xiuquan() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("uid", SPUtil.getInt("uid")+"");
+        map.put("page", 0+"");
+        XUtils.xUtilsPost(URLProvider.LOOK_CIRCLE, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+
+           /*     Gson gson = new Gson();
+                XIUQUANBean xiuquanBean = gson.fromJson(result, XIUQUANBean.class);
+                String bj_image = xiuquanBean.getBj_image();
+                List<XIUQUANBean.DataBean> xiuquanBeanData = xiuquanBean.getData();*/
+              //  x.image().bind(iv_bj,URLProvider.BaseImgUrl+bj_image);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+
     }
 
     @Override
     public void initData() {
+        xiuquan();
         data = new ArrayList<Mixinfo>();
         Mixinfo info1 = new Mixinfo();
         info1.username = "DavidWang";

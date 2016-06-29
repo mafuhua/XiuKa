@@ -16,7 +16,7 @@
             android:id="@+id/et_setting_opnion_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="请您输入意见200字以内!"
+            android:hint="请您输入意见!"
             android:background="@null"
             />
     </LinearLayout>

@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.activity.MainActivity;
@@ -53,7 +54,7 @@ public class MixListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup arg2) {
+    public View getView(final int position, View convertView, ViewGroup arg2) {
         Mixinfo info = data.get(position);
         ViewHolder holder = null;
         if (convertView == null) {
@@ -114,7 +115,30 @@ public class MixListAdapter extends BaseAdapter {
                 holder.imgview[i].setOnClickListener(new GridOnclick(position, holder.imgview[i], i, holder.gridview));
             }
         }
-
+        holder.list_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "list_img" + position, Toast.LENGTH_SHORT).show();
+            }
+        });
+        holder.tv_zhuanfa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "tv_zhuanfa" + position, Toast.LENGTH_SHORT).show();
+            }
+        });
+        holder.tv_pinglun.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "tv_pinglun" + position, Toast.LENGTH_SHORT).show();
+            }
+        });
+        holder.tv_dianzan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "tv_dianzan" + position, Toast.LENGTH_SHORT).show();
+            }
+        });
         return convertView;
     }
 

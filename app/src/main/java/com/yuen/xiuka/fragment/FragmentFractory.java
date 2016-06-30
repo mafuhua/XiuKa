@@ -2,7 +2,7 @@ package com.yuen.xiuka.fragment;
 
 import android.support.v4.app.Fragment;
 
-import com.yuen.xiuka.xiuquan.XiuQuanFragment;
+import com.yuen.xiuka.xiuquan.XiuQuanFragment2;
 
 import java.util.HashMap;
 
@@ -33,7 +33,7 @@ public class FragmentFractory {
             } else if (position == 1) {//应用
                 fragment = new XiaoXiFragment();
             } else if (position == 2) {//游戏
-                 fragment = new XiuQuanFragment();
+                 fragment = new XiuQuanFragment2();
             } else if (position == 3) {//专题
                 fragment = new WoDeFragment();
             }

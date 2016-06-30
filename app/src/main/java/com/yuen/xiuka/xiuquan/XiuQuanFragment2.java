@@ -1,0 +1,328 @@
+package com.yuen.xiuka.xiuquan;
+
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.GridLayout;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.yuen.baselib.activity.BaseFragment;
+import com.yuen.baselib.utils.SPUtil;
+import com.yuen.xiuka.MyApplication;
+import com.yuen.xiuka.R;
+import com.yuen.xiuka.beans.XIUQUANBean;
+import com.yuen.xiuka.utils.URLProvider;
+import com.yuen.xiuka.utils.XUtils;
+
+import org.xutils.common.Callback;
+import org.xutils.x;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+/**
+ * Created by Administrator on 2016/6/13.
+ */
+public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListener {
+    public ListView mixlist;
+    private MixListAdapter adapterData;
+    private ArrayList<Mixinfo> data;
+    private Context context;
+    private TextView tv_fensi;
+    private TextView tv_guanzhu;
+    private TextView tv_renzheng;
+    private TextView tv_name;
+    private ImageView iv_user_icon;
+    private RelativeLayout header;
+    private ImageView iv_bj;
+    private List<XIUQUANBean.DataBean> xiuquanBeanData;
+    private int ImagaId[] = {R.id.img_0, R.id.img_1, R.id.img_2, R.id.img_3, R.id.img_4, R.id.img_5, R.id.img_6, R.id.img_7, R.id.img_8};
+    private int windowwidth;
+
+    @Override
+    public View initView() {
+        context = getActivity();
+        windowwidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
+        View view = View.inflate(getActivity(), R.layout.layout_xiuquanfragment, null);
+        mixlist = (ListView) view.findViewById(R.id.mixlist);
+        header = (RelativeLayout) View.inflate(getActivity(), R.layout.layout_xiuquan_header, null);
+        tv_fensi = (TextView) header.findViewById(R.id.tv_fensi);
+        tv_guanzhu = (TextView) header.findViewById(R.id.tv_guanzhu);
+        tv_renzheng = (TextView) header.findViewById(R.id.tv_renzheng);
+        tv_name = (TextView) header.findViewById(R.id.tv_name);
+        iv_user_icon = (ImageView) header.findViewById(R.id.iv_user_icon);
+        iv_bj = (ImageView) header.findViewById(R.id.iv_bj);
+        mixlist.addHeaderView(header);
+        tv_fensi.setOnClickListener(this);
+        tv_guanzhu.setOnClickListener(this);
+        tv_renzheng.setOnClickListener(this);
+        iv_user_icon.setOnClickListener(this);
+        iv_bj.setOnClickListener(this);
+        mixlist.setAdapter(new MyAdapter());
+        return view;
+    }
+
+    public void xiuquan() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("uid", SPUtil.getInt("uid") + "");
+        map.put("page", 0 + "");
+        XUtils.xUtilsPost(URLProvider.LOOK_CIRCLE, map, new Callback.CommonCallback<String>() {
+
+
+            private MyAdapter myAdapter;
+
+            @Override
+            public void onSuccess(String result) {
+
+                Gson gson = new Gson();
+                XIUQUANBean xiuquanBean = gson.fromJson(result, XIUQUANBean.class);
+                String bj_image = xiuquanBean.getBj_image();
+                xiuquanBeanData = xiuquanBean.getData();
+               // Toast.makeText(context, URLProvider.BaseImgUrl + bj_image, Toast.LENGTH_SHORT).show();
+                System.out.println(URLProvider.BaseImgUrl + bj_image);
+                x.image().bind(iv_bj, URLProvider.BaseImgUrl + bj_image, MyApplication.options);
+
+                myAdapter = new MyAdapter();
+                mixlist.setAdapter(myAdapter);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+
+    }
+
+    @Override
+    public void initData() {
+
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        xiuquan();
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_fensi:
+                Toast.makeText(context, "tv_fens", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.tv_guanzhu:
+                Toast.makeText(context, "tv_guanzhu", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.tv_renzheng:
+                Toast.makeText(context, "tv_renzheng", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.iv_bj:
+                Toast.makeText(context, "iv_bj", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.iv_user_icon:
+                Toast.makeText(context, "iv_user_icon", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    class MyAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return xiuquanBeanData == null ? 0 : xiuquanBeanData.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            ViewHolder viewHolder;
+            if (convertView == null) {
+                convertView = View.inflate(context, R.layout.mix_view, null);
+                viewHolder = new ViewHolder(convertView);
+                convertView.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+            viewHolder.add.setText(xiuquanBeanData.get(position).getAdd());
+            viewHolder.time.setText(xiuquanBeanData.get(position).getTime());
+            viewHolder.username.setText(xiuquanBeanData.get(position).getName());
+            viewHolder.usercontent.setText(xiuquanBeanData.get(position).getContent());
+            viewHolder.tv_dianzan.setText(xiuquanBeanData.get(position).getZan());
+            viewHolder.tv_pinglun.setText(xiuquanBeanData.get(position).getComments());
+            viewHolder.tv_zhuanfa.setText(xiuquanBeanData.get(position).getShare());
+            x.image().bind(viewHolder.listuserimg, URLProvider.BaseImgUrl + xiuquanBeanData.get(position).getImg(), MyApplication.options);
+
+            List<String> images = xiuquanBeanData.get(position).getImage();
+            if (images.size()==1){
+                viewHolder.showimage.setVisibility(View.VISIBLE);
+                viewHolder.gridview.setVisibility(View.GONE);
+
+               ImageLoaders.setsendimg(URLProvider.BaseImgUrl+images.get(0), viewHolder.showimage);
+             //  x.image().bind(viewHolder.showimage,URLProvider.BaseImgUrl+images.get(0),MyApplication.optionsxq);
+            }else {
+                viewHolder.showimage.setVisibility(View.GONE);
+                viewHolder.gridview.setVisibility(View.VISIBLE);
+                int a = images.size() / 3;
+                int b = images.size() % 3;
+                if (b > 0) {
+                    a++;
+                }
+                float width =(windowwidth - dip2px(40) ) / 3;
+                viewHolder.gridview.getLayoutParams().height = (int) (a * width);
+
+                for (int i = 0; i < 9; i++) {
+                    viewHolder.imgview[i].setVisibility(View.GONE);
+                }
+
+                for (int i = 0; i < images.size(); i++) {
+                    String imgurl = images.get(i);
+                    viewHolder.imgview[i].setVisibility(View.VISIBLE);
+                    viewHolder.imgview[i].getLayoutParams().width = (int) width;
+                    viewHolder.imgview[i].getLayoutParams().height = (int) width;
+                    ImageLoaders.setsendimg(URLProvider.BaseImgUrl+imgurl, viewHolder.imgview[i]);
+                   // x.image().bind(viewHolder.imgview[i],URLProvider.BaseImgUrl+imgurl,MyApplication.optionsxq);
+                 //   viewHolder.imgview[i].setOnClickListener(new GridOnclick(position, holder.imgview[i], i, holder.gridview));
+                }
+            }
+            viewHolder.listuserimg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "list_img" + position, Toast.LENGTH_SHORT).show();
+                }
+            });
+            viewHolder.iv_zhuanfa.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "tv_zhuanfa" + position, Toast.LENGTH_SHORT).show();
+                }
+            });
+            viewHolder.iv_pinlun.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "tv_pinglun" + position, Toast.LENGTH_SHORT).show();
+                }
+            });
+            viewHolder.iv_dianzan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "tv_dianzan" + position, Toast.LENGTH_SHORT).show();
+                }
+            });
+            return convertView;
+        }
+
+
+    }
+
+    public class ViewHolder {
+        public ImageView iv_dianzan;
+        public ImageView listuserimg;
+        public TextView username;
+        public TextView usercontent;
+        public TextView add;
+        public TextView time;
+        public ImageView showimage;
+        public GridLayout gridview;
+        public TextView tv_zhuanfa;
+        public TextView tv_pinglun;
+        public TextView tv_dianzan;
+        public ImageView imgview[] = new ImageView[9];
+        public ImageView iv_zhuanfa;
+        public ImageView iv_pinlun;
+
+        public ViewHolder(View rootView) {
+            listuserimg = (ImageView) rootView.findViewById(R.id.listuserimg);
+            username = (TextView) rootView.findViewById(R.id.username);
+            usercontent = (TextView) rootView.findViewById(R.id.usercontent);
+            add = (TextView) rootView.findViewById(R.id.add);
+            time = (TextView) rootView.findViewById(R.id.time);
+            showimage = (ImageView) rootView.findViewById(R.id.showimage);
+            for (int i = 0; i < 9; i++) {
+                imgview[i] = (ImageView) rootView.findViewById(ImagaId[i]);
+            }
+            gridview = (GridLayout) rootView.findViewById(R.id.gridview);
+            tv_zhuanfa = (TextView) rootView.findViewById(R.id.tv_zhuanfa);
+            iv_zhuanfa = (ImageView) rootView.findViewById(R.id.iv_zhuanfa);
+            iv_pinlun = (ImageView) rootView.findViewById(R.id.iv_pinlun);
+            iv_dianzan = (ImageView) rootView.findViewById(R.id.iv_dianzan);
+            tv_pinglun = (TextView) rootView.findViewById(R.id.tv_pinglun);
+            tv_dianzan = (TextView) rootView.findViewById(R.id.tv_dianzan);
+        }
+
+    }
+
+
+    class GridOnclick implements View.OnClickListener {
+
+        private int index;
+        private int row;
+        private ImageView imageView;
+        private GridLayout gridLayout;
+
+        public GridOnclick(int index, ImageView imageView, int row, GridLayout gridLayout) {
+            this.index = index;
+            this.imageView = imageView;
+            this.gridLayout = gridLayout;
+            this.row = row;
+        }
+
+        @Override
+        public void onClick(View v) {
+          /*  View c = xiuquanFragment.mixlist.getChildAt(0);
+            int top = c.getTop();
+            int firstVisiblePosition = xiuquanFragment.mixlist.getFirstVisiblePosition();
+            float height = 0.0f;
+            for (int i = 0; i < ((index + 1) - firstVisiblePosition); i++) {
+                View view = xiuquanFragment.mixlist.getChildAt(i);
+                height += view.getHeight();
+            }
+            bdInfo.x = imageView.getLeft() + gridLayout.getLeft();
+            bdInfo.y = gridLayout.getTop() + imageView.getTop() + height + top + xiuquanFragment.mixlist.getTop();
+            bdInfo.width = imageView.getLayoutParams().width;
+            bdInfo.height = imageView.getLayoutParams().height;
+            Intent intent = new Intent(context, PreviewImage.class);
+            ArrayList<ImageInfo> info = data.get(index).data;
+            Log.e("1", info.toString());
+            intent.putExtra("data", (Serializable) info);
+            intent.putExtra("bdinfo", bdInfo);
+            intent.putExtra("index", row);
+            intent.putExtra("type", 3);
+            context.startActivity(intent);*/
+        }
+    }
+
+    public int dip2px(float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
+}

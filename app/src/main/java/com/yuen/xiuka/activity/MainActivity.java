@@ -3,7 +3,6 @@ package com.yuen.xiuka.activity;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.R;
@@ -21,13 +19,7 @@ import com.yuen.xiuka.fragment.FragmentFractory;
 import com.yuen.xiuka.fragment.WoDeFragment;
 import com.yuen.xiuka.fragment.XiaoXiFragment;
 import com.yuen.xiuka.utils.MyUtils;
-import com.yuen.xiuka.xiuquan.XiuQuanFragment;
-
-import org.xutils.common.Callback;
-import org.xutils.http.RequestParams;
-import org.xutils.x;
-
-import java.io.File;
+import com.yuen.xiuka.xiuquan.XiuQuanFragment2;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private FragmentManager supportFragmentManager;
@@ -40,7 +32,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private RadioGroup rg_home;
     private FaXianFragment faxianFragment;
     private XiaoXiFragment xiaoxiFragment;
-    private XiuQuanFragment xiuquanFragment;
+    private XiuQuanFragment2 xiuquanFragment;
     private WoDeFragment woDeFragment;
     private Fragment currentFragment;
     private FragmentTransaction transaction;
@@ -98,7 +90,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         supportFragmentManager = getSupportFragmentManager();
         faxianFragment = (FaXianFragment) FragmentFractory.getInstance().createFragment(0);
         xiaoxiFragment = (XiaoXiFragment) FragmentFractory.getInstance().createFragment(1);
-        xiuquanFragment = (XiuQuanFragment) FragmentFractory.getInstance().createFragment(2);
+        xiuquanFragment = (XiuQuanFragment2) FragmentFractory.getInstance().createFragment(2);
         woDeFragment = (WoDeFragment) FragmentFractory.getInstance().createFragment(3);
         getSupportFragmentManager().beginTransaction().add(R.id.fl_home_content, faxianFragment, "faxianFragment")
                 .add(R.id.fl_home_content, xiaoxiFragment, "xiaoxiFragment").hide(xiaoxiFragment)
@@ -109,7 +101,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         currentFragment = faxianFragment;
 
 
-        RequestParams requestParams = new RequestParams("http://h.hiphotos.baidu.com/image/pic/item/4e4a20a4462309f7475ff8ce770e0cf3d7cad63e.jpg");
+      /*  RequestParams requestParams = new RequestParams("http://h.hiphotos.baidu.com/image/pic/item/4e4a20a4462309f7475ff8ce770e0cf3d7cad63e.jpg");
         requestParams.setAutoRename(true);
         requestParams.setSaveFilePath(Environment.getExternalStorageDirectory() + "/imagcacahe/760e1d2.jpg");
         x.http().get(requestParams, new Callback.CommonCallback<File>() {
@@ -133,7 +125,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             }
         });
-
+*/
 
      /*   x.image().loadFile("http://d.hiphotos.baidu.com/image/h%3D200/sign=ea218b2c5566d01661199928a729d498/a08b87d6277f9e2fd4f215e91830e924b999f308.jpg", MyApplication.options, new Callback.CacheCallback<File>() {
             @Override

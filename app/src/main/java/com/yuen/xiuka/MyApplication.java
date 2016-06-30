@@ -36,7 +36,56 @@ import cn.finalteam.galleryfinal.ThemeConfig;
 public class MyApplication extends ApplicationEx {
     public static Context context;
     public static ImageOptions options;
+    public static ImageOptions optionsxq;
 
+    /**
+     * 获得当前进程的名字
+     *
+     * @param context
+     * @return 进程号
+     */
+    public static String getCurProcessName(Context context) {
+
+        int pid = android.os.Process.myPid();
+
+        ActivityManager activityManager = (ActivityManager) context
+                .getSystemService(Context.ACTIVITY_SERVICE);
+
+        for (ActivityManager.RunningAppProcessInfo appProcess : activityManager
+                .getRunningAppProcesses()) {
+
+            if (appProcess.pid == pid) {
+                return appProcess.processName;
+            }
+        }
+        return null;
+    }
+
+    public static String sHA1(Context context) {
+        try {
+            PackageInfo info = context.getPackageManager().getPackageInfo(
+                    context.getPackageName(), PackageManager.GET_SIGNATURES);
+            byte[] cert = info.signatures[0].toByteArray();
+            MessageDigest md = MessageDigest.getInstance("SHA1");
+            byte[] publicKey = md.digest(cert);
+            StringBuffer hexString = new StringBuffer();
+            for (int i = 0; i < publicKey.length; i++) {
+                String appendString = Integer.toHexString(0xFF & publicKey[i])
+                        .toUpperCase(Locale.US);
+                if (appendString.length() == 1)
+                    hexString.append("0");
+                hexString.append(appendString);
+                hexString.append(":");
+            }
+            Log.d("mafuhua", hexString.toString());
+            return hexString.toString();
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @Override
     public void onCreate() {
@@ -48,11 +97,18 @@ public class MyApplication extends ApplicationEx {
         x.Ext.setDebug(true);
         options = new ImageOptions.Builder()
                 .setRadius(15)
-                        // 是否忽略GIF格式的图片
+                // 是否忽略GIF格式的图片
                 .setIgnoreGif(false)
-                        // 图片缩放模式
+                // 图片缩放模式
                 .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                 .setUseMemCache(false)
+                .build();
+        optionsxq = new ImageOptions.Builder()
+                // 是否忽略GIF格式的图片
+                .setIgnoreGif(false)
+                // 图片缩放模式
+                .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                .setUseMemCache(true)
                 .build();
 
         /**
@@ -65,11 +121,11 @@ public class MyApplication extends ApplicationEx {
             /**
              * IMKit SDK调用第一步 初始化
              */
-           // RongIM.init(this);
+            // RongIM.init(this);
         }
         PlatformConfig.setWeixin("wx576cf31829c5138b", "aca59d13d048f58e8747ea437f2a5e66");
         //微信 appid appsecret
-        PlatformConfig.setSinaWeibo("2005558614","91cd97d9e1db43afe8ccf878493dc7b7");
+        PlatformConfig.setSinaWeibo("2005558614", "91cd97d9e1db43afe8ccf878493dc7b7");
         //新浪微博 appkey appsecret
         PlatformConfig.setQQZone("1105467568", "pzCSBfkLFaVvAfmX");
         // QQ和Qzone appid appkey
@@ -103,58 +159,10 @@ public class MyApplication extends ApplicationEx {
                 .setPauseOnScrollListener(new GlidePauseOnScrollListener(false, true))
                 .build();
         GalleryFinal.init(coreConfig);
-       // sHA1(context);
+        // sHA1(context);
         initImageLoader(getApplicationContext());
     }
-    /**
-     * 获得当前进程的名字
-     *
-     * @param context
-     * @return 进程号
-     */
-    public static String getCurProcessName(Context context) {
 
-        int pid = android.os.Process.myPid();
-
-        ActivityManager activityManager = (ActivityManager) context
-                .getSystemService(Context.ACTIVITY_SERVICE);
-
-        for (ActivityManager.RunningAppProcessInfo appProcess : activityManager
-                .getRunningAppProcesses()) {
-
-            if (appProcess.pid == pid) {
-                return appProcess.processName;
-            }
-        }
-        return null;
-    }
-
-
-    public static String sHA1(Context context) {
-        try {
-            PackageInfo info = context.getPackageManager().getPackageInfo(
-                    context.getPackageName(), PackageManager.GET_SIGNATURES);
-            byte[] cert = info.signatures[0].toByteArray();
-            MessageDigest md = MessageDigest.getInstance("SHA1");
-            byte[] publicKey = md.digest(cert);
-            StringBuffer hexString = new StringBuffer();
-            for (int i = 0; i < publicKey.length; i++) {
-                String appendString = Integer.toHexString(0xFF & publicKey[i])
-                        .toUpperCase(Locale.US);
-                if (appendString.length() == 1)
-                    hexString.append("0");
-                hexString.append(appendString);
-                hexString.append(":");
-            }
-            Log.d("mafuhua", hexString.toString());
-            return hexString.toString();
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
     public void initImageLoader(Context context) {
         // This configuration tuning is custom. You can tune every option, you
         // may tune some of them,

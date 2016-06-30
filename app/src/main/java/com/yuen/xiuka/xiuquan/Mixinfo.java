@@ -10,6 +10,8 @@ public class Mixinfo implements Serializable {
 
     public String username;
     public String content;
+    public String time;
+    public String add;
     public String userimg;
     public ArrayList<ImageInfo> data;
 

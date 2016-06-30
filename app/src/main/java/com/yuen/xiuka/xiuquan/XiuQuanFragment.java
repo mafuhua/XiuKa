@@ -3,25 +3,30 @@ package com.yuen.xiuka.xiuquan;
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.yuen.baselib.activity.BaseFragment;
 import com.yuen.baselib.utils.SPUtil;
 import com.yuen.xiuka.R;
+import com.yuen.xiuka.beans.XIUQUANBean;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
 
 import org.xutils.common.Callback;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/6/13.
  */
-public class XiuQuanFragment extends BaseFragment {
+public class XiuQuanFragment extends BaseFragment implements View.OnClickListener{
     private MixListAdapter adapterData;
     private ArrayList<Mixinfo> data;
     public ListView mixlist;
@@ -31,7 +36,7 @@ public class XiuQuanFragment extends BaseFragment {
     private TextView tv_renzheng;
     private TextView tv_name;
     private ImageView iv_user_icon;
-    private LinearLayout header;
+    private RelativeLayout header;
     private ImageView iv_bj;
 
     @Override
@@ -39,15 +44,19 @@ public class XiuQuanFragment extends BaseFragment {
         context = getActivity();
         View view = View.inflate(getActivity(), R.layout.layout_xiuquanfragment,null);
         mixlist = (ListView) view.findViewById(R.id.mixlist);
-        header = (LinearLayout) View.inflate(getActivity(), R.layout.layout_xiuquan_header, null);
-      /*  tv_fensi = (TextView) header.findViewById(R.id.tv_fensi);
+        header = (RelativeLayout) View.inflate(getActivity(), R.layout.layout_xiuquan_header, null);
+        tv_fensi = (TextView) header.findViewById(R.id.tv_fensi);
         tv_guanzhu = (TextView) header.findViewById(R.id.tv_guanzhu);
         tv_renzheng = (TextView) header.findViewById(R.id.tv_renzheng);
         tv_name = (TextView) header.findViewById(R.id.tv_name);
         iv_user_icon = (ImageView) header.findViewById(R.id.iv_user_icon);
-        iv_bj = (ImageView) header.findViewById(R.id.iv_bj);*/
+        iv_bj = (ImageView) header.findViewById(R.id.iv_bj);
         mixlist.addHeaderView(header);
-
+        tv_fensi.setOnClickListener(this);
+        tv_guanzhu.setOnClickListener(this);
+        tv_renzheng.setOnClickListener(this);
+        iv_user_icon.setOnClickListener(this);
+        iv_bj.setOnClickListener(this);
         return view;
     }
 
@@ -60,11 +69,12 @@ public class XiuQuanFragment extends BaseFragment {
             @Override
             public void onSuccess(String result) {
 
-           /*     Gson gson = new Gson();
+                Gson gson = new Gson();
                 XIUQUANBean xiuquanBean = gson.fromJson(result, XIUQUANBean.class);
                 String bj_image = xiuquanBean.getBj_image();
-                List<XIUQUANBean.DataBean> xiuquanBeanData = xiuquanBean.getData();*/
-              //  x.image().bind(iv_bj,URLProvider.BaseImgUrl+bj_image);
+                List<XIUQUANBean.DataBean> xiuquanBeanData = xiuquanBean.getData();
+
+               x.image().bind(iv_bj,URLProvider.BaseImgUrl+bj_image);
             }
 
             @Override
@@ -160,5 +170,26 @@ public class XiuQuanFragment extends BaseFragment {
             }
         }
         return data;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.tv_fensi:
+                Toast.makeText(context, "tv_fens", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.tv_guanzhu:
+                Toast.makeText(context, "tv_guanzhu", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.tv_renzheng:
+                Toast.makeText(context, "tv_renzheng", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.iv_bj:
+                Toast.makeText(context, "iv_bj", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.iv_user_icon:
+                Toast.makeText(context, "iv_user_icon", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 }

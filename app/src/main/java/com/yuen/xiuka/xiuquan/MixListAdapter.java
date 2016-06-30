@@ -79,7 +79,7 @@ public class MixListAdapter extends BaseAdapter {
             float width = 0.0f;
             float height = 0.0f;
             if (w > h) {
-                width = activity.getWindowManager().getDefaultDisplay().getWidth() - dip2px(60);
+                width = activity.getWindowManager().getDefaultDisplay().getWidth() - dip2px(120);
             } else if (w < h) {
                 width = activity.getWindowManager().getDefaultDisplay().getWidth() / 2;
             } else if (w == h) {
@@ -98,7 +98,7 @@ public class MixListAdapter extends BaseAdapter {
             if (b > 0) {
                 a++;
             }
-            float width = (activity.getWindowManager().getDefaultDisplay().getWidth() - dip2px(2)) / 3;
+            float width = (activity.getWindowManager().getDefaultDisplay().getWidth() - dip2px(40)) / 3;
             holder.gridview.getLayoutParams().height = (int) (a * width);
 
             for (int i = 0; i < 9; i++) {

@@ -33,7 +33,7 @@ public class FragmentFractory {
             } else if (position == 1) {//应用
                 fragment = new XiaoXiFragment();
             } else if (position == 2) {//游戏
-                fragment = new XiuQuanFragment();
+                 fragment = new XiuQuanFragment();
             } else if (position == 3) {//专题
                 fragment = new WoDeFragment();
             }

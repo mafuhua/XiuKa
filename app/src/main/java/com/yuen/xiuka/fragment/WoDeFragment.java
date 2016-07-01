@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.yuen.baselib.activity.BaseFragment;
@@ -132,17 +131,16 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
             public void onSuccess(String result) {
                 Log.d("mafuhua", "----MY------" + result);
                 System.out.print(result);
-                Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+              //  Toast.makeText(context, result, Toast.LENGTH_LONG).show();
                 Gson gson = new Gson();
                 MYBean myBean = gson.fromJson(result, MYBean.class);
                 // Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
                 myBeanData = myBean.getData();
                 SPUtil.saveString("name",myBeanData.getName());
-              /*  SPUtil.saveString("icon",myBeanData.getImage());
+                SPUtil.saveString("icon",myBeanData.getImage());
                 SPUtil.saveString("guanzhu",myBeanData.getGuangzhu()+"");
                 SPUtil.saveString("fensi",myBeanData.getFensi()+"");
                 SPUtil.saveString("platform",myBeanData.getPlatform());
-*/
 
             }
 

@@ -194,6 +194,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 switchContent(currentFragment, xiaoxiFragment, "快递", View.GONE);
                 break;
             case R.id.rb_home_xiuquan:
+
                 switchContent(currentFragment, xiuquanFragment, "购物车", View.VISIBLE);
                 break;
             case R.id.rb_home_wode:

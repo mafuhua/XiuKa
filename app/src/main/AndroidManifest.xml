@@ -155,6 +155,8 @@
         </activity>
         <activity android:name=".activity.EditUserActivity">
         </activity>
+        <activity android:name=".xiuquan.PagersImgActivity">
+        </activity>
     </application>
 
 </manifest>

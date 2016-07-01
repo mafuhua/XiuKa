@@ -325,6 +325,9 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
                 ImgBean imgBean = gson.fromJson(result, ImgBean.class);
                 if (ImageList.size()==0){
                     Toast.makeText(context, imgBean.getMsg(), Toast.LENGTH_SHORT).show();
+                    if (mypDialog.isShowing()) {
+                        mypDialog.dismiss();
+                    }
                 }   else {
                     if (imgBean.getCode().equals("0")) {
                         resultid = imgBean.getId() + "";

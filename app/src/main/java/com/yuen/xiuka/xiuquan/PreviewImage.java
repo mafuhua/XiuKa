@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.yuen.xiuka.R;
+import com.yuen.xiuka.beans.XIUQUANBean;
+import com.yuen.xiuka.utils.URLProvider;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,7 +41,8 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
 
 	private float moveheight;
 	private int type;
-	
+	private List<XIUQUANBean.DataBean.ImageBean> data;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,21 +74,10 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
 		// TODO Auto-generated method stub
 		super.InData();
 		index = getIntent().getIntExtra("index", 0);
-		type = getIntent().getIntExtra("type",0);
-		ImgList = (ArrayList<ImageInfo>)getIntent().getSerializableExtra("data");
-		Log.e("1",ImgList.size()+"数量");
-		imageInfo = ImgList.get(index);
-		bdInfo = (ImageBDInfo)getIntent().getSerializableExtra("bdinfo");
+		data = (List<XIUQUANBean.DataBean.ImageBean>) getIntent().getSerializableExtra("data");
 		pagerAdapter = new SamplePagerAdapter();
 		viewpager.setAdapter(pagerAdapter);
 		viewpager.setCurrentItem(index);
-		if (type == 1){
-			moveheight = dip2px(70);
-		}else if (type == 2){
-			moveheight = (Width - 3 * dip2px(2))/3;
-		}else if (type == 3){
-			moveheight = (Width - dip2px(80) - dip2px(2))/3;
-		}
 	}
 
 
@@ -110,38 +101,20 @@ public class PreviewImage extends BaseActivity implements OnPageChangeListener {
 		}
 		ImageInfo info = ImgList.get(arg0);
 		ImageLoaders.setsendimg(info.url, showimg);
-		if (type == 1){
-			int move_index = arg0 - index;
-			to_y = move_index * moveheight;
-		}else if (type == 2){
-			int	a = index / 3;
-			int b = index % 3;
-			int a1 = arg0 / 3;
-			int b1 = arg0 % 3;
-			to_y = (a1 - a) * moveheight + (a1 - a) * dip2px(2);
-			to_x = (b1 - b) * moveheight + (b1 - b) * dip2px(2);
-		}else if (type == 3){
-			int	a = index / 3;
-			int b = index % 3;
-			int a1 = arg0 / 3;
-			int b1 = arg0 % 3;
-			to_y = (a1 - a) * moveheight + (a1 - a) * dip2px(1);
-			to_x = (b1 - b) * moveheight + (b1 - b) * dip2px(1);
-		}
 	}
 
 	class SamplePagerAdapter extends PagerAdapter {
 
 		@Override
 		public int getCount() {
-			return ImgList.size();
+			return data.size();
 		}
 
 		@Override
 		public View instantiateItem(ViewGroup container, int position) {
 			PhotoView photoView = new PhotoView(container.getContext());
-			String path = ImgList.get(position).url;
-			ImageLoader.getInstance().displayImage(path, photoView, options,
+			String path = data.get(position).getImg();
+			ImageLoader.getInstance().displayImage(URLProvider.BaseImgUrl+path, photoView, options,
 					animateFirstListener);
 			// Now just add PhotoView to ViewPager and return it
 			photoView.setOnViewTapListener(new OnViewTapListener() {  

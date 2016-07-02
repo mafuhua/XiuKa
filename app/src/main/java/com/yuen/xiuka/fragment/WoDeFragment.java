@@ -131,7 +131,7 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
             public void onSuccess(String result) {
                 Log.d("mafuhua", "----MY------" + result);
                 System.out.print(result);
-              //  Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+               // Toast.makeText(context, result, Toast.LENGTH_LONG).show();
                 Gson gson = new Gson();
                 MYBean myBean = gson.fromJson(result, MYBean.class);
                 // Toast.makeText(context, result, Toast.LENGTH_SHORT).show();

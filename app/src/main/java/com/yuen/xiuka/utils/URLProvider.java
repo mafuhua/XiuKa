@@ -25,6 +25,8 @@ public class URLProvider {
     public static String CIRCLE = BaseUrl + "circle";
     public static String ADD_CIRCLE_IMG = BaseUrl + "add_circle_img";
     public static String LOOK_CIRCLE = BaseUrl + "look_circle";
+    public static String COMMENTS = BaseUrl + "comments";
+    public static String ADD_COMMENTS = BaseUrl + "add_comments";
 
 
 

@@ -157,6 +157,8 @@
         </activity>
         <activity android:name=".xiuquan.PagersImgActivity">
         </activity>
+        <activity android:name=".activity.PingLunActivity">
+        </activity>
     </application>
 
 </manifest>

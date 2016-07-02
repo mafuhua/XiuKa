@@ -18,6 +18,7 @@ import com.yuen.baselib.activity.BaseFragment;
 import com.yuen.baselib.utils.SPUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
+import com.yuen.xiuka.activity.PingLunActivity;
 import com.yuen.xiuka.beans.XIUQUANBean;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
@@ -77,7 +78,9 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         mixlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(context, "mixlist" + position, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, PingLunActivity.class);
+                intent.putExtra("data",  xiuquanBeanData.get(position-1));
+                context.startActivity(intent);
             }
         });
         return view;
@@ -220,13 +223,13 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                         Toast.makeText(context, "position:" + position, Toast.LENGTH_SHORT).show();
                         List<XIUQUANBean.DataBean.ImageBean> image = xiuquanBeanData.get(position).getImage();
                         Intent intent = new Intent(context, PagersImgActivity.class);
-                        intent.putExtra("data", (Serializable)image);
+                        intent.putExtra("data", (Serializable) image);
                         intent.putExtra("index", "0");
                         context.startActivity(intent);
                     }
                 });
-               // ImageLoaders.setsendimg(URLProvider.BaseImgUrl + imageBeanList.get(0).getImg(), viewHolder.showimage);
-                  x.image().bind(viewHolder.showimage,URLProvider.BaseImgUrl+imageBeanList.get(0).getImg(),MyApplication.optionsxq);
+                // ImageLoaders.setsendimg(URLProvider.BaseImgUrl + imageBeanList.get(0).getImg(), viewHolder.showimage);
+                x.image().bind(viewHolder.showimage, URLProvider.BaseImgUrl + imageBeanList.get(0).getImg(), MyApplication.optionsxq);
             } else {
                 viewHolder.showimage.setVisibility(View.GONE);
                 viewHolder.gridview.setVisibility(View.VISIBLE);
@@ -247,14 +250,15 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                     viewHolder.imgview[i].setVisibility(View.VISIBLE);
                     viewHolder.imgview[i].getLayoutParams().width = (int) width;
                     viewHolder.imgview[i].getLayoutParams().height = (int) width;
-                   // ImageLoaders.setsendimg(URLProvider.BaseImgUrl + imageBean.getImg(), viewHolder.imgview[i]);
-                     x.image().bind(viewHolder.imgview[i],URLProvider.BaseImgUrl+imageBean.getImg(),MyApplication.optionsxq);
-                   viewHolder.imgview[i].setOnClickListener(new GridOnclick(position, viewHolder.imgview[i],imageBeanList, i, viewHolder.gridview));
+                    // ImageLoaders.setsendimg(URLProvider.BaseImgUrl + imageBean.getImg(), viewHolder.imgview[i]);
+                    x.image().bind(viewHolder.imgview[i], URLProvider.BaseImgUrl + imageBean.getImg(), MyApplication.optionsxq);
+                    viewHolder.imgview[i].setOnClickListener(new GridOnclick(position, viewHolder.imgview[i], imageBeanList, i, viewHolder.gridview));
                 }
             }
             viewHolder.listuserimg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     Toast.makeText(context, "list_img" + position, Toast.LENGTH_SHORT).show();
                 }
             });
@@ -267,6 +271,9 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
             viewHolder.iv_pinlun.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Intent intent = new Intent(context, PingLunActivity.class);
+                    intent.putExtra("data",  xiuquanBeanData.get(position));
+                    context.startActivity(intent);
                     Toast.makeText(context, "tv_pinglun" + position, Toast.LENGTH_SHORT).show();
                 }
             });
@@ -337,9 +344,9 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(context, "position:" + position, Toast.LENGTH_SHORT).show();
+        //    Toast.makeText(context, "position:" + position, Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, PagersImgActivity.class);
-            intent.putExtra("data", (Serializable)imageBeanList);
+            intent.putExtra("data", (Serializable) imageBeanList);
             intent.putExtra("index", index);
             context.startActivity(intent);
         }

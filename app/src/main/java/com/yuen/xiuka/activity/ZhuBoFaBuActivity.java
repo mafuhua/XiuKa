@@ -23,11 +23,15 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.yuen.baselib.utils.SPUtil;
 import com.yuen.baselib.utils.ToastUtil;
 import com.yuen.xiuka.R;
+import com.yuen.xiuka.beans.ImgBean;
 import com.yuen.xiuka.utils.MyUtils;
 import com.yuen.xiuka.utils.URLProvider;
+import com.yuen.xiuka.utils.XUtils;
 
+import org.xutils.common.Callback;
 import org.xutils.x;
 
 import java.io.ByteArrayOutputStream;
@@ -35,6 +39,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import cn.finalteam.galleryfinal.FunctionConfig;
@@ -43,18 +48,19 @@ import cn.finalteam.galleryfinal.model.PhotoInfo;
 
 public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListener {
     private final int REQUEST_CODE_GALLERY = 1001;
-    public String[] mMonth = new String[]{"月", "8月", "9月", "10月", "11月", "12月"};
+    public String[] mMonth = new String[]{"月", "8", "9", "10", "11", "12"};
     public String[] mDay = new String[]{
-            "日", "1日","2日","3日","4日","5日","6日","7日",
-            "8日","9日","10日","11日","12日","13日","14日",
-            "15日","16日","17日","18日","19日","20日","21日",
-            "22日","23日","24日","25日","26日","27日","28日",
-            "29日","30日","31日"};
+            "日", "1", "2", "3", "4", "5", "6", "7",
+            "8", "9", "10", "11", "12", "13", "14",
+            "15", "16", "17", "18", "19", "20", "21",
+            "22", "23", "24", "25", "26", "27", "28",
+            "29", "30", "31"};
     public String[] mhour = new String[]{
-            "时", "1时","2时","3时","4时","5时","6时","7时",
-            "8时","9时","10时","11时","12时","13时","14时",
-            "15时","16时","17时","18时","19时","20时","21时",
-            "22时","23时","24时" };
+            "时", "1", "2", "3", "4", "5", "6", "7",
+            "8", "9", "10", "11", "12", "13", "14",
+            "15", "16", "17", "18", "19", "20", "21",
+            "22", "23", "24"};
+    public String zhibo_time = "2016-月-日 时";
     private Button btn_fanhui;
     private Button btn_sousuo;
     private TextView tv_titlecontent;
@@ -164,6 +170,50 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
         setSpinnerContent(spinner0, mMonth);
         setSpinnerContent(spinner1, mDay);
         setSpinnerContent(spinner2, mhour);
+        spinner0.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int pos, long id) {
+                if (pos == 0) return;
+                zhibo_time.replace("月", mMonth[pos]);
+                Toast.makeText(context, zhibo_time, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int pos, long id) {
+                if (pos == 0) return;
+                zhibo_time.replace("日", mDay[pos]);
+                Toast.makeText(context, zhibo_time, Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int pos, long id) {
+                if (pos == 0) return;
+                zhibo_time.replace("时", mhour[pos]);
+                Toast.makeText(context, zhibo_time, Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
@@ -187,10 +237,11 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
 
                 break;
             case R.id.btn_fabu:
-
+                submit();
                 break;
         }
     }
+
     private void setSpinnerContent(final Spinner spinners, final String[] mCountries) {
         if (mCountries == null) {
             return;
@@ -201,6 +252,7 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
         spinners.setAdapter(adapter);
 
     }
+
     public void sendComPic() {
         for (int i = 0; i < ImageList.size(); i++) {
             sendimg(ImageList.get(i));
@@ -267,10 +319,63 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
             Toast.makeText(this, "说点什么吧!", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        HashMap<String, String> map = new HashMap<>();
+        map.put("uid", SPUtil.getInt("uid") + "");
+        map.put("content", content);
+        map.put("platform", platname);
+        map.put("zhibo_time", platname);
         // TODO validate success, do something
+        // fabu(map);
 
 
+    }
+
+    private void fabu(HashMap<String, String> map) {
+        addrenzhengimg();
+        XUtils.xUtilsPost(URLProvider.CIRCLE, map, new Callback.CommonCallback<String>() {
+
+            @Override
+            public void onSuccess(String result) {
+                System.out.println(result);
+                Gson gson = new Gson();
+                ImgBean imgBean = gson.fromJson(result, ImgBean.class);
+                if (ImageList.size() == 0) {
+                    Toast.makeText(context, imgBean.getMsg(), Toast.LENGTH_SHORT).show();
+                    if (mypDialog.isShowing()) {
+                        mypDialog.dismiss();
+                    }
+                } else {
+                    if (imgBean.getCode().equals("0")) {
+                        resultid = imgBean.getId() + "";
+                        Toast.makeText(context, imgBean.getMsg(), Toast.LENGTH_SHORT).show();
+                        sendComPic();
+                    } else {
+                        Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
+                        if (mypDialog.isShowing()) {
+                            mypDialog.dismiss();
+                        }
+                    }
+
+                }
+
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     private void addrenzhengimg() {

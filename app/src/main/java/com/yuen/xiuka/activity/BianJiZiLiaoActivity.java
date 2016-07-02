@@ -551,6 +551,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
                     x.image().bind(iv_user_icon, iconfile.getAbsolutePath(), MyApplication.options);
                 } else {
                     x.image().bind(iv_user_icon, URLProvider.BaseImgUrl + mydatastrings.get(position), MyApplication.options);
+                //    Toast.makeText(context,"mydatastrings.get(position)"+mydatastrings.get(position), Toast.LENGTH_LONG).show();
                 }
             } else {
                 iv_user_icon.setVisibility(View.GONE);

@@ -37,6 +37,10 @@ public class GlideImageLoader implements cn.finalteam.galleryfinal.ImageLoader {
 
     @Override
     public void displayImage(Activity activity, String path, final GFImageView imageView, Drawable defaultDrawable, int width, int height) {
+
+
+
+
         Glide.with(activity)
                 .load("file://" + path)
                 .placeholder(defaultDrawable)

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include layout="@layout/layout_titlebar"/>
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        style="@style/ShopDecLL">
+
+        <TextView
+            style="@style/ShopDecTv"
+            android:layout_weight="1"
+            android:text="直播平台:"/>
+
+        <EditText
+            android:id="@+id/et_platname"
+            android:background="@drawable/jucing2x"
+            style="@style/ShopDecEv"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/ShopDecTv"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="直播时间:"/>
+
+        <TextView
+            style="@style/ShopDecTv"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.6"
+            android:text="年"
+            android:textSize="14sp"/>
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/xia"/>
+
+
+
+        <Spinner
+            android:id="@+id/spinner0"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:textColor="@color/grey"/>
+        <Spinner
+            android:id="@+id/spinner1"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:textColor="@color/grey"/>
+        <Spinner
+            android:id="@+id/spinner2"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:textColor="@color/grey"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        style="@style/ShopDecLL">
+
+        <TextView
+            style="@style/ShopDecTv"
+            android:layout_weight="0.8"
+            android:text="直播内容:"/>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="320dp"
+            android:background="@drawable/juxing"
+            android:layout_margin="10dp"
+            android:padding="10dp">
+
+            <EditText
+                android:id="@+id/et_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="说点什么吧!"
+                android:textSize="14sp"
+                android:maxLines="4"
+                android:background="@null"
+            />
+            <GridView
+                android:numColumns="4"
+                android:scrollbars="none"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentBottom="true"
+                android:id="@+id/gv_pic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </GridView>
+        </RelativeLayout>
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/btn_fabu"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/anniu"
+        android:text="发布"
+        android:textColor="@android:color/white"/>
+</LinearLayout>

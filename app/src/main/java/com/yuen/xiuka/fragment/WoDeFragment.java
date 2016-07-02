@@ -146,21 +146,22 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
             public void onSuccess(String result) {
                 Log.d("mafuhua", "----MY------" + result);
                 System.out.print(result);
-                // Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+               //  Toast.makeText(context, result, Toast.LENGTH_LONG).show();
                 Gson gson = new Gson();
                 MYBean myBean = gson.fromJson(result, MYBean.class);
                 // Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
                 myBeanData = myBean.getData();
                 x.image().bind(iv_user_icon,URLProvider.BaseImgUrl+myBeanData.getImage(), MyApplication.options);
-                tvFensi.setText(myBeanData.getFensi());
-                tvFensi.setText(myBeanData.getGuangzhu());
+                tvFensi.setText(myBeanData.getFensi()+"");
+                tvGuanzhu.setText(myBeanData.getGuanzhu()+"");
                 tv_user_name.setText(myBeanData.getName());
                 tv_user_tel.setText("ID:"+myBeanData.getUid());
                 SPUtil.saveString("name", myBeanData.getName());
                 SPUtil.saveString("icon", myBeanData.getImage());
-                SPUtil.saveString("guanzhu", myBeanData.getGuangzhu() + "");
+                SPUtil.saveString("guanzhu", myBeanData.getGuanzhu() + "");
                 SPUtil.saveString("fensi", myBeanData.getFensi() + "");
                 SPUtil.saveString("platform", myBeanData.getPlatform());
+         //      Toast.makeText(context,"icon"+myBeanData.getImage(), Toast.LENGTH_LONG).show();
 
             }
 

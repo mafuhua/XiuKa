@@ -67,7 +67,7 @@ public class MYBean implements Serializable {
         private String age;
         private String constellation;
         private int fensi;
-        private int guangzhu;
+        private int guanzhu;
         private String image;
         private String label;
         private String login_time;
@@ -113,12 +113,12 @@ public class MYBean implements Serializable {
             this.fensi = fensi;
         }
 
-        public int getGuangzhu() {
-            return guangzhu;
+        public int getGuanzhu() {
+            return guanzhu;
         }
 
-        public void setGuangzhu(int guangzhu) {
-            this.guangzhu = guangzhu;
+        public void setGuanzhu(int guanzhu) {
+            this.guanzhu = guanzhu;
         }
 
         public String getImage() {

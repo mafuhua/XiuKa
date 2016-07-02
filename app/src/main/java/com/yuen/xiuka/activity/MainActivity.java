@@ -101,7 +101,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         currentFragment = faxianFragment;
 
 
-      /*  RequestParams requestParams = new RequestParams("http://h.hiphotos.baidu.com/image/pic/item/4e4a20a4462309f7475ff8ce770e0cf3d7cad63e.jpg");
+  /*      RequestParams requestParams = new RequestParams("http://h.hiphotos.baidu.com/image/pic/item/4e4a20a4462309f7475ff8ce770e0cf3d7cad63e.jpg");
         requestParams.setAutoRename(true);
         requestParams.setSaveFilePath(Environment.getExternalStorageDirectory() + "/imagcacahe/760e1d2.jpg");
         x.http().get(requestParams, new Callback.CommonCallback<File>() {
@@ -126,7 +126,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             }
         });
 */
-
      /*   x.image().loadFile("http://d.hiphotos.baidu.com/image/h%3D200/sign=ea218b2c5566d01661199928a729d498/a08b87d6277f9e2fd4f215e91830e924b999f308.jpg", MyApplication.options, new Callback.CacheCallback<File>() {
             @Override
             public boolean onCache(File result) {
@@ -201,7 +200,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 switchContent(currentFragment, woDeFragment, "个人中心", View.GONE);
                 break;
             case R.id.rb_home_fabu:
-
+                startActivity(ZhuBoFaBuActivity.class);
                 break;
         }
     }

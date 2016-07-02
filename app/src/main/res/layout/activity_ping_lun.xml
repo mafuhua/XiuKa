@@ -27,7 +27,7 @@
         <EditText
             android:id="@+id/et_pinglun"
             style="@style/ShopDecEv"
-            android:background="@android:color/holo_blue_bright"
+            android:background="@drawable/jucing2x"
             android:hint="发评论"/>
         <Button
             android:id="@+id/btn_pinglun"

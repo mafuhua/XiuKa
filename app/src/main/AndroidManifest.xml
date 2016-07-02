@@ -159,6 +159,8 @@
         </activity>
         <activity android:name=".activity.PingLunActivity">
         </activity>
+        <activity android:name=".activity.ZhuBoFaBuActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -155,6 +155,10 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         tv_name.setText(SPUtil.getString("name"));
         tv_renzheng.setText("认证平台" + SPUtil.getString("platform"));
         x.image().bind(iv_user_icon, URLProvider.BaseImgUrl + SPUtil.getString("icon"), MyApplication.options);
+        //Glide.with(context).load(URLProvider.BaseImgUrl + SPUtil.getString("icon")).centerCrop().error(R.drawable.cuowu).crossFade().into(iv_user_icon);
+
+
+      //  Toast.makeText(context, "initheader"+SPUtil.getString("icon"), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -222,7 +226,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
             viewHolder.tv_pinglun.setText(xiuquanBeanData.get(position).getComments());
             viewHolder.tv_zhuanfa.setText(xiuquanBeanData.get(position).getShare());
             x.image().bind(viewHolder.listuserimg, URLProvider.BaseImgUrl + xiuquanBeanData.get(position).getImg(), MyApplication.options);
-
+        //    Glide.with(context).load(URLProvider.BaseImgUrl + xiuquanBeanData.get(position).getImg()).centerCrop().error(R.drawable.cuowu).crossFade().into(viewHolder.listuserimg);
             imageBeanList = xiuquanBeanData.get(position).getImage();
           /*  if (position>0){
                 imagepagerList = xiuquanBeanData.get(position - 1).getImage();
@@ -245,7 +249,8 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                     }
                 });
                 // ImageLoaders.setsendimg(URLProvider.BaseImgUrl + imageBeanList.get(0).getImg(), viewHolder.showimage);
-                x.image().bind(viewHolder.showimage, URLProvider.BaseImgUrl + imageBeanList.get(0).getImg(), MyApplication.optionsxq);
+               x.image().bind(viewHolder.showimage, URLProvider.BaseImgUrl + imageBeanList.get(0).getImg(), MyApplication.optionsxq);
+               // Glide.with(context).load(URLProvider.BaseImgUrl + imageBeanList.get(0).getImg()).centerCrop().error(R.drawable.cuowu).crossFade().into(viewHolder.showimage);
             } else {
                 viewHolder.showimage.setVisibility(View.GONE);
                 viewHolder.gridview.setVisibility(View.VISIBLE);
@@ -268,6 +273,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                     viewHolder.imgview[i].getLayoutParams().height = (int) width;
                     // ImageLoaders.setsendimg(URLProvider.BaseImgUrl + imageBean.getImg(), viewHolder.imgview[i]);
                     x.image().bind(viewHolder.imgview[i], URLProvider.BaseImgUrl + imageBean.getImg(), MyApplication.optionsxq);
+                  //  Glide.with(context).load(URLProvider.BaseImgUrl + imageBean.getImg()).centerCrop().error(R.drawable.cuowu).crossFade().into(viewHolder.imgview[i]);
                     viewHolder.imgview[i].setOnClickListener(new GridOnclick(position, viewHolder.imgview[i], imageBeanList, i, viewHolder.gridview));
                 }
             }

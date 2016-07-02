@@ -201,7 +201,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 switchContent(currentFragment, woDeFragment, "个人中心", View.GONE);
                 break;
             case R.id.rb_home_fabu:
-                startActivity(FaBuActivity.class);
+
                 break;
         }
     }

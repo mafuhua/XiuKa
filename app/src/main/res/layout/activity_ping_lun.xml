@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white">
+    <include android:id="@+id/title"
+             layout="@layout/layout_titlebar"/>
+
+
+
+    <ListView
+        android:id="@+id/lv_pinglun"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title">
+
+    </ListView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@android:color/white"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal"
+        android:padding="5dp">
+        <EditText
+            android:id="@+id/et_pinglun"
+            style="@style/ShopDecEv"
+            android:background="@android:color/holo_blue_bright"
+            android:hint="发评论"/>
+        <Button
+            android:id="@+id/btn_pinglun"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/fabiao"
+            android:text="发表"
+            android:textColor="@android:color/white"/>
+    </LinearLayout>
+</RelativeLayout>

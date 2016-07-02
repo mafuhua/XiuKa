@@ -16,7 +16,7 @@
             android:id="@+id/iv_user_icon"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@drawable/touxiang"
+            android:background="@drawable/cuowu"
             android:paddingBottom="15dp"
             android:paddingTop="15dp"/>
 
@@ -25,14 +25,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="dka;fk"
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/iv_user_icon"
             android:textSize="16sp"/>
         <TextView
             android:id="@+id/tv_user_tel"
             android:layout_marginTop="10dp"
-            android:text="dka;fk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_user_name"

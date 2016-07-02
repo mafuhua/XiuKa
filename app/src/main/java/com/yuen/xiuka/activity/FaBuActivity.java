@@ -193,7 +193,7 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
         btn_sousuo = (Button) findViewById(R.id.btn_sousuo);
         btn_sousuo.setOnClickListener(this);
         tv_titlecontent = (TextView) findViewById(R.id.tv_titlecontent);
-        tv_titlecontent.setOnClickListener(this);
+        tv_titlecontent.setText("发布");
         btn_jia = (Button) findViewById(R.id.btn_jia);
         btn_jia.setOnClickListener(this);
         btn_tijiao = (Button) findViewById(R.id.btn_tijiao);
@@ -308,7 +308,7 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
         HashMap<String, String> map = new HashMap<>();
         map.put("uid", SPUtil.getInt("uid") + "");
         map.put("content", content);
-        map.put("add", city);
+        map.put("add", city+"");
 
         fabu(map);
 
@@ -427,7 +427,7 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
         //设置ProgressDialog 的进度条是否不明确
         mypDialog.setCancelable(false);
         //设置ProgressDialog 是否可以按退回按键取消
-        mypDialog.setCanceledOnTouchOutside(false);
+        mypDialog.setCanceledOnTouchOutside(true);
         mypDialog.show();
         //让ProgressDialog显示
 

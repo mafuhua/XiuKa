@@ -67,6 +67,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
     private Bitmap iconphoto;
     private String biaoqian;
     private File iconfile;
+    private boolean icon = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +82,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
 
     private void datasetting() {
         mydatastrings.clear();
-        mydatastrings.add(0, "");
+        mydatastrings.add(0, mydata.getImage());
         mydatastrings.add(1, mydata.getName());
         mydatastrings.add(2, mydata.getUid());
         if (mydata.getSex().equals("1")) {
@@ -182,7 +183,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
                         //下面这句指定调用相机拍照后的照片存储的路径
                         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri
                                 .fromFile(new File(Environment
-                                        .getExternalStorageDirectory()+"/imagcacahe/",
+                                        .getExternalStorageDirectory() + "/imagcacahe/",
                                         "/icon.jpg")));
                         startActivityForResult(intent, 2);
                     }
@@ -225,7 +226,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                infowhich = which+1;
+                infowhich = which + 1;
                 saveInfo("sex", infowhich + "", 10);
 
                 Toast.makeText(BianJiZiLiaoActivity.this, items[which] + infowhich, Toast.LENGTH_SHORT).show();
@@ -233,8 +234,6 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
         });
         builder.create().show();
     }
-
-
 
     public void saveBitmapFile(Intent picdata) {
         Bundle extras = picdata.getExtras();
@@ -252,7 +251,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
         }
         //将要保存图片的路径
         iconfile = new File(destDir + "/icon.jpg");
-        if (iconfile.exists()){
+        if (iconfile.exists()) {
             iconfile.delete();
             Toast.makeText(context, "删除文件", Toast.LENGTH_SHORT).show();
             iconfile = new File(destDir + "/icon.jpg");
@@ -268,7 +267,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
         } catch (IOException e) {
             e.printStackTrace();
         }
-         sendimg(iconfile.getPath());
+        sendimg(iconfile.getPath());
     }
 
     private void sendimg(String path) {
@@ -279,7 +278,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
         File file = new File(path);
         //  Log.d("mafuhua", path + "**************");
         try {
-            rp.add("uid",SPUtil.getInt("uid")+"");
+            rp.add("uid", SPUtil.getInt("uid") + "");
             rp.put("img", file);
 
         } catch (FileNotFoundException e) {
@@ -302,6 +301,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
                     Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
                 }*/
                 Toast.makeText(context, "上传成功", Toast.LENGTH_SHORT).show();
+                icon = true;
                 myAdapter.notifyDataSetChanged();
             }
 
@@ -355,7 +355,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 //android会自动根据你选择的改变selected数组的值。
-               biaoqian = "";
+                biaoqian = "";
                 for (int i = 0; i < selected.length; i++) {
                     Log.e("mafuhua", "" + biaoqianitems[i]);
                     if (selected[i]) {
@@ -372,7 +372,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        String extras="";
+        String extras = "";
         switch (resultCode) {
             case 1:
                 extras = data.getStringExtra("key");
@@ -421,7 +421,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
             // 如果是调用相机拍照时
             case 2:
                 File temp = new File(Environment.getExternalStorageDirectory()
-                       + "/imagcacahe/",
+                        + "/imagcacahe/",
                         "/icon.jpg");
                 startPhotoZoom(Uri.fromFile(temp));
                 break;
@@ -544,10 +544,16 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
 
         @Override
         public void refreshView(String data, int position) {
-            if (position == 0 && iconphoto != null) {
+            if (position == 0) {
                 //iv_user_icon.setImageBitmap(iconphoto);
-                x.image().bind(iv_user_icon,iconfile.getAbsolutePath(), MyApplication.options);
+                iv_user_icon.setVisibility(View.VISIBLE);
+                if (icon) {
+                    x.image().bind(iv_user_icon, iconfile.getAbsolutePath(), MyApplication.options);
+                } else {
+                    x.image().bind(iv_user_icon, URLProvider.BaseImgUrl + mydatastrings.get(position), MyApplication.options);
+                }
             } else {
+                iv_user_icon.setVisibility(View.GONE);
                 tvshopmanagerright.setText(mydatastrings.get(position));
             }
             if (position == 6 || position == 1) {

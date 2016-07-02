@@ -87,7 +87,7 @@ public class GongHuiRenZhengActivity extends BaseActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_fanhui:
-
+                finish();
                 break;
             case R.id.btn_sousuo:
 
@@ -310,7 +310,7 @@ public class GongHuiRenZhengActivity extends BaseActivity implements View.OnClic
         //设置ProgressDialog 的进度条是否不明确
         mypDialog.setCancelable(false);
         //设置ProgressDialog 是否可以按退回按键取消
-        mypDialog.setCanceledOnTouchOutside(false);
+        mypDialog.setCanceledOnTouchOutside(true);
         mypDialog.show();
         //让ProgressDialog显示
 

@@ -44,12 +44,14 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guan_zhu_list);
         stringExtra = getIntent().getStringExtra("data");
+        initView();
         if (stringExtra.equals("fensi")){
             getList(URLProvider.FANS);
+            tv_titlecontent.setText("我的粉丝");
         }else if (stringExtra.equals("guanzhu")){
             getList(URLProvider.GUANZHU);
+            tv_titlecontent.setText("我的关注");
         }
-        initView();
 
     }
 
@@ -61,7 +63,6 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
         btn_sousuo = (Button) findViewById(R.id.btn_sousuo);
         btn_sousuo.setOnClickListener(this);
         tv_titlecontent = (TextView) findViewById(R.id.tv_titlecontent);
-        tv_titlecontent.setOnClickListener(this);
         btn_jia = (Button) findViewById(R.id.btn_jia);
         btn_jia.setOnClickListener(this);
         btn_tijiao = (Button) findViewById(R.id.btn_tijiao);
@@ -112,7 +113,7 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_fanhui:
-
+                finish();
                 break;
             case R.id.btn_sousuo:
 

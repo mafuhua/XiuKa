@@ -17,6 +17,7 @@ import com.yuen.baselib.activity.BaseFragment;
 import com.yuen.baselib.adapter.BaseHolder;
 import com.yuen.baselib.adapter.DefaultAdapter;
 import com.yuen.baselib.utils.SPUtil;
+import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.activity.BianJiZiLiaoActivity;
 import com.yuen.xiuka.activity.GongHuiRenZhengActivity;
@@ -28,6 +29,7 @@ import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
 
 import org.xutils.common.Callback;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,7 +41,7 @@ import java.util.List;
  */
 public class WoDeFragment extends BaseFragment implements View.OnClickListener {
     private List<String> wodeItemDec = new ArrayList<String>(Arrays.asList("主播认证", "传媒公司/工会认证",
-           "消息提醒", "设置"));
+            "消息提醒", "设置"));
     private TextView tvGuanzhu;
     private TextView tvFensi;
     private ListView lvWode;
@@ -48,6 +50,9 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
     private LinearLayout layout_title_usericon;
     private Context context;
     private MYBean.DataBean myBeanData;
+    private ImageView iv_user_icon;
+    private TextView tv_user_tel;
+    private TextView tv_user_name;
 
     private void assignViews(View view) {
         context = getActivity();
@@ -56,10 +61,18 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
         lvWode = (ListView) view.findViewById(R.id.lv_wode);
         ll_guanzhu = (LinearLayout) view.findViewById(R.id.ll_guanzhu);
         layout_title_usericon = (LinearLayout) view.findViewById(R.id.layout_title_usericon);
+        iv_user_icon = (ImageView) view.findViewById(R.id.iv_user_icon);
+        tv_user_tel = (TextView) view.findViewById(R.id.tv_user_tel);
+        tv_user_name = (TextView) view.findViewById(R.id.tv_user_name);
         ll_fensi = (LinearLayout) view.findViewById(R.id.ll_fensi);
         ll_guanzhu.setOnClickListener(this);
         layout_title_usericon.setOnClickListener(this);
         ll_fensi.setOnClickListener(this);
+
+        tvFensi.setText(SPUtil.getString("fensi"));
+        tvGuanzhu.setText(SPUtil.getString("guanzhu"));
+        tv_user_name.setText(SPUtil.getString("name"));
+        tv_user_tel.setText("ID:"+SPUtil.getInt("uid"));
         lvWode.setAdapter(new MyAdapter(wodeItemDec));
         lvWode.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -73,7 +86,7 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
                         startActivity(GongHuiRenZhengActivity.class);
                         break;
                     case 2:
-                      //  startActivity(ZhuBoXinXiActivity.class);
+                        //  startActivity(ZhuBoXinXiActivity.class);
                         break;
 
                     case 3:
@@ -107,12 +120,13 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_fensi:
-                startActivity(GuanZhuListActivity.class,"fensi");
+                startActivity(GuanZhuListActivity.class, "fensi");
                 break;
             case R.id.ll_guanzhu:
-                startActivity(GuanZhuListActivity.class,"guanzhu");
+                startActivity(GuanZhuListActivity.class, "guanzhu");
                 break;
             case R.id.layout_title_usericon:
+                if (myBeanData == null) return;
                 Intent intent = new Intent(getActivity(), BianJiZiLiaoActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("user", myBeanData);
@@ -123,24 +137,30 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
 
         }
     }
+
     public void my() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("uid", SPUtil.getInt("uid")+"");
+        map.put("uid", SPUtil.getInt("uid") + "");
         XUtils.xUtilsPost(URLProvider.MY, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.d("mafuhua", "----MY------" + result);
                 System.out.print(result);
-               // Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+                // Toast.makeText(context, result, Toast.LENGTH_LONG).show();
                 Gson gson = new Gson();
                 MYBean myBean = gson.fromJson(result, MYBean.class);
                 // Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
                 myBeanData = myBean.getData();
-                SPUtil.saveString("name",myBeanData.getName());
-                SPUtil.saveString("icon",myBeanData.getImage());
-                SPUtil.saveString("guanzhu",myBeanData.getGuangzhu()+"");
-                SPUtil.saveString("fensi",myBeanData.getFensi()+"");
-                SPUtil.saveString("platform",myBeanData.getPlatform());
+                x.image().bind(iv_user_icon,URLProvider.BaseImgUrl+myBeanData.getImage(), MyApplication.options);
+                tvFensi.setText(myBeanData.getFensi());
+                tvFensi.setText(myBeanData.getGuangzhu());
+                tv_user_name.setText(myBeanData.getName());
+                tv_user_tel.setText("ID:"+myBeanData.getUid());
+                SPUtil.saveString("name", myBeanData.getName());
+                SPUtil.saveString("icon", myBeanData.getImage());
+                SPUtil.saveString("guanzhu", myBeanData.getGuangzhu() + "");
+                SPUtil.saveString("fensi", myBeanData.getFensi() + "");
+                SPUtil.saveString("platform", myBeanData.getPlatform());
 
             }
 
@@ -185,7 +205,6 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
         @Override
         public View initView() {
             View root = View.inflate(getActivity(), R.layout.layout_wode_list_item, null);
-
             ivwodeitemicon = (ImageView) root.findViewById(R.id.iv_wode_item_icon);
             sw_tixing = (Switch) root.findViewById(R.id.sw_tixing);
             line = root.findViewById(R.id.line);
@@ -201,9 +220,9 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
             } else {
                 line.setVisibility(View.GONE);
             }
-            if (position==2){
+            if (position == 2) {
                 sw_tixing.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 sw_tixing.setVisibility(View.GONE);
             }
             tvwodeitemdec.setText(data);

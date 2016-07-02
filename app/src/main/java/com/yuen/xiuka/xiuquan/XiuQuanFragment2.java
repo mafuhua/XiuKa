@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -18,6 +19,7 @@ import com.yuen.baselib.activity.BaseFragment;
 import com.yuen.baselib.utils.SPUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
+import com.yuen.xiuka.activity.FaBuActivity;
 import com.yuen.xiuka.activity.PingLunActivity;
 import com.yuen.xiuka.beans.XIUQUANBean;
 import com.yuen.xiuka.utils.URLProvider;
@@ -52,6 +54,9 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
     private List<XIUQUANBean.DataBean.ImageBean> imageBeanList;
     private MyAdapter myAdapter;
     private List<XIUQUANBean.DataBean.ImageBean> imagepagerList;
+    private Button btn_fanhui;
+    private TextView tv_titlecontent;
+    private Button btn_jia;
 
     @Override
     public View initView() {
@@ -59,6 +64,12 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         windowwidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
         View view = View.inflate(getActivity(), R.layout.layout_xiuquanfragment, null);
         mixlist = (ListView) view.findViewById(R.id.mixlist);
+        btn_fanhui = (Button) view.findViewById(R.id.btn_fanhui);
+        btn_jia = (Button) view.findViewById(R.id.btn_jia);
+        tv_titlecontent = (TextView) view.findViewById(R.id.tv_titlecontent);
+        btn_fanhui.setVisibility(View.GONE);
+        btn_jia.setVisibility(View.VISIBLE);
+        tv_titlecontent.setText("秀圈");
         header = (RelativeLayout) View.inflate(getActivity(), R.layout.layout_xiuquan_header, null);
         tv_fensi = (TextView) header.findViewById(R.id.tv_fensi);
         tv_guanzhu = (TextView) header.findViewById(R.id.tv_guanzhu);
@@ -72,6 +83,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         tv_renzheng.setOnClickListener(this);
         iv_user_icon.setOnClickListener(this);
         iv_bj.setOnClickListener(this);
+        btn_jia.setOnClickListener(this);
 
         myAdapter = new MyAdapter();
         mixlist.setAdapter(myAdapter);
@@ -79,7 +91,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(context, PingLunActivity.class);
-                intent.putExtra("data",  xiuquanBeanData.get(position-1));
+                intent.putExtra("data", xiuquanBeanData.get(position - 1));
                 context.startActivity(intent);
             }
         });
@@ -163,6 +175,9 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
             case R.id.iv_user_icon:
                 Toast.makeText(context, "iv_user_icon", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.btn_jia:
+                startActivity(FaBuActivity.class);
+                break;
         }
     }
 
@@ -170,6 +185,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
+
 
     class MyAdapter extends BaseAdapter {
 
@@ -272,7 +288,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, PingLunActivity.class);
-                    intent.putExtra("data",  xiuquanBeanData.get(position));
+                    intent.putExtra("data", xiuquanBeanData.get(position));
                     context.startActivity(intent);
                     Toast.makeText(context, "tv_pinglun" + position, Toast.LENGTH_SHORT).show();
                 }
@@ -344,7 +360,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
 
         @Override
         public void onClick(View v) {
-        //    Toast.makeText(context, "position:" + position, Toast.LENGTH_SHORT).show();
+            //    Toast.makeText(context, "position:" + position, Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, PagersImgActivity.class);
             intent.putExtra("data", (Serializable) imageBeanList);
             intent.putExtra("index", index);

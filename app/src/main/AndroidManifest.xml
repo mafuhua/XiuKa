@@ -78,8 +78,6 @@
 
         <activity android:name=".activity.ZhuBoListActivity">
         </activity>
-        <activity android:name=".xiuquan.PreviewImage">
-        </activity>
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -160,6 +158,8 @@
         <activity android:name=".activity.PingLunActivity">
         </activity>
         <activity android:name=".activity.ZhuBoFaBuActivity">
+        </activity>
+        <activity android:name=".xiuquan.MyXiuQuanActivity">
         </activity>
     </application>
 

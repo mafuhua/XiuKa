@@ -50,8 +50,8 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
     private EditText et_pinglun;
     private Button btn_pinglun;
     private int ImagaId[] = {R.id.img_0, R.id.img_1, R.id.img_2, R.id.img_3, R.id.img_4, R.id.img_5, R.id.img_6, R.id.img_7, R.id.img_8};
-    private XIUQUANBean.DataBean xiuquanBeanData;
-    private List<XIUQUANBean.DataBean.ImageBean> imageBeanList;
+    private XIUQUANBean.XiuQuanDataBean xiuquanBeanData;
+    private List<XIUQUANBean.XiuQuanDataBean.ImageBean> imageBeanList;
     private int windowwidth;
     private Context context;
     private RelativeLayout heaser;
@@ -67,7 +67,7 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
         setContentView(R.layout.activity_ping_lun);
 
         Intent intent = getIntent();
-        xiuquanBeanData = (XIUQUANBean.DataBean) intent.getSerializableExtra("data");
+        xiuquanBeanData = (XIUQUANBean.XiuQuanDataBean) intent.getSerializableExtra("data");
         xiuquanid = xiuquanBeanData.getId();
         initView();
         Toast.makeText(context, xiuquanid, Toast.LENGTH_SHORT).show();
@@ -116,7 +116,7 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
             showimage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                  //  Toast.makeText(context, "position:", Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(context, "position:", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(context, PagersImgActivity.class);
                     intent.putExtra("data", (Serializable) imageBeanList);
                     intent.putExtra("index", "0");
@@ -141,7 +141,7 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
             }
 
             for (int i = 0; i < imageBeanList.size(); i++) {
-                XIUQUANBean.DataBean.ImageBean imageBean = imageBeanList.get(i);
+                XIUQUANBean.XiuQuanDataBean.ImageBean imageBean = imageBeanList.get(i);
                 imgview[i].setVisibility(View.VISIBLE);
                 imgview[i].getLayoutParams().width = (int) width;
                 imgview[i].getLayoutParams().height = (int) width;
@@ -150,9 +150,7 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
                 imgview[i].setOnClickListener(new GridOnclick(0, imgview[i], imageBeanList, i, gridview));
             }
         }
-
         lv_pinglun.addHeaderView(heaser);
-
 
     }
 
@@ -173,12 +171,13 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
         XUtils.xUtilsPost(URLProvider.COMMENTS, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-              //  System.out.println(result);
-               // Toast.makeText(PingLunActivity.this, result, Toast.LENGTH_SHORT).show();
+                  System.out.println(result);
+                // Toast.makeText(PingLunActivity.this, result, Toast.LENGTH_SHORT).show();
                 Gson gson = new Gson();
                 PINGLUNBean pinglunBean = gson.fromJson(result, PINGLUNBean.class);
                 PINGLUNBean.DataBean pinglunBeanData = pinglunBean.getData();
                 pinglunBeanDataComments = pinglunBeanData.getComments();
+
                 myAdapter = new MyAdapter(pinglunBeanDataComments);
                 lv_pinglun.setAdapter(myAdapter);
                 pingluncount.setText("评论" + pinglunBeanDataComments.size());
@@ -226,7 +225,7 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
         XUtils.xUtilsPost(URLProvider.ADD_COMMENTS, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-             //   Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+                //   Toast.makeText(context, result, Toast.LENGTH_LONG).show();
 
                 xiuquan(xiuquanid);
                 et_pinglun.clearFocus();
@@ -253,13 +252,13 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
 
     class GridOnclick implements View.OnClickListener {
 
-        private List<XIUQUANBean.DataBean.ImageBean> imageBeanList;
+        private List<XIUQUANBean.XiuQuanDataBean.ImageBean> imageBeanList;
         private int index;
         private int position;
         private ImageView imageView;
         private GridLayout gridLayout;
 
-        public GridOnclick(int position, ImageView imageView, List<XIUQUANBean.DataBean.ImageBean> imageBeanList, int index, GridLayout gridLayout) {
+        public GridOnclick(int position, ImageView imageView, List<XIUQUANBean.XiuQuanDataBean.ImageBean> imageBeanList, int index, GridLayout gridLayout) {
             this.imageBeanList = imageBeanList;
             this.index = index;
             this.position = position;

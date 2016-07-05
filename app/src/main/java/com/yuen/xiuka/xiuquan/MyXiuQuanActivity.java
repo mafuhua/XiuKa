@@ -2,6 +2,7 @@ package com.yuen.xiuka.xiuquan;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -12,12 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.yuen.baselib.activity.BaseFragment;
-import com.yuen.baselib.utils.SPUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.activity.FaBuActivity;
 import com.yuen.xiuka.activity.PingLunActivity;
+import com.yuen.xiuka.beans.MYXIUQUANBean;
 import com.yuen.xiuka.beans.XIUQUANBean;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
@@ -28,11 +28,13 @@ import org.xutils.x;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by Administrator on 2016/6/13.
- */
-public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListener {
+public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity implements View.OnClickListener {
+
+
     public ListView mixlist;
+    private XIUQUANBean.XiuQuanDataBean xiuquandata;
+    private String xiuquandataName;
+    private String xiuquandataId;
     private Context context;
     private TextView tv_fensi;
     private TextView tv_guanzhu;
@@ -46,20 +48,31 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
     private Button btn_fanhui;
     private TextView tv_titlecontent;
     private Button btn_jia;
+    private MYXIUQUANBean.DatasBean xiuquanBeanDatas;
 
     @Override
-    public View initView() {
-        context = getActivity();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_my_xiu_quan);
+        Intent intent = getIntent();
+        xiuquandata = (XIUQUANBean.XiuQuanDataBean) intent.getSerializableExtra("data");
+        xiuquandataId = xiuquandata.getId();
+        xiuquandataName = xiuquandata.getName();
+        Toast.makeText(this, xiuquandataId + xiuquandataName, Toast.LENGTH_SHORT).show();
+        initView();
+    }
 
-        View view = View.inflate(getActivity(), R.layout.layout_xiuquanfragment, null);
-        mixlist = (ListView) view.findViewById(R.id.mixlist);
-        btn_fanhui = (Button) view.findViewById(R.id.btn_fanhui);
-        btn_jia = (Button) view.findViewById(R.id.btn_jia);
-        tv_titlecontent = (TextView) view.findViewById(R.id.tv_titlecontent);
+    @Override
+    public void initView() {
+        context = this;
+        mixlist = (ListView) findViewById(R.id.mixlist);
+        btn_fanhui = (Button) findViewById(R.id.btn_fanhui);
+        btn_jia = (Button) findViewById(R.id.btn_jia);
+        tv_titlecontent = (TextView) findViewById(R.id.tv_titlecontent);
         btn_fanhui.setVisibility(View.GONE);
         btn_jia.setVisibility(View.VISIBLE);
         tv_titlecontent.setText("秀圈");
-        header = (RelativeLayout) View.inflate(getActivity(), R.layout.layout_xiuquan_header, null);
+        header = (RelativeLayout) View.inflate(this, R.layout.layout_xiuquan_header, null);
         tv_fensi = (TextView) header.findViewById(R.id.tv_fensi);
         tv_guanzhu = (TextView) header.findViewById(R.id.tv_guanzhu);
         tv_renzheng = (TextView) header.findViewById(R.id.tv_renzheng);
@@ -73,8 +86,8 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         iv_user_icon.setOnClickListener(this);
         iv_bj.setOnClickListener(this);
         btn_jia.setOnClickListener(this);
-
-
+        myAdapter = new XiuQuanAdapter(context, xiuquanBeanData);
+        mixlist.setAdapter(myAdapter);
 
         mixlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -84,26 +97,27 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                 context.startActivity(intent);
             }
         });
-        return view;
+    }
+
+    @Override
+    public void loadData() {
+
     }
 
     public void xiuquan() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("uid", SPUtil.getInt("uid") + "");
+        map.put("uid", xiuquandataId);
         map.put("page", 0 + "");
-        XUtils.xUtilsPost(URLProvider.LOOK_CIRCLE, map, new Callback.CommonCallback<String>() {
+        XUtils.xUtilsPost(URLProvider.LOOK_MY_CIRCLE, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
 
                 Gson gson = new Gson();
-                XIUQUANBean xiuquanBean = gson.fromJson(result, XIUQUANBean.class);
-                String bj_image = xiuquanBean.getBj_image();
+                MYXIUQUANBean xiuquanBean = gson.fromJson(result, MYXIUQUANBean.class);
                 xiuquanBeanData = xiuquanBean.getData();
-                // Toast.makeText(context, URLProvider.BaseImgUrl + bj_image, Toast.LENGTH_SHORT).show();
-                System.out.println(URLProvider.BaseImgUrl + bj_image);
-                x.image().bind(iv_bj, URLProvider.BaseImgUrl + bj_image, MyApplication.options);
-                myAdapter = new XiuQuanAdapter(context,xiuquanBeanData);
-                mixlist.setAdapter(myAdapter);
+                xiuquanBeanDatas = xiuquanBean.getDatas();
+                initheader(xiuquanBeanDatas);
+                myAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -124,30 +138,23 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
 
     }
 
-    @Override
-    public void initData() {
-
-
-    }
 
     @Override
     public void onResume() {
         super.onResume();
-        initheader();
         xiuquan();
 
     }
 
-    public void initheader() {
-        tv_fensi.setText("粉丝" + SPUtil.getString("fensi"));
-        tv_guanzhu.setText("关注" + SPUtil.getString("guanzhu"));
-        tv_name.setText(SPUtil.getString("name"));
-        tv_renzheng.setText("认证平台" + SPUtil.getString("platform"));
-        x.image().bind(iv_user_icon, URLProvider.BaseImgUrl + SPUtil.getString("icon"), MyApplication.options);
+    public void initheader(MYXIUQUANBean.DatasBean xiuquanBeanDatas) {
+        tv_fensi.setText("粉丝" + xiuquanBeanDatas.getFensi());
+        tv_guanzhu.setText("关注" + xiuquanBeanDatas.getGuanzhu());
+        tv_name.setText(xiuquanBeanDatas.getName());
+        tv_renzheng.setText("认证平台" + xiuquanBeanDatas.getPlatform());
+
+        x.image().bind(iv_user_icon, URLProvider.BaseImgUrl + xiuquanBeanDatas.getImage(), MyApplication.options);
+        x.image().bind(iv_bj, URLProvider.BaseImgUrl + xiuquanBeanDatas.getBj_image(), MyApplication.optionsxq);
         //Glide.with(context).load(URLProvider.BaseImgUrl + SPUtil.getString("icon")).centerCrop().error(R.drawable.cuowu).crossFade().into(iv_user_icon);
-
-
-      //  Toast.makeText(context, "initheader"+SPUtil.getString("icon"), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -173,5 +180,4 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                 break;
         }
     }
-
 }

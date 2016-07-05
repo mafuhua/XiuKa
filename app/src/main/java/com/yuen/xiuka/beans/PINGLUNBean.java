@@ -10,27 +10,27 @@ public class PINGLUNBean {
 
     /**
      * code : 0
+     * data : {"add":" ","comments":[{"content":"kxzckjklasd","img":"avatar/201607/1467440544-11447.jpg","name":"6艘哦","time":"07-05 11:39","uid":"10000005"},{"content":"jdfkasdkfjlckxvzlxkcjvaoijfaksdfwe","img":"avatar/201607/1467440544-11447.jpg","name":"6艘哦","time":"07-05 11:39","uid":"10000005"},{"content":"","img":"avatar/201607/1467440544-11447.jpg","name":"6艘哦","time":"07-05 11:34","uid":"10000005"},{"content":"123","img":"avatar/201607/1467440544-11447.jpg","name":"6艘哦","time":"07-05 11:32","uid":"10000005"},{"content":"asjdalksjlxmvc.,xcjfiosdajfiosajdoifjoaiwejroisjoidajflkadsjlfkasdjopifjsdaoiafjaoisdfjoiasdfjoaisdjfoiasdjfoiasdjfoisadjfoisadjfoisd","img":"avatar/201607/1467440544-11447.jpg","name":"6艘哦","time":"07-05 11:21","uid":"10000005"},{"content":"asdjaskjdoasijxzklcmas","img":"avatar/201607/1467440544-11447.jpg","name":"6艘哦","time":"07-05 11:20","uid":"10000005"},{"content":"煞笔","img":"avatar/201607/1467440544-11447.jpg","name":"6艘哦","time":"07-02 16:13","uid":"10000005"}],"content":"Jkmbjkbkjb,mm Kim,hm in join notion jug Hun job hkjli ,k; o9j ink I'm jk no nk nk Klnklmlk l. I'll;';l';l'","id":"21","image":"circle/201607/1467447042-47067.jpg,circle/201607/1467447043-99382.jpg","img":"avatar/201606/1466666600-56376.jpg","name":"237","platform":"","time":"1467447040","uid":"10000006","zhibo_time":""}
      * msg : 成功
-     * data : {"id":"16","uid":"10000005","add":"上海市","content":"监控摄像头","image":["circle/201607/1467362747-79038.jpg","circle/201607/1467362747-14482.jpg","circle/201607/1467362747-85769.jpg"],"platform":"","zhibo_time":"","comments":[{"uid":"10000005","content":"asd","time":"1467171761","name":"您认为是一种自信","img":"avatar/201606/1466666600-56376.jpg"},{"uid":"10000005","content":"asd","time":"1467116255","name":"您认为是一种自信","img":"avatar/201606/1466666600-56376.jpg"},{"uid":"10000003","content":"哈哈哈","time":"1467010963","name":"236","img":"avatar/201606/1466666600-56376.jpg"},{"uid":"10000003","content":"嘻嘻","time":"1467010963","name":"236","img":"avatar/201606/1466666600-56376.jpg"},{"uid":"10000003","content":"啊啊啊","time":"1467010963","name":"236","img":"avatar/201606/1466666600-56376.jpg"},{"uid":"10000003","content":"嗯嗯","time":"1467010963","name":"236","img":"avatar/201606/1466666600-56376.jpg"},{"uid":"10000003","content":"天天","time":"1467010963","name":"236","img":"avatar/201606/1466666600-56376.jpg"},{"uid":"10000003","content":"从v","time":"1467010963","name":"236","img":"avatar/201606/1466666600-56376.jpg"}],"time":"1467362747","name":"您认为是一种自信","img":"avatar/201606/1466666600-56376.jpg"}
      */
 
     private String code;
-    private String msg;
     /**
-     * id : 16
-     * uid : 10000005
-     * add : 上海市
-     * content : 监控摄像头
-     * image : ["circle/201607/1467362747-79038.jpg","circle/201607/1467362747-14482.jpg","circle/201607/1467362747-85769.jpg"]
-     * platform :
-     * zhibo_time :
-     * comments : [{"uid":"10000005","content":"asd","time":"1467171761","name":"您认为是一种自信","img":"avatar/201606/1466666600-56376.jpg"},{"uid":"10000005","content":"asd","time":"1467116255","name":"您认为是一种自信","img":"avatar/201606/1466666600-56376.jpg"},{"uid":"10000003","content":"哈哈哈","time":"1467010963","name":"236","img":"avatar/201606/1466666600-56376.jpg"},{"uid":"10000003","content":"嘻嘻","time":"1467010963","name":"236","img":"avatar/201606/1466666600-56376.jpg"},{"uid":"10000003","content":"啊啊啊","time":"1467010963","name":"236","img":"avatar/201606/1466666600-56376.jpg"},{"uid":"10000003","content":"嗯嗯","time":"1467010963","name":"236","img":"avatar/201606/1466666600-56376.jpg"},{"uid":"10000003","content":"天天","time":"1467010963","name":"236","img":"avatar/201606/1466666600-56376.jpg"},{"uid":"10000003","content":"从v","time":"1467010963","name":"236","img":"avatar/201606/1466666600-56376.jpg"}]
-     * time : 1467362747
-     * name : 您认为是一种自信
+     * add :
+     * comments : [{"content":"kxzckjklasd","img":"avatar/201607/1467440544-11447.jpg","name":"6艘哦","time":"07-05 11:39","uid":"10000005"},{"content":"jdfkasdkfjlckxvzlxkcjvaoijfaksdfwe","img":"avatar/201607/1467440544-11447.jpg","name":"6艘哦","time":"07-05 11:39","uid":"10000005"},{"content":"","img":"avatar/201607/1467440544-11447.jpg","name":"6艘哦","time":"07-05 11:34","uid":"10000005"},{"content":"123","img":"avatar/201607/1467440544-11447.jpg","name":"6艘哦","time":"07-05 11:32","uid":"10000005"},{"content":"asjdalksjlxmvc.,xcjfiosdajfiosajdoifjoaiwejroisjoidajflkadsjlfkasdjopifjsdaoiafjaoisdfjoiasdfjoaisdjfoiasdjfoiasdjfoisadjfoisadjfoisd","img":"avatar/201607/1467440544-11447.jpg","name":"6艘哦","time":"07-05 11:21","uid":"10000005"},{"content":"asdjaskjdoasijxzklcmas","img":"avatar/201607/1467440544-11447.jpg","name":"6艘哦","time":"07-05 11:20","uid":"10000005"},{"content":"煞笔","img":"avatar/201607/1467440544-11447.jpg","name":"6艘哦","time":"07-02 16:13","uid":"10000005"}]
+     * content : Jkmbjkbkjb,mm Kim,hm in join notion jug Hun job hkjli ,k; o9j ink I'm jk no nk nk Klnklmlk l. I'll;';l';l'
+     * id : 21
+     * image : circle/201607/1467447042-47067.jpg,circle/201607/1467447043-99382.jpg
      * img : avatar/201606/1466666600-56376.jpg
+     * name : 237
+     * platform :
+     * time : 1467447040
+     * uid : 10000006
+     * zhibo_time :
      */
 
     private DataBean data;
+    private String msg;
 
     public String getCode() {
         return code;
@@ -38,14 +38,6 @@ public class PINGLUNBean {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
     }
 
     public DataBean getData() {
@@ -56,42 +48,34 @@ public class PINGLUNBean {
         this.data = data;
     }
 
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
     public static class DataBean {
-        private String id;
-        private String uid;
         private String add;
         private String content;
-        private String platform;
-        private String zhibo_time;
-        private String time;
-        private String name;
+        private String id;
+        private String image;
         private String img;
-        private List<String> image;
+        private String name;
+        private String platform;
+        private String time;
+        private String uid;
+        private String zhibo_time;
         /**
+         * content : kxzckjklasd
+         * img : avatar/201607/1467440544-11447.jpg
+         * name : 6艘哦
+         * time : 07-05 11:39
          * uid : 10000005
-         * content : asd
-         * time : 1467171761
-         * name : 您认为是一种自信
-         * img : avatar/201606/1466666600-56376.jpg
          */
 
         private List<CommentsBean> comments;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getUid() {
-            return uid;
-        }
-
-        public void setUid(String uid) {
-            this.uid = uid;
-        }
 
         public String getAdd() {
             return add;
@@ -109,36 +93,20 @@ public class PINGLUNBean {
             this.content = content;
         }
 
-        public String getPlatform() {
-            return platform;
+        public String getId() {
+            return id;
         }
 
-        public void setPlatform(String platform) {
-            this.platform = platform;
+        public void setId(String id) {
+            this.id = id;
         }
 
-        public String getZhibo_time() {
-            return zhibo_time;
+        public String getImage() {
+            return image;
         }
 
-        public void setZhibo_time(String zhibo_time) {
-            this.zhibo_time = zhibo_time;
-        }
-
-        public String getTime() {
-            return time;
-        }
-
-        public void setTime(String time) {
-            this.time = time;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
+        public void setImage(String image) {
+            this.image = image;
         }
 
         public String getImg() {
@@ -149,12 +117,44 @@ public class PINGLUNBean {
             this.img = img;
         }
 
-        public List<String> getImage() {
-            return image;
+        public String getName() {
+            return name;
         }
 
-        public void setImage(List<String> image) {
-            this.image = image;
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getPlatform() {
+            return platform;
+        }
+
+        public void setPlatform(String platform) {
+            this.platform = platform;
+        }
+
+        public String getTime() {
+            return time;
+        }
+
+        public void setTime(String time) {
+            this.time = time;
+        }
+
+        public String getUid() {
+            return uid;
+        }
+
+        public void setUid(String uid) {
+            this.uid = uid;
+        }
+
+        public String getZhibo_time() {
+            return zhibo_time;
+        }
+
+        public void setZhibo_time(String zhibo_time) {
+            this.zhibo_time = zhibo_time;
         }
 
         public List<CommentsBean> getComments() {
@@ -166,19 +166,11 @@ public class PINGLUNBean {
         }
 
         public static class CommentsBean {
-            private String uid;
             private String content;
-            private String time;
-            private String name;
             private String img;
-
-            public String getUid() {
-                return uid;
-            }
-
-            public void setUid(String uid) {
-                this.uid = uid;
-            }
+            private String name;
+            private String time;
+            private String uid;
 
             public String getContent() {
                 return content;
@@ -188,12 +180,12 @@ public class PINGLUNBean {
                 this.content = content;
             }
 
-            public String getTime() {
-                return time;
+            public String getImg() {
+                return img;
             }
 
-            public void setTime(String time) {
-                this.time = time;
+            public void setImg(String img) {
+                this.img = img;
             }
 
             public String getName() {
@@ -204,12 +196,20 @@ public class PINGLUNBean {
                 this.name = name;
             }
 
-            public String getImg() {
-                return img;
+            public String getTime() {
+                return time;
             }
 
-            public void setImg(String img) {
-                this.img = img;
+            public void setTime(String time) {
+                this.time = time;
+            }
+
+            public String getUid() {
+                return uid;
+            }
+
+            public void setUid(String uid) {
+                this.uid = uid;
             }
         }
     }

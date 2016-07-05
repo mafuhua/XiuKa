@@ -27,12 +27,12 @@ public class PagersImgActivity extends com.yuen.xiuka.activity.BaseActivity {
         setContentView(R.layout.activity_pagers_img);
         initView();
     }
-    private List<XIUQUANBean.DataBean.ImageBean> data;
+    private List<XIUQUANBean.XiuQuanDataBean.ImageBean> data;
     private int index = 0;
     @Override
     public void initView() {
         index = getIntent().getIntExtra("index", 0);
-        data = (List<XIUQUANBean.DataBean.ImageBean>) getIntent().getSerializableExtra("data");
+        data = (List<XIUQUANBean.XiuQuanDataBean.ImageBean>) getIntent().getSerializableExtra("data");
         vp_images = (ViewPager) findViewById(R.id.vp_images);
         myPagerAdapter = new MyPagerAdapter();
         vp_images.setAdapter(myPagerAdapter);

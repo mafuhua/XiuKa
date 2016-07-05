@@ -74,7 +74,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bian_ji_zi_liao);
         mydata = (MYBean.DataBean) getIntent().getSerializableExtra("user");
-        // MYBean.DataBean mydata = (MYBean.DataBean)getIntent().getBundleExtra();
+        // MYBean.XiuQuanDataBean mydata = (MYBean.XiuQuanDataBean)getIntent().getBundleExtra();
         mydatastrings = new ArrayList<>();
         datasetting();
         initView();

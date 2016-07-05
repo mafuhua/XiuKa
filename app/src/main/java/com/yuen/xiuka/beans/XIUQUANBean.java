@@ -35,7 +35,7 @@ public class XIUQUANBean implements Serializable{
      * img : avatar/201606/1466666600-56376.jpg
      */
 
-    private List<DataBean> data;
+    private List<XiuQuanDataBean> data;
 
     public String getCode() {
         return code;
@@ -61,15 +61,15 @@ public class XIUQUANBean implements Serializable{
         this.bj_image = bj_image;
     }
 
-    public List<DataBean> getData() {
+    public List<XiuQuanDataBean> getData() {
         return data;
     }
 
-    public void setData(List<DataBean> data) {
+    public void setData(List<XiuQuanDataBean> data) {
         this.data = data;
     }
 
-    public static class DataBean implements Serializable{
+    public static class XiuQuanDataBean implements Serializable{
         private String id;
         private String uid;
         private String add;

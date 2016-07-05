@@ -170,6 +170,7 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
         setSpinnerContent(spinner0, mMonth);
         setSpinnerContent(spinner1, mDay);
         setSpinnerContent(spinner2, mhour);
+
         spinner0.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,

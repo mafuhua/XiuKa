@@ -372,6 +372,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null) return;
         String extras = "";
         switch (resultCode) {
             case 1:
@@ -551,7 +552,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
                     x.image().bind(iv_user_icon, iconfile.getAbsolutePath(), MyApplication.options);
                 } else {
                     x.image().bind(iv_user_icon, URLProvider.BaseImgUrl + mydatastrings.get(position), MyApplication.options);
-                //    Toast.makeText(context,"mydatastrings.get(position)"+mydatastrings.get(position), Toast.LENGTH_LONG).show();
+                    //    Toast.makeText(context,"mydatastrings.get(position)"+mydatastrings.get(position), Toast.LENGTH_LONG).show();
                 }
             } else {
                 iv_user_icon.setVisibility(View.GONE);

@@ -30,9 +30,11 @@ import com.yuen.baselib.utils.ToastUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.ImgBean;
+import com.yuen.xiuka.fragment.FragmentFractory;
 import com.yuen.xiuka.utils.MyUtils;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
+import com.yuen.xiuka.xiuquan.XiuQuanFragment2;
 
 import org.xutils.common.Callback;
 import org.xutils.x;
@@ -369,6 +371,8 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
         if (mypDialog.isShowing()) {
             mypDialog.dismiss();
         }
+        XiuQuanFragment2 xiuQuanFragment2 = (XiuQuanFragment2) FragmentFractory.getInstance().createFragment(2);
+        xiuQuanFragment2.xiuquan();
     }
 
     private void sendimg(String path) {
@@ -476,4 +480,9 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
 }

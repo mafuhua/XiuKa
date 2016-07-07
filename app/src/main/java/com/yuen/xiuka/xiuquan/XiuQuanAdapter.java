@@ -124,7 +124,8 @@ class XiuQuanAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, MyXiuQuanActivity.class);
-                    intent.putExtra("data", xiuquanBeanData.get(position));
+                    intent.putExtra("id", xiuquanBeanData.get(position).getId());
+                    intent.putExtra("name", xiuquanBeanData.get(position).getName());
                     context.startActivity(intent);
                     Toast.makeText(context, "list_img" + position, Toast.LENGTH_SHORT).show();
                 }

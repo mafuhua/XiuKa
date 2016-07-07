@@ -43,21 +43,23 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
     private ImageView iv_user_icon;
     private RelativeLayout header;
     private ImageView iv_bj;
-    private List<XIUQUANBean.XiuQuanDataBean> xiuquanBeanData;
-    private XiuQuanAdapter myAdapter;
+    private MyXiuQuanAdapter myAdapter;
     private Button btn_fanhui;
     private TextView tv_titlecontent;
     private Button btn_jia;
     private MYXIUQUANBean.DatasBean xiuquanBeanDatas;
+    private List<MYXIUQUANBean.DataBean> xiuquanBeanData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_xiu_quan);
         Intent intent = getIntent();
-        xiuquandata = (XIUQUANBean.XiuQuanDataBean) intent.getSerializableExtra("data");
-        xiuquandataId = xiuquandata.getId();
-        xiuquandataName = xiuquandata.getName();
+       // xiuquandata = (XIUQUANBean.XiuQuanDataBean) intent.getSerializableExtra("data");
+       xiuquandataId = intent.getStringExtra("id");
+        xiuquandataName = intent.getStringExtra("name");
+      /*  xiuquandataId = xiuquandata.getId();
+        xiuquandataName = xiuquandata.getName();*/
         Toast.makeText(this, xiuquandataId + xiuquandataName, Toast.LENGTH_SHORT).show();
         initView();
     }
@@ -71,7 +73,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
         tv_titlecontent = (TextView) findViewById(R.id.tv_titlecontent);
         btn_fanhui.setVisibility(View.GONE);
         btn_jia.setVisibility(View.VISIBLE);
-        tv_titlecontent.setText("秀圈");
+        tv_titlecontent.setText(xiuquandataName+"");
         header = (RelativeLayout) View.inflate(this, R.layout.layout_xiuquan_header, null);
         tv_fensi = (TextView) header.findViewById(R.id.tv_fensi);
         tv_guanzhu = (TextView) header.findViewById(R.id.tv_guanzhu);
@@ -86,8 +88,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
         iv_user_icon.setOnClickListener(this);
         iv_bj.setOnClickListener(this);
         btn_jia.setOnClickListener(this);
-        myAdapter = new XiuQuanAdapter(context, xiuquanBeanData);
-        mixlist.setAdapter(myAdapter);
+
 
         mixlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -113,11 +114,13 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
             public void onSuccess(String result) {
 
                 Gson gson = new Gson();
+                System.out.println(result);
                 MYXIUQUANBean xiuquanBean = gson.fromJson(result, MYXIUQUANBean.class);
                 xiuquanBeanData = xiuquanBean.getData();
                 xiuquanBeanDatas = xiuquanBean.getDatas();
                 initheader(xiuquanBeanDatas);
-                myAdapter.notifyDataSetChanged();
+                myAdapter = new MyXiuQuanAdapter(context, xiuquanBeanData);
+                mixlist.setAdapter(myAdapter);
             }
 
             @Override

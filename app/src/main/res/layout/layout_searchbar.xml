@@ -21,7 +21,7 @@
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@id/btn_fanhui"
         android:background="@null"
-        android:hint="秀咖/昵称/标签"/>
+        android:hint="秀咖号/昵称/直播平台"/>
 
     <TextView
         android:id="@+id/tv_quxiao"

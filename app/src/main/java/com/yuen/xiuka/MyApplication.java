@@ -96,7 +96,7 @@ public class MyApplication extends ApplicationEx {
         // 设置是否输出debug
         x.Ext.setDebug(true);
         options = new ImageOptions.Builder()
-                .setRadius(15)
+                .setRadius(25)
                 // 是否忽略GIF格式的图片
                 .setIgnoreGif(false)
                 .setFailureDrawableId(R.drawable.cuowu)

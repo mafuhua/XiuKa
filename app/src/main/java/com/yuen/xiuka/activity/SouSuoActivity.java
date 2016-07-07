@@ -81,7 +81,7 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
         // validate
         String sousuo = tv_sousuo.getText().toString().trim();
         if (TextUtils.isEmpty(sousuo)) {
-            Toast.makeText(this, "秀咖/昵称/标签不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "秀咖号/昵称/直播平台标签不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
 

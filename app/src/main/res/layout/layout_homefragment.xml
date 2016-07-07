@@ -6,9 +6,9 @@
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:layout_height="wrap_content">
+        android:focusableInTouchMode="true">
 
         <ImageView
             android:layout_width="match_parent"
@@ -18,10 +18,10 @@
 
         <TextView
             android:id="@+id/tv_sousuo"
-            android:background="@null"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:background="@null"
             android:hint="搜索用户和标签"/>
 
         <ImageView
@@ -31,7 +31,11 @@
             android:layout_toLeftOf="@id/tv_sousuo"
             android:background="@drawable/sousuo"/>
     </RelativeLayout>
-
+    <TextView android:layout_width="match_parent"
+              android:gravity="center"
+              android:layout_margin="5dp"
+              android:layout_height="wrap_content"
+              android:text="全国"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

@@ -82,6 +82,16 @@ public class XIUQUANBean implements Serializable{
         private String time;
         private String name;
         private String img;
+        private boolean isZan;
+
+        public boolean isZan() {
+            return isZan;
+        }
+
+        public void setZan(boolean zan) {
+            isZan = zan;
+        }
+
         /**
          * img : circle/201606/1467268345-83251.jpg
          */

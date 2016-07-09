@@ -125,7 +125,7 @@ public class MyApplication extends ApplicationEx {
              */
             // RongIM.init(this);
         }
-        PlatformConfig.setWeixin("wx576cf31829c5138b", "aca59d13d048f58e8747ea437f2a5e66");
+        PlatformConfig.setWeixin("wx576cf31829c5138b", "c4ffeeef49ed0280618bf7e5b35c4e2e");
         //微信 appid appsecret
         PlatformConfig.setSinaWeibo("2005558614", "91cd97d9e1db43afe8ccf878493dc7b7");
         //新浪微博 appkey appsecret

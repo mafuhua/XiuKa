@@ -155,7 +155,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
     public void onResume() {
         super.onResume();
         initheader();
-        //xiuquan();
+        xiuquan();
 
     }
 
@@ -285,6 +285,8 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         // ((ImageView) findViewById(R.id.iv_temp)).setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
     }
+
+
     private File iconfile;
     private boolean icon = false;
     private File destDir;

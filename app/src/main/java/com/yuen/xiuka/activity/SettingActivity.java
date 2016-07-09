@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.yuen.baselib.adapter.BaseHolder;
 import com.yuen.baselib.adapter.DefaultAdapter;
+import com.yuen.baselib.utils.SPUtil;
 import com.yuen.xiuka.R;
 
 import java.util.ArrayList;
@@ -96,7 +97,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
                 break;
             case R.id.btn_logout:
-
+                SPUtil.saveString("tel","");
                 break;
         }
     }

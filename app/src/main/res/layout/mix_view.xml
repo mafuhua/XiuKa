@@ -167,6 +167,7 @@
             android:layout_width="23dp"
             android:layout_height="23dp"
             android:layout_marginLeft="40dp"
+            android:layout_marginRight="5dp"
             android:background="@drawable/zhuangfa"/>
         <TextView
             android:id="@+id/tv_zhuanfa"
@@ -180,6 +181,7 @@
             android:layout_width="23dp"
             android:layout_height="23dp"
             android:layout_marginLeft="50dp"
+            android:layout_marginRight="5dp"
             android:background="@drawable/pinglun"/>
         <TextView
             android:id="@+id/tv_pinglun"
@@ -192,8 +194,9 @@
             android:id="@+id/iv_dianzan"
             android:layout_width="23dp"
             android:layout_height="23dp"
+            android:layout_marginRight="5dp"
             android:layout_marginLeft="40dp"
-            android:background="@drawable/dianzan"/>
+            android:background="@drawable/dianzan_normal"/>
         <TextView
             android:id="@+id/tv_dianzan"
             android:layout_width="0dp"

@@ -372,7 +372,7 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
             mypDialog.dismiss();
         }
         XiuQuanFragment2 xiuQuanFragment2 = (XiuQuanFragment2) FragmentFractory.getInstance().createFragment(2);
-        xiuQuanFragment2.xiuquan();
+       // xiuQuanFragment2.xiuquan();
     }
 
     private void sendimg(String path) {

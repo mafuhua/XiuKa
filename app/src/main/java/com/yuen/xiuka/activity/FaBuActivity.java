@@ -414,8 +414,6 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
                     mypDialog.dismiss();
                 }
             }
-
-
         });
     }
 

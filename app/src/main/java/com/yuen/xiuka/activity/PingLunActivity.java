@@ -59,6 +59,8 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
     private List<PINGLUNBean.DataBean.CommentsBean> pinglunBeanDataComments;
     private MyAdapter myAdapter;
     private TextView pingluncount;
+
+
     private String xiuquanid;
 
     @Override
@@ -308,6 +310,8 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
             rootusername.setText(data.getName());
             rootusercontent.setText(data.getContent());
             roottime.setText(data.getTime());
+            System.out.println(URLProvider.BaseImgUrl + data.getImg()+"haha");
+
             x.image().bind(rootlistuserimg, URLProvider.BaseImgUrl + data.getImg(), MyApplication.options);
         }
     }

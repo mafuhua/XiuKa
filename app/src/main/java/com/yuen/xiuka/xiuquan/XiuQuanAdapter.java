@@ -18,6 +18,7 @@ import com.yuen.xiuka.beans.XIUQUANBean;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
 
+import org.xutils.ImageManager;
 import org.xutils.common.Callback;
 import org.xutils.x;
 
@@ -97,6 +98,8 @@ class XiuQuanAdapter extends BaseAdapter {
                     context.startActivity(intent);
                 }
             });
+            ImageManager imageManager = x.image();
+
             // ImageLoaders.setsendimg(URLProvider.BaseImgUrl + imageBeanList.get(0).getImg(), viewHolder.showimage);
             x.image().bind(viewHolder.showimage, URLProvider.BaseImgUrl + imageBeanList.get(0).getImg(), MyApplication.optionsxq);
             // Glide.with(context).load(URLProvider.BaseImgUrl + imageBeanList.get(0).getImg()).centerCrop().error(R.drawable.cuowu).crossFade().into(viewHolder.showimage);
@@ -121,6 +124,7 @@ class XiuQuanAdapter extends BaseAdapter {
                 viewHolder.imgview[i].getLayoutParams().width = (int) width;
                 viewHolder.imgview[i].getLayoutParams().height = (int) width;
                 // ImageLoaders.setsendimg(URLProvider.BaseImgUrl + imageBean.getImg(), viewHolder.imgview[i]);
+
                 x.image().bind(viewHolder.imgview[i], URLProvider.BaseImgUrl + imageBean.getImg(), MyApplication.optionsxq);
                 //  Glide.with(context).load(URLProvider.BaseImgUrl + imageBean.getImg()).centerCrop().error(R.drawable.cuowu).crossFade().into(viewHolder.imgview[i]);
                 viewHolder.imgview[i].setOnClickListener(new GridOnclick(position, viewHolder.imgview[i], imageBeanList, i, viewHolder.gridview));

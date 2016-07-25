@@ -108,6 +108,7 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
         username.setText(xiuquanBeanData.getName());
         usercontent.setText(xiuquanBeanData.getContent());
 
+
         x.image().bind(listuserimg, URLProvider.BaseImgUrl + xiuquanBeanData.getImg(), MyApplication.options);
 
         imageBeanList = xiuquanBeanData.getImage();

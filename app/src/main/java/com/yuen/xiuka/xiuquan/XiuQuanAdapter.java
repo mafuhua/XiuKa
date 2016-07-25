@@ -134,7 +134,7 @@ class XiuQuanAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, MyXiuQuanActivity.class);
-                intent.putExtra("id", xiuquanBeanData.get(position).getId());
+                intent.putExtra("id", xiuquanBeanData.get(position).getUid());
                 intent.putExtra("name", xiuquanBeanData.get(position).getName());
                 context.startActivity(intent);
                 Toast.makeText(context, "list_img" + position, Toast.LENGTH_SHORT).show();
@@ -163,12 +163,12 @@ class XiuQuanAdapter extends BaseAdapter {
             public void onClick(View v) {
                 String id = xiuquanBeanData.get(position).getId();
                 dianzanhefenxiang(URLProvider.ADD_ZAN,id);
-                if (xiuquanBeanData.get(position).isZan()) {
-                    xiuquanBeanData.get(position).setZan(false);
+                if (xiuquanBeanData.get(position).isZanflag()) {
+                    xiuquanBeanData.get(position).setZanflag(false);
                     viewHolder.tv_dianzan.setText(xiuquanBeanData.get(position).getZan());
                     viewHolder.iv_dianzan.setBackgroundResource(R.drawable.dianzan_normal);
                 } else {
-                    xiuquanBeanData.get(position).setZan(true);
+                    xiuquanBeanData.get(position).setZanflag(true);
                     viewHolder.tv_dianzan.setText(Integer.parseInt(xiuquanBeanData.get(position).getZan()) + 1 + "");
                     viewHolder.iv_dianzan.setBackgroundResource(R.drawable.dianzan_pressed);
                 }

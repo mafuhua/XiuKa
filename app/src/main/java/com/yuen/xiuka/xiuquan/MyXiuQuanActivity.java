@@ -13,9 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.yuen.baselib.utils.SPUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.activity.FaBuActivity;
+import com.yuen.xiuka.activity.GuanZhuListActivity;
 import com.yuen.xiuka.activity.PingLunActivity;
 import com.yuen.xiuka.beans.MYXIUQUANBean;
 import com.yuen.xiuka.beans.XIUQUANBean;
@@ -164,10 +166,16 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_fensi:
-                Toast.makeText(context, "tv_fens", Toast.LENGTH_SHORT).show();
+
+                if (xiuquandataId.equals( SPUtil.getInt("uid") + "")){
+                    startActivity(GuanZhuListActivity.class, "fensi");
+                }
                 break;
             case R.id.tv_guanzhu:
-                Toast.makeText(context, "tv_guanzhu", Toast.LENGTH_SHORT).show();
+                if (xiuquandataId.equals( SPUtil.getInt("uid") + "")){
+                    startActivity(GuanZhuListActivity.class, "guanzhu");
+                }
+
                 break;
             case R.id.tv_renzheng:
                 Toast.makeText(context, "tv_renzheng", Toast.LENGTH_SHORT).show();

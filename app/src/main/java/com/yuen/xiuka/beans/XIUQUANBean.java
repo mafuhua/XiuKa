@@ -11,28 +11,39 @@ public class XIUQUANBean implements Serializable{
 
     /**
      * code : 0
+     * data : [{"add":"上海市","comments":"0","content":"fgh","id":"40","image":[{"img":"circle/201607/1469429715-69114.jpg"}],"img":"avatar/201607/1468836256-37916.jpg","name":"vayne","platform":"","share":"0","time":"07-25 14:55","uid":"10000005","zan":"0","zhibo_time":""},{"add":"上海市","comments":"0","content":"fgh","id":"39","image":[{"img":"circle/201607/1469429708-57114.jpg"}],"img":"avatar/201607/1468836256-37916.jpg","name":"vayne","platform":"","share":"0","time":"07-25 14:55","uid":"10000005","zan":"0","zhibo_time":""},{"add":"上海市","comments":"0","content":"fhj","id":"38","image":[{"img":"circle/201607/1469429525-86148.jpg"}],"img":"avatar/201607/1468836256-37916.jpg","name":"vayne","platform":"","share":"0","time":"07-25 14:52","uid":"10000005","zan":"0","zhibo_time":""},{"add":"上海市","comments":"0","content":"ftffyv","id":"37","image":[{"img":"circle/201607/1469429482-25702.jpg"}],"img":"avatar/201607/1468836256-37916.jpg","name":"vayne","platform":"","share":"0","time":"07-25 14:51","uid":"10000005","zan":"0","zhibo_time":""},{"add":"上海市","comments":"0","content":"ftffyv","id":"36","image":[{"img":"circle/201607/1469429374-21173.jpg"}],"img":"avatar/201607/1468836256-37916.jpg","name":"vayne","platform":"","share":"0","time":"07-25 14:49","uid":"10000005","zan":"0","zhibo_time":""}]
+     * datas : {"bj_image":"avatar/201606/1466234501","fensi":"3","guanzhu":"2","image":"avatar/201607/1468836256-37916.jpg","name":"vayne","platform":"虎牙","type":"1","uid":"10000005"}
      * msg : 成功
-     * data : [{"id":"25","uid":"10000005","add":"上海市","content":"你民生自我","image":[{"img":"circle/201606/1467268345-83251.jpg"}],"platform":"","zhibo_time":"","zan":"0","comments":"0","share":"0","time":"06-30 14:32","name":"您认为是一种自信","img":"avatar/201606/1466666600-56376.jpg"},{"id":"24","uid":"10000005","add":"上海市","content":"李某诺诺哦了和功啦啦啦看看咯哦继续做欧诺哦哦破头像呜呜呜敏敏空黄晓明你这样能","image":[{"img":"circle/201606/1467268214-45222.jpg"},{"img":"circle/201606/1467268214-74888.jpg"},{"img":"circle/201606/1467268214-71990.jpg"},{"img":"circle/201606/1467268214-30104.jpg"}],"platform":"","zhibo_time":"","zan":"0","comments":"0","share":"0","time":"06-30 14:30","name":"您认为是一种自信","img":"avatar/201606/1466666600-56376.jpg"},{"id":"23","uid":"10000005","add":"上海市","content":"李某诺诺哦了和功能","image":[{"img":"circle/201606/1467268166-11494.jpg"},{"img":"circle/201606/1467268167-43651.jpg"},{"img":"circle/201606/1467268214-71990.jpg"},{"img":"circle/201606/1467268214-30104.jpg"}],"platform":"","zhibo_time":"","zan":"0","comments":"0","share":"0","time":"06-30 14:29","name":"您认为是一种自信","img":"avatar/201606/1466666600-56376.jpg"},{"id":"22","uid":"10000005","add":"上海市","content":"李某诺诺哦了和功能","image":[{"img":"circle/201606/1467268130-97404.jpg"},{"img":"circle/201606/1467268130-31508.jpg"},{"img":"circle/201606/1467268214-71990.jpg"},{"img":"circle/201606/1467268214-30104.jpg"}],"platform":"","zhibo_time":"","zan":"0","comments":"0","share":"0","time":"06-30 14:28","name":"您认为是一种自信","img":"avatar/201606/1466666600-56376.jpg"},{"id":"21","uid":"10000005","add":"上海市","content":"别look欧欧欧模块","image":[{"img":"circle/201606/1467268100-48446.jpg"},{"img":"circle/201606/1467268130-31508.jpg"},{"img":"circle/201606/1467268214-71990.jpg"},{"img":"circle/201606/1467268214-30104.jpg"}],"platform":"","zhibo_time":"","zan":"0","comments":"0","share":"0","time":"06-30 14:28","name":"您认为是一种自信","img":"avatar/201606/1466666600-56376.jpg"},{"id":"20","uid":"10000005","add":"上海市","content":"凝眸诺咯咯空","image":[{"img":"circle/201606/1467268074-43052.jpg"},{"img":"circle/201606/1467268074-69826.jpg"},{"img":"circle/201606/1467268074-75486.jpg"},{"img":"circle/201606/1467268074-90971.jpg"}],"platform":"","zhibo_time":"","zan":"0","comments":"0","share":"0","time":"06-30 14:27","name":"您认为是一种自信","img":"avatar/201606/1466666600-56376.jpg"},{"id":"19","uid":"10000005","add":"上海市","content":"并你弄","image":[{"img":"circle/201606/1467266974-49858.jpg"},{"img":"circle/201606/1467268074-69826.jpg"},{"img":"circle/201606/1467268074-75486.jpg"},{"img":"circle/201606/1467268074-90971.jpg"}],"platform":"","zhibo_time":"","zan":"0","comments":"0","share":"0","time":"06-30 14:09","name":"您认为是一种自信","img":"avatar/201606/1466666600-56376.jpg"},{"id":"18","uid":"10000005","add":"上海市","content":"如今婆母女的摁扣名目肚兜踢腿","image":[{"img":"circle/201606/1467266830-90142.jpg"},{"img":"circle/201606/1467268074-69826.jpg"},{"img":"circle/201606/1467268074-75486.jpg"},{"img":"circle/201606/1467268074-90971.jpg"}],"platform":"","zhibo_time":"","zan":"0","comments":"0","share":"0","time":"06-30 14:07","name":"您认为是一种自信","img":"avatar/201606/1466666600-56376.jpg"},{"id":"17","uid":"10000005","add":"上海市","content":"吃菜敏敏","image":[{"img":"circle/201606/1467266683-84665.jpg"},{"img":"circle/201606/1467266683-12414.jpg"},{"img":"circle/201606/1467266683-15300.jpg"},{"img":"circle/201606/1467266683-97948.jpg"},{"img":"circle/201606/1467266683-42475.jpg"}],"platform":"","zhibo_time":"","zan":"0","comments":"0","share":"0","time":"06-30 14:04","name":"您认为是一种自信","img":"avatar/201606/1466666600-56376.jpg"},{"id":"16","uid":"10000005","add":"上海市","content":"哦porno热热","image":[{"img":"circle/201606/1467011317-91559.jpg"},{"img":"circle/201606/1467011317-98250.jpg"},{"img":"circle/201606/1467011317-27171.jpg"},{"img":"circle/201606/1467011317-56892.jpg"},{"img":"circle/201606/1467011317-67598.jpg"}],"platform":"","zhibo_time":"","zan":"5","comments":"8","share":"1","time":"06-27 15:08","name":"您认为是一种自信","img":"avatar/201606/1466666600-56376.jpg"},{"id":"15","uid":"10000005","add":"上海市","content":"哦porno热热","image":[{"img":"circle/201606/1467011303-86074.jpg"},{"img":"circle/201606/1467011317-98250.jpg"},{"img":"circle/201606/1467011317-27171.jpg"},{"img":"circle/201606/1467011317-56892.jpg"},{"img":"circle/201606/1467011317-67598.jpg"}],"platform":"","zhibo_time":"","zan":"0","comments":"0","share":"0","time":"06-27 15:08","name":"您认为是一种自信","img":"avatar/201606/1466666600-56376.jpg"},{"id":"14","uid":"10000005","add":"上海市","content":"你民工","image":[{"img":""},{"img":"circle/201606/1467011317-98250.jpg"},{"img":"circle/201606/1467011317-27171.jpg"},{"img":"circle/201606/1467011317-56892.jpg"},{"img":"circle/201606/1467011317-67598.jpg"}],"platform":"","zhibo_time":"","zan":"0","comments":"0","share":"0","time":"06-27 15:06","name":"您认为是一种自信","img":"avatar/201606/1466666600-56376.jpg"},{"id":"13","uid":"10000005","add":"上海市","content":"你民生","image":[{"img":""},{"img":"circle/201606/1467011317-98250.jpg"},{"img":"circle/201606/1467011317-27171.jpg"},{"img":"circle/201606/1467011317-56892.jpg"},{"img":"circle/201606/1467011317-67598.jpg"}],"platform":"","zhibo_time":"","zan":"0","comments":"0","share":"0","time":"06-27 15:04","name":"您认为是一种自信","img":"avatar/201606/1466666600-56376.jpg"},{"id":"12","uid":"10000005","add":"上海市","content":"就look咯摸摸","image":[{"img":""},{"img":"circle/201606/1467011317-98250.jpg"},{"img":"circle/201606/1467011317-27171.jpg"},{"img":"circle/201606/1467011317-56892.jpg"},{"img":"circle/201606/1467011317-67598.jpg"}],"platform":"","zhibo_time":"","zan":"0","comments":"0","share":"0","time":"06-27 15:04","name":"您认为是一种自信","img":"avatar/201606/1466666600-56376.jpg"},{"id":"11","uid":"10000005","add":"上海市","content":"就look咯摸摸","image":[{"img":""},{"img":"circle/201606/1467011317-98250.jpg"},{"img":"circle/201606/1467011317-27171.jpg"},{"img":"circle/201606/1467011317-56892.jpg"},{"img":"circle/201606/1467011317-67598.jpg"}],"platform":"","zhibo_time":"","zan":"0","comments":"0","share":"0","time":"06-27 15:03","name":"您认为是一种自信","img":"avatar/201606/1466666600-56376.jpg"},{"id":"10","uid":"10000005","add":"上海市","content":"姜？不图老婆杀了他复发爬起来热烈其实12日B超","image":[{"img":""},{"img":"circle/201606/1467011317-98250.jpg"},{"img":"circle/201606/1467011317-27171.jpg"},{"img":"circle/201606/1467011317-56892.jpg"},{"img":"circle/201606/1467011317-67598.jpg"}],"platform":"","zhibo_time":"","zan":"0","comments":"0","share":"0","time":"06-27 15:03","name":"您认为是一种自信","img":"avatar/201606/1466666600-56376.jpg"},{"id":"9","uid":"10000005","add":"","content":"落实好，为实现集团确定的\u201c十三五\u201d战略发展目标而共同奋斗！","image":[{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"}],"platform":"虎牙","zhibo_time":"2016-6-25 14","zan":"0","comments":"0","share":"0","time":"06-27 15:03","name":"您认为是一种自信","img":"avatar/201606/1466666600-56376.jpg"},{"id":"8","uid":"10000005","add":"","content":"落实好，为实现集团确定的\u201c十三五\u201d战略发展目标而共同奋斗！","image":[{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"}],"platform":"虎牙","zhibo_time":"2016-6-25 14","zan":"0","comments":"0","share":"0","time":"06-27 15:03","name":"您认为是一种自信","img":"avatar/201606/1466666600-56376.jpg"},{"id":"7","uid":"10000005","add":"","content":"落实好，为实现集团确定的\u201c十三五\u201d战略发展目标而共同奋斗！","image":[{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"}],"platform":"虎牙","zhibo_time":"2016-6-25 14","zan":"0","comments":"0","share":"0","time":"06-27 15:03","name":"您认为是一种自信","img":"avatar/201606/1466666600-56376.jpg"},{"id":"3","uid":"10000001","add":"上海市","content":"落实好，为实现集团确定的\u201c十三五\u201d战略发展目标而共同奋斗！","image":[{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"}],"platform":"","zhibo_time":"","zan":"0","comments":"0","share":"0","time":"06-27 15:02","name":"234","img":"avatar/201606/1466666600-56376.jpg"},{"id":"2","uid":"10000005","add":"","content":"落实好，为实现集团确定的\u201c十三五\u201d战略发展目标而共同奋斗！","image":[{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"},{"img":"avatar/201606/1466234501-27067.jpg"}],"platform":"YY","zhibo_time":"2016-6-25 14","zan":"0","comments":"0","share":"0","time":"06-25 16:28","name":"您认为是一种自信","img":"avatar/201606/1466666600-56376.jpg"}]
-     * bj_image : avatar/201606/1466234501
      */
 
     private String code;
-    private String msg;
-    private String bj_image;
     /**
-     * id : 25
+     * bj_image : avatar/201606/1466234501
+     * fensi : 3
+     * guanzhu : 2
+     * image : avatar/201607/1468836256-37916.jpg
+     * name : vayne
+     * platform : 虎牙
+     * type : 1
      * uid : 10000005
+     */
+
+    private DatasBean datas;
+    private String msg;
+    /**
      * add : 上海市
-     * content : 你民生自我
-     * image : [{"img":"circle/201606/1467268345-83251.jpg"}]
-     * platform :
-     * zhibo_time :
-     * zan : 0
      * comments : 0
+     * content : fgh
+     * id : 40
+     * image : [{"img":"circle/201607/1469429715-69114.jpg"}]
+     * img : avatar/201607/1468836256-37916.jpg
+     * name : vayne
+     * platform :
      * share : 0
-     * time : 06-30 14:32
-     * name : 您认为是一种自信
-     * img : avatar/201606/1466666600-56376.jpg
+     * time : 07-25 14:55
+     * uid : 10000005
+     * zan : 0
+     * zhibo_time :
      */
 
     private List<XiuQuanDataBean> data;
@@ -45,20 +56,20 @@ public class XIUQUANBean implements Serializable{
         this.code = code;
     }
 
+    public DatasBean getDatas() {
+        return datas;
+    }
+
+    public void setDatas(DatasBean datas) {
+        this.datas = datas;
+    }
+
     public String getMsg() {
         return msg;
     }
 
     public void setMsg(String msg) {
         this.msg = msg;
-    }
-
-    public String getBj_image() {
-        return bj_image;
-    }
-
-    public void setBj_image(String bj_image) {
-        this.bj_image = bj_image;
     }
 
     public List<XiuQuanDataBean> getData() {
@@ -69,65 +80,54 @@ public class XIUQUANBean implements Serializable{
         this.data = data;
     }
 
-    public static class XiuQuanDataBean implements Serializable{
-        private String id;
-        private String uid;
-        private String add;
-        private String content;
-        private String platform;
-        private String zhibo_time;
-        private String zan;
-        private String comments;
-        private String share;
-        private String time;
+    public static class DatasBean {
+        private String bj_image;
+        private String fensi;
+        private String guanzhu;
+        private String image;
         private String name;
-        private String img;
-        private boolean isZan;
+        private String platform;
+        private String type;
+        private String uid;
 
-        public boolean isZan() {
-            return isZan;
+        public String getBj_image() {
+            return bj_image;
         }
 
-        public void setZan(boolean zan) {
-            isZan = zan;
+        public void setBj_image(String bj_image) {
+            this.bj_image = bj_image;
         }
 
-        /**
-         * img : circle/201606/1467268345-83251.jpg
-         */
-
-        private List<ImageBean> image;
-
-        public String getId() {
-            return id;
+        public String getFensi() {
+            return fensi;
         }
 
-        public void setId(String id) {
-            this.id = id;
+        public void setFensi(String fensi) {
+            this.fensi = fensi;
         }
 
-        public String getUid() {
-            return uid;
+        public String getGuanzhu() {
+            return guanzhu;
         }
 
-        public void setUid(String uid) {
-            this.uid = uid;
+        public void setGuanzhu(String guanzhu) {
+            this.guanzhu = guanzhu;
         }
 
-        public String getAdd() {
-            return add;
+        public String getImage() {
+            return image;
         }
 
-        public void setAdd(String add) {
-            this.add = add;
+        public void setImage(String image) {
+            this.image = image;
         }
 
-        public String getContent() {
-            return content;
+        public String getName() {
+            return name;
         }
 
-        public void setContent(String content) {
-            this.content = content;
+        public void setName(String name) {
+            this.name = name;
         }
 
         public String getPlatform() {
@@ -138,20 +138,58 @@ public class XIUQUANBean implements Serializable{
             this.platform = platform;
         }
 
-        public String getZhibo_time() {
-            return zhibo_time;
+        public String getType() {
+            return type;
         }
 
-        public void setZhibo_time(String zhibo_time) {
-            this.zhibo_time = zhibo_time;
+        public void setType(String type) {
+            this.type = type;
         }
 
-        public String getZan() {
-            return zan;
+        public String getUid() {
+            return uid;
         }
 
-        public void setZan(String zan) {
-            this.zan = zan;
+        public void setUid(String uid) {
+            this.uid = uid;
+        }
+    }
+
+    public static class XiuQuanDataBean implements Serializable{
+        private String add;
+        private String comments;
+        private String content;
+        private String id;
+        private String img;
+        private String name;
+        private String platform;
+        private String share;
+        private String time;
+        private String uid;
+        private String zan;
+
+        public boolean isZanflag() {
+            return zanflag;
+        }
+
+        public void setZanflag(boolean zanflag) {
+            this.zanflag = zanflag;
+        }
+
+        private boolean zanflag;
+        private String zhibo_time;
+        /**
+         * img : circle/201607/1469429715-69114.jpg
+         */
+
+        private List<ImageBean> image;
+
+        public String getAdd() {
+            return add;
+        }
+
+        public void setAdd(String add) {
+            this.add = add;
         }
 
         public String getComments() {
@@ -160,6 +198,46 @@ public class XIUQUANBean implements Serializable{
 
         public void setComments(String comments) {
             this.comments = comments;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getImg() {
+            return img;
+        }
+
+        public void setImg(String img) {
+            this.img = img;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getPlatform() {
+            return platform;
+        }
+
+        public void setPlatform(String platform) {
+            this.platform = platform;
         }
 
         public String getShare() {
@@ -178,20 +256,28 @@ public class XIUQUANBean implements Serializable{
             this.time = time;
         }
 
-        public String getName() {
-            return name;
+        public String getUid() {
+            return uid;
         }
 
-        public void setName(String name) {
-            this.name = name;
+        public void setUid(String uid) {
+            this.uid = uid;
         }
 
-        public String getImg() {
-            return img;
+        public String getZan() {
+            return zan;
         }
 
-        public void setImg(String img) {
-            this.img = img;
+        public void setZan(String zan) {
+            this.zan = zan;
+        }
+
+        public String getZhibo_time() {
+            return zhibo_time;
+        }
+
+        public void setZhibo_time(String zhibo_time) {
+            this.zhibo_time = zhibo_time;
         }
 
         public List<ImageBean> getImage() {

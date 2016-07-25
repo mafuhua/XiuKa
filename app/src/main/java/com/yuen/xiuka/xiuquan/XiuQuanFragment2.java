@@ -9,10 +9,14 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -44,6 +48,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -52,6 +57,7 @@ import java.util.List;
  */
 public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListener {
     public ListView mixlist;
+    public boolean isRefresh = false;//是否刷新
     private Context context;
     private TextView tv_fensi;
     private TextView tv_guanzhu;
@@ -61,10 +67,36 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
     private RelativeLayout header;
     private ImageView iv_bj;
     private List<XIUQUANBean.XiuQuanDataBean> xiuquanBeanData;
+    private List<XIUQUANBean.XiuQuanDataBean> xiuquanListData = new ArrayList<>();
+
+
     private XiuQuanAdapter myAdapter;
     private Button btn_fanhui;
     private TextView tv_titlecontent;
     private Button btn_jia;
+    private boolean refresh = false;
+    private SwipeRefreshLayout swiperefresh;
+    private int page = 0;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+
+                    swiperefresh.setRefreshing(false);
+                    //adapter.notifyDataSetChanged();
+                    //swipeRefreshLayout.setEnabled(false);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+    private File iconfile;
+    private boolean icon = false;
+    private File destDir;
+    private Bitmap iconphoto;
 
     @Override
     public View initView() {
@@ -75,6 +107,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         btn_fanhui = (Button) view.findViewById(R.id.btn_fanhui);
         btn_jia = (Button) view.findViewById(R.id.btn_jia);
         tv_titlecontent = (TextView) view.findViewById(R.id.tv_titlecontent);
+        swiperefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
         btn_fanhui.setVisibility(View.GONE);
         btn_jia.setVisibility(View.VISIBLE);
         tv_titlecontent.setText("秀圈");
@@ -93,14 +126,70 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         iv_bj.setOnClickListener(this);
         btn_jia.setOnClickListener(this);
 
-       // mixlist.setOnScrollListener(new PauseOnScrollListener());
+        myAdapter = new XiuQuanAdapter(context, xiuquanListData);
+        mixlist.setAdapter(myAdapter);
+
+        mixlist.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                // 滚动状态
+               // Log.d("mafuhua", "scrollState:" + scrollState);
+                int lastVisiblePosition = mixlist.getLastVisiblePosition();
+                Log.d("mafuhua", "lastVisiblePosition:" + lastVisiblePosition);
+                  Log.d("mafuhua", "mixlist.getCount():" + mixlist.getCount());
+                // 如果处于空闲状态
+                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    //最后一个条目
+                    if (lastVisiblePosition == mixlist.getCount() - 1) {
+
+                        Log.d("mafuhua", "加载下一页");
+                        //请求下一页数据：handler模拟加载下一页数据
+//                        handler.sendEmptyMessageDelayed(REFRESHFINISH, 2000);
+                        page += 1;
+                        xiuquan();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+
+        });
 
         mixlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(context, PingLunActivity.class);
-                intent.putExtra("data", xiuquanBeanData.get(position - 1));
+                intent.putExtra("data", xiuquanListData.get(position - 1));
                 context.startActivity(intent);
+            }
+        });
+
+        swiperefresh.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light,
+                android.R.color.holo_orange_light, android.R.color.holo_green_light);
+        swiperefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                Toast.makeText(context, "正在刷新", Toast.LENGTH_SHORT).show();
+                new Thread(new Runnable() {
+                    @Override
+
+                    public void run() {
+                        if (!isRefresh) {
+                            page = 0;
+                            xiuquanListData.clear();
+                            Log.d("mafuhua", "刷新");
+                            xiuquan();
+                            mHandler.sendEmptyMessage(1);
+                        }
+
+                    }
+                }).start();
+
             }
         });
         return view;
@@ -109,22 +198,23 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
     public void xiuquan() {
         HashMap<String, String> map = new HashMap<>();
         map.put("uid", SPUtil.getInt("uid") + "");
-        map.put("page", 0 + "");
+        map.put("page", page + "");
         XUtils.xUtilsPost(URLProvider.LOOK_CIRCLE, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("2222222222222222"+getActivity());
+                System.out.println("2222222222222222" + getActivity());
+                isRefresh = false;
                 Gson gson = new Gson();
+              /*  if (!result.contains("data")){
+                    Toast.makeText(context, "没有更多数据了", Toast.LENGTH_SHORT).show();
+                    return;
+                }*/
                 XIUQUANBean xiuquanBean = gson.fromJson(result, XIUQUANBean.class);
-                String bj_image = xiuquanBean.getBj_image();
+                String bj_image = xiuquanBean.getDatas().getBj_image();
                 xiuquanBeanData = xiuquanBean.getData();
-                 Toast.makeText(getActivity(), URLProvider.BaseImgUrl + bj_image, Toast.LENGTH_SHORT).show();
-                System.out.println(result);
-                System.out.println(getActivity());
+                xiuquanListData.addAll(xiuquanBeanData);
                 x.image().bind(iv_bj, URLProvider.BaseImgUrl + bj_image, MyApplication.options);
-                myAdapter = new XiuQuanAdapter(context,xiuquanBeanData);
-                mixlist.setAdapter(myAdapter);
-
+                myAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -147,7 +237,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
 
     @Override
     public void initData() {
-
+        xiuquan();
 
     }
 
@@ -155,8 +245,6 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
     public void onResume() {
         super.onResume();
         initheader();
-        xiuquan();
-
     }
 
     public void initheader() {
@@ -168,7 +256,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         //Glide.with(context).load(URLProvider.BaseImgUrl + SPUtil.getString("icon")).centerCrop().error(R.drawable.cuowu).crossFade().into(iv_user_icon);
 
 
-      //  Toast.makeText(context, "initheader"+SPUtil.getString("icon"), Toast.LENGTH_LONG).show();
+        //  Toast.makeText(context, "initheader"+SPUtil.getString("icon"), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -185,17 +273,19 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                 Toast.makeText(context, "iv_bj", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.iv_user_icon:
-              /*  Intent intent = new Intent(getActivity(), MyXiuQuanActivity.class);
+                Intent intent = new Intent(getActivity(), MyXiuQuanActivity.class);
                 intent.putExtra("id", SPUtil.getInt("uid")+"");
                 intent.putExtra("name",SPUtil.getString("name"));
                 startActivity(intent);
-                Toast.makeText(context, "iv_user_icon", Toast.LENGTH_SHORT).show();*/
+                Toast.makeText(context, "iv_user_icon", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_jia:
+                refresh = true;
                 startActivity(FaBuActivity.class);
                 break;
         }
     }
+
     /**
      * 选择提示对话框
      */
@@ -240,9 +330,10 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                     }
                 }).show();
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-       // if (data== null) return;
+        // if (data== null) return;
         String extras = "";
         File temp;
         switch (requestCode) {
@@ -253,9 +344,9 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                 break;
             // 如果是调用相机拍照时
             case 2:
-                temp = new File(Environment.getExternalStorageDirectory()+ "/imagcacahe/"
+                temp = new File(Environment.getExternalStorageDirectory() + "/imagcacahe/"
                         + "/iconbg.jpg");
-                Compresspic(Environment.getExternalStorageDirectory()+ "/imagcacahe/"
+                Compresspic(Environment.getExternalStorageDirectory() + "/imagcacahe/"
                         + "/iconbg01.jpg", temp.getAbsolutePath());
 
                 x.image().bind(iv_bj, temp.getAbsolutePath());
@@ -267,15 +358,16 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
     /**
      * 获取系统缺省路径选择的图片
+     *
      * @param
      * @return
      */
-    private void getPhoneImage(Uri uriString)
-    {
-        String[] filePathColumns = { MediaStore.Images.Media.DATA };
-        Cursor cursor =getActivity().getContentResolver().query(uriString,
+    private void getPhoneImage(Uri uriString) {
+        String[] filePathColumns = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getActivity().getContentResolver().query(uriString,
                 filePathColumns, null, null, null);//从系统表中查询指定Uri对应的照片
         cursor.moveToFirst();
         int columnIndex = cursor.getColumnIndex(filePathColumns[0]);
@@ -286,11 +378,6 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
 
     }
 
-
-    private File iconfile;
-    private boolean icon = false;
-    private File destDir;
-    private Bitmap iconphoto;
     public void saveBitmapFile(Intent picdata) {
         Bundle extras = picdata.getExtras();
         if (extras != null) {
@@ -324,7 +411,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
             e.printStackTrace();
         }
         x.image().bind(iv_bj, iconfile.getAbsolutePath());
-       // sendimg(iconfile.getPath());
+        // sendimg(iconfile.getPath());
     }
 
     private void sendimg(String path) {
@@ -370,6 +457,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
 
         });
     }
+
     public void Compresspic(final String path, final String old) {
         new Thread(new Runnable() {//开启多线程进行压缩处理
             private int options;

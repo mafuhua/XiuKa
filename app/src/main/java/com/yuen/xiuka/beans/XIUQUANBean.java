@@ -168,6 +168,7 @@ public class XIUQUANBean implements Serializable{
         private String uid;
         private String zan;
 
+
         public boolean isZanflag() {
             return zanflag;
         }

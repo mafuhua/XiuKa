@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">XiuKa</string>
+    <string name="app_name">秀咖</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">
         android.support.design.widget.AppBarLayout$ScrollingViewBehavior
     </string>

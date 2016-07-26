@@ -24,6 +24,8 @@ import com.yuen.xiuka.activity.ZhuBoListActivity;
 import com.yuen.xiuka.activity.ZhuBoXiangXiActivity;
 import com.yuen.xiuka.utils.MyUtils;
 
+import org.xutils.x;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -89,6 +91,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         });
 
         iv_baoming = (ImageView) view.findViewById(R.id.iv_baoming);
+        x.image().bind(iv_baoming,"aa.jpg");
         iv_baoming.setOnClickListener(this);
         tv_gengduo = (TextView) view.findViewById(R.id.tv_gengduo);
         tv_gengduo.setOnClickListener(this);

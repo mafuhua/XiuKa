@@ -97,6 +97,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
     private boolean icon = false;
     private File destDir;
     private Bitmap iconphoto;
+    private XIUQUANBean.DatasBean xiuquanBeanDatas;
 
     @Override
     public View initView() {
@@ -210,11 +211,16 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                     return;
                 }*/
                 XIUQUANBean xiuquanBean = gson.fromJson(result, XIUQUANBean.class);
-                String bj_image = xiuquanBean.getDatas().getBj_image();
+                xiuquanBeanDatas = xiuquanBean.getDatas();
                 xiuquanBeanData = xiuquanBean.getData();
                 xiuquanListData.addAll(xiuquanBeanData);
-                x.image().bind(iv_bj, URLProvider.BaseImgUrl + bj_image, MyApplication.options);
+
                 myAdapter.notifyDataSetChanged();
+                if (page == 0){
+                    initheader(xiuquanBeanDatas);
+                }
+
+
             }
 
             @Override
@@ -244,15 +250,16 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
     @Override
     public void onResume() {
         super.onResume();
-        initheader();
+
     }
 
-    public void initheader() {
-        tv_fensi.setText("粉丝" + SPUtil.getString("fensi"));
-        tv_guanzhu.setText("关注" + SPUtil.getString("guanzhu"));
-        tv_name.setText(SPUtil.getString("name"));
-        tv_renzheng.setText("认证平台" + SPUtil.getString("platform"));
-        x.image().bind(iv_user_icon, URLProvider.BaseImgUrl + SPUtil.getString("icon"), MyApplication.options);
+    public void initheader(XIUQUANBean.DatasBean xiuquanDatas) {
+        tv_fensi.setText("粉丝" + xiuquanDatas.getFensi());
+        tv_guanzhu.setText("关注" + xiuquanDatas.getGuanzhu());
+        tv_name.setText(xiuquanDatas.getName());
+        tv_renzheng.setText("认证平台" + xiuquanDatas.getPlatform());
+        x.image().bind(iv_user_icon,URLProvider.BaseImgUrl+ xiuquanDatas.getImage(), MyApplication.options);
+        x.image().bind(iv_bj,URLProvider.BaseImgUrl+ xiuquanDatas.getBj_image(), MyApplication.optionsxq);
         //Glide.with(context).load(URLProvider.BaseImgUrl + SPUtil.getString("icon")).centerCrop().error(R.drawable.cuowu).crossFade().into(iv_user_icon);
 
 
@@ -349,7 +356,8 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                 Compresspic(Environment.getExternalStorageDirectory() + "/imagcacahe/"
                         + "/iconbg01.jpg", temp.getAbsolutePath());
 
-                x.image().bind(iv_bj, temp.getAbsolutePath());
+           //     x.image().bind(iv_bj, temp.getAbsolutePath());
+                sendimg(temp.getAbsolutePath());
                 break;
 
             default:
@@ -373,7 +381,8 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         int columnIndex = cursor.getColumnIndex(filePathColumns[0]);
         String picturePath = cursor.getString(columnIndex);  //获取照片路径
         cursor.close();
-        x.image().bind(iv_bj, picturePath);
+        sendimg(picturePath);
+     //   x.image().bind(iv_bj, picturePath);
         // ((ImageView) findViewById(R.id.iv_temp)).setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
     }
@@ -410,17 +419,17 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         } catch (IOException e) {
             e.printStackTrace();
         }
-        x.image().bind(iv_bj, iconfile.getAbsolutePath());
-        // sendimg(iconfile.getPath());
+
+         sendimg(iconfile.getAbsolutePath());
     }
 
-    private void sendimg(String path) {
+    private void sendimg(final String path) {
 
         AsyncHttpClient client = new AsyncHttpClient();
         com.loopj.android.http.RequestParams rp = new com.loopj.android.http.RequestParams();
 
         File file = new File(path);
-        //  Log.d("mafuhua", path + "**************");
+          Log.d("mafuhua", path + "**************");
         try {
             rp.add("uid", SPUtil.getInt("uid") + "");
             rp.put("img", file);
@@ -429,13 +438,12 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
             e.printStackTrace();
         }
 
-
-        client.post(URLProvider.ADD_IMAGE, rp, new AsyncHttpResponseHandler() {
+        client.post(URLProvider.ADD_BJ_IMAGE, rp, new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
                 String response = new String(responseBody);
-                // Log.d("mafuhua", "responseBody" + response);
+                 Log.d("mafuhua", "responseBody" + response);
                 Gson gson = new Gson();
              /*   IconResultBean iconResultBean = gson.fromJson(response, IconResultBean.class);
                 if (iconResultBean.getStatus().equals("0")) {
@@ -445,8 +453,9 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                     Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
                 }*/
                 Toast.makeText(context, "上传成功", Toast.LENGTH_SHORT).show();
-                icon = true;
-                myAdapter.notifyDataSetChanged();
+                x.image().bind(iv_bj, path);
+                //icon = true;
+              //  myAdapter.notifyDataSetChanged();
             }
 
             @Override

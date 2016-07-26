@@ -3,7 +3,12 @@ package com.yuen.xiuka.xiuquan;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -27,6 +32,7 @@ import com.yuen.xiuka.utils.XUtils;
 import org.xutils.common.Callback;
 import org.xutils.x;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -65,7 +71,25 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
         Toast.makeText(this, xiuquandataId + xiuquandataName, Toast.LENGTH_SHORT).show();
         initView();
     }
+    private boolean refresh = false;
+    private SwipeRefreshLayout swiperefresh;
+    private int page = 0;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
 
+                    swiperefresh.setRefreshing(false);
+                    //adapter.notifyDataSetChanged();
+                    //swipeRefreshLayout.setEnabled(false);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
     @Override
     public void initView() {
         context = this;
@@ -75,6 +99,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
         tv_titlecontent = (TextView) findViewById(R.id.tv_titlecontent);
         btn_fanhui.setVisibility(View.GONE);
         btn_jia.setVisibility(View.VISIBLE);
+        swiperefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
         tv_titlecontent.setText(xiuquandataName+"");
         header = (RelativeLayout) View.inflate(this, R.layout.layout_xiuquan_header, null);
         tv_fensi = (TextView) header.findViewById(R.id.tv_fensi);
@@ -91,7 +116,33 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
         iv_bj.setOnClickListener(this);
         btn_jia.setOnClickListener(this);
 
+        myAdapter = new MyXiuQuanAdapter(context, xiuquanListData);
+        mixlist.setAdapter(myAdapter);
 
+        swiperefresh.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light,
+                android.R.color.holo_orange_light, android.R.color.holo_green_light);
+        swiperefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                Toast.makeText(context, "正在刷新", Toast.LENGTH_SHORT).show();
+                new Thread(new Runnable() {
+                    @Override
+
+                    public void run() {
+                        if (!isRefresh) {
+                            page = 0;
+                            xiuquanListData.clear();
+                            Log.d("mafuhua", "刷新");
+                            xiuquan();
+                            mHandler.sendEmptyMessage(1);
+                        }
+
+                    }
+                }).start();
+
+            }
+        });
         mixlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -100,13 +151,44 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
                 context.startActivity(intent);
             }
         });
-    }
+        mixlist.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                // 滚动状态
+                // Log.d("mafuhua", "scrollState:" + scrollState);
+                int lastVisiblePosition = mixlist.getLastVisiblePosition();
+                Log.d("mafuhua", "lastVisiblePosition:" + lastVisiblePosition);
+                Log.d("mafuhua", "mixlist.getCount():" + mixlist.getCount());
+                // 如果处于空闲状态
+                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    //最后一个条目
+                    if (lastVisiblePosition == mixlist.getCount() - 1) {
 
+                        Log.d("mafuhua", "加载下一页");
+                        //请求下一页数据：handler模拟加载下一页数据
+//                        handler.sendEmptyMessageDelayed(REFRESHFINISH, 2000);
+                        page += 1;
+                        xiuquan();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+
+        });
+
+
+    }
+    private List<MYXIUQUANBean.DataBean> xiuquanListData = new ArrayList<>();
     @Override
     public void loadData() {
 
     }
-
+    public boolean isRefresh = false;//是否刷新
     public void xiuquan() {
         HashMap<String, String> map = new HashMap<>();
         map.put("uid", xiuquandataId);
@@ -120,9 +202,11 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
                 MYXIUQUANBean xiuquanBean = gson.fromJson(result, MYXIUQUANBean.class);
                 xiuquanBeanData = xiuquanBean.getData();
                 xiuquanBeanDatas = xiuquanBean.getDatas();
-                initheader(xiuquanBeanDatas);
-                myAdapter = new MyXiuQuanAdapter(context, xiuquanBeanData);
-                mixlist.setAdapter(myAdapter);
+                xiuquanListData.addAll(xiuquanBeanData);
+                if (page == 0){
+                    initheader(xiuquanBeanDatas);
+                }
+               myAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -158,7 +242,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
         tv_renzheng.setText("认证平台" + xiuquanBeanDatas.getPlatform());
 
         x.image().bind(iv_user_icon, URLProvider.BaseImgUrl + xiuquanBeanDatas.getImage(), MyApplication.options);
-        x.image().bind(iv_bj, URLProvider.BaseImgUrl + xiuquanBeanDatas.getBj_image(), MyApplication.optionsxq);
+       // x.image().bind(iv_bj, URLProvider.BaseImgUrl + xiuquanBeanDatas.getBj_image(), MyApplication.optionsxq);
         //Glide.with(context).load(URLProvider.BaseImgUrl + SPUtil.getString("icon")).centerCrop().error(R.drawable.cuowu).crossFade().into(iv_user_icon);
     }
 

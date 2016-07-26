@@ -155,7 +155,7 @@ public class XIUQUANBean implements Serializable{
         }
     }
 
-    public static class XiuQuanDataBean implements Serializable{
+    public  class XiuQuanDataBean implements Serializable{
         private String add;
         private String comments;
         private String content;
@@ -288,7 +288,7 @@ public class XIUQUANBean implements Serializable{
             this.image = image;
         }
 
-        public static class ImageBean implements Serializable{
+        public  class ImageBean implements Serializable{
             private String img;
 
             public String getImg() {

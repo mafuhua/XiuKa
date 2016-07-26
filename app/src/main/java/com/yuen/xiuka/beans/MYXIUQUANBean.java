@@ -147,6 +147,16 @@ public class MYXIUQUANBean implements Serializable{
         private String time;
         private String uid;
         private String zan;
+        private boolean zanflag;
+
+        public boolean isZanflag() {
+            return zanflag;
+        }
+
+        public void setZanflag(boolean zanflag) {
+            this.zanflag = zanflag;
+        }
+
         private String zhibo_time;
         /**
          * img : circle/201607/1467362801-88252.jpg

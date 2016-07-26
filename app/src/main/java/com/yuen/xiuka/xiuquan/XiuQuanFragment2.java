@@ -36,6 +36,7 @@ import com.yuen.xiuka.activity.FaBuActivity;
 import com.yuen.xiuka.activity.GuanZhuListActivity;
 import com.yuen.xiuka.activity.PingLunActivity;
 import com.yuen.xiuka.beans.XIUQUANBean;
+import com.yuen.xiuka.beans.XiuQuanDataBean;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
 
@@ -66,8 +67,8 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
     private ImageView iv_user_icon;
     private RelativeLayout header;
     private ImageView iv_bj;
-    private List<XIUQUANBean.XiuQuanDataBean> xiuquanBeanData;
-    private List<XIUQUANBean.XiuQuanDataBean> xiuquanListData = new ArrayList<>();
+    private List<XiuQuanDataBean> xiuquanBeanData;
+    private List<XiuQuanDataBean> xiuquanListData = new ArrayList<>();
 
 
     private XiuQuanAdapter myAdapter;
@@ -210,7 +211,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                     Toast.makeText(context, "没有更多数据了", Toast.LENGTH_SHORT).show();
                     return;
                 }*/
-                XIUQUANBean xiuquanBean = gson.fromJson(result, XIUQUANBean.class);
+                XIUQUANBean xiuquanBean = gson.fromJson(result,XIUQUANBean.class);
                 xiuquanBeanDatas = xiuquanBean.getDatas();
                 xiuquanBeanData = xiuquanBean.getData();
                 xiuquanListData.addAll(xiuquanBeanData);

@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
-import com.yuen.xiuka.beans.XIUQUANBean;
+import com.yuen.xiuka.beans.XiuQuanDataBean;
 import com.yuen.xiuka.utils.URLProvider;
 
 import org.xutils.x;
@@ -27,12 +27,12 @@ public class PagersImgActivity extends com.yuen.xiuka.activity.BaseActivity {
         setContentView(R.layout.activity_pagers_img);
         initView();
     }
-    private List<XIUQUANBean.XiuQuanDataBean.ImageBean> data;
+    private List<XiuQuanDataBean.ImageBean> data;
     private int index = 0;
     @Override
     public void initView() {
         index = getIntent().getIntExtra("index", 0);
-        data = (List<XIUQUANBean.XiuQuanDataBean.ImageBean>) getIntent().getSerializableExtra("data");
+        data = (List<XiuQuanDataBean.ImageBean>) getIntent().getSerializableExtra("data");
         vp_images = (ViewPager) findViewById(R.id.vp_images);
         myPagerAdapter = new MyPagerAdapter();
         vp_images.setAdapter(myPagerAdapter);

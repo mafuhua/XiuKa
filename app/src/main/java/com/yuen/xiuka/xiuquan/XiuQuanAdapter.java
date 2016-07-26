@@ -14,7 +14,7 @@ import com.yuen.baselib.utils.AppUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.activity.PingLunActivity;
-import com.yuen.xiuka.beans.XIUQUANBean;
+import com.yuen.xiuka.beans.XiuQuanDataBean;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
 
@@ -31,11 +31,11 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 
 class XiuQuanAdapter extends BaseAdapter {
     private final int windowwidth;
-    private List<XIUQUANBean.XiuQuanDataBean.ImageBean> imageBeanList;
+    private List<XiuQuanDataBean.ImageBean> imageBeanList;
     private Context context;
-    private List<XIUQUANBean.XiuQuanDataBean> xiuquanBeanData;
+    private List<XiuQuanDataBean> xiuquanBeanData;
 
-    public XiuQuanAdapter(Context context, List<XIUQUANBean.XiuQuanDataBean> xiuquanBeanData) {
+    public XiuQuanAdapter(Context context, List<XiuQuanDataBean> xiuquanBeanData) {
         this.context = context;
         this.xiuquanBeanData = xiuquanBeanData;
         windowwidth = AppUtil.getWidth(context);
@@ -91,7 +91,7 @@ class XiuQuanAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context, "position:" + position, Toast.LENGTH_SHORT).show();
-                    List<XIUQUANBean.XiuQuanDataBean.ImageBean> image = xiuquanBeanData.get(position).getImage();
+                    List<XiuQuanDataBean.ImageBean> image = xiuquanBeanData.get(position).getImage();
                     Intent intent = new Intent(context, PagersImgActivity.class);
                     intent.putExtra("data", (Serializable) image);
                     intent.putExtra("index", "0");
@@ -119,7 +119,7 @@ class XiuQuanAdapter extends BaseAdapter {
             }
 
             for (int i = 0; i < imageBeanList.size(); i++) {
-                XIUQUANBean.XiuQuanDataBean.ImageBean imageBean = imageBeanList.get(i);
+                XiuQuanDataBean.ImageBean imageBean = imageBeanList.get(i);
                 viewHolder.imgview[i].setVisibility(View.VISIBLE);
                 viewHolder.imgview[i].getLayoutParams().width = (int) width;
                 viewHolder.imgview[i].getLayoutParams().height = (int) width;
@@ -236,13 +236,13 @@ class XiuQuanAdapter extends BaseAdapter {
 
     class GridOnclick implements View.OnClickListener {
 
-        private List<XIUQUANBean.XiuQuanDataBean.ImageBean> imageBeanList;
+        private List<XiuQuanDataBean.ImageBean> imageBeanList;
         private int index;
         private int position;
         private ImageView imageView;
         private GridLayout gridLayout;
 
-        public GridOnclick(int position, ImageView imageView, List<XIUQUANBean.XiuQuanDataBean.ImageBean> imageBeanList, int index, GridLayout gridLayout) {
+        public GridOnclick(int position, ImageView imageView, List<XiuQuanDataBean.ImageBean> imageBeanList, int index, GridLayout gridLayout) {
             this.imageBeanList = imageBeanList;
             this.index = index;
             this.position = position;

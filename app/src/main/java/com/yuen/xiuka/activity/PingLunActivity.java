@@ -21,7 +21,7 @@ import com.yuen.baselib.utils.SPUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.PINGLUNBean;
-import com.yuen.xiuka.beans.XIUQUANBean;
+import com.yuen.xiuka.beans.XiuQuanDataBean;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
 import com.yuen.xiuka.xiuquan.PagersImgActivity;
@@ -50,8 +50,8 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
     private EditText et_pinglun;
     private Button btn_pinglun;
     private int ImagaId[] = {R.id.img_0, R.id.img_1, R.id.img_2, R.id.img_3, R.id.img_4, R.id.img_5, R.id.img_6, R.id.img_7, R.id.img_8};
-    private XIUQUANBean.XiuQuanDataBean xiuquanBeanData;
-    private List<XIUQUANBean.XiuQuanDataBean.ImageBean> imageBeanList;
+    private XiuQuanDataBean xiuquanBeanData;
+    private List<XiuQuanDataBean.ImageBean> imageBeanList;
     private int windowwidth;
     private Context context;
     private RelativeLayout heaser;
@@ -69,7 +69,7 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
         setContentView(R.layout.activity_ping_lun);
 
         Intent intent = getIntent();
-        xiuquanBeanData = (XIUQUANBean.XiuQuanDataBean) intent.getSerializableExtra("data");
+        xiuquanBeanData = (XiuQuanDataBean) intent.getSerializableExtra("data");
         xiuquanid = xiuquanBeanData.getId();
         initView();
         Toast.makeText(context, xiuquanid, Toast.LENGTH_SHORT).show();
@@ -144,7 +144,7 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
             }
 
             for (int i = 0; i < imageBeanList.size(); i++) {
-                XIUQUANBean.XiuQuanDataBean.ImageBean imageBean = imageBeanList.get(i);
+                XiuQuanDataBean.ImageBean imageBean = imageBeanList.get(i);
                 imgview[i].setVisibility(View.VISIBLE);
                 imgview[i].getLayoutParams().width = (int) width;
                 imgview[i].getLayoutParams().height = (int) width;
@@ -255,13 +255,13 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
 
     class GridOnclick implements View.OnClickListener {
 
-        private List<XIUQUANBean.XiuQuanDataBean.ImageBean> imageBeanList;
+        private List<XiuQuanDataBean.ImageBean> imageBeanList;
         private int index;
         private int position;
         private ImageView imageView;
         private GridLayout gridLayout;
 
-        public GridOnclick(int position, ImageView imageView, List<XIUQUANBean.XiuQuanDataBean.ImageBean> imageBeanList, int index, GridLayout gridLayout) {
+        public GridOnclick(int position, ImageView imageView, List<XiuQuanDataBean.ImageBean> imageBeanList, int index, GridLayout gridLayout) {
             this.imageBeanList = imageBeanList;
             this.index = index;
             this.position = position;

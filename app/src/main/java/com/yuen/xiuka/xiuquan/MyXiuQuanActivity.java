@@ -24,8 +24,8 @@ import com.yuen.xiuka.R;
 import com.yuen.xiuka.activity.FaBuActivity;
 import com.yuen.xiuka.activity.GuanZhuListActivity;
 import com.yuen.xiuka.activity.PingLunActivity;
-import com.yuen.xiuka.beans.MYXIUQUANBean;
 import com.yuen.xiuka.beans.XIUQUANBean;
+import com.yuen.xiuka.beans.XiuQuanDataBean;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
 
@@ -40,7 +40,6 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
 
 
     public ListView mixlist;
-    private XIUQUANBean.XiuQuanDataBean xiuquandata;
     private String xiuquandataName;
     private String xiuquandataId;
     private Context context;
@@ -51,12 +50,12 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
     private ImageView iv_user_icon;
     private RelativeLayout header;
     private ImageView iv_bj;
-    private MyXiuQuanAdapter myAdapter;
+    private XiuQuanAdapter myAdapter;
     private Button btn_fanhui;
     private TextView tv_titlecontent;
     private Button btn_jia;
-    private MYXIUQUANBean.DatasBean xiuquanBeanDatas;
-    private List<MYXIUQUANBean.DataBean> xiuquanBeanData;
+    private XIUQUANBean.DatasBean xiuquanBeanDatas;
+    private List<XiuQuanDataBean> xiuquanBeanData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +115,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
         iv_bj.setOnClickListener(this);
         btn_jia.setOnClickListener(this);
 
-        myAdapter = new MyXiuQuanAdapter(context, xiuquanListData);
+        myAdapter = new XiuQuanAdapter(context, xiuquanListData);
         mixlist.setAdapter(myAdapter);
 
         swiperefresh.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light,
@@ -183,7 +182,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
 
 
     }
-    private List<MYXIUQUANBean.DataBean> xiuquanListData = new ArrayList<>();
+    private List<XiuQuanDataBean> xiuquanListData = new ArrayList<>();
     @Override
     public void loadData() {
 
@@ -199,7 +198,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
 
                 Gson gson = new Gson();
                 System.out.println(result);
-                MYXIUQUANBean xiuquanBean = gson.fromJson(result, MYXIUQUANBean.class);
+                XIUQUANBean xiuquanBean = gson.fromJson(result, XIUQUANBean.class);
                 xiuquanBeanData = xiuquanBean.getData();
                 xiuquanBeanDatas = xiuquanBean.getDatas();
                 xiuquanListData.addAll(xiuquanBeanData);
@@ -235,7 +234,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
 
     }
 
-    public void initheader(MYXIUQUANBean.DatasBean xiuquanBeanDatas) {
+    public void initheader(XIUQUANBean.DatasBean xiuquanBeanDatas) {
         tv_fensi.setText("粉丝" + xiuquanBeanDatas.getFensi());
         tv_guanzhu.setText("关注" + xiuquanBeanDatas.getGuanzhu());
         tv_name.setText(xiuquanBeanDatas.getName());

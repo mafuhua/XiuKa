@@ -28,6 +28,7 @@ import cn.finalteam.galleryfinal.CoreConfig;
 import cn.finalteam.galleryfinal.FunctionConfig;
 import cn.finalteam.galleryfinal.GalleryFinal;
 import cn.finalteam.galleryfinal.ThemeConfig;
+import io.rong.imkit.RongIM;
 
 
 /**
@@ -120,10 +121,14 @@ public class MyApplication extends ApplicationEx {
         if (getApplicationInfo().packageName.equals(getCurProcessName(getApplicationContext())) ||
                 "io.rong.push".equals(getCurProcessName(getApplicationContext()))) {
 
+
             /**
              * IMKit SDK调用第一步 初始化
              */
-            // RongIM.init(this);
+             RongIM.init(this);
+
+            RongCloudEvent.init(this);
+
         }
         PlatformConfig.setWeixin("wx576cf31829c5138b", "c4ffeeef49ed0280618bf7e5b35c4e2e");
         //微信 appid appsecret

@@ -128,7 +128,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         iv_bj.setOnClickListener(this);
         btn_jia.setOnClickListener(this);
 
-        myAdapter = new XiuQuanAdapter(context, xiuquanListData);
+        myAdapter = new XiuQuanAdapter(context, xiuquanListData, true);
         mixlist.setAdapter(myAdapter);
 
         mixlist.setOnScrollListener(new AbsListView.OnScrollListener() {

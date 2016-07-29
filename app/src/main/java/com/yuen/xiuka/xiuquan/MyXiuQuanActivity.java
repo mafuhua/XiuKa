@@ -24,6 +24,7 @@ import com.yuen.xiuka.R;
 import com.yuen.xiuka.activity.FaBuActivity;
 import com.yuen.xiuka.activity.GuanZhuListActivity;
 import com.yuen.xiuka.activity.PingLunActivity;
+import com.yuen.xiuka.activity.ZhuBoXiangXiActivity;
 import com.yuen.xiuka.beans.XIUQUANBean;
 import com.yuen.xiuka.beans.XiuQuanDataBean;
 import com.yuen.xiuka.utils.URLProvider;
@@ -115,7 +116,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
         iv_bj.setOnClickListener(this);
         btn_jia.setOnClickListener(this);
 
-        myAdapter = new XiuQuanAdapter(context, xiuquanListData);
+        myAdapter = new XiuQuanAdapter(context, xiuquanListData,false);
         mixlist.setAdapter(myAdapter);
 
         swiperefresh.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light,
@@ -267,7 +268,12 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
                 Toast.makeText(context, "iv_bj", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.iv_user_icon:
-                Toast.makeText(context, "iv_user_icon", Toast.LENGTH_SHORT).show();
+                if (xiuquanBeanDatas.getUid().equals(SPUtil.getInt("uid")+"")){
+                    return;
+                }
+                Intent intent = new Intent(this, ZhuBoXiangXiActivity.class);
+                intent.putExtra("uid",xiuquanBeanDatas.getUid());
+                startActivity(intent);
                 break;
             case R.id.btn_jia:
                 startActivity(FaBuActivity.class);

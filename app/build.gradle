@@ -70,9 +70,9 @@ dependencies {
     compile 'com.android.support:support-v4:23.3.0'
     compile 'cn.finalteam:galleryfinal:1.4.8.7'
     compile project(':baselib')
-    compile project(':IMKit')
     compile files('libs/MobCommons-2016.0623.1641.jar')
     compile files('libs/MobTools-2016.0623.1641.jar')
     compile files('libs/mta-sdk-1.6.2.jar')
     compile files('libs/ShareSDK-Core-2.7.3.jar')
+    compile project(':IMKit')
 }

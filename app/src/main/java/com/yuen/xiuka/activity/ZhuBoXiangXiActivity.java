@@ -1,6 +1,7 @@
 package com.yuen.xiuka.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,20 +20,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.yuen.baselib.adapter.BaseHolder;
-import com.yuen.baselib.adapter.DefaultAdapter;
 import com.yuen.baselib.utils.SPUtil;
+import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.MYBean;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
 
 import org.xutils.common.Callback;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
+import io.rong.imkit.RongIM;
 
 public class ZhuBoXiangXiActivity extends BaseActivity implements View.OnClickListener {
     private List settingString2 = new ArrayList(Arrays.asList("设置备注", "秀咖号", "性别", "个性签名", "年龄", "星座", "标签", "所在地区", "职业", "职业"));
@@ -46,6 +50,9 @@ public class ZhuBoXiangXiActivity extends BaseActivity implements View.OnClickLi
     private TextView username;
     private MYBean.DataBean myBeanData;
     private MyAdapter myAdapter;
+    private String uid;
+    private HashMap<Integer, String> mydatastrings = new HashMap<>();
+    private Button btn_lookcircle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +63,8 @@ public class ZhuBoXiangXiActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void initView() {
-
+        Intent intent = getIntent();
+        uid = intent.getStringExtra("uid");
         btn_fanhui = (Button) findViewById(R.id.btn_fanhui);
         btn_fanhui.setOnClickListener(this);
         btn_sousuo = (Button) findViewById(R.id.btn_sousuo);
@@ -69,11 +77,12 @@ public class ZhuBoXiangXiActivity extends BaseActivity implements View.OnClickLi
         btn_tijiao.setOnClickListener(this);
         lv_xiangxi = (ListView) findViewById(R.id.lv_xiangxi);
         LinearLayout header = (LinearLayout) View.inflate(ZhuBoXiangXiActivity.this, R.layout.layout_xiangxi_header, null);
-        myAdapter = new MyAdapter(settingString2);
+        myAdapter = new MyAdapter();
         lv_xiangxi.setAdapter(myAdapter);
+
         usericon = (ImageView) header.findViewById(R.id.iv_user_icon);
         username = (TextView) header.findViewById(R.id.tv_user_name);
-        username.setText("宝贝");
+        // username.setText("宝贝");
         lv_xiangxi.addHeaderView(header);
         setListViewHeightBasedOnChildren(lv_xiangxi);
         btn_sendmsg = (Button) findViewById(R.id.btn_sendmsg);
@@ -87,7 +96,7 @@ public class ZhuBoXiangXiActivity extends BaseActivity implements View.OnClickLi
                 }
             }
         });
-       // other();
+        other();
     }
 
     public void setListViewHeightBasedOnChildren(ListView listView) {
@@ -135,8 +144,11 @@ public class ZhuBoXiangXiActivity extends BaseActivity implements View.OnClickLi
 
                 break;
             case R.id.btn_sendmsg:
-
+                if (RongIM.getInstance() != null) {
+                    RongIM.getInstance().startPrivateChat(ZhuBoXiangXiActivity.this, myBeanData.getUid(), myBeanData.getName());
+                }
                 break;
+
         }
     }
 
@@ -150,10 +162,37 @@ public class ZhuBoXiangXiActivity extends BaseActivity implements View.OnClickLi
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String weight = editText.getText().toString().trim();
+                final String weight = editText.getText().toString().trim();
                 Toast.makeText(context, weight, Toast.LENGTH_SHORT).show();
             /*    settingMap.put(position, weight + hint);
                 myAdapter.notifyDataSetChanged();*/
+                HashMap<String, String> map = new HashMap<>();
+                map.put("uid", SPUtil.getInt("uid") + "");
+                map.put("g_uid", myBeanData.getUid());
+                map.put("name", weight);
+                XUtils.xUtilsPost(URLProvider.ADD_NOTE, map, new Callback.CommonCallback<String>() {
+                    @Override
+                    public void onSuccess(String result) {
+                        System.out.println(result);
+                        mydatastrings.put(2, weight);
+                        myAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(CancelledException cex) {
+
+                    }
+
+                    @Override
+                    public void onFinished() {
+
+                    }
+                });
 
             }
         });
@@ -166,10 +205,11 @@ public class ZhuBoXiangXiActivity extends BaseActivity implements View.OnClickLi
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
     public void other() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("uid", SPUtil.getInt("uid")+"");
-        map.put("g_uid", "10000005");
+        map.put("uid", uid);
+        map.put("g_uid", SPUtil.getInt("uid") + "");
         XUtils.xUtilsPost(URLProvider.MY, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -201,60 +241,90 @@ public class ZhuBoXiangXiActivity extends BaseActivity implements View.OnClickLi
         });
 
     }
-    private ArrayList<String> mydatastrings = new ArrayList<>();
+
     private void datasetting() {
         mydatastrings.clear();
-        mydatastrings.add(0, myBeanData.getImage());
-        mydatastrings.add(1, myBeanData.getName());
-        mydatastrings.add(2, myBeanData.getUid());
+        mydatastrings.put(0, myBeanData.getImage());
+        mydatastrings.put(1, myBeanData.getName());
+        mydatastrings.put(2, myBeanData.getNote_name());
+        mydatastrings.put(3, myBeanData.getUid());
         if (myBeanData.getSex().equals("1")) {
-            mydatastrings.add(3, "男");
+            mydatastrings.put(4, "男");
         } else {
-            mydatastrings.add(3, "女");
+            mydatastrings.put(4, "女");
         }
-        mydatastrings.add(4, myBeanData.getQianming());
-        mydatastrings.add(5, myBeanData.getAge());
-        mydatastrings.add(6, myBeanData.getConstellation());
-        mydatastrings.add(7, myBeanData.getLabel());
-        mydatastrings.add(8, myBeanData.getAdd());
-        mydatastrings.add(9, myBeanData.getZhiye());
+        mydatastrings.put(5, myBeanData.getQianming());
+        mydatastrings.put(6, myBeanData.getAge());
+        mydatastrings.put(7, myBeanData.getConstellation());
+        mydatastrings.put(8, myBeanData.getLabel());
+        mydatastrings.put(9, myBeanData.getAdd());
+        mydatastrings.put(10, myBeanData.getZhiye());
+
+        x.image().bind(usericon, URLProvider.BaseImgUrl + mydatastrings.get(0), MyApplication.options);
+        username.setText(mydatastrings.get(1));
         myAdapter.notifyDataSetChanged();
 
-    }
-    class MyAdapter extends DefaultAdapter {
-        public MyAdapter(List datas) {
-            super(datas);
-        }
 
-        @Override
-        public BaseHolder getHolder() {
-            return new ViewHolder();
-        }
     }
 
-    public class ViewHolder extends BaseHolder<String> {
-        public TextView tvshopmanagerleft;
-        public TextView tvshopmanagerright;
-        public View line;
+    class MyAdapter extends BaseAdapter {
+
 
         @Override
-        public View initView() {
-            View root = View.inflate(context, R.layout.layout_xiangxi_item, null);
-            tvshopmanagerleft = (TextView) root.findViewById(R.id.tv_shop_manager_left);
-            line = root.findViewById(R.id.line);
-            tvshopmanagerright = (TextView) root.findViewById(R.id.tv_shop_manager_right);
-            return root;
+        public int getCount() {
+            return settingString2 == null ? 0 : settingString2.size();
         }
 
         @Override
-        public void refreshView(String data, int position) {
-            if (position == 0 || position == 1 || position == 6) {
-                line.setVisibility(View.VISIBLE);
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder viewHolder;
+            if (convertView == null) {
+                convertView = View.inflate(context, R.layout.layout_xiangxi_item, null);
+                viewHolder = new ViewHolder(convertView);
+                convertView.setTag(viewHolder);
             } else {
-                line.setVisibility(View.GONE);
+                viewHolder = (ViewHolder) convertView.getTag();
             }
-            tvshopmanagerleft.setText((String)settingString2.get(position));
-          //  tvshopmanagerright.setText(mydatastrings.get(position));
+
+            if (position == 0 || position == 1 || position == 6) {
+                viewHolder.line.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.line.setVisibility(View.GONE);
+            }
+            viewHolder.tv_shop_manager_left.setText(settingString2.get(position).toString());
+            if (mydatastrings.size() > 1) {
+                viewHolder.tv_shop_manager_right.setText(mydatastrings.get(position + 2));
+            } else {
+
+            }
+
+            return convertView;
+        }
+
+        public class ViewHolder {
+            public View rootView;
+            public View line;
+            public TextView tv_shop_manager_left;
+            public TextView tv_shop_manager_right;
+
+            public ViewHolder(View rootView) {
+                this.rootView = rootView;
+                this.line = (View) rootView.findViewById(R.id.line);
+                this.tv_shop_manager_left = (TextView) rootView.findViewById(R.id.tv_shop_manager_left);
+                this.tv_shop_manager_right = (TextView) rootView.findViewById(R.id.tv_shop_manager_right);
+            }
+
         }
     }
+
 }

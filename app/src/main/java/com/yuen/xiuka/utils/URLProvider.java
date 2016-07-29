@@ -15,6 +15,7 @@ public class URLProvider {
     public static String ADD_RENZHEN = BaseUrl + "add_renzhen";
     public static String ADD_RENZHEN_IMG = BaseUrl + "add_renzhen_img";
     public static String ADD_JG_RENZHEN = BaseUrl + "add_jg_renzhen";
+    public static String ADD_NOTE = BaseUrl + "add_note";
     public static String ADD_JG_RENZHEN_IMG = BaseUrl + "add_jg_renzhen_img";
     public static String FANS = BaseUrl + "fans";
     public static String GUANZHU = BaseUrl + "guanzhu";

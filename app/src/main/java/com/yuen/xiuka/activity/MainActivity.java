@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.yuen.baselib.utils.SPUtil;
 import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.fragment.FaXianFragment;
@@ -20,6 +21,9 @@ import com.yuen.xiuka.fragment.WoDeFragment;
 import com.yuen.xiuka.fragment.XiaoXiFragment;
 import com.yuen.xiuka.utils.MyUtils;
 import com.yuen.xiuka.xiuquan.XiuQuanFragment2;
+
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private FragmentManager supportFragmentManager;
@@ -51,6 +55,40 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         setContentView(R.layout.activity_main);
         initView();
         loadData();
+        /**
+         * 设置接收 push 消息的监听器。
+         */
+    //    RongIM.setOnReceivePushMessageListener(new MyReceivePushMessageListener());
+        /**
+         *  设置接收消息的监听器。
+         */
+    //    RongIM.setOnReceiveMessageListener(new MyReceiveMessageListener());
+        /**
+         * IMKit SDK调用第二步
+         *
+         * 建立与服务器的连接
+         *
+         */
+        RongIM.connect(SPUtil.getString("token"), new RongIMClient.ConnectCallback() {
+            @Override
+            public void onTokenIncorrect() {
+                //Connect Token 失效的状态处理，需要重新获取 Token
+                Log.e("MainActivity", "——Connect Token— -" + "失效的状态处理，需要重新获取 Token");
+            }
+
+            @Override
+            public void onSuccess(String userId) {
+                Log.e("MainActivity", "——onSuccess— -" + userId);
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+                Log.e("MainActivity", "——onError— -" + errorCode);
+            }
+        });
+
+
+
     }
 
     @Override

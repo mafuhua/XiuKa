@@ -62,7 +62,7 @@ public class MYBean implements Serializable {
         this.msg = msg;
     }
 
-    public static class DataBean implements Serializable{
+    public static class DataBean implements Serializable {
         private String add;
         private String age;
         private String constellation;
@@ -74,12 +74,31 @@ public class MYBean implements Serializable {
         private String name;
         private String platform;
         private String qianming;
+        private String note_name;
         private String sex;
         private String tel;
         private String time;
         private String type;
         private String uid;
         private String zhiye;
+
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
+        }
+
+        private String token;
+
+        public String getNote_name() {
+            return note_name;
+        }
+
+        public void setNote_name(String note_name) {
+            this.note_name = note_name;
+        }
 
         public String getAdd() {
             return add;

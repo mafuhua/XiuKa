@@ -32,8 +32,7 @@
             android:layout_marginLeft="20dp"
             android:textSize="13sp"
             android:layout_toRightOf="@id/tv_shop_manager_left"
-            android:padding="15dp"
-            android:text="夏明"/>
+            android:padding="15dp"/>
 
 
     </RelativeLayout>

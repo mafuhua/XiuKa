@@ -417,7 +417,8 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
         switch (requestCode) {
             // 如果是直接从相册获取
             case 1:
-                startPhotoZoom(data.getData());
+                if (data.getData()!=null) {startPhotoZoom(data.getData());}
+
                 break;
             // 如果是调用相机拍照时
             case 2:

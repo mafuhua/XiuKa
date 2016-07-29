@@ -34,10 +34,12 @@ class XiuQuanAdapter extends BaseAdapter {
     private List<XiuQuanDataBean.ImageBean> imageBeanList;
     private Context context;
     private List<XiuQuanDataBean> xiuquanBeanData;
+    private boolean youOrmy;
 
-    public XiuQuanAdapter(Context context, List<XiuQuanDataBean> xiuquanBeanData) {
+    public XiuQuanAdapter(Context context, List<XiuQuanDataBean> xiuquanBeanData, boolean youOrmy) {
         this.context = context;
         this.xiuquanBeanData = xiuquanBeanData;
+        this.youOrmy = youOrmy;
         windowwidth = AppUtil.getWidth(context);
         // windowwidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
     }
@@ -133,11 +135,14 @@ class XiuQuanAdapter extends BaseAdapter {
         viewHolder.listuserimg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, MyXiuQuanActivity.class);
-                intent.putExtra("id", xiuquanBeanData.get(position).getUid());
-                intent.putExtra("name", xiuquanBeanData.get(position).getName());
-                context.startActivity(intent);
-                Toast.makeText(context, "list_img" + position, Toast.LENGTH_SHORT).show();
+                if (youOrmy){
+                    Intent intent = new Intent(context, MyXiuQuanActivity.class);
+                    intent.putExtra("id", xiuquanBeanData.get(position).getUid());
+                    intent.putExtra("name", xiuquanBeanData.get(position).getName());
+                    context.startActivity(intent);
+                    Toast.makeText(context, "list_img" + position, Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         viewHolder.iv_zhuanfa.setOnClickListener(new View.OnClickListener() {

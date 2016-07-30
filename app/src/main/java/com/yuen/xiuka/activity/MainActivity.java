@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.yuen.baselib.utils.SPUtil;
 import com.yuen.baselib.utils.SysExitUtil;
@@ -89,7 +90,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 Log.e("MainActivity", "——onError— -" + errorCode);
             }
         });
-
+        Toast.makeText(context, "fjaljf", Toast.LENGTH_SHORT).show();
 
     }
 

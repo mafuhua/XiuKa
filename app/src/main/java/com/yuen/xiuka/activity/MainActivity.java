@@ -93,7 +93,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         Toast.makeText(context, "这是win", Toast.LENGTH_SHORT).show();
 
-        Toast.makeText(context, "这是osx", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "这是osxwin", Toast.LENGTH_SHORT).show();
         Toast.makeText(context, "这是osx2", Toast.LENGTH_SHORT).show();
 
         Toast.makeText(context, "这是osx3", Toast.LENGTH_SHORT).show();

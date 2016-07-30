@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.yuen.baselib.utils.SPUtil;
 import com.yuen.baselib.utils.SysExitUtil;
@@ -91,7 +92,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             }
         });
 
-
+        Toast.makeText(context, "这是osx", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -134,7 +135,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         xiaoxiFragment = (XiaoXiFragment) FragmentFractory.getInstance().createFragment(1);
         xiuquanFragment = (XiuQuanFragment2) FragmentFractory.getInstance().createFragment(2);
         woDeFragment = (WoDeFragment) FragmentFractory.getInstance().createFragment(3);
-        listfragment = new ConversationListFragment();
+       listfragment = new ConversationListFragment();
         Uri uri = Uri.parse("rong://" + this.getApplicationInfo().packageName).buildUpon()
                 .appendPath("conversationlist")
                 .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话非聚合显示

@@ -145,7 +145,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")//设置讨论组会话非聚合显示
                 .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//设置系统会话非聚合显示
                 .build();
-        listfragment.setUri(uri);*/
+        listfragment.setUri(uri);
 
         getSupportFragmentManager().beginTransaction().add(R.id.fl_home_content, faxianFragment, "faxianFragment")
                 .add(R.id.fl_home_content, listfragment, "listfragment").hide(listfragment)

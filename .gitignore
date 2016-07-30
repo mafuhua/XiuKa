@@ -6,3 +6,11 @@
 .DS_Store
 /build
 /captures
+libs/Native_Libs2.jar
+src/main/java/com/yuen/xiuka/WBShareActivity.java
+src/main/java/com/yuen/xiuka/activity/ZhuBoListActivity.java
+src/main/java/com/yuen/xiuka/wxapi/
+src/main/res/drawable/dianzan_normal.png
+src/main/res/drawable/dianzan_pressed.png
+src/main/res/drawable/tianjia.xml
+src/main/res/layout/activity_zhu_bo_list.xml

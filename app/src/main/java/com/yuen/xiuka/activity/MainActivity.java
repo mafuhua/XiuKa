@@ -2,7 +2,6 @@ package com.yuen.xiuka.activity;
 
 
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +11,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.yuen.baselib.utils.SPUtil;
 import com.yuen.baselib.utils.SysExitUtil;
@@ -26,7 +26,6 @@ import com.yuen.xiuka.xiuquan.XiuQuanFragment2;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imlib.RongIMClient;
-import io.rong.imlib.model.Conversation;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private FragmentManager supportFragmentManager;
@@ -91,7 +90,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             }
         });
 
-
+        Toast.makeText(context, "这是win", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -134,7 +133,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         xiaoxiFragment = (XiaoXiFragment) FragmentFractory.getInstance().createFragment(1);
         xiuquanFragment = (XiuQuanFragment2) FragmentFractory.getInstance().createFragment(2);
         woDeFragment = (WoDeFragment) FragmentFractory.getInstance().createFragment(3);
-        listfragment = new ConversationListFragment();
+       /* listfragment = new ConversationListFragment();
         Uri uri = Uri.parse("rong://" + this.getApplicationInfo().packageName).buildUpon()
                 .appendPath("conversationlist")
                 .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话非聚合显示
@@ -142,10 +141,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")//设置讨论组会话非聚合显示
                 .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//设置系统会话非聚合显示
                 .build();
-        listfragment.setUri(uri);
+        listfragment.setUri(uri);*/
 
         getSupportFragmentManager().beginTransaction().add(R.id.fl_home_content, faxianFragment, "faxianFragment")
-                .add(R.id.fl_home_content, listfragment, "listfragment").hide(listfragment)
+              /*  .add(R.id.fl_home_content, listfragment, "listfragment").hide(listfragment)*/
                 .add(R.id.fl_home_content, xiuquanFragment, "xiuquanFragment").hide(xiuquanFragment)
                 .add(R.id.fl_home_content, woDeFragment, "woDeFragment").hide(woDeFragment)
                 .show(faxianFragment)
@@ -244,7 +243,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
                 break;
             case R.id.rb_home_xiaoxi:
-                switchContent(currentFragment, listfragment, "快递", View.GONE);
+             //   switchContent(currentFragment, listfragment, "快递", View.GONE);
                 break;
             case R.id.rb_home_xiuquan:
 

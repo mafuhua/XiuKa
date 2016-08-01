@@ -20,7 +20,7 @@ android {
         keystore {
             keyAlias 'mafuhua'
             keyPassword '123456'
-            storeFile file('D:/AndroidStudioProjects/XiuKa/app/src/keystore.jks')
+            storeFile file('/Users/lee/Desktop/XiuKa/app/src/keystore.jks')
             storePassword '123456'
         }
     }

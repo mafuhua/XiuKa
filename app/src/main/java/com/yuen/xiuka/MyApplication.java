@@ -126,8 +126,8 @@ public class MyApplication extends ApplicationEx {
              * IMKit SDK调用第一步 初始化
              */
              RongIM.init(this);
-
             RongCloudEvent.init(this);
+
 
         }
         PlatformConfig.setWeixin("wx576cf31829c5138b", "c4ffeeef49ed0280618bf7e5b35c4e2e");

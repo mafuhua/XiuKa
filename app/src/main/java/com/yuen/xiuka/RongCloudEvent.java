@@ -20,7 +20,7 @@ import io.rong.notification.PushNotificationMessage;
 /**
  * Created by Administrator on 2016/7/28.
  */
-public class RongCloudEvent implements RongIMClient.OnReceiveMessageListener,
+public class RongCloudEvent implements
         RongIM.UserInfoProvider, RongIM.ConversationBehaviorListener,
         RongIMClient.ConnectionStatusListener, RongIMClient.OnReceivePushMessageListener{
     private static RongCloudEvent mRongCloudInstance;
@@ -134,10 +134,7 @@ public class RongCloudEvent implements RongIMClient.OnReceiveMessageListener,
 
 
 
-    @Override
-    public boolean onReceived(Message message, int i) {
-        return false;
-    }
+
 
     @Override
     public boolean onReceivePushMessage(PushNotificationMessage pushNotificationMessage) {

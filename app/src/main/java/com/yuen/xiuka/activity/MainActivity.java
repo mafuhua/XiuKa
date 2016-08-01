@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.yuen.baselib.utils.SPUtil;
 import com.yuen.baselib.utils.SysExitUtil;
+import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.fragment.FaXianFragment;
 import com.yuen.xiuka.fragment.FragmentFractory;
@@ -26,6 +27,8 @@ import com.yuen.xiuka.fragment.WoDeFragment;
 import com.yuen.xiuka.fragment.XiaoXiFragment;
 import com.yuen.xiuka.utils.MyUtils;
 import com.yuen.xiuka.xiuquan.XiuQuanFragment2;
+
+import org.xutils.x;
 
 import java.util.List;
 
@@ -36,6 +39,9 @@ import io.rong.imkit.model.UIConversation;
 import io.rong.imkit.widget.adapter.ConversationListAdapter;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Message;
+import io.rong.imlib.model.MessageContent;
+import io.rong.message.TextMessage;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private FragmentManager supportFragmentManager;
@@ -55,6 +61,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private FragmentTransaction transaction;
     private ConversationListFragment listfragment;
     private List<Conversation> conversationList;
+    private RongIMClientWrapper rongIMClient;
+    private NewAdapter newAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +77,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         SysExitUtil.activityList.add(this);
         setContentView(R.layout.activity_main);
 
+        RongIM.setOnReceiveMessageListener(new RongIMClient.OnReceiveMessageListener() {
+            @Override
+            public boolean onReceived(Message message, int i) {
+                MessageContent messageContent = message.getContent();
+                conversationList = rongIMClient.getConversationList();
+                newAdapter.notifyDataSetChanged();
+                if (messageContent instanceof TextMessage) {//文本消息
+                    TextMessage textMessage = (TextMessage) messageContent;
+                    Log.d("mafuhua", "onReceived-TextMessage:" + textMessage.getContent());
+                }
+                return false;
+            }
+        });
+        /**
+         * IMKit SDK调用第二步
+         *
+         * 建立与服务器的连接
+         *
+         */
         RongIM.connect(SPUtil.getString("token"), new RongIMClient.ConnectCallback() {
             @Override
             public void onTokenIncorrect() {
@@ -88,22 +115,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         });
         initView();
         loadData();
-        /**
-         * 设置接收 push 消息的监听器。
-         */
-    //    RongIM.setOnReceivePushMessageListener(new MyReceivePushMessageListener());
-        /**
-         *  设置接收消息的监听器。
-         */
-    //    RongIM.setOnReceiveMessageListener(new MyReceiveMessageListener());
-        /**
-         * IMKit SDK调用第二步
-         *
-         * 建立与服务器的连接
-         *
-         */
-
-
 
     }
 
@@ -147,17 +158,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         xiuquanFragment = (XiuQuanFragment2) FragmentFractory.getInstance().createFragment(2);
         woDeFragment = (WoDeFragment) FragmentFractory.getInstance().createFragment(3);
 
-        RongIMClientWrapper rongIMClient = RongIM.getInstance().getRongIMClient();
+        rongIMClient = RongIM.getInstance().getRongIMClient();
         conversationList = rongIMClient.getConversationList();
 
 
         listfragment = new ConversationListFragment();
-        listfragment.setAdapter(new NewAdapter(context));
+
+        newAdapter = new NewAdapter(context);
+        listfragment.setAdapter(newAdapter);
         Uri uri = Uri.parse("rong://" + this.getApplicationInfo().packageName).buildUpon()
                 .appendPath("conversationlist")
                 .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话非聚合显示
                 .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "false")//设置群组会话聚合显示
                 .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")//设置讨论组会话非聚合显示
+
                 .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//设置系统会话非聚合显示
                 .build();
         listfragment.setUri(uri);
@@ -308,19 +322,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         @Override
         protected void bindView(View v, int position, UIConversation data) {
-
+            data.setUnreadType(UIConversation.UnreadRemindType.REMIND_WITH_COUNTING);
             ViewHolder viewHolder = (ViewHolder) v.getTag();
-         //   TextMessage latestMessage = (TextMessage) conversationList.get(position).getLatestMessage();
+            TextMessage latestMessage = (TextMessage) conversationList.get(position).getLatestMessage();
             if (conversationList.get(position).getUnreadMessageCount() < 1) {
                 viewHolder.count.setVisibility(View.GONE);
             } else {
                 viewHolder.count.setText(conversationList.get(position).getUnreadMessageCount() + "");
                 viewHolder.count.setVisibility(View.VISIBLE);
             }
-        //    viewHolder.content.setText(latestMessage.getContent() + "");
-     //       viewHolder.name.setText(conversationListBeanData.get(position).getNickname()+"");
+           viewHolder.content.setText(latestMessage.getContent() + "");
+            viewHolder.name.setText( latestMessage.getUserInfo().getName());
             viewHolder.time.setText(MyUtils.formatTime(conversationList.get(position).getReceivedTime())+"");
-       //     x.image().bind(viewHolder.icon, ContactURL.BASEIMG_URL + conversationListBeanData.get(position).getAvatar(), MyUtils.options6);
+
+            x.image().bind(viewHolder.icon, latestMessage.getUserInfo().getPortraitUri().toString(), MyApplication.options);
+          //  super.bindView(v,position,data);
         }
     }
 

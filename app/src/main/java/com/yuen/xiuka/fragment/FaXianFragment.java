@@ -20,7 +20,6 @@ import com.yuen.baselib.adapter.BaseHolder;
 import com.yuen.baselib.adapter.DefaultAdapter;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.activity.SouSuoActivity;
-import com.yuen.xiuka.activity.SubConversationListActivity;
 import com.yuen.xiuka.activity.ZhuBoListActivity;
 import com.yuen.xiuka.activity.ZhuBoXiangXiActivity;
 import com.yuen.xiuka.utils.MyUtils;
@@ -116,7 +115,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         gv_xinren.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(SubConversationListActivity.class);
+                startActivity(ZhuBoXiangXiActivity.class);
             }
         });
         gv_tuijian.setOnItemClickListener(new AdapterView.OnItemClickListener() {

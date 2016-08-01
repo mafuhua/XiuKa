@@ -2,9 +2,12 @@ package com.yuen.xiuka;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 
+import com.yuen.baselib.utils.SPUtil;
 import com.yuen.xiuka.activity.PhotoActivity;
+import com.yuen.xiuka.utils.URLProvider;
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
@@ -142,6 +145,6 @@ public class RongCloudEvent implements RongIMClient.OnReceiveMessageListener,
 
     @Override
     public UserInfo getUserInfo(String s) {
-        return null;
+        return new UserInfo(SPUtil.getString("name"),SPUtil.getInt("uid")+"", Uri.parse(URLProvider.BaseImgUrl+SPUtil.getString("icon")));
     }
 }

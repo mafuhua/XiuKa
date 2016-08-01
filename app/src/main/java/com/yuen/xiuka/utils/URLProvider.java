@@ -4,8 +4,8 @@ package com.yuen.xiuka.utils;
  * Created by Administrator on 2016/6/21.
  */
 public class URLProvider {
-    public static String BaseUrl = "http://192.168.0.107/xiuka/jiekou/";
-    public static String BaseImgUrl = "http://192.168.0.107/xiuka/upload/";
+    public static String BaseUrl = "http://192.168.0.123/xiuka/jiekou/";
+    public static String BaseImgUrl = "http://192.168.0.123/xiuka/upload/";
 
     public static String DUANXIN = BaseUrl + "duanxin";
     public static String LOGIN = BaseUrl + "login";

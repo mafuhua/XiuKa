@@ -20,6 +20,7 @@ import com.yuen.baselib.adapter.BaseHolder;
 import com.yuen.baselib.adapter.DefaultAdapter;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.activity.SouSuoActivity;
+import com.yuen.xiuka.activity.SubConversationListActivity;
 import com.yuen.xiuka.activity.ZhuBoListActivity;
 import com.yuen.xiuka.activity.ZhuBoXiangXiActivity;
 import com.yuen.xiuka.utils.MyUtils;
@@ -115,7 +116,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         gv_xinren.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(ZhuBoXiangXiActivity.class);
+                startActivity(SubConversationListActivity.class);
             }
         });
         gv_tuijian.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -200,6 +201,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view = mInflater.inflate(R.layout.layout_home_recycle_textview,
                     viewGroup, false);
+
             ViewHolder viewHolder = new ViewHolder(view);
             viewHolder.mTxt = (TextView) view.findViewById(R.id.home_icon__item_text);
             viewHolder.tv_line = view.findViewById(R.id.tv_line);

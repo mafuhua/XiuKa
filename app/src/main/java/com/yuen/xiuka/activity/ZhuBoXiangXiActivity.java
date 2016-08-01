@@ -146,6 +146,7 @@ public class ZhuBoXiangXiActivity extends BaseActivity implements View.OnClickLi
             case R.id.btn_sendmsg:
                 if (RongIM.getInstance() != null) {
                     RongIM.getInstance().startPrivateChat(ZhuBoXiangXiActivity.this, myBeanData.getUid(), myBeanData.getName());
+                   // RongIM.getInstance().startCustomerServiceChat(ZhuBoXiangXiActivity.this, myBeanData.getUid(), myBeanData.getName());
                 }
                 break;
 

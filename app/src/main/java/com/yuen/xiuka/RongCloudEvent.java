@@ -71,7 +71,8 @@ public class RongCloudEvent implements RongIMClient.OnReceiveMessageListener,
 
 //        RongIM.setOnReceivePushMessageListener(this);//自定义 push 通知。
         //消息体内是否有 userinfo 这个属性
-//        RongIM.getInstance().setMessageAttachedUserInfo(true);
+        RongIM.getInstance().setMessageAttachedUserInfo(true);
+        RongIM.getInstance().setCurrentUserInfo(new UserInfo(SPUtil.getInt("uid")+"",SPUtil.getString("name"), Uri.parse(URLProvider.BaseImgUrl+SPUtil.getString("icon"))));
     }
     @Override
     public void onChanged(ConnectionStatus connectionStatus) {
@@ -145,6 +146,6 @@ public class RongCloudEvent implements RongIMClient.OnReceiveMessageListener,
 
     @Override
     public UserInfo getUserInfo(String s) {
-        return new UserInfo(SPUtil.getString("name"),SPUtil.getInt("uid")+"", Uri.parse(URLProvider.BaseImgUrl+SPUtil.getString("icon")));
+        return new UserInfo(SPUtil.getInt("uid")+"",SPUtil.getString("name"), Uri.parse(URLProvider.BaseImgUrl+SPUtil.getString("icon")));
     }
 }

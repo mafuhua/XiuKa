@@ -11,6 +11,10 @@ import com.yuen.xiuka.R;
 import org.xutils.image.ImageOptions;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import io.rong.imkit.RongContext;
 
 /**
  * Created by Administrator on 2016/4/12.
@@ -97,5 +101,28 @@ public class MyUtils {
         }
         return;
     }
+    public static String formatTime(long timeMillis) {
+        if(timeMillis == 0L) {
+            return "";
+        } else {
+            String result = null;
+            int targetDay = (int)(timeMillis / 86400000L);
+            int nowDay = (int)(System.currentTimeMillis() / 86400000L);
+            if(targetDay == nowDay) {
+                result = fromatDate(timeMillis, "HH:mm");
+            } else if(targetDay + 1 == nowDay) {
+                Context context = RongContext.getInstance().getBaseContext();
+                String formatString = "昨天";
+                result = String.format(formatString, new Object[]{fromatDate(timeMillis, "HH:mm")});
+            } else {
+                result = fromatDate(timeMillis, "yyyy-MM-dd HH:mm");
+            }
 
+            return result;
+        }
+    }
+    private static String fromatDate(long timeMillis, String fromat) {
+        SimpleDateFormat sdf = new SimpleDateFormat(fromat);
+        return sdf.format(new Date(timeMillis));
+    }
 }

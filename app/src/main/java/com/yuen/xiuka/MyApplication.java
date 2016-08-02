@@ -37,6 +37,7 @@ import io.rong.imkit.RongIM;
 public class MyApplication extends ApplicationEx {
     public static Context context;
     public static ImageOptions options;
+    public static ImageOptions optionscache;
     public static ImageOptions optionsxq;
 
     /**
@@ -105,10 +106,18 @@ public class MyApplication extends ApplicationEx {
                 .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                 .setUseMemCache(false)
                 .build();
+        optionscache = new ImageOptions.Builder()
+                .setRadius(25)
+                // 是否忽略GIF格式的图片
+                .setIgnoreGif(false)
+                // 图片缩放模式
+                .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                .setUseMemCache(true)
+                .build();
         optionsxq = new ImageOptions.Builder()
                 // 是否忽略GIF格式的图片
                 .setIgnoreGif(false)
-            //    .setFailureDrawableId(R.drawable.cuowu)
+                //    .setFailureDrawableId(R.drawable.cuowu)
                 // 图片缩放模式
                 .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                 .setUseMemCache(true)
@@ -125,7 +134,7 @@ public class MyApplication extends ApplicationEx {
             /**
              * IMKit SDK调用第一步 初始化
              */
-             RongIM.init(this);
+            RongIM.init(this);
             RongCloudEvent.init(this);
 
 

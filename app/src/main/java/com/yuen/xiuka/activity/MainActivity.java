@@ -359,7 +359,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 viewHolder.name.setText(conversationList.get(position).getSenderUserId());
             } else {
                 viewHolder.name.setText(userInfo.getName() + "");
-                x.image().bind(viewHolder.icon, userInfo.getPortraitUri().toString(), MyApplication.options);
+                x.image().bind(viewHolder.icon, userInfo.getPortraitUri().toString(), MyApplication.optionscache);
             }
             viewHolder.time.setText(MyUtils.formatTime(conversationList.get(position).getReceivedTime()) + "");
 

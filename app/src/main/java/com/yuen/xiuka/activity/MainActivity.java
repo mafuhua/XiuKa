@@ -17,19 +17,25 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.yuen.baselib.utils.SPUtil;
 import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
+import com.yuen.xiuka.beans.FENSIBean;
 import com.yuen.xiuka.fragment.FaXianFragment;
 import com.yuen.xiuka.fragment.FragmentFractory;
 import com.yuen.xiuka.fragment.WoDeFragment;
 import com.yuen.xiuka.fragment.XiaoXiFragment;
 import com.yuen.xiuka.utils.MyUtils;
+import com.yuen.xiuka.utils.URLProvider;
+import com.yuen.xiuka.utils.XUtils;
 import com.yuen.xiuka.xiuquan.XiuQuanFragment2;
 
+import org.xutils.common.Callback;
 import org.xutils.x;
 
+import java.util.HashMap;
 import java.util.List;
 
 import io.rong.imkit.RongIM;
@@ -41,6 +47,7 @@ import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.MessageContent;
+import io.rong.imlib.model.UserInfo;
 import io.rong.message.TextMessage;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
@@ -158,6 +165,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         xiuquanFragment = (XiuQuanFragment2) FragmentFractory.getInstance().createFragment(2);
         woDeFragment = (WoDeFragment) FragmentFractory.getInstance().createFragment(3);
 
+        getList(URLProvider.GUANZHU);
+
         rongIMClient = RongIM.getInstance().getRongIMClient();
         conversationList = rongIMClient.getConversationList();
 
@@ -171,7 +180,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话非聚合显示
                 .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "false")//设置群组会话聚合显示
                 .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")//设置讨论组会话非聚合显示
-
                 .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//设置系统会话非聚合显示
                 .build();
         listfragment.setUri(uri);
@@ -187,7 +195,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         currentFragment = faxianFragment;
 
 
-  /*      RequestParams requestParams = new RequestParams("http://h.hiphotos.baidu.com/image/pic/item/4e4a20a4462309f7475ff8ce770e0cf3d7cad63e.jpg");
+
+       /* RequestParams requestParams = new RequestParams("http://h.hiphotos.baidu.com/image/pic/item/4e4a20a4462309f7475ff8ce770e0cf3d7cad63e.jpg");
         requestParams.setAutoRename(true);
         requestParams.setSaveFilePath(Environment.getExternalStorageDirectory() + "/imagcacahe/760e1d2.jpg");
         x.http().get(requestParams, new Callback.CommonCallback<File>() {
@@ -210,8 +219,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             public void onFinished() {
 
             }
-        });
-*/
+        });*/
      /*   x.image().loadFile("http://d.hiphotos.baidu.com/image/h%3D200/sign=ea218b2c5566d01661199928a729d498/a08b87d6277f9e2fd4f215e91830e924b999f308.jpg", MyApplication.options, new Callback.CacheCallback<File>() {
             @Override
             public boolean onCache(File result) {
@@ -307,7 +315,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         private Context contextt;
 
-        public NewAdapter(Context contextt) {
+
+           public NewAdapter(Context contextt) {
             super(context);
             this.contextt = contextt;
         }
@@ -322,20 +331,35 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         @Override
         protected void bindView(View v, int position, UIConversation data) {
-            data.setUnreadType(UIConversation.UnreadRemindType.REMIND_WITH_COUNTING);
+          //
+            //  data.setUnreadType(UIConversation.UnreadRemindType.REMIND_WITH_COUNTING);
+            TextMessage latestMessage;
+            UserInfo userInfo;
             ViewHolder viewHolder = (ViewHolder) v.getTag();
-            TextMessage latestMessage = (TextMessage) conversationList.get(position).getLatestMessage();
+            if (conversationList.get(position).getLatestMessage() instanceof TextMessage) {
+                latestMessage = (TextMessage) conversationList.get(position).getLatestMessage() ;
+               userInfo= latestMessage.getUserInfo();
+                viewHolder.content.setText(latestMessage.getContent() + "");
+
+            }else {
+                MessageContent message = conversationList.get(position).getLatestMessage();
+                userInfo = message.getUserInfo();
+                message.getUserInfo().getPortraitUri();
+                viewHolder.content.setText("");
+
+            }
+
             if (conversationList.get(position).getUnreadMessageCount() < 1) {
                 viewHolder.count.setVisibility(View.GONE);
             } else {
                 viewHolder.count.setText(conversationList.get(position).getUnreadMessageCount() + "");
                 viewHolder.count.setVisibility(View.VISIBLE);
             }
-           viewHolder.content.setText(latestMessage.getContent() + "");
-            viewHolder.name.setText( latestMessage.getUserInfo().getName());
+
+            viewHolder.name.setText( userInfo.getName()+"");
             viewHolder.time.setText(MyUtils.formatTime(conversationList.get(position).getReceivedTime())+"");
 
-            x.image().bind(viewHolder.icon, latestMessage.getUserInfo().getPortraitUri().toString(), MyApplication.options);
+            x.image().bind(viewHolder.icon, userInfo.getPortraitUri().toString(), MyApplication.options);
           //  super.bindView(v,position,data);
         }
     }
@@ -357,6 +381,34 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             this.count = (TextView) rootView.findViewById(R.id.count);
         }
 
+    }
+    private void getList(String url) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("uid", SPUtil.getInt("uid") + "");
+        XUtils.xUtilsPost(url, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("mafuhua", result);
+                Gson gson = new Gson();
+                FENSIBean fensiBean = gson.fromJson(result, FENSIBean.class);
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
 }

@@ -92,7 +92,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 newAdapter.notifyDataSetChanged();
                 if (messageContent instanceof TextMessage) {//文本消息
                     TextMessage textMessage = (TextMessage) messageContent;
-                    Log.d("mafuhua", "onReceived-TextMessage:" + textMessage.getContent());
+                  //  Log.d("mafuhua", "onReceived-TextMessage:" + textMessage.getContent());
                 }
                 return false;
             }
@@ -167,14 +167,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         getList(URLProvider.GUANZHU);
 
-        rongIMClient = RongIM.getInstance().getRongIMClient();
-        conversationList = rongIMClient.getConversationList();
+     //   rongIMClient = RongIM.getInstance().getRongIMClient();
+      //  conversationList = rongIMClient.getConversationList();
 
 
-        listfragment = new ConversationListFragment();
+      //  listfragment = new ConversationListFragment();
 
-        newAdapter = new NewAdapter(context);
-        listfragment.setAdapter(newAdapter);
+      //  newAdapter = new NewAdapter(context);
+      //  listfragment.setAdapter(newAdapter);
         Uri uri = Uri.parse("rong://" + this.getApplicationInfo().packageName).buildUpon()
                 .appendPath("conversationlist")
                 .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话非聚合显示
@@ -182,10 +182,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")//设置讨论组会话非聚合显示
                 .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//设置系统会话非聚合显示
                 .build();
-        listfragment.setUri(uri);
+       // listfragment.setUri(uri);
 
         getSupportFragmentManager().beginTransaction().add(R.id.fl_home_content, faxianFragment, "faxianFragment")
-                .add(R.id.fl_home_content, listfragment, "listfragment").hide(listfragment)
+                .add(R.id.fl_home_content, xiaoxiFragment, "listfragment").hide(xiaoxiFragment)
                 .add(R.id.fl_home_content, xiuquanFragment, "xiuquanFragment").hide(xiuquanFragment)
                 .add(R.id.fl_home_content, woDeFragment, "woDeFragment").hide(woDeFragment)
                 .show(faxianFragment)
@@ -285,7 +285,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
                 break;
             case R.id.rb_home_xiaoxi:
-                switchContent(currentFragment, listfragment, "快递", View.GONE);
+                switchContent(currentFragment, xiaoxiFragment, "快递", View.GONE);
                 break;
             case R.id.rb_home_xiuquan:
 

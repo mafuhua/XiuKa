@@ -266,7 +266,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         });
         Downloader downloader = new Downloader();
         downloader.downloadImage("http://d.hiphotos.baidu.com/image/h%3D200/sign=ea218b2c5566d01661199928a729d498/a08b87d6277f9e2fd4f215e91830e924b999f308.jpg",Environment.getExternalStorageDirectory() + "/imagcaca646h.jpg");
-  */  }
+  */
+    }
 
     @Override
     public void loadData() {
@@ -289,8 +290,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.rb_home_xiuquan:
 
                 switchContent(currentFragment, xiuquanFragment, "购物车", View.VISIBLE);
-               // xiuquanFragment.xiuquan();
-             //   xiuquanFragment.initheader(xiuquanBeanDatas);
+                // xiuquanFragment.xiuquan();
+                //   xiuquanFragment.initheader(xiuquanBeanDatas);
                 break;
             case R.id.rb_home_wode:
                 switchContent(currentFragment, woDeFragment, "个人中心", View.GONE);
@@ -311,19 +312,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-       class NewAdapter extends ConversationListAdapter {
+    class NewAdapter extends ConversationListAdapter {
 
         private Context contextt;
 
 
-           public NewAdapter(Context contextt) {
+        public NewAdapter(Context contextt) {
             super(context);
             this.contextt = contextt;
         }
 
         @Override
         protected View newView(Context context, int position, ViewGroup group) {
-            View inflate = View.inflate(contextt, R.layout.item_converdationlsit, (ViewGroup)null);
+            View inflate = View.inflate(contextt, R.layout.item_converdationlsit, (ViewGroup) null);
             ViewHolder viewHolder = new ViewHolder(inflate);
             inflate.setTag(viewHolder);
             return inflate;
@@ -331,20 +332,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         @Override
         protected void bindView(View v, int position, UIConversation data) {
-          //
+            //
             //  data.setUnreadType(UIConversation.UnreadRemindType.REMIND_WITH_COUNTING);
             TextMessage latestMessage;
             UserInfo userInfo;
             ViewHolder viewHolder = (ViewHolder) v.getTag();
             if (conversationList.get(position).getLatestMessage() instanceof TextMessage) {
-                latestMessage = (TextMessage) conversationList.get(position).getLatestMessage() ;
-               userInfo= latestMessage.getUserInfo();
+                latestMessage = (TextMessage) conversationList.get(position).getLatestMessage();
+                userInfo = latestMessage.getUserInfo();
                 viewHolder.content.setText(latestMessage.getContent() + "");
 
-            }else {
+            } else {
                 MessageContent message = conversationList.get(position).getLatestMessage();
                 userInfo = message.getUserInfo();
-                message.getUserInfo().getPortraitUri();
                 viewHolder.content.setText("");
 
             }
@@ -355,12 +355,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 viewHolder.count.setText(conversationList.get(position).getUnreadMessageCount() + "");
                 viewHolder.count.setVisibility(View.VISIBLE);
             }
+            if (userInfo == null) {
+                viewHolder.name.setText(conversationList.get(position).getSenderUserId());
+            } else {
+                viewHolder.name.setText(userInfo.getName() + "");
+                x.image().bind(viewHolder.icon, userInfo.getPortraitUri().toString(), MyApplication.options);
+            }
+            viewHolder.time.setText(MyUtils.formatTime(conversationList.get(position).getReceivedTime()) + "");
 
-            viewHolder.name.setText( userInfo.getName()+"");
-            viewHolder.time.setText(MyUtils.formatTime(conversationList.get(position).getReceivedTime())+"");
-
-            x.image().bind(viewHolder.icon, userInfo.getPortraitUri().toString(), MyApplication.options);
-          //  super.bindView(v,position,data);
+            //  super.bindView(v,position,data);
         }
     }
 
@@ -382,6 +385,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
 
     }
+
     private void getList(String url) {
         HashMap<String, String> map = new HashMap<>();
         map.put("uid", SPUtil.getInt("uid") + "");

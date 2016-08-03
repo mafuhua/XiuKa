@@ -5,18 +5,17 @@
                 android:orientation="vertical">
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:background="@drawable/xiuka"
-        android:layout_margin="10dp"/>
+        android:layout_margin="8dp"/>
 
     <TextView
-        android:textColor="#9C9C9C"
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/icon"
         android:text="456645"/>
     <TextView
@@ -31,7 +30,6 @@
         android:layout_toLeftOf="@+id/name"
         android:background="@drawable/shape_group_bg"/>
     <TextView
-        android:textColor="#9C9C9C"
         android:id="@+id/content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,7 +40,6 @@
         android:text="456645"/>
     <TextView
         android:id="@+id/time"
-        android:textColor="#9C9C9C"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

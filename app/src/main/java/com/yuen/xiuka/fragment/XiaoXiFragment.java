@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -39,14 +40,48 @@ public class XiaoXiFragment extends BaseFragment {
 
     @Override
     public View initView() {
-        View inflate = View.inflate(MyApplication.context, R.layout.layout_xiaoxi_fragment, null);
+        View inflate = View.inflate(getActivity(), R.layout.layout_xiaoxi_fragment, null);
         converlist = (ListView) inflate.findViewById(R.id.converstationlist);
 
         rongIMClient = RongIM.getInstance().getRongIMClient();
         conversationList = rongIMClient.getConversationList();
         newAdapter = new NewAdapter();
         converlist.setAdapter(newAdapter);
+
+        converlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                } else if (position == 1) {
+                } else {
+                    if (RongIM.getInstance() != null) {
+                        Conversation conversation = conversationList.get(position-2);
+                        UserInfo userInfo = conversation.getLatestMessage().getUserInfo();
+                      //  Uri aPrivate = RongContext.getInstance().getConversationTemplate("private").getPortraitUri(conversation.getTargetId());
+
+                        RongIM.getInstance().startPrivateChat(getActivity(),conversation.getTargetId(),userInfo.getName());
+                    }
+                }
+            }
+        });
         return inflate;
+    }
+
+    @Override
+    public void initData() {
+        RongIM.setOnReceiveMessageListener(new RongIMClient.OnReceiveMessageListener() {
+            @Override
+            public boolean onReceived(Message message, int i) {
+                MessageContent messageContent = message.getContent();
+                conversationList = rongIMClient.getConversationList();
+                if (messageContent instanceof TextMessage) {//文本消息
+                    TextMessage textMessage = (TextMessage) messageContent;
+                    Log.d("mafuhua", "onReceived-TextMessage:jkj" + textMessage.getContent());
+                    newAdapter.notifyDataSetChanged();
+                }
+                return false;
+            }
+        });
     }
 
     class NewAdapter extends BaseAdapter {
@@ -83,7 +118,7 @@ public class XiaoXiFragment extends BaseFragment {
 
             ViewHolder viewHolder;
             if (convertView == null) {
-                convertView = View.inflate(context, R.layout.item_converdationlsit, null);
+                convertView = View.inflate(getActivity(), R.layout.item_converdationlsit, null);
                 viewHolder = new ViewHolder(convertView);
                 convertView.setTag(viewHolder);
             } else {
@@ -122,41 +157,24 @@ public class XiaoXiFragment extends BaseFragment {
                     if (conversationList.get(position).getUnreadMessageCount() < 1) {
                         viewHolder.count.setVisibility(View.GONE);
                     } else {
-                        viewHolder.count.setText(conversationList.get(position).getUnreadMessageCount() + "");
+                        viewHolder.count.setText(conversationList.get(position).getUnreadMessageCount()+"");
                         viewHolder.count.setVisibility(View.VISIBLE);
                     }
-                    if (userInfo == null) {
+                    if (conversationList.get(position).getConversationTitle() == null) {
                         viewHolder.name.setText(conversationList.get(position).getSenderUserId());
                     } else {
-                        viewHolder.name.setText(userInfo.getName() + "");
+                        viewHolder.name.setText(conversationList.get(position).getConversationTitle());
 
-                        x.image().bind(viewHolder.icon, userInfo.getPortraitUri().toString(), MyApplication.optionscache);
+                        x.image().bind(viewHolder.icon, conversationList.get(position).getPortraitUrl(), MyApplication.optionscache);
 
                     }
-                    viewHolder.time.setText(MyUtils.formatTime(conversationList.get(position).getReceivedTime()) + "");
+                    viewHolder.time.setText(MyUtils.formatTime(conversationList.get(position).getReceivedTime()));
                     break;
             }
 
 
             return convertView;
         }
-    }
-
-    @Override
-    public void initData() {
-        RongIM.setOnReceiveMessageListener(new RongIMClient.OnReceiveMessageListener() {
-            @Override
-            public boolean onReceived(Message message, int i) {
-                MessageContent messageContent = message.getContent();
-                conversationList = rongIMClient.getConversationList();
-                if (messageContent instanceof TextMessage) {//文本消息
-                    TextMessage textMessage = (TextMessage) messageContent;
-                    Log.d("mafuhua", "onReceived-TextMessage:jkj" + textMessage.getContent());
-                    newAdapter.notifyDataSetChanged();
-                }
-                return false;
-            }
-        });
     }
 
     public class ViewHolder {

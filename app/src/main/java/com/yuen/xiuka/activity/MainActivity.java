@@ -167,14 +167,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         getList(URLProvider.GUANZHU);
 
-     //   rongIMClient = RongIM.getInstance().getRongIMClient();
-      //  conversationList = rongIMClient.getConversationList();
+  /*  rongIMClient = RongIM.getInstance().getRongIMClient();
+    conversationList = rongIMClient.getConversationList();
 
 
-      //  listfragment = new ConversationListFragment();
+    listfragment = new ConversationListFragment();
 
-      //  newAdapter = new NewAdapter(context);
-      //  listfragment.setAdapter(newAdapter);
+    newAdapter = new NewAdapter(context);
+    listfragment.setAdapter(newAdapter);*/
         Uri uri = Uri.parse("rong://" + this.getApplicationInfo().packageName).buildUpon()
                 .appendPath("conversationlist")
                 .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话非聚合显示
@@ -266,8 +266,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         });
         Downloader downloader = new Downloader();
         downloader.downloadImage("http://d.hiphotos.baidu.com/image/h%3D200/sign=ea218b2c5566d01661199928a729d498/a08b87d6277f9e2fd4f215e91830e924b999f308.jpg",Environment.getExternalStorageDirectory() + "/imagcaca646h.jpg");
-  */
-    }
+  */  }
 
     @Override
     public void loadData() {
@@ -290,8 +289,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.rb_home_xiuquan:
 
                 switchContent(currentFragment, xiuquanFragment, "购物车", View.VISIBLE);
-                // xiuquanFragment.xiuquan();
-                //   xiuquanFragment.initheader(xiuquanBeanDatas);
+               // xiuquanFragment.xiuquan();
+             //   xiuquanFragment.initheader(xiuquanBeanDatas);
                 break;
             case R.id.rb_home_wode:
                 switchContent(currentFragment, woDeFragment, "个人中心", View.GONE);
@@ -345,6 +344,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             } else {
                 MessageContent message = conversationList.get(position).getLatestMessage();
                 userInfo = message.getUserInfo();
+
                 viewHolder.content.setText("");
 
             }

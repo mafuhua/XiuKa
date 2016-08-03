@@ -18,10 +18,13 @@ import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.BaseBean;
 import com.yuen.xiuka.beans.FENSIBean;
+import com.yuen.xiuka.utils.PersonTable;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
 
+import org.xutils.DbManager;
 import org.xutils.common.Callback;
+import org.xutils.ex.DbException;
 import org.xutils.x;
 
 import java.util.HashMap;
@@ -38,6 +41,7 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
     private List<FENSIBean.DataBean> fensiBeanData;
     private MyAdapter myAdapter;
     private String stringExtra;
+    private DbManager db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,13 +168,58 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
             cbguanzhu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    DbManager.DaoConfig daoConfig = XUtils.getDaoConfig();
+                    db = x.getDb(daoConfig);
                     if (cbguanzhu.isChecked()) {
-
+                        //添加对粉丝的关注
                         addordelguanzhu(URLProvider.ADD_GUANZHU,data.getUid());
+
+
+
+                        try {
+                            PersonTable person = new PersonTable();
+                            person.setId(Integer.parseInt(data.getUid()));
+                            person.setName(data.getName());
+                            db.saveOrUpdate(person);
+
+
+                            /**
+                             * findAll的使用
+                             该方法主要是返回当前表里面的所有数据
+                             需求:查找person表里面的所有数据
+                             */
+                            List<PersonTable> persons = db.findAll(PersonTable.class);
+                            for (PersonTable personTable : persons) {
+                                Log.e("personsadd", personTable.toString());
+                            }
+                        } catch (DbException e) {
+                            e.printStackTrace();
+                        }
                     } else {
 
                         if (stringExtra.equals("fensi")){
+                            //删除粉丝的关注
                             addordelguanzhu(URLProvider.DEL_GUANZHU,data.getUid());
+                            /**
+                             * deleteById的用法
+                             该方法主要是根据表的主键进行单条记录的删除
+                             需求:删除上方person表中id为5的记录
+                             */
+                            try {
+                                db.deleteById(PersonTable.class, data.getUid());
+
+                                /**
+                                 * findAll的使用
+                                 该方法主要是返回当前表里面的所有数据
+                                 需求:查找person表里面的所有数据
+                                 */
+                                List<PersonTable> persons = db.findAll(PersonTable.class);
+                                for (PersonTable personTable : persons) {
+                                    Log.e("personsdel", personTable.toString());
+                                }
+                            } catch (DbException e) {
+                                e.printStackTrace();
+                            }
                         }else if (stringExtra.equals("guanzhu")){
                             addordelguanzhu(URLProvider.DEL_GUANZHU,data.getG_uid());
                         }

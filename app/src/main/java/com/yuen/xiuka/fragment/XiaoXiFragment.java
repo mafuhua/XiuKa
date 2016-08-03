@@ -14,9 +14,13 @@ import com.yuen.baselib.activity.BaseFragment;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.utils.MyUtils;
+import com.yuen.xiuka.utils.PersonTable;
+import com.yuen.xiuka.utils.XUtils;
 
+import org.xutils.DbManager;
 import org.xutils.x;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.rong.imkit.RongIM;
@@ -35,6 +39,8 @@ public class XiaoXiFragment extends BaseFragment {
     private Context context = MyApplication.context;
     private ListView converlist;
     private List<Conversation> conversationList;
+    private List<Conversation> guanzhuList = new ArrayList<>();
+    private List<Conversation> WguanzhuList = new ArrayList<>();
     private RongIMClientWrapper rongIMClient;
     private NewAdapter newAdapter;
 
@@ -45,6 +51,37 @@ public class XiaoXiFragment extends BaseFragment {
 
         rongIMClient = RongIM.getInstance().getRongIMClient();
         conversationList = rongIMClient.getConversationList();
+
+        /**
+         * findAll的使用
+         该方法主要是返回当前表里面的所有数据
+         需求:查找person表里面的所有数据
+         */
+        try {
+            DbManager.DaoConfig daoConfig = XUtils.getDaoConfig();
+            DbManager db = x.getDb(daoConfig);
+            List<PersonTable>  persons = db.findAll(PersonTable.class);
+
+
+
+            for (int i = 0; i < conversationList.size(); i++) {
+                if (persons==null){
+                    break;
+                }
+                for (PersonTable personTable : persons) {
+                    Log.e("persons", personTable.toString());
+                    Conversation conversation = conversationList.get(i);
+                    if (Integer.parseInt(conversation.getTargetId())==(personTable.getId())){
+                        guanzhuList.add(conversation);
+                    } else{
+                        WguanzhuList.add(conversation);
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         newAdapter = new NewAdapter();
         converlist.setAdapter(newAdapter);
 
@@ -55,11 +92,11 @@ public class XiaoXiFragment extends BaseFragment {
                 } else if (position == 1) {
                 } else {
                     if (RongIM.getInstance() != null) {
-                        Conversation conversation = conversationList.get(position-2);
+                        Conversation conversation = conversationList.get(position - 2);
                         UserInfo userInfo = conversation.getLatestMessage().getUserInfo();
-                      //  Uri aPrivate = RongContext.getInstance().getConversationTemplate("private").getPortraitUri(conversation.getTargetId());
+                        //  Uri aPrivate = RongContext.getInstance().getConversationTemplate("private").getPortraitUri(conversation.getTargetId());
 
-                        RongIM.getInstance().startPrivateChat(getActivity(),conversation.getTargetId(),userInfo.getName());
+                        RongIM.getInstance().startPrivateChat(getActivity(), conversation.getTargetId(), userInfo.getName()+"");
                     }
                 }
             }
@@ -157,7 +194,7 @@ public class XiaoXiFragment extends BaseFragment {
                     if (conversationList.get(position).getUnreadMessageCount() < 1) {
                         viewHolder.count.setVisibility(View.GONE);
                     } else {
-                        viewHolder.count.setText(conversationList.get(position).getUnreadMessageCount()+"");
+                        viewHolder.count.setText(conversationList.get(position).getUnreadMessageCount() + "");
                         viewHolder.count.setVisibility(View.VISIBLE);
                     }
                     if (conversationList.get(position).getConversationTitle() == null) {

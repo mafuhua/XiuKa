@@ -1,6 +1,7 @@
 package com.yuen.xiuka.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,15 +16,21 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.yuen.baselib.activity.BaseFragment;
 import com.yuen.baselib.adapter.BaseHolder;
 import com.yuen.baselib.adapter.DefaultAdapter;
+import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.activity.SouSuoActivity;
 import com.yuen.xiuka.activity.ZhuBoListActivity;
-import com.yuen.xiuka.activity.ZhuBoXiangXiActivity;
+import com.yuen.xiuka.beans.ShouyeBean;
 import com.yuen.xiuka.utils.MyUtils;
+import com.yuen.xiuka.utils.URLProvider;
+import com.yuen.xiuka.utils.XUtils;
+import com.yuen.xiuka.xiuquan.MyXiuQuanActivity;
 
+import org.xutils.common.Callback;
 import org.xutils.x;
 
 import java.util.ArrayList;
@@ -49,8 +56,11 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
     private GridView gv_tuijian;
     private TextView tv_gengduo2;
     private GridView gv_xinren;
-    private MyAdapter myAdapter;
+    private MyAdapter myAdapter1;
     private TextView tv_sousuo;
+    private ShouyeBean shouyeBean;
+    private MyAdapter myAdapter2;
+    private MyAdapter myAdapter3;
 
     @Override
     public View initView() {
@@ -78,8 +88,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
             }
         });
         mRcHomeHorizontal.setAdapter(myRCAdapter);
-        myAdapter = new MyAdapter(settingString2);
-        gv_renqi.setAdapter(myAdapter);
+
 
         gv_renqi.setOnTouchListener(new View.OnTouchListener() {
 
@@ -101,27 +110,33 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         tv_gengduo2 = (TextView) view.findViewById(R.id.tv_gengduo2);
         tv_gengduo2.setOnClickListener(this);
         gv_xinren = (GridView) view.findViewById(R.id.gv_xinren);
-        gv_xinren.setAdapter(myAdapter);
-        gv_tuijian.setAdapter(myAdapter);
-        setListViewHeightBasedOnChildren(gv_tuijian);
-        setListViewHeightBasedOnChildren(gv_xinren);
-        setListViewHeightBasedOnChildren(gv_renqi);
+
+
         gv_renqi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(ZhuBoXiangXiActivity.class);
+                Intent intent = new Intent(getActivity(), MyXiuQuanActivity.class);
+                intent.putExtra("id", shouyeBean.getData1().get(position).getUid()+"");
+                intent.putExtra("name",shouyeBean.getData1().get(position).getName());
+                startActivity(intent);
             }
         });
         gv_xinren.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(ZhuBoXiangXiActivity.class);
+                Intent intent = new Intent(getActivity(), MyXiuQuanActivity.class);
+                intent.putExtra("id", shouyeBean.getData3().get(position).getUid()+"");
+                intent.putExtra("name",shouyeBean.getData3().get(position).getName());
+                startActivity(intent);
             }
         });
         gv_tuijian.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(ZhuBoXiangXiActivity.class);
+                Intent intent = new Intent(getActivity(), MyXiuQuanActivity.class);
+                intent.putExtra("id", shouyeBean.getData2().get(position).getUid()+"");
+                intent.putExtra("name",shouyeBean.getData2().get(position).getName());
+                startActivity(intent);
             }
         });
         return view;
@@ -129,7 +144,39 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void initData() {
+        XUtils.xUtilsGet(URLProvider.INDEX_LIST, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Gson gson = new Gson();
+                shouyeBean = gson.fromJson(result, ShouyeBean.class);
+                myAdapter1 = new MyAdapter(shouyeBean.getData1());
+                myAdapter2 = new MyAdapter(shouyeBean.getData2());
+                myAdapter3 = new MyAdapter(shouyeBean.getData3());
+            //    MyAdapter myAdapter4 = new MyAdapter(shouyeBean.getData4());
+                gv_tuijian.setAdapter(myAdapter1);
+                gv_renqi.setAdapter(myAdapter2);
+                gv_xinren.setAdapter(myAdapter3);
 
+                setListViewHeightBasedOnChildren(gv_tuijian);
+                setListViewHeightBasedOnChildren(gv_xinren);
+                setListViewHeightBasedOnChildren(gv_renqi);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     @Override
@@ -258,7 +305,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
 
     }
 
-    class MyAdapter extends DefaultAdapter {
+    class MyAdapter extends DefaultAdapter<ShouyeBean.DataBean> {
         public MyAdapter(List datas) {
             super(datas);
         }
@@ -269,21 +316,25 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         }
     }
 
-    public class ViewHolder extends BaseHolder<String> {
+    public class ViewHolder extends BaseHolder<ShouyeBean.DataBean> {
         public TextView tvname;
         public TextView tvadd;
+        public ImageView user_icon;
 
         @Override
         public View initView() {
             View root = View.inflate(context, R.layout.layout_grid_item, null);
             tvname = (TextView) root.findViewById(R.id.tv_name);
+            user_icon = (ImageView) root.findViewById(R.id.user_icon);
             tvadd = (TextView) root.findViewById(R.id.tv_add);
             return root;
         }
 
         @Override
-        public void refreshView(String data, int position) {
-
+        public void refreshView(ShouyeBean.DataBean data, int position) {
+            tvname.setText(data.getName());
+            tvadd.setText(data.getAdd());
+            x.image().bind(user_icon,URLProvider.BaseImgUrl+data.getImage(), MyApplication.optionsxq);
         }
     }
 }

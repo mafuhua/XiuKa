@@ -132,6 +132,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 DUANXINBean duanxinBean = gson.fromJson(result, DUANXINBean.class);
                 ToastUtil.toastShortShow(context, "获得验证码" + duanxinBean.getMsg());
                 duanxinBeanYan = duanxinBean.getYan();
+                Toast.makeText(context, "Yan:" + duanxinBeanYan, Toast.LENGTH_SHORT).show();
             }
 
             @Override

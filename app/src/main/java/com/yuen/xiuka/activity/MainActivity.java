@@ -70,7 +70,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private List<Conversation> conversationList;
     private RongIMClientWrapper rongIMClient;
     private NewAdapter newAdapter;
-
+    private int currentcheck;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
@@ -158,7 +158,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         Drawable drawable4 = getResources().getDrawable(R.drawable.fabu);
         drawable4.setBounds(0, 0, dp, dp);
         rb_home_fabu.setCompoundDrawables(null, drawable4, null, null);
-        rg_home.check(R.id.rb_home_faxian);
+        currentcheck = R.id.rb_home_faxian;
+        rg_home.check(currentcheck);
         supportFragmentManager = getSupportFragmentManager();
         faxianFragment = (FaXianFragment) FragmentFractory.getInstance().createFragment(0);
         xiaoxiFragment = (XiaoXiFragment) FragmentFractory.getInstance().createFragment(1);
@@ -275,24 +276,33 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        rg_home.check(currentcheck);
+    }
+
+    @Override
     public void onClick(View v) {
         transaction = supportFragmentManager.beginTransaction();
         switch (v.getId()) {
             case R.id.rb_home_faxian:
+                currentcheck = R.id.rb_home_faxian;
                 if (currentFragment != faxianFragment) {
                     switchContent(currentFragment, faxianFragment, "首页", View.GONE);
                 }
                 break;
             case R.id.rb_home_xiaoxi:
+                currentcheck = R.id.rb_home_xiaoxi;
                 switchContent(currentFragment, xiaoxiFragment, "快递", View.GONE);
                 break;
             case R.id.rb_home_xiuquan:
-
+                currentcheck = R.id.rb_home_xiuquan;
                 switchContent(currentFragment, xiuquanFragment, "购物车", View.VISIBLE);
                // xiuquanFragment.xiuquan();
              //   xiuquanFragment.initheader(xiuquanBeanDatas);
                 break;
             case R.id.rb_home_wode:
+                currentcheck = R.id.rb_home_wode;
                 switchContent(currentFragment, woDeFragment, "个人中心", View.GONE);
                 break;
 

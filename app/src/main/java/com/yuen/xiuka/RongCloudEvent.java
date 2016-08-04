@@ -135,7 +135,6 @@ public class RongCloudEvent implements
 
 
 
-
     @Override
     public boolean onReceivePushMessage(PushNotificationMessage pushNotificationMessage) {
         return false;

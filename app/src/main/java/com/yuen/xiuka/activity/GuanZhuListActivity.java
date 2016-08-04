@@ -172,56 +172,66 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
                     db = x.getDb(daoConfig);
                     if (cbguanzhu.isChecked()) {
                         //添加对粉丝的关注
-                        addordelguanzhu(URLProvider.ADD_GUANZHU,data.getUid());
-
-
-
-                        try {
-                            PersonTable person = new PersonTable();
-                            person.setId(Integer.parseInt(data.getUid()));
-                            person.setName(data.getName());
-                            db.saveOrUpdate(person);
-
-
-                            /**
-                             * findAll的使用
-                             该方法主要是返回当前表里面的所有数据
-                             需求:查找person表里面的所有数据
-                             */
-                            List<PersonTable> persons = db.findAll(PersonTable.class);
-                            for (PersonTable personTable : persons) {
-                                Log.e("personsadd", personTable.toString());
-                            }
-                        } catch (DbException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-
                         if (stringExtra.equals("fensi")){
-                            //删除粉丝的关注
-                            addordelguanzhu(URLProvider.DEL_GUANZHU,data.getUid());
-                            /**
-                             * deleteById的用法
-                             该方法主要是根据表的主键进行单条记录的删除
-                             需求:删除上方person表中id为5的记录
-                             */
+                            addordelguanzhu(URLProvider.ADD_GUANZHU,data.getUid());
                             try {
-                                db.deleteById(PersonTable.class, data.getUid());
 
-                                /**
-                                 * findAll的使用
-                                 该方法主要是返回当前表里面的所有数据
-                                 需求:查找person表里面的所有数据
-                                 */
+                                PersonTable person = new PersonTable();
+                                person.setId(Integer.parseInt(data.getUid()));
+                                person.setName(data.getName());
+                                db.saveOrUpdate(person);
+
+
                                 List<PersonTable> persons = db.findAll(PersonTable.class);
                                 for (PersonTable personTable : persons) {
-                                    Log.e("personsdel", personTable.toString());
+                                    Log.e("personsadd---fensi", personTable.toString());
                                 }
                             } catch (DbException e) {
                                 e.printStackTrace();
                             }
                         }else if (stringExtra.equals("guanzhu")){
+
+                            addordelguanzhu(URLProvider.ADD_GUANZHU,data.getG_uid());
+                            try {
+                                PersonTable person = new PersonTable();
+                                person.setId(Integer.parseInt(data.getG_uid()));
+                                person.setName(data.getName());
+                                db.saveOrUpdate(person);
+                                List<PersonTable> persons = db.findAll(PersonTable.class);
+                                for (PersonTable personTable : persons) {
+                                    Log.e("personsadd----guanzhu", personTable.toString());
+                                }
+                            } catch (DbException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+
+                    } else {
+                        if (stringExtra.equals("fensi")){
+                            //删除粉丝的关注
+                            addordelguanzhu(URLProvider.DEL_GUANZHU,data.getUid());
+                            try {
+                                db.deleteById(PersonTable.class, data.getUid());
+                                List<PersonTable> persons = db.findAll(PersonTable.class);
+                                for (PersonTable personTable : persons) {
+                                    Log.e("personsdel----fensi", personTable.toString());
+                                }
+                            } catch (DbException e) {
+                                e.printStackTrace();
+                            }
+                        }else if (stringExtra.equals("guanzhu")){
+                            //删除粉丝的关注
                             addordelguanzhu(URLProvider.DEL_GUANZHU,data.getG_uid());
+                            try {
+                                db.deleteById(PersonTable.class, data.getG_uid());
+                                List<PersonTable> persons = db.findAll(PersonTable.class);
+                                for (PersonTable personTable : persons) {
+                                    Log.e("personsdel----guanzhu", personTable.toString());
+                                }
+                            } catch (DbException e) {
+                                e.printStackTrace();
+                            }
                         }
 
                     }

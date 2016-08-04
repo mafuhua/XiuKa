@@ -19,10 +19,13 @@ import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.BaseBean;
 import com.yuen.xiuka.beans.FENSIBean;
+import com.yuen.xiuka.utils.PersonTable;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
 
+import org.xutils.DbManager;
 import org.xutils.common.Callback;
+import org.xutils.ex.DbException;
 import org.xutils.x;
 
 import java.util.HashMap;
@@ -136,7 +139,7 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
             return new WoDeHolder();
         }
     }
-
+    private DbManager db;
     class WoDeHolder extends BaseHolder<FENSIBean.DataBean> {
         public ImageView ivusericon;
         public TextView tvusername;
@@ -163,11 +166,28 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
             cbguanzhu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    DbManager.DaoConfig daoConfig = XUtils.getDaoConfig();
+                    db = x.getDb(daoConfig);
                     if (cbguanzhu.isChecked()) {
                         addordelguanzhu(URLProvider.ADD_GUANZHU, data.getUid());
+
+                        PersonTable person = new PersonTable();
+                        person.setId(Integer.parseInt(data.getUid()));
+                        person.setName(data.getName());
+                        try {
+                            db.saveOrUpdate(person);
+                        } catch (DbException e) {
+                            e.printStackTrace();
+                        }
+
+
                     } else {
                         addordelguanzhu(URLProvider.DEL_GUANZHU, data.getUid());
-
+                        try {
+                            db.deleteById(PersonTable.class, data.getUid());
+                        } catch (DbException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
 

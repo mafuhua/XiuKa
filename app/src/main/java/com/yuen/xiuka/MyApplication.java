@@ -107,7 +107,7 @@ public class MyApplication extends ApplicationEx {
                 .setUseMemCache(false)
                 .build();
         optionscache = new ImageOptions.Builder()
-                .setRadius(25)
+                .setRadius(20)
                 // 是否忽略GIF格式的图片
                 .setIgnoreGif(false)
                 // 图片缩放模式

@@ -79,7 +79,7 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.umeng.socialize.editorpage.ShareActivity"
             android:excludeFromRecents="true"
@@ -87,9 +87,9 @@
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="575ea19767e58e8a65001506"></meta-data>
+            android:value="575ea19767e58e8a65001506" />
 
-        <activity android:name=".activity.ZhuBoListActivity"></activity>
+        <activity android:name=".activity.ZhuBoListActivity" />
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -110,7 +110,7 @@
             android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
@@ -128,31 +128,31 @@
             android:name="com.tencent.connect.common.AssistActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".activity.BianJiZiLiaoActivity"></activity>
-        <activity android:name=".activity.SettingActivity"></activity>
-        <activity android:name=".activity.RenZhengActivity"></activity>
-        <activity android:name=".activity.SettingOption"></activity>
-        <activity android:name=".activity.BanQuanActivity"></activity>
-        <activity android:name=".activity.AnQuanActivity"></activity>
-        <activity android:name=".activity.FaBuActivity"></activity>
-        <activity android:name=".activity.BangDingTelActivity"></activity>
-        <activity android:name=".activity.GuanZhuListActivity"></activity>
+        <activity android:name=".activity.BianJiZiLiaoActivity" />
+        <activity android:name=".activity.SettingActivity" />
+        <activity android:name=".activity.RenZhengActivity" />
+        <activity android:name=".activity.SettingOption" />
+        <activity android:name=".activity.BanQuanActivity" />
+        <activity android:name=".activity.AnQuanActivity" />
+        <activity android:name=".activity.FaBuActivity" />
+        <activity android:name=".activity.BangDingTelActivity" />
+        <activity android:name=".activity.GuanZhuListActivity" />
         <!-- 高德定位服务 -->
         <service android:name="com.amap.api.location.APSService" />
         <!-- 高德开发者申请的key -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="48a6f84be79b393112fbe390c34d7876"></meta-data>
+            android:value="48a6f84be79b393112fbe390c34d7876" />
 
-        <activity android:name=".activity.GongHuiRenZhengActivity"></activity>
-        <activity android:name=".activity.SouSuoActivity"></activity>
-        <activity android:name=".activity.ZhuBoXinXiActivity"></activity>
-        <activity android:name=".activity.ZhuBoXiangXiActivity"></activity>
-        <activity android:name=".activity.EditUserActivity"></activity>
-        <activity android:name=".xiuquan.PagersImgActivity"></activity>
-        <activity android:name=".activity.PingLunActivity"></activity>
-        <activity android:name=".activity.ZhuBoFaBuActivity"></activity>
-        <activity android:name=".xiuquan.MyXiuQuanActivity"></activity>
+        <activity android:name=".activity.GongHuiRenZhengActivity" />
+        <activity android:name=".activity.SouSuoActivity" />
+        <activity android:name=".activity.ZhuBoXinXiActivity" />
+        <activity android:name=".activity.ZhuBoXiangXiActivity" />
+        <activity android:name=".activity.EditUserActivity" />
+        <activity android:name=".xiuquan.PagersImgActivity" />
+        <activity android:name=".activity.PingLunActivity" />
+        <activity android:name=".activity.ZhuBoFaBuActivity" />
+        <activity android:name=".xiuquan.MyXiuQuanActivity" />
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -193,7 +193,8 @@
         <activity
             android:name=".activity.PhotoActivity"
             android:screenOrientation="portrait" />
-        <!--聚合会话列表-->
+        <!-- 聚合会话列表 -->
+        <activity android:name=".activity.WguanZhuConvertList"></activity>
     </application>
 
 </manifest>

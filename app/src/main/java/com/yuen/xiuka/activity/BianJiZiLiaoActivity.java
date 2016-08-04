@@ -139,7 +139,10 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
             }
         });
     }
-
+    /**
+     * 拍照
+     */
+    public static final int DATA_WITH_CAMERA = 0x7;//拍照
     /**
      * 选择提示对话框
      */
@@ -172,23 +175,19 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
                 .setPositiveButton("拍照", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         dialog.dismiss();
-                        /**
-                         * 下面这句还是老样子，调用快速拍照功能，至于为什么叫快速拍照，大家可以参考如下官方
-                         * 文档，you_sdk_path/docs/guide/topics/media/camera.html
-                         * 我刚看的时候因为太长就认真看，其实是错的，这个里面有用的太多了，所以大家不要认为
-                         * 官方文档太长了就不看了，其实是错的，这个地方小马也错了，必须改正
-                         */
+
                         Intent intent = new Intent(
                                 MediaStore.ACTION_IMAGE_CAPTURE);
                         //下面这句指定调用相机拍照后的照片存储的路径
                         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri
                                 .fromFile(new File(Environment
-                                        .getExternalStorageDirectory() + "/imagcacahe/",
-                                        "/icon.jpg")));
+                                        .getExternalStorageDirectory(),
+                                        "xiaoma.jpg")));
                         startActivityForResult(intent, 2);
                     }
                 }).show();
     }
+
 
     /**
      * 裁剪图片方法实现
@@ -372,6 +371,38 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        switch (requestCode) {
+            // 如果是直接从相册获取
+            case 1:
+                if (data.getData()!=null) {startPhotoZoom(data.getData());}
+
+                break;
+            // 如果是调用相机拍照时
+            // 如果是调用相机拍照时
+            case 2:
+                File temp = new File(Environment.getExternalStorageDirectory()
+                        + "/xiaoma.jpg");
+                startPhotoZoom(Uri.fromFile(temp));
+                break;
+            // 取得裁剪后的图片
+            case 3:
+                /**
+                 * 非空判断大家一定要验证，如果不验证的话，
+                 * 在剪裁之后如果发现不满意，要重新裁剪，丢弃
+                 * 当前功能时，会报NullException，小马只
+                 * 在这个地方加下，大家可以根据不同情况在合适的
+                 * 地方做判断处理类似情况
+                 *
+                 */
+                if (data != null) {
+                    saveBitmapFile(data);
+                }
+                break;
+            default:
+                break;
+
+        }
         if (data == null) return;
         String extras = "";
         switch (resultCode) {
@@ -414,37 +445,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
 
 
         }
-        switch (requestCode) {
-            // 如果是直接从相册获取
-            case 1:
-                if (data.getData()!=null) {startPhotoZoom(data.getData());}
 
-                break;
-            // 如果是调用相机拍照时
-            case 2:
-                File temp = new File(Environment.getExternalStorageDirectory()
-                        + "/imagcacahe/",
-                        "/icon.jpg");
-                startPhotoZoom(Uri.fromFile(temp));
-                break;
-            // 取得裁剪后的图片
-            case 3:
-                /**
-                 * 非空判断大家一定要验证，如果不验证的话，
-                 * 在剪裁之后如果发现不满意，要重新裁剪，丢弃
-                 * 当前功能时，会报NullException，小马只
-                 * 在这个地方加下，大家可以根据不同情况在合适的
-                 * 地方做判断处理类似情况
-                 *
-                 */
-                if (data != null) {
-                    saveBitmapFile(data);
-                }
-                break;
-            default:
-                break;
-
-        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 

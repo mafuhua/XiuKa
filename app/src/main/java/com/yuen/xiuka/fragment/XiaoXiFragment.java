@@ -45,6 +45,7 @@ public class XiaoXiFragment extends BaseFragment {
     private ListView converlist;
     private List<Conversation> conversationList;
     private List<Conversation> guanzhuList = new ArrayList<>();
+    private List<Integer> guanzhuidList = new ArrayList<>();
     private List<Conversation> WguanzhuList = new ArrayList<>();
     private RongIMClientWrapper rongIMClient;
     private NewAdapter newAdapter;
@@ -78,7 +79,10 @@ public class XiaoXiFragment extends BaseFragment {
                 if (persons==null){
                     break;
                 }
+
                 for (PersonTable personTable : persons) {
+                    int id = personTable.getId();
+                    guanzhuidList.add(id);
                     Log.e("persons", personTable.toString());
                     Conversation conversation = conversationList.get(i);
                     if (Integer.parseInt(conversation.getTargetId())==(personTable.getId())){

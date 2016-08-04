@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
@@ -31,7 +33,7 @@ import io.rong.imlib.model.Message;
 import io.rong.imlib.model.MessageContent;
 import io.rong.message.TextMessage;
 
-public class WguanZhuConvertList extends AppCompatActivity {
+public class WguanZhuConvertList extends AppCompatActivity implements View.OnClickListener{
     private Context context;
     private ListView converlist;
     private List<Conversation> conversationList;
@@ -39,6 +41,8 @@ public class WguanZhuConvertList extends AppCompatActivity {
     private List<Conversation> WguanzhuList = new ArrayList<>();
     private RongIMClientWrapper rongIMClient;
     private NewAdapter newAdapter;
+    private Button btn_fanhui;
+    private TextView tv_titlecontent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +50,16 @@ public class WguanZhuConvertList extends AppCompatActivity {
         setContentView(R.layout.activity_wguan_zhu_convert_list);
         context = this;
         Intent intent = getIntent();
-         guanzhuList =intent.getParcelableArrayListExtra("list");
+         guanzhuList = (ArrayList<Conversation>) intent.getSerializableExtra("list");
         initView();
      //   initData();
     }
 
     public void initView() {
-
+        btn_fanhui = (Button) findViewById(R.id.btn_fanhui);
+        btn_fanhui.setOnClickListener(this);
+        tv_titlecontent = (TextView) findViewById(R.id.tv_titlecontent);
+        tv_titlecontent.setText("未关注人消息");
         converlist = (ListView) findViewById(R.id.converstationlist);
         newAdapter = new NewAdapter();
         converlist.setAdapter(newAdapter);
@@ -60,16 +67,12 @@ public class WguanZhuConvertList extends AppCompatActivity {
         converlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
 
-                } else if (position == 1) {
-
-                } else {
                     if (RongIM.getInstance() != null) {
-                        Conversation conversation = guanzhuList.get(position - 2);
+                        Conversation conversation = guanzhuList.get(position);
                         RongIM.getInstance().startPrivateChat(context, conversation.getTargetId(), "好友");
                     }
-                }
+
             }
         });
 
@@ -99,7 +102,14 @@ public class WguanZhuConvertList extends AppCompatActivity {
             }
         });
     }
-
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_fanhui:
+                finish();
+                break;
+        }
+    }
 
     protected void clearDialog(final String targetId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

@@ -108,6 +108,7 @@ public class MyApplication extends ApplicationEx {
                 .build();
         optionscache = new ImageOptions.Builder()
                 .setRadius(20)
+                .setFailureDrawableId(R.drawable.rc_default_portrait)
                 // 是否忽略GIF格式的图片
                 .setIgnoreGif(false)
                 // 图片缩放模式

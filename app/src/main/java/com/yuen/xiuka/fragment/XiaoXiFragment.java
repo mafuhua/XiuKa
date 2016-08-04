@@ -2,14 +2,15 @@ package com.yuen.xiuka.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.yuen.baselib.activity.BaseFragment;
 import com.yuen.xiuka.MyApplication;
@@ -23,6 +24,7 @@ import com.yuen.xiuka.utils.XUtils;
 import org.xutils.DbManager;
 import org.xutils.x;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,14 +48,21 @@ public class XiaoXiFragment extends BaseFragment {
     private List<Conversation> WguanzhuList = new ArrayList<>();
     private RongIMClientWrapper rongIMClient;
     private NewAdapter newAdapter;
+    private Button btn_fanhui;
+    private TextView tv_titlecontent;
 
     @Override
     public View initView() {
         final View inflate = View.inflate(getActivity(), R.layout.layout_xiaoxi_fragment, null);
         converlist = (ListView) inflate.findViewById(R.id.converstationlist);
-
+        btn_fanhui = (Button) inflate.findViewById(R.id.btn_fanhui);
+        btn_fanhui.setVisibility(View.GONE);
+        tv_titlecontent = (TextView) inflate.findViewById(R.id.tv_titlecontent);
+        tv_titlecontent.setText("消息");
         rongIMClient = RongIM.getInstance().getRongIMClient();
         conversationList = rongIMClient.getConversationList();
+        guanzhuList.clear();
+        WguanzhuList.clear();
 
         /**
          * findAll的使用
@@ -93,7 +102,7 @@ public class XiaoXiFragment extends BaseFragment {
 
                 } else if (position == 1) {
                     Intent intent = new Intent(getActivity(), WguanZhuConvertList.class);
-                    intent.putExtra("list", (Parcelable) WguanzhuList);
+                    intent.putExtra("list", (Serializable) WguanzhuList);
                     startActivity(intent);
                 } else {
                     if (RongIM.getInstance() != null) {
@@ -202,12 +211,14 @@ public class XiaoXiFragment extends BaseFragment {
                     viewHolder.name.setTextSize(20);
                     viewHolder.time.setVisibility(View.GONE);
                     viewHolder.content.setVisibility(View.GONE);
+                    viewHolder.icon.setBackgroundResource(R.drawable.xiuka);
                     break;
                 case 1:
                     viewHolder.name.setText("未关注人的消息");
                     viewHolder.name.setTextSize(20);
                     viewHolder.time.setVisibility(View.GONE);
                     viewHolder.content.setVisibility(View.GONE);
+                    viewHolder.icon.setBackgroundResource(R.drawable.weiguanzbhu);
                     break;
                 case 2:
                     position -= 2;

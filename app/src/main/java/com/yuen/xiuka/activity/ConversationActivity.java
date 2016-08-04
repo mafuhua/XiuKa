@@ -171,10 +171,10 @@ public class ConversationActivity extends ActionBarActivity implements View.OnCl
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(this, MainActivity.class);
+     /*   Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-        finish();
+        finish();*/
     }
 
     private void initView() {

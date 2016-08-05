@@ -99,8 +99,6 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
 
     private void search(HashMap<String, String> map) {
         XUtils.xUtilsPost(URLProvider.SEARCH, map, new Callback.CommonCallback<String>() {
-
-
             @Override
             public void onSuccess(String result) {
                 System.out.println(result);
@@ -174,6 +172,7 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
                         PersonTable person = new PersonTable();
                         person.setId(Integer.parseInt(data.getUid()));
                         person.setName(data.getName());
+                        person.setImg(URLProvider.BaseImgUrl+data.getImage());
                         try {
                             db.saveOrUpdate(person);
                         } catch (DbException e) {

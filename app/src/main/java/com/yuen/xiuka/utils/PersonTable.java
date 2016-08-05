@@ -14,6 +14,20 @@ public class PersonTable {
     //姓名
     @Column(name = "name")
     private String name;
+    //头像
+    @Column(name = "img")
+    private String img;
+    //uid
+    @Column(name = "uid")
+    private int uid;
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
 
     public int getUid() {
         return uid;
@@ -22,11 +36,6 @@ public class PersonTable {
     public void setUid(int uid) {
         this.uid = uid;
     }
-
-    //uid
-    @Column(name = "uid")
-    private int uid;
-
 
     public int getId() {
         return id;
@@ -44,9 +53,13 @@ public class PersonTable {
         this.name = name;
     }
 
-
     @Override
     public String toString() {
-        return "PersonTable [id=" + id + ", name=" + name + ", uid=" + uid + "]";
+        return "PersonTable{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", img='" + img + '\'' +
+                ", uid=" + uid +
+                '}';
     }
 }

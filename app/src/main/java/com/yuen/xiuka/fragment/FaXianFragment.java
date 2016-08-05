@@ -24,6 +24,7 @@ import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.activity.SouSuoActivity;
 import com.yuen.xiuka.activity.ZhuBoListActivity;
+import com.yuen.xiuka.beans.BianQianBean;
 import com.yuen.xiuka.beans.ShouyeBean;
 import com.yuen.xiuka.utils.MyUtils;
 import com.yuen.xiuka.utils.URLProvider;
@@ -144,6 +145,29 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void initData() {
+        XUtils.xUtilsGet(URLProvider.BIAOQIAN, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Gson gson = new Gson();
+                BianQianBean bianQianBean = gson.fromJson(result, BianQianBean.class);
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
         XUtils.xUtilsGet(URLProvider.INDEX_LIST, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

@@ -45,7 +45,6 @@ import io.rong.imkit.model.UIConversation;
 import io.rong.imkit.widget.adapter.ConversationListAdapter;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
-import io.rong.imlib.model.Message;
 import io.rong.imlib.model.MessageContent;
 import io.rong.imlib.model.UserInfo;
 import io.rong.message.TextMessage;
@@ -84,7 +83,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         SysExitUtil.activityList.add(this);
         setContentView(R.layout.activity_main);
 
-        RongIM.setOnReceiveMessageListener(new RongIMClient.OnReceiveMessageListener() {
+      /*  RongIM.setOnReceiveMessageListener(new RongIMClient.OnReceiveMessageListener() {
             @Override
             public boolean onReceived(Message message, int i) {
                 MessageContent messageContent = message.getContent();
@@ -92,11 +91,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 newAdapter.notifyDataSetChanged();
                 if (messageContent instanceof TextMessage) {//文本消息
                     TextMessage textMessage = (TextMessage) messageContent;
-                  //  Log.d("mafuhua", "onReceived-TextMessage:" + textMessage.getContent());
+                    Log.d("mafuhua", "onReceived-TextMessage:" + textMessage.getContent());
                 }
                 return false;
             }
-        });
+        });*/
         /**
          * IMKit SDK调用第二步
          *

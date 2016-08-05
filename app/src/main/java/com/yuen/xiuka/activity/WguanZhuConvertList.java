@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -27,10 +26,7 @@ import java.util.List;
 
 import io.rong.imkit.RongIM;
 import io.rong.imkit.RongIMClientWrapper;
-import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
-import io.rong.imlib.model.Message;
-import io.rong.imlib.model.MessageContent;
 import io.rong.message.TextMessage;
 
 public class WguanZhuConvertList extends AppCompatActivity implements View.OnClickListener{
@@ -79,7 +75,7 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
         converlist.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                clearDialog(guanzhuList.get(position - 2).getTargetId());
+                clearDialog(guanzhuList.get(position).getTargetId(),position);
                 return false;
             }
         });
@@ -88,7 +84,7 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
 
 
     public void initData() {
-        RongIM.setOnReceiveMessageListener(new RongIMClient.OnReceiveMessageListener() {
+      /*  RongIM.setOnReceiveMessageListener(new RongIMClient.OnReceiveMessageListener() {
             @Override
             public boolean onReceived(Message message, int i) {
                 MessageContent messageContent = message.getContent();
@@ -100,7 +96,7 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
                 }
                 return false;
             }
-        });
+        });*/
     }
     @Override
     public void onClick(View v) {
@@ -111,15 +107,16 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
         }
     }
 
-    protected void clearDialog(final String targetId) {
+    protected void clearDialog(final String targetId, final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage("确认刪除吗？");
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
                 RongIM.getInstance().getRongIMClient().removeConversation(Conversation.ConversationType.PRIVATE, targetId);
-
+                guanzhuList.remove(position);
+                newAdapter.notifyDataSetChanged();
+                dialog.dismiss();
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -173,7 +170,7 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
                 viewHolder.count.setVisibility(View.GONE);
             } else {
                 viewHolder.count.setText(guanzhuList.get(position).getUnreadMessageCount() + "");
-                viewHolder.count.setVisibility(View.VISIBLE);
+                viewHolder.count.setVisibility(View.GONE);
             }
             if (guanzhuList.get(position).getConversationTitle() == null) {
                 viewHolder.name.setText(guanzhuList.get(position).getSenderUserId());

@@ -3,7 +3,6 @@ package com.yuen.xiuka.fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,6 +14,7 @@ import android.widget.TextView;
 import com.yuen.baselib.activity.BaseFragment;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
+import com.yuen.xiuka.activity.GongGaoActivity;
 import com.yuen.xiuka.activity.WguanZhuConvertList;
 import com.yuen.xiuka.beans.ConverTListViewHolder;
 import com.yuen.xiuka.utils.MyUtils;
@@ -30,11 +30,7 @@ import java.util.List;
 
 import io.rong.imkit.RongIM;
 import io.rong.imkit.RongIMClientWrapper;
-import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
-import io.rong.imlib.model.Message;
-import io.rong.imlib.model.MessageContent;
-import io.rong.imlib.model.UserInfo;
 import io.rong.message.TextMessage;
 
 /**
@@ -61,41 +57,7 @@ public class XiaoXiFragment extends BaseFragment {
         tv_titlecontent = (TextView) inflate.findViewById(R.id.tv_titlecontent);
         tv_titlecontent.setText("消息");
         rongIMClient = RongIM.getInstance().getRongIMClient();
-        conversationList = rongIMClient.getConversationList();
-        guanzhuList.clear();
-        WguanzhuList.clear();
-
-        /**
-         * findAll的使用
-         该方法主要是返回当前表里面的所有数据
-         需求:查找person表里面的所有数据
-         */
-        try {
-            DbManager.DaoConfig daoConfig = XUtils.getDaoConfig();
-            DbManager db = x.getDb(daoConfig);
-            List<PersonTable>  persons = db.findAll(PersonTable.class);
-
-            for (int i = 0; i < conversationList.size(); i++) {
-                if (persons==null){
-                    break;
-                }
-
-                for (PersonTable personTable : persons) {
-                    int id = personTable.getId();
-                    guanzhuidList.add(id);
-                    Log.e("persons", personTable.toString());
-                    Conversation conversation = conversationList.get(i);
-                    if (Integer.parseInt(conversation.getTargetId())==(personTable.getId())){
-                        guanzhuList.add(conversation);
-                    } else{
-                        WguanzhuList.add(conversation);
-                    }
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        getListData();
         newAdapter = new NewAdapter();
         converlist.setAdapter(newAdapter);
 
@@ -103,7 +65,7 @@ public class XiaoXiFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-
+                    startActivity(GongGaoActivity.class);
                 } else if (position == 1) {
                     Intent intent = new Intent(getActivity(), WguanZhuConvertList.class);
                     intent.putExtra("list", (Serializable) WguanzhuList);
@@ -111,10 +73,6 @@ public class XiaoXiFragment extends BaseFragment {
                 } else {
                     if (RongIM.getInstance() != null) {
                         Conversation conversation = guanzhuList.get(position - 2);
-                        UserInfo userInfo = conversation.getLatestMessage().getUserInfo();
-                        //  Uri aPrivate = RongContext.getInstance().getConversationTemplate("private").getPortraitUri(conversation.getTargetId());
-
-                     //   RongIM.getInstance().startPrivateChat(getActivity(), conversation.getTargetId(), userInfo.getName()+"");
                         RongIM.getInstance().startPrivateChat(getActivity(), conversation.getTargetId(), "好友");
                     }
                 }
@@ -124,40 +82,75 @@ public class XiaoXiFragment extends BaseFragment {
         converlist.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                clearDialog(guanzhuList.get(position-2).getTargetId());
+                clearDialog(guanzhuList.get(position-2).getTargetId(),position);
                 return false;
             }
         });
         return inflate;
     }
 
+    private void getListData() {
+        conversationList = rongIMClient.getConversationList();
+        guanzhuList.clear();
+        WguanzhuList.clear();
+        try {
+            DbManager.DaoConfig daoConfig = XUtils.getDaoConfig();
+            DbManager db = x.getDb(daoConfig);
+            List<PersonTable> persons = db.findAll(PersonTable.class);
+
+            for (int i = 0; i < conversationList.size(); i++) {
+                if (persons==null){
+                    break;
+                }
+                Conversation conversation = conversationList.get(i);
+                for (int j = 0; j < persons.size(); j++) {
+                    PersonTable personTable = persons.get(j);
+                    if (Integer.parseInt(conversation.getTargetId())==(personTable.getId())){
+                        guanzhuList.add(conversation);
+                        break;
+                    } else if (j==persons.size()-1){
+                        WguanzhuList.add(conversation);
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void initData() {
-        RongIM.setOnReceiveMessageListener(new RongIMClient.OnReceiveMessageListener() {
+       /* RongIM.setOnReceiveMessageListener(new RongIMClient.OnReceiveMessageListener() {
             @Override
             public boolean onReceived(Message message, int i) {
                 MessageContent messageContent = message.getContent();
-                conversationList = rongIMClient.getConversationList();
                 if (messageContent instanceof TextMessage) {//文本消息
                     TextMessage textMessage = (TextMessage) messageContent;
                     Log.d("mafuhua", "onReceived-TextMessage:jkj" + textMessage.getContent());
-                    newAdapter.notifyDataSetChanged();
                 }
                 return false;
             }
-        });
+        });*/
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getListData();
+        newAdapter.notifyDataSetChanged();
+    }
 
-    protected void clearDialog(final String targetId) {
+    protected void clearDialog(final String targetId, final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("确认刪除吗？");
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
                 RongIM.getInstance().getRongIMClient().removeConversation(Conversation.ConversationType.PRIVATE, targetId);
-
+                guanzhuList.remove(position-2);
+                newAdapter.notifyDataSetChanged();
+                dialog.dismiss();
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -199,7 +192,6 @@ public class XiaoXiFragment extends BaseFragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-
             ConverTListViewHolder viewHolder;
             if (convertView == null) {
                 convertView = View.inflate(getActivity(), R.layout.item_converdationlsit, null);
@@ -215,7 +207,7 @@ public class XiaoXiFragment extends BaseFragment {
                     viewHolder.name.setTextSize(20);
                     viewHolder.time.setVisibility(View.GONE);
                     viewHolder.content.setVisibility(View.GONE);
-                    viewHolder.icon.setBackgroundResource(R.drawable.xiuka);
+                    viewHolder.icon.setBackgroundResource(R.drawable.ka);
                     break;
                 case 1:
                     viewHolder.name.setText("未关注人的消息");
@@ -227,19 +219,12 @@ public class XiaoXiFragment extends BaseFragment {
                 case 2:
                     position -= 2;
                     TextMessage latestMessage;
-                    UserInfo userInfo;
                     if (guanzhuList.get(position).getLatestMessage() instanceof TextMessage) {
                         latestMessage = (TextMessage) guanzhuList.get(position).getLatestMessage();
-                        userInfo = latestMessage.getUserInfo();
                         viewHolder.content.setText(latestMessage.getContent() + "");
-
                     } else {
-                        MessageContent message = guanzhuList.get(position).getLatestMessage();
-                        userInfo = message.getUserInfo();
                         viewHolder.content.setText("");
-
                     }
-
                     if (guanzhuList.get(position).getUnreadMessageCount() < 1) {
                         viewHolder.count.setVisibility(View.GONE);
                     } else {
@@ -250,15 +235,11 @@ public class XiaoXiFragment extends BaseFragment {
                         viewHolder.name.setText(guanzhuList.get(position).getSenderUserId());
                     } else {
                         viewHolder.name.setText(guanzhuList.get(position).getConversationTitle());
-
                         x.image().bind(viewHolder.icon, guanzhuList.get(position).getPortraitUrl(), MyApplication.optionscache);
-
                     }
                     viewHolder.time.setText(MyUtils.formatTime(guanzhuList.get(position).getReceivedTime()));
                     break;
             }
-
-
             return convertView;
         }
     }

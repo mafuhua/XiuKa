@@ -9,8 +9,10 @@ public class URLProvider {
 
     public static String DUANXIN = BaseUrl + "duanxin";
     public static String LOGIN = BaseUrl + "login";
+    public static String BIAOQIAN = BaseUrl + "biaoqian";
     public static String MY = BaseUrl + "my";
     public static String INDEX_LIST = BaseUrl + "index_list";
+    public static String ANNOUNCEMENT = BaseUrl + "announcement";
     public static String SAVE_DATA = BaseUrl + "save_data";
     public static String ADD_IMAGE = BaseUrl + "add_image";
     public static String ADD_RENZHEN = BaseUrl + "add_renzhen";

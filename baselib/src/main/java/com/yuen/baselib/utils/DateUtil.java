@@ -105,7 +105,7 @@ public class DateUtil {
         return strtodate;
     }
 
-    public static String dateToStrLong(Date dateDate) {
+    public static String dateToStrLong(long dateDate) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateString = formatter.format(dateDate);
         return dateString;

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
+import android.widget.Toast;
 
 import com.yuen.baselib.utils.SPUtil;
 import com.yuen.xiuka.activity.PhotoActivity;
@@ -79,13 +80,13 @@ public class RongCloudEvent implements
         switch (connectionStatus){
 
             case CONNECTED://连接成功。
-
+                Toast.makeText(mContext, "连接成功", Toast.LENGTH_SHORT).show();
                 break;
             case DISCONNECTED://断开连接。
-
+                Toast.makeText(mContext, "断开连接", Toast.LENGTH_SHORT).show();
                 break;
             case CONNECTING://连接中。
-
+                Toast.makeText(mContext, "连接中", Toast.LENGTH_SHORT).show();
                 break;
             case NETWORK_UNAVAILABLE://网络不可用。
 

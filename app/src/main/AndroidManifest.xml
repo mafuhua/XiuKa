@@ -194,7 +194,8 @@
             android:name=".activity.PhotoActivity"
             android:screenOrientation="portrait" />
         <!-- 聚合会话列表 -->
-        <activity android:name=".activity.WguanZhuConvertList"></activity>
+        <activity android:name=".activity.WguanZhuConvertList" />
+        <activity android:name=".activity.GongGaoActivity"></activity>
     </application>
 
 </manifest>

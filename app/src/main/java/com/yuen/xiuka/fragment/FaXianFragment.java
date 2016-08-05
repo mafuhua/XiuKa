@@ -46,7 +46,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
     private static String[] settingString = new String[]{"意见", "更新", "缓存", "中心", "我们", "退出", "意见", "更新", "缓存", "中心", "我们", "退出", "意见", "更新", "缓存", "中心", "我们", "退出"};
     private RecyclerView mRcHomeHorizontal;
     private MyRCAdapter myRCAdapter;
-    private List settingString2 = new ArrayList(Arrays.asList("推荐","热门","最新", "人气"));
+    private List settingString2 = new ArrayList(Arrays.asList("推荐", "热门", "最新", "人气"));
     private Context context;
     private GridView gv_renqi;
 
@@ -93,7 +93,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         });
 
         iv_baoming = (ImageView) view.findViewById(R.id.iv_baoming);
-        x.image().bind(iv_baoming,"aa.jpg");
+        x.image().bind(iv_baoming, "aa.jpg");
         iv_baoming.setOnClickListener(this);
         tv_gengduo = (TextView) view.findViewById(R.id.tv_gengduo);
         tv_gengduo.setOnClickListener(this);
@@ -112,8 +112,8 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), MyXiuQuanActivity.class);
-                intent.putExtra("id", shouyeBean.getData1().get(position).getUid()+"");
-                intent.putExtra("name",shouyeBean.getData1().get(position).getName());
+                intent.putExtra("id", shouyeBean.getData1().get(position).getUid() + "");
+                intent.putExtra("name", shouyeBean.getData1().get(position).getName());
                 startActivity(intent);
             }
         });
@@ -121,8 +121,8 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), MyXiuQuanActivity.class);
-                intent.putExtra("id", shouyeBean.getData3().get(position).getUid()+"");
-                intent.putExtra("name",shouyeBean.getData3().get(position).getName());
+                intent.putExtra("id", shouyeBean.getData3().get(position).getUid() + "");
+                intent.putExtra("name", shouyeBean.getData3().get(position).getName());
                 startActivity(intent);
             }
         });
@@ -130,8 +130,8 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), MyXiuQuanActivity.class);
-                intent.putExtra("id", shouyeBean.getData2().get(position).getUid()+"");
-                intent.putExtra("name",shouyeBean.getData2().get(position).getName());
+                intent.putExtra("id", shouyeBean.getData2().get(position).getUid() + "");
+                intent.putExtra("name", shouyeBean.getData2().get(position).getName());
                 startActivity(intent);
             }
         });
@@ -139,8 +139,8 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), MyXiuQuanActivity.class);
-                intent.putExtra("id", shouyeBean.getData4().get(position).getUid()+"");
-                intent.putExtra("name",shouyeBean.getData4().get(position).getName());
+                intent.putExtra("id", shouyeBean.getData4().get(position).getUid() + "");
+                intent.putExtra("name", shouyeBean.getData4().get(position).getName());
                 startActivity(intent);
             }
         });
@@ -159,7 +159,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
                     settingString2.add(dataBean.getName());
                 }
                 myRCAdapter.notifyDataSetChanged();
-               // startActivity(ZhuBoListActivity.class);
+                // startActivity(ZhuBoListActivity.class);
             }
 
             @Override
@@ -216,20 +216,34 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+        Intent intent = new Intent(getActivity(), ZhuBoListActivity.class);
         switch (v.getId()) {
             case R.id.tv_gengduo:
-                startActivity(ZhuBoListActivity.class);
+
+                intent.putExtra("type", settingString2.get(0).toString());
+                startActivity(intent);
+
                 break;
             case R.id.tv_gengduo1:
-                startActivity(ZhuBoListActivity.class);
+                intent.putExtra("type", settingString2.get(1).toString());
+                startActivity(intent);
+
                 break;
             case R.id.tv_gengduo2:
-                startActivity(ZhuBoListActivity.class);
+                intent.putExtra("type", settingString2.get(2).toString());
+                startActivity(intent);
+
+                break;
+            case R.id.tv_gengduo3:
+                intent.putExtra("type", settingString2.get(3).toString());
+                startActivity(intent);
+
                 break;
             case R.id.tv_sousuo:
                 startActivity(SouSuoActivity.class);
                 break;
         }
+
     }
 
     public void setListViewHeightBasedOnChildren(GridView listView) {
@@ -305,15 +319,13 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
                 public void onClick(View v) {
                     String type = settingString2.get(i).toString();
                     Intent intent = new Intent(getActivity(), ZhuBoListActivity.class);
-                   intent.putExtra("type", type);
+                    intent.putExtra("type", type);
                     startActivity(intent);
                     Toast.makeText(context, type, Toast.LENGTH_SHORT).show();
                     myRCAdapter.notifyDataSetChanged();
                 }
             });
         }
-
-
 
 
         class ViewHolder extends RecyclerView.ViewHolder {
@@ -357,7 +369,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         public void refreshView(ShouyeBean.DataBean data, int position) {
             tvname.setText(data.getName());
             tvadd.setText(data.getAdd());
-            x.image().bind(user_icon,URLProvider.BaseImgUrl+data.getImage(), MyApplication.optionsxq);
+            x.image().bind(user_icon, URLProvider.BaseImgUrl + data.getImage(), MyApplication.optionsxq);
         }
     }
 }

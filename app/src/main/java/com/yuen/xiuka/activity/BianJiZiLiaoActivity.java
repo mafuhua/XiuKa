@@ -28,6 +28,7 @@ import com.yuen.baselib.utils.SPUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.BaseBean;
+import com.yuen.xiuka.beans.BianQianBean;
 import com.yuen.xiuka.beans.MYBean;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
@@ -48,7 +49,7 @@ import java.util.List;
 public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickListener {
     int infowhich = -1;
     String xingzuoitems[] = {"摩羯座", "水瓶座", "双鱼座", "白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座"};
-    String biaoqianitems[] = {"篮球", "足球", "排球", "人气", "推荐", "热门", "哈哈"};
+
     private List settingString2 = new ArrayList(Arrays.asList("头像", "昵称", "秀咖号", "性别", "个性签名", "年龄", "星座", "标签", "所在地区", "职业"));
     private List settingkey = new ArrayList(Arrays.asList("Uid", "name", "秀咖号", "sex", "qianming", "age", "constellation", "label", "add", "zhiye"));
     private Button btn_fanhui;
@@ -68,6 +69,10 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
     private String biaoqian;
     private File iconfile;
     private boolean icon = false;
+    private BianQianBean bianQianBean;
+    private List<BianQianBean.DataBean> bianQianBeanData;
+    private String[] biaoqianitems;
+    private boolean[] selected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +83,43 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
         mydatastrings = new ArrayList<>();
         datasetting();
         initView();
+        initdata();
+    }
+
+    private void initdata() {
+        XUtils.xUtilsGet(URLProvider.BIAOQIAN, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Gson gson = new Gson();
+
+                bianQianBean = gson.fromJson(result, BianQianBean.class);
+                bianQianBeanData = bianQianBean.getData();
+                biaoqianitems = new String[bianQianBeanData.size()];
+                selected = new boolean[bianQianBeanData.size()];
+                for (int i = 0; i < bianQianBeanData.size(); i++) {
+                   biaoqianitems[i] =  bianQianBeanData.get(i).getName();
+                    selected[i] = false;
+                }
+
+
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     private void datasetting() {
@@ -338,7 +380,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void dialogbiaoqian() {
-        final boolean selected[] = {false, false, false, false, false, false, false};
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);  //先得到构造器
         builder.setTitle("选择标签"); //设置标题
         //  builder.setIcon(R.mipmap.ic_launcher);//设置图标，图片id即可

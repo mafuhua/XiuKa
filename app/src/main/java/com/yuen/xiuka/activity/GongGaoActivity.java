@@ -2,7 +2,6 @@ package com.yuen.xiuka.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -21,7 +20,6 @@ import org.xutils.common.Callback;
 import java.util.List;
 
 public class GongGaoActivity extends AppCompatActivity implements View.OnClickListener {
-
 
     protected Button btnFanhui;
     protected TextView tvTitlecontent;
@@ -108,8 +106,7 @@ public class GongGaoActivity extends AppCompatActivity implements View.OnClickLi
         @Override
         public void refreshView(GongGaoBean.DataBean data, int position) {
             content.setText(data.getContent());
-            CharSequence format = DateFormat.format("yyyy-MM-dd HH:mm:ss", Long.parseLong(data.getTime()));
-            shijian.setText(format);
+            shijian.setText(data.getData_time());
         }
     }
 }

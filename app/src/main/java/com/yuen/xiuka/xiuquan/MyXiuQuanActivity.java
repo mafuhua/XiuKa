@@ -41,6 +41,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
 
 
     public ListView mixlist;
+    public boolean isRefresh = false;//是否刷新
     private String xiuquandataName;
     private String xiuquandataId;
     private Context context;
@@ -57,20 +58,6 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
     private Button btn_jia;
     private XIUQUANBean.DatasBean xiuquanBeanDatas;
     private List<XiuQuanDataBean> xiuquanBeanData;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_xiu_quan);
-        Intent intent = getIntent();
-       // xiuquandata = (XIUQUANBean.XiuQuanDataBean) intent.getSerializableExtra("data");
-       xiuquandataId = intent.getStringExtra("id");
-        xiuquandataName = intent.getStringExtra("name");
-      /*  xiuquandataId = xiuquandata.getId();
-        xiuquandataName = xiuquandata.getName();*/
-        Toast.makeText(this, xiuquandataId + xiuquandataName, Toast.LENGTH_SHORT).show();
-        initView();
-    }
     private boolean refresh = false;
     private SwipeRefreshLayout swiperefresh;
     private int page = 0;
@@ -90,6 +77,22 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
             }
         }
     };
+    private List<XiuQuanDataBean> xiuquanListData = new ArrayList<>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_my_xiu_quan);
+        Intent intent = getIntent();
+        // xiuquandata = (XIUQUANBean.XiuQuanDataBean) intent.getSerializableExtra("data");
+        xiuquandataId = intent.getStringExtra("id");
+        xiuquandataName = intent.getStringExtra("name");
+      /*  xiuquandataId = xiuquandata.getId();
+        xiuquandataName = xiuquandata.getName();*/
+        Toast.makeText(this, xiuquandataId + xiuquandataName, Toast.LENGTH_SHORT).show();
+        initView();
+    }
+
     @Override
     public void initView() {
         context = this;
@@ -97,10 +100,10 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
         btn_fanhui = (Button) findViewById(R.id.btn_fanhui);
         btn_jia = (Button) findViewById(R.id.btn_jia);
         tv_titlecontent = (TextView) findViewById(R.id.tv_titlecontent);
-        btn_fanhui.setVisibility(View.GONE);
+        btn_fanhui.setVisibility(View.VISIBLE);
         btn_jia.setVisibility(View.VISIBLE);
         swiperefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
-        tv_titlecontent.setText(xiuquandataName+"");
+        tv_titlecontent.setText(xiuquandataName + "");
         header = (RelativeLayout) View.inflate(this, R.layout.layout_xiuquan_header, null);
         tv_fensi = (TextView) header.findViewById(R.id.tv_fensi);
         tv_guanzhu = (TextView) header.findViewById(R.id.tv_guanzhu);
@@ -115,8 +118,9 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
         iv_user_icon.setOnClickListener(this);
         iv_bj.setOnClickListener(this);
         btn_jia.setOnClickListener(this);
+        btn_fanhui.setOnClickListener(this);
 
-        myAdapter = new XiuQuanAdapter(context, xiuquanListData,false);
+        myAdapter = new XiuQuanAdapter(context, xiuquanListData, false);
         mixlist.setAdapter(myAdapter);
 
         swiperefresh.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light,
@@ -183,12 +187,12 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
 
 
     }
-    private List<XiuQuanDataBean> xiuquanListData = new ArrayList<>();
+
     @Override
     public void loadData() {
 
     }
-    public boolean isRefresh = false;//是否刷新
+
     public void xiuquan() {
         HashMap<String, String> map = new HashMap<>();
         map.put("uid", xiuquandataId);
@@ -203,10 +207,10 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
                 xiuquanBeanData = xiuquanBean.getData();
                 xiuquanBeanDatas = xiuquanBean.getDatas();
                 xiuquanListData.addAll(xiuquanBeanData);
-                if (page == 0){
+                if (page == 0) {
                     initheader(xiuquanBeanDatas);
                 }
-               myAdapter.notifyDataSetChanged();
+                myAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -242,7 +246,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
         tv_renzheng.setText("认证平台" + xiuquanBeanDatas.getPlatform());
 
         x.image().bind(iv_user_icon, URLProvider.BaseImgUrl + xiuquanBeanDatas.getImage(), MyApplication.options);
-       // x.image().bind(iv_bj, URLProvider.BaseImgUrl + xiuquanBeanDatas.getBj_image(), MyApplication.optionsxq);
+        // x.image().bind(iv_bj, URLProvider.BaseImgUrl + xiuquanBeanDatas.getBj_image(), MyApplication.optionsxq);
         //Glide.with(context).load(URLProvider.BaseImgUrl + SPUtil.getString("icon")).centerCrop().error(R.drawable.cuowu).crossFade().into(iv_user_icon);
     }
 
@@ -251,12 +255,12 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
         switch (v.getId()) {
             case R.id.tv_fensi:
 
-                if (xiuquandataId.equals( SPUtil.getInt("uid") + "")){
+                if (xiuquandataId.equals(SPUtil.getInt("uid") + "")) {
                     startActivity(GuanZhuListActivity.class, "fensi");
                 }
                 break;
             case R.id.tv_guanzhu:
-                if (xiuquandataId.equals( SPUtil.getInt("uid") + "")){
+                if (xiuquandataId.equals(SPUtil.getInt("uid") + "")) {
                     startActivity(GuanZhuListActivity.class, "guanzhu");
                 }
 
@@ -268,15 +272,18 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
                 Toast.makeText(context, "iv_bj", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.iv_user_icon:
-                if (xiuquanBeanDatas.getUid().equals(SPUtil.getInt("uid")+"")){
+                if (xiuquanBeanDatas.getUid().equals(SPUtil.getInt("uid") + "")) {
                     return;
                 }
                 Intent intent = new Intent(this, ZhuBoXiangXiActivity.class);
-                intent.putExtra("uid",xiuquanBeanDatas.getUid());
+                intent.putExtra("uid", xiuquanBeanDatas.getUid());
                 startActivity(intent);
                 break;
             case R.id.btn_jia:
                 startActivity(FaBuActivity.class);
+                break;
+            case R.id.btn_fanhui:
+                finish();
                 break;
         }
     }

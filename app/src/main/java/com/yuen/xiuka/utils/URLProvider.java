@@ -35,5 +35,6 @@ public class URLProvider {
     public static String ADD_BJ_IMAGE = BaseUrl + "add_bj_image";
     public static String ADD_ZAN = BaseUrl + "add_zan";
     public static String ADD_SHARE = BaseUrl + "add_share";
+    public static String INDEX_READ = BaseUrl + "index_read";
 
 }

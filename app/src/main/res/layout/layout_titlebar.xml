@@ -19,7 +19,6 @@
         android:layout_margin="10dp"
         android:layout_height="25dp"/>
     <TextView
-        android:text="人气主播"
         android:textSize="18sp"
         android:id="@+id/tv_titlecontent"
         android:textColor="@android:color/black"

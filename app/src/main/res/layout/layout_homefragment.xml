@@ -94,7 +94,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/tv_line"
-                    android:text="人气主播" />
+                    android:text="推荐主播" />
 
 
                 <ImageView
@@ -140,7 +140,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/tv_line1"
-                    android:text="推荐主播" />
+                    android:text="热门主播" />
 
 
                 <ImageView
@@ -186,7 +186,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/tv_line2"
-                    android:text="新人主播" />
+                    android:text="最新主播" />
 
 
                 <ImageView
@@ -215,7 +215,51 @@
                 android:scrollbars="none">
 
             </GridView>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
 
+                <View
+                    android:id="@+id/tv_line3"
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:background="@android:color/holo_red_light" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/tv_line3"
+                    android:text="人气主播" />
+
+
+                <ImageView
+                    android:id="@+id/jiantou3"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/gegnduo" />
+
+                <TextView
+                    android:id="@+id/tv_gengduo3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/jiantou3"
+                    android:text="更多" />
+            </RelativeLayout>
+
+            <GridView
+                android:id="@+id/gv_remen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:numColumns="3"
+                android:scrollbars="none">
+
+            </GridView>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

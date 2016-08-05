@@ -52,6 +52,16 @@ public class GongGaoBean {
         private String content;
         private String time;
 
+        public String getData_time() {
+            return data_time;
+        }
+
+        public void setData_time(String data_time) {
+            this.data_time = data_time;
+        }
+
+        private String data_time;
+
         public String getId() {
             return id;
         }

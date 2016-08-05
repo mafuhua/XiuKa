@@ -26,7 +26,6 @@ import com.yuen.xiuka.activity.SouSuoActivity;
 import com.yuen.xiuka.activity.ZhuBoListActivity;
 import com.yuen.xiuka.beans.BianQianBean;
 import com.yuen.xiuka.beans.ShouyeBean;
-import com.yuen.xiuka.utils.MyUtils;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
 import com.yuen.xiuka.xiuquan.MyXiuQuanActivity;
@@ -47,7 +46,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
     private static String[] settingString = new String[]{"意见", "更新", "缓存", "中心", "我们", "退出", "意见", "更新", "缓存", "中心", "我们", "退出", "意见", "更新", "缓存", "中心", "我们", "退出"};
     private RecyclerView mRcHomeHorizontal;
     private MyRCAdapter myRCAdapter;
-    private List settingString2 = new ArrayList(Arrays.asList("意见", "更新", "缓存", "中心", "我们", "退出"));
+    private List settingString2 = new ArrayList(Arrays.asList("推荐","热门","最新", "人气"));
     private Context context;
     private GridView gv_renqi;
 
@@ -62,6 +61,10 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
     private ShouyeBean shouyeBean;
     private MyAdapter myAdapter2;
     private MyAdapter myAdapter3;
+    private BianQianBean bianQianBean;
+    private GridView gv_remen;
+    private TextView tv_gengduo3;
+    private MyAdapter myAdapter4;
 
     @Override
     public View initView() {
@@ -76,20 +79,9 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRcHomeHorizontal.setLayoutManager(linearLayoutManager);
         //设置适配器
+
         myRCAdapter = new MyRCAdapter(context);
-        myRCAdapter.setOnItemClickLitener(new MyRCAdapter.OnItemClickLitener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                mRCPosition = position;
-                // Log.d("mafuhua", "mrcPosition------:" + position);
-                MyUtils.toastShow(context, settingString[position], Toast.LENGTH_SHORT);
-                myRCAdapter.notifyDataSetChanged();
-                startActivity(ZhuBoListActivity.class);
-
-            }
-        });
         mRcHomeHorizontal.setAdapter(myRCAdapter);
-
 
         gv_renqi.setOnTouchListener(new View.OnTouchListener() {
 
@@ -110,7 +102,10 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         gv_tuijian = (GridView) view.findViewById(R.id.gv_tuijian);
         tv_gengduo2 = (TextView) view.findViewById(R.id.tv_gengduo2);
         tv_gengduo2.setOnClickListener(this);
+        tv_gengduo3 = (TextView) view.findViewById(R.id.tv_gengduo3);
+        tv_gengduo3.setOnClickListener(this);
         gv_xinren = (GridView) view.findViewById(R.id.gv_xinren);
+        gv_remen = (GridView) view.findViewById(R.id.gv_remen);
 
 
         gv_renqi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -140,6 +135,15 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
                 startActivity(intent);
             }
         });
+        gv_remen.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), MyXiuQuanActivity.class);
+                intent.putExtra("id", shouyeBean.getData4().get(position).getUid()+"");
+                intent.putExtra("name",shouyeBean.getData4().get(position).getName());
+                startActivity(intent);
+            }
+        });
         return view;
     }
 
@@ -149,8 +153,13 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
             @Override
             public void onSuccess(String result) {
                 Gson gson = new Gson();
-                BianQianBean bianQianBean = gson.fromJson(result, BianQianBean.class);
-
+                bianQianBean = gson.fromJson(result, BianQianBean.class);
+                for (int i = 0; i < bianQianBean.getData().size(); i++) {
+                    BianQianBean.DataBean dataBean = bianQianBean.getData().get(i);
+                    settingString2.add(dataBean.getName());
+                }
+                myRCAdapter.notifyDataSetChanged();
+               // startActivity(ZhuBoListActivity.class);
             }
 
             @Override
@@ -176,14 +185,16 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
                 myAdapter1 = new MyAdapter(shouyeBean.getData1());
                 myAdapter2 = new MyAdapter(shouyeBean.getData2());
                 myAdapter3 = new MyAdapter(shouyeBean.getData3());
-            //    MyAdapter myAdapter4 = new MyAdapter(shouyeBean.getData4());
+                myAdapter4 = new MyAdapter(shouyeBean.getData4());
                 gv_tuijian.setAdapter(myAdapter1);
                 gv_renqi.setAdapter(myAdapter2);
                 gv_xinren.setAdapter(myAdapter3);
+                gv_remen.setAdapter(myAdapter4);
 
                 setListViewHeightBasedOnChildren(gv_tuijian);
                 setListViewHeightBasedOnChildren(gv_xinren);
                 setListViewHeightBasedOnChildren(gv_renqi);
+                setListViewHeightBasedOnChildren(gv_remen);
             }
 
             @Override
@@ -245,23 +256,19 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         listView.setLayoutParams(params);
     }
 
-    static class MyRCAdapter extends RecyclerView.Adapter<MyRCAdapter.ViewHolder> {
+    class MyRCAdapter extends RecyclerView.Adapter<MyRCAdapter.ViewHolder> {
 
         public int mrcPosition;
         private LayoutInflater mInflater;
-        private OnItemClickLitener mOnItemClickLitener;
 
         public MyRCAdapter(Context context) {
             mInflater = LayoutInflater.from(context);
         }
 
-        public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
-            this.mOnItemClickLitener = mOnItemClickLitener;
-        }
 
         @Override
         public int getItemCount() {
-            return settingString.length;
+            return settingString2.size();
         }
 
         /**
@@ -283,7 +290,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
          */
         @Override
         public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
-            viewHolder.mTxt.setText(settingString[i]);
+            viewHolder.mTxt.setText(settingString2.get(i).toString());
             mrcPosition = i;
             //  Log.d("mafuhua", "mPosition****:" + mrcPosition);
             if (mrcPosition == mRCPosition) {
@@ -293,29 +300,21 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
                 viewHolder.tv_line.setVisibility(View.GONE);
                 viewHolder.mTxt.setTextColor(Color.BLACK);
             }
-            //如果设置了回调，则设置点击事件
-            if (mOnItemClickLitener != null) {
-
-                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int pos = viewHolder.getLayoutPosition();
-                        mOnItemClickLitener.onItemClick(viewHolder.itemView, i);
-                    }
-                });
-
-            }
+            viewHolder.mTxt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String type = settingString2.get(i).toString();
+                    Intent intent = new Intent(getActivity(), ZhuBoListActivity.class);
+                   intent.putExtra("type", type);
+                    startActivity(intent);
+                    Toast.makeText(context, type, Toast.LENGTH_SHORT).show();
+                    myRCAdapter.notifyDataSetChanged();
+                }
+            });
         }
 
 
-        /**
-         * ItemClick的回调接口
-         *
-         * @author zhy
-         */
-        public interface OnItemClickLitener {
-            void onItemClick(View view, int position);
-        }
+
 
         class ViewHolder extends RecyclerView.ViewHolder {
             ImageView mImg;

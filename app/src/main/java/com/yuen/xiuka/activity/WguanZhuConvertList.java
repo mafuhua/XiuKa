@@ -29,7 +29,7 @@ import io.rong.imkit.RongIMClientWrapper;
 import io.rong.imlib.model.Conversation;
 import io.rong.message.TextMessage;
 
-public class WguanZhuConvertList extends AppCompatActivity implements View.OnClickListener{
+public class WguanZhuConvertList extends AppCompatActivity implements View.OnClickListener {
     private Context context;
     private ListView converlist;
     private List<Conversation> conversationList;
@@ -46,9 +46,9 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_wguan_zhu_convert_list);
         context = this;
         Intent intent = getIntent();
-         guanzhuList = (ArrayList<Conversation>) intent.getSerializableExtra("list");
+        guanzhuList = (ArrayList<Conversation>) intent.getSerializableExtra("list");
         initView();
-     //   initData();
+        //   initData();
     }
 
     public void initView() {
@@ -64,10 +64,10 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    if (RongIM.getInstance() != null) {
-                        Conversation conversation = guanzhuList.get(position);
-                        RongIM.getInstance().startPrivateChat(context, conversation.getTargetId(), "好友");
-                    }
+                if (RongIM.getInstance() != null) {
+                    Conversation conversation = guanzhuList.get(position);
+                    RongIM.getInstance().startPrivateChat(context, conversation.getTargetId(), "好友");
+                }
 
             }
         });
@@ -75,7 +75,7 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
         converlist.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                clearDialog(guanzhuList.get(position).getTargetId(),position);
+                clearDialog(guanzhuList.get(position).getTargetId(), position);
                 return false;
             }
         });
@@ -98,6 +98,7 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
             }
         });*/
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -172,14 +173,14 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
                 viewHolder.count.setText(guanzhuList.get(position).getUnreadMessageCount() + "");
                 viewHolder.count.setVisibility(View.GONE);
             }
-            if (guanzhuList.get(position).getConversationTitle() == null) {
-                viewHolder.name.setText(guanzhuList.get(position).getSenderUserId());
+            if (MyApplication.userinfomap.get(guanzhuList.get(position).getTargetId()) != null) {
+                viewHolder.name.setText(MyApplication.userinfomap.get(guanzhuList.get(position).getTargetId()).getName());
             } else {
-                viewHolder.name.setText(guanzhuList.get(position).getConversationTitle());
-
-                x.image().bind(viewHolder.icon, guanzhuList.get(position).getPortraitUrl(), MyApplication.optionscache);
-
+                viewHolder.name.setText("");
             }
+            // x.image().bind(viewHolder.icon,userinfomap.get(guanzhuList.get(position).getTargetId()).getImg(), MyApplication.optionscache);
+            x.image().bind(viewHolder.icon, "http://192.168.0.123/xiuka/upload/avatar/201608/1470292503-16432.jpg", MyApplication.optionscache);
+
             viewHolder.time.setText(MyUtils.formatTime(guanzhuList.get(position).getReceivedTime()));
             return convertView;
         }

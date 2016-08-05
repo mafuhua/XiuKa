@@ -16,12 +16,18 @@ import com.umeng.socialize.PlatformConfig;
 import com.yuen.baselib.ApplicationEx;
 import com.yuen.xiuka.galleryfinal.GlideImageLoader;
 import com.yuen.xiuka.galleryfinal.GlidePauseOnScrollListener;
+import com.yuen.xiuka.utils.PersonTable;
+import com.yuen.xiuka.utils.XUtils;
 
+import org.xutils.DbManager;
+import org.xutils.ex.DbException;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import cn.finalteam.galleryfinal.CoreConfig;
@@ -39,7 +45,9 @@ public class MyApplication extends ApplicationEx {
     public static ImageOptions options;
     public static ImageOptions optionscache;
     public static ImageOptions optionsxq;
-
+    private DbManager db;
+    private List<PersonTable> persons;
+    public static HashMap<String, PersonTable> userinfomap = new HashMap<>();
     /**
      * 获得当前进程的名字
      *
@@ -178,6 +186,20 @@ public class MyApplication extends ApplicationEx {
         GalleryFinal.init(coreConfig);
         // sHA1(context);
         initImageLoader(getApplicationContext());
+
+
+        DbManager.DaoConfig daoConfig = XUtils.getDaoConfig();
+        db = x.getDb(daoConfig);
+        List<PersonTable> persons9 = null;
+        try {
+            persons = db.findAll(PersonTable.class);
+            for(PersonTable person: persons){
+                userinfomap.put(person.getId()+"",person);
+            }
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void initImageLoader(Context context) {

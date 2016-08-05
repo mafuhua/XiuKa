@@ -29,7 +29,6 @@ import org.xutils.x;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import io.rong.imkit.RongIM;
@@ -49,7 +48,7 @@ public class XiaoXiFragment extends BaseFragment {
     private ListView converlist;
     private List<Conversation> conversationList;
     private List<Conversation> guanzhuList = new ArrayList<>();
-    private HashMap<String, PersonTable> userinfomap = new HashMap<>();
+
     private List<Integer> guanzhuidList = new ArrayList<>();
     private List<Conversation> WguanzhuList = new ArrayList<>();
     private RongIMClientWrapper rongIMClient;
@@ -121,7 +120,6 @@ public class XiaoXiFragment extends BaseFragment {
                 Conversation conversation = conversationList.get(i);
                 for (int j = 0; j < persons.size(); j++) {
                     PersonTable personTable = persons.get(j);
-                    userinfomap.put(personTable.getId() + "", personTable);
                     if (Integer.parseInt(conversation.getTargetId()) == (personTable.getId())) {
                         guanzhuList.add(conversation);
                         break;
@@ -147,7 +145,8 @@ public class XiaoXiFragment extends BaseFragment {
                     PersonTable person = new PersonTable();
                     person.setId(Integer.parseInt(userInfo.getUserId()));
                     person.setName(userInfo.getName());
-                    person.setImg("jafjl");
+                    person.setImg(userInfo.getPortraitUri().toString());
+                    MyApplication.userinfomap.put(userInfo.getUserId(),person);
                     db.saveOrUpdate(person);
                 } catch (DbException e) {
                     e.printStackTrace();
@@ -264,15 +263,13 @@ public class XiaoXiFragment extends BaseFragment {
                         viewHolder.count.setText(guanzhuList.get(position).getUnreadMessageCount() + "");
                         viewHolder.count.setVisibility(View.VISIBLE);
                     }
-                 /*   if (guanzhuList.get(position).getConversationTitle() == null) {
-                        viewHolder.name.setText(guanzhuList.get(position).getSenderUserId());
+                    if (MyApplication.userinfomap.get(guanzhuList.get(position).getTargetId()) != null) {
+                        viewHolder.name.setText(MyApplication.userinfomap.get(guanzhuList.get(position).getTargetId()).getName());
                     } else {
-                        viewHolder.name.setText(guanzhuList.get(position).getConversationTitle());
-                        x.image().bind(viewHolder.icon, guanzhuList.get(position).getPortraitUrl(), MyApplication.optionscache);
-                    }*/
-                    viewHolder.name.setText(userinfomap.get(guanzhuList.get(position).getTargetId()).getName());
-                    // x.image().bind(viewHolder.icon,userinfomap.get(guanzhuList.get(position).getTargetId()).getImg(), MyApplication.optionscache);
-                    x.image().bind(viewHolder.icon, "http://192.168.0.123/xiuka/upload/avatar/201608/1470292503-16432.jpg", MyApplication.optionscache);
+                        viewHolder.name.setText("");
+                    }
+                     x.image().bind(viewHolder.icon,MyApplication.userinfomap.get(guanzhuList.get(position).getTargetId()).getImg(), MyApplication.optionscache);
+                  // x.image().bind(viewHolder.icon, "http://192.168.0.123/xiuka/upload/avatar/201608/1470292503-16432.jpg", MyApplication.optionscache);
 
                     viewHolder.time.setText(MyUtils.formatTime(guanzhuList.get(position).getReceivedTime()));
                     break;

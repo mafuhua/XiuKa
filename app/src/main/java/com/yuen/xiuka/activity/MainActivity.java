@@ -90,11 +90,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         DbManager.DaoConfig daoConfig = XUtils.getDaoConfig();
         db = x.getDb(daoConfig);
         try {
-            if (persons==null)return;
             persons = db.findAll(PersonTable.class);
-            for(PersonTable person: persons){
-                Log.d("MyApplication", "MyApplication-----"+person.toString());
-                userinfomap.put(person.getId()+"",person);
+            if (persons==null){
+
+            }else {
+                for(PersonTable person: persons){
+                    Log.d("MyApplication", "MyApplication-----"+person.toString());
+                    userinfomap.put(person.getId()+"",person);
+                }
             }
         } catch (DbException e) {
             e.printStackTrace();

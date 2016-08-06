@@ -12,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yuen.baselib.activity.BaseFragment;
 import com.yuen.xiuka.MyApplication;
@@ -92,9 +93,9 @@ public class XiaoXiFragment extends BaseFragment {
                 } else {
                     if (RongIM.getInstance() != null) {
                         Conversation conversation = guanzhuList.get(position - 2);
-                        if (MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()) != null) {
+                        if (MainActivity.userinfomap.get(guanzhuList.get(position-2).getTargetId()) != null) {
                             RongIM.getInstance().startPrivateChat(getActivity(), conversation.getTargetId(),
-                                    MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()).getName());
+                                    MainActivity.userinfomap.get(guanzhuList.get(position-2).getTargetId()).getName());
                         } else {
                             RongIM.getInstance().startPrivateChat(getActivity(), conversation.getTargetId(), "");
                         }
@@ -148,15 +149,21 @@ public class XiaoXiFragment extends BaseFragment {
             public boolean onReceived(Message message, int i) {
                 MessageContent messageContent = message.getContent();
                 UserInfo userInfo = messageContent.getUserInfo();
-                try {
-                    PersonTable person = new PersonTable();
-                    person.setId(Integer.parseInt(userInfo.getUserId()));
-                    person.setName(userInfo.getName());
-                    person.setImg(userInfo.getPortraitUri().toString());
-                    MainActivity.userinfomap.put(userInfo.getUserId(),person);
-                    db.saveOrUpdate(person);
-                } catch (DbException e) {
-                    e.printStackTrace();
+                if (userInfo != null) {
+                    try {
+                        PersonTable person = new PersonTable();
+                        person.setId(Integer.parseInt(userInfo.getUserId()));
+                        Toast.makeText(getActivity(), person.toString(), Toast.LENGTH_SHORT).show();
+                        person.setName(userInfo.getName());
+                        Toast.makeText(getActivity(), person.toString(), Toast.LENGTH_SHORT).show();
+                        person.setImg(userInfo.getPortraitUri().toString());
+                        Toast.makeText(getActivity(), person.toString(), Toast.LENGTH_SHORT).show();
+                        MainActivity.userinfomap.put(userInfo.getUserId(), person);
+                        db.saveOrUpdate(person);
+                    } catch (DbException e) {
+                        e.printStackTrace();
+                    }
+
                 }
 
                 rongIMClient = RongIM.getInstance().getRongIMClient();
@@ -272,11 +279,11 @@ public class XiaoXiFragment extends BaseFragment {
                     }
                     if (MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()) != null) {
                         viewHolder.name.setText(MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()).getName());
-                        x.image().bind(viewHolder.icon,MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()).getImg(), MyApplication.optionscache);
+                        x.image().bind(viewHolder.icon, MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()).getImg(), MyApplication.optionscache);
                     } else {
                         viewHolder.name.setText("");
                     }
-                  // x.image().bind(viewHolder.icon, "http://192.168.0.123/xiuka/upload/avatar/201608/1470292503-16432.jpg", MyApplication.optionscache);
+                    // x.image().bind(viewHolder.icon, "http://192.168.0.123/xiuka/upload/avatar/201608/1470292503-16432.jpg", MyApplication.optionscache);
                     viewHolder.time.setText(MyUtils.formatTime(guanzhuList.get(position).getReceivedTime()));
                     break;
             }

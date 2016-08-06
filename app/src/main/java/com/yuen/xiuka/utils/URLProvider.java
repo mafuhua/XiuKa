@@ -36,5 +36,6 @@ public class URLProvider {
     public static String ADD_ZAN = BaseUrl + "add_zan";
     public static String ADD_SHARE = BaseUrl + "add_share";
     public static String INDEX_READ = BaseUrl + "index_read";
+    public static String SAVE_TOKEN = BaseUrl + "save_token";
 
 }

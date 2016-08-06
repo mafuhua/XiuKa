@@ -17,6 +17,7 @@ import com.yuen.baselib.activity.BaseFragment;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.activity.GongGaoActivity;
+import com.yuen.xiuka.activity.MainActivity;
 import com.yuen.xiuka.activity.WguanZhuConvertList;
 import com.yuen.xiuka.beans.ConverTListViewHolder;
 import com.yuen.xiuka.utils.MyUtils;
@@ -91,7 +92,13 @@ public class XiaoXiFragment extends BaseFragment {
                 } else {
                     if (RongIM.getInstance() != null) {
                         Conversation conversation = guanzhuList.get(position - 2);
-                        RongIM.getInstance().startPrivateChat(getActivity(), conversation.getTargetId(), "好友");
+                        if (MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()) != null) {
+                            RongIM.getInstance().startPrivateChat(getActivity(), conversation.getTargetId(),
+                                    MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()).getName());
+                        } else {
+                            RongIM.getInstance().startPrivateChat(getActivity(), conversation.getTargetId(), "");
+                        }
+
                     }
                 }
             }
@@ -146,7 +153,7 @@ public class XiaoXiFragment extends BaseFragment {
                     person.setId(Integer.parseInt(userInfo.getUserId()));
                     person.setName(userInfo.getName());
                     person.setImg(userInfo.getPortraitUri().toString());
-                    MyApplication.userinfomap.put(userInfo.getUserId(),person);
+                    MainActivity.userinfomap.put(userInfo.getUserId(),person);
                     db.saveOrUpdate(person);
                 } catch (DbException e) {
                     e.printStackTrace();
@@ -263,14 +270,13 @@ public class XiaoXiFragment extends BaseFragment {
                         viewHolder.count.setText(guanzhuList.get(position).getUnreadMessageCount() + "");
                         viewHolder.count.setVisibility(View.VISIBLE);
                     }
-                    if (MyApplication.userinfomap.get(guanzhuList.get(position).getTargetId()) != null) {
-                        viewHolder.name.setText(MyApplication.userinfomap.get(guanzhuList.get(position).getTargetId()).getName());
+                    if (MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()) != null) {
+                        viewHolder.name.setText(MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()).getName());
+                        x.image().bind(viewHolder.icon,MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()).getImg(), MyApplication.optionscache);
                     } else {
                         viewHolder.name.setText("");
                     }
-                     x.image().bind(viewHolder.icon,MyApplication.userinfomap.get(guanzhuList.get(position).getTargetId()).getImg(), MyApplication.optionscache);
                   // x.image().bind(viewHolder.icon, "http://192.168.0.123/xiuka/upload/avatar/201608/1470292503-16432.jpg", MyApplication.optionscache);
-
                     viewHolder.time.setText(MyUtils.formatTime(guanzhuList.get(position).getReceivedTime()));
                     break;
             }

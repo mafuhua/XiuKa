@@ -66,7 +66,15 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
 
                 if (RongIM.getInstance() != null) {
                     Conversation conversation = guanzhuList.get(position);
-                    RongIM.getInstance().startPrivateChat(context, conversation.getTargetId(), "好友");
+
+                    if (MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()) != null) {
+                        RongIM.getInstance().startPrivateChat(context, conversation.getTargetId(),
+                                MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()).getName());
+                    } else {
+                        RongIM.getInstance().startPrivateChat(context, conversation.getTargetId(), "");
+                    }
+
+
                 }
 
             }
@@ -173,14 +181,13 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
                 viewHolder.count.setText(guanzhuList.get(position).getUnreadMessageCount() + "");
                 viewHolder.count.setVisibility(View.GONE);
             }
-            if (MyApplication.userinfomap.get(guanzhuList.get(position).getTargetId()) != null) {
-                viewHolder.name.setText(MyApplication.userinfomap.get(guanzhuList.get(position).getTargetId()).getName());
+            if (MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()) != null) {
+                viewHolder.name.setText(MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()).getName());
+                x.image().bind(viewHolder.icon,MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()).getImg(), MyApplication.optionscache);
+
             } else {
                 viewHolder.name.setText("");
             }
-            // x.image().bind(viewHolder.icon,userinfomap.get(guanzhuList.get(position).getTargetId()).getImg(), MyApplication.optionscache);
-            x.image().bind(viewHolder.icon, "http://192.168.0.123/xiuka/upload/avatar/201608/1470292503-16432.jpg", MyApplication.optionscache);
-
             viewHolder.time.setText(MyUtils.formatTime(guanzhuList.get(position).getReceivedTime()));
             return convertView;
         }

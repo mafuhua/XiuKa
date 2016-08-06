@@ -165,9 +165,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 LOGINBean loginBean = gson.fromJson(result, LOGINBean.class);
                 ToastUtil.toastShortShow(context, "登录" + loginBean.getMsg());
                 if (loginBean.getCode().equals("0")){
-                    startActivity(MainActivity.class);
+
                     SPUtil.saveInt("uid",loginBean.getUid());
                     SPUtil.saveString("tel",loginBean.getTel());
+                    startActivity(MainActivity.class);
                     finish();
                 }
 

@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.yuen.baselib.utils.SPUtil;
@@ -23,16 +24,20 @@ import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.FENSIBean;
+import com.yuen.xiuka.beans.TokenBean;
 import com.yuen.xiuka.fragment.FaXianFragment;
 import com.yuen.xiuka.fragment.FragmentFractory;
 import com.yuen.xiuka.fragment.WoDeFragment;
 import com.yuen.xiuka.fragment.XiaoXiFragment;
 import com.yuen.xiuka.utils.MyUtils;
+import com.yuen.xiuka.utils.PersonTable;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
 import com.yuen.xiuka.xiuquan.XiuQuanFragment2;
 
+import org.xutils.DbManager;
 import org.xutils.common.Callback;
+import org.xutils.ex.DbException;
 import org.xutils.x;
 
 import java.util.HashMap;
@@ -70,57 +75,65 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private RongIMClientWrapper rongIMClient;
     private NewAdapter newAdapter;
     private int currentcheck;
+    private DbManager db;
+    private List<PersonTable> persons;
+    public static HashMap<String, PersonTable> userinfomap = new HashMap<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            Log.d("mafuhua", "savedInstanceState----------:" + savedInstanceState);
             savedInstanceState = null;
-            if (savedInstanceState == null) {
-                Log.d("mafuhua", "savedInstanceState**********----------:" + savedInstanceState);
-            }
         }
         super.onCreate(savedInstanceState);
         SysExitUtil.activityList.add(this);
         setContentView(R.layout.activity_main);
-
-     /*   RongIM.setOnReceiveMessageListener(new RongIMClient.OnReceiveMessageListener() {
-            @Override
-            public boolean onReceived(Message message, int i) {
-                MessageContent messageContent = message.getContent();
-                if (messageContent instanceof TextMessage) {//文本消息
-                    TextMessage textMessage = (TextMessage) messageContent;
-                    Log.d("mafuhua", "onReceived-TextMessage:" + textMessage.getContent());
-                }
-                return false;
+        rongConnect(SPUtil.getString("token"));
+        DbManager.DaoConfig daoConfig = XUtils.getDaoConfig();
+        db = x.getDb(daoConfig);
+        try {
+            if (persons==null)return;
+            persons = db.findAll(PersonTable.class);
+            for(PersonTable person: persons){
+                Log.d("MyApplication", "MyApplication-----"+person.toString());
+                userinfomap.put(person.getId()+"",person);
             }
-        });*/
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
 
+        initView();
+        loadData();
+
+    }
+
+    private void rongConnect(String token) {
         /**
          * IMKit SDK调用第二步
          *
          * 建立与服务器的连接
          *
          */
-        RongIM.connect(SPUtil.getString("token"), new RongIMClient.ConnectCallback() {
+        RongIM.connect(token, new RongIMClient.ConnectCallback() {
             @Override
             public void onTokenIncorrect() {
                 //Connect Token 失效的状态处理，需要重新获取 Token
+                Toast.makeText(context, " 失效的状态处理，需要重新获取 Token", Toast.LENGTH_SHORT).show();
                 Log.e("MainActivity", "——Connect Token— -" + "失效的状态处理，需要重新获取 Token");
+                getToken();
             }
+
 
             @Override
             public void onSuccess(String userId) {
+                Toast.makeText(context, "——onSuccess— -" + userId, Toast.LENGTH_SHORT).show();
                 Log.e("MainActivity", "——onSuccess— -" + userId);
             }
 
             @Override
             public void onError(RongIMClient.ErrorCode errorCode) {
+                Toast.makeText(context, "——onError— -" + errorCode, Toast.LENGTH_SHORT).show();
                 Log.e("MainActivity", "——onError— -" + errorCode);
             }
         });
-        initView();
-        loadData();
-
     }
 
     @Override
@@ -276,7 +289,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        rg_home.check(currentcheck);
+
     }
 
     @Override
@@ -308,6 +321,35 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 startActivity(ZhuBoFaBuActivity.class);
                 break;
         }
+    }
+    private void getToken() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("uid", SPUtil.getInt("uid")+"");
+        map.put("tel",SPUtil.getString("tel"));
+        XUtils.xUtilsPost(URLProvider.SAVE_TOKEN, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("MainActivity", result);
+                Gson gson = new Gson();
+                TokenBean tokenBean = gson.fromJson(result, TokenBean.class);
+                rongConnect(tokenBean.getToken());
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     public void switchContent(Fragment from, Fragment to, String title, int gone) {

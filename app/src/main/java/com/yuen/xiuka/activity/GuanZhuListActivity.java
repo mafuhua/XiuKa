@@ -48,6 +48,8 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guan_zhu_list);
         stringExtra = getIntent().getStringExtra("data");
+        DbManager.DaoConfig daoConfig = XUtils.getDaoConfig();
+        db = x.getDb(daoConfig);
         initView();
         if (stringExtra.equals("fensi")){
             getList(URLProvider.FANS);
@@ -93,6 +95,21 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
                 Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
                 myAdapter = new MyAdapter(fensiBeanData);
                 lv_guanzhu.setAdapter(myAdapter);
+                if (stringExtra.equals("guanzhu")){
+                    for (int i = 0; i < fensiBeanData.size(); i++) {
+                        PersonTable person = new PersonTable();
+                        person.setId(Integer.parseInt(fensiBeanData.get(i).getUid()));
+                        person.setName(fensiBeanData.get(i).getName());
+                        person.setImg(URLProvider.BaseImgUrl+fensiBeanData.get(i).getImage());
+                        try {
+                            db.saveOrUpdate(person);
+                        } catch (DbException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }
+
             }
 
             @Override
@@ -168,8 +185,7 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
             cbguanzhu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DbManager.DaoConfig daoConfig = XUtils.getDaoConfig();
-                    db = x.getDb(daoConfig);
+
                     if (cbguanzhu.isChecked()) {
                         //添加对粉丝的关注
                         if (stringExtra.equals("fensi")){
@@ -200,9 +216,9 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
                                 person.setImg(URLProvider.BaseImgUrl+data.getImage());
                                 db.saveOrUpdate(person);
                                 List<PersonTable> persons = db.findAll(PersonTable.class);
-                                for (PersonTable personTable : persons) {
+                             /*   for (PersonTable personTable : persons) {
                                     Log.e("personsadd----guanzhu", personTable.toString());
-                                }
+                                }*/
                             } catch (DbException e) {
                                 e.printStackTrace();
                             }
@@ -216,9 +232,9 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
                             try {
                                 db.deleteById(PersonTable.class, data.getUid());
                                 List<PersonTable> persons = db.findAll(PersonTable.class);
-                                for (PersonTable personTable : persons) {
+                               /* for (PersonTable personTable : persons) {
                                     Log.e("personsdel----fensi", personTable.toString());
-                                }
+                                }*/
                             } catch (DbException e) {
                                 e.printStackTrace();
                             }
@@ -228,9 +244,9 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
                             try {
                                 db.deleteById(PersonTable.class, data.getG_uid());
                                 List<PersonTable> persons = db.findAll(PersonTable.class);
-                                for (PersonTable personTable : persons) {
+                              /*  for (PersonTable personTable : persons) {
                                     Log.e("personsdel----guanzhu", personTable.toString());
-                                }
+                                }*/
                             } catch (DbException e) {
                                 e.printStackTrace();
                             }

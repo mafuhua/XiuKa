@@ -19,13 +19,19 @@ import com.yuen.baselib.utils.ToastUtil;
 import com.yuen.baselib.utils.VerifyUtil;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.DUANXINBean;
+import com.yuen.xiuka.beans.FENSIBean;
 import com.yuen.xiuka.beans.LOGINBean;
+import com.yuen.xiuka.utils.PersonTable;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
 
+import org.xutils.DbManager;
 import org.xutils.common.Callback;
+import org.xutils.ex.DbException;
+import org.xutils.x;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
@@ -55,18 +61,22 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     };
     private int duanxinBeanYan;
+    private List<FENSIBean.DataBean> fensiBeanData;
+    private DbManager db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mShareAPI = UMShareAPI.get(this);
+        DbManager.DaoConfig daoConfig = XUtils.getDaoConfig();
+        db = x.getDb(daoConfig);
         initView();
     }
 
     @Override
     public void initView() {
-        if (!SPUtil.getString("tel").isEmpty()){
+        if (!SPUtil.getString("tel").isEmpty()) {
             startActivity(MainActivity.class);
             finish();
         }
@@ -101,7 +111,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                 break;
             case R.id.btn_login:
-              login();
+                login();
 
                 break;
             case R.id.btn_qq:
@@ -163,13 +173,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                 Gson gson = new Gson();
                 LOGINBean loginBean = gson.fromJson(result, LOGINBean.class);
-                ToastUtil.toastShortShow(context, "登录" + loginBean.getMsg());
-                if (loginBean.getCode().equals("0")){
 
-                    SPUtil.saveInt("uid",loginBean.getUid());
-                    SPUtil.saveString("tel",loginBean.getTel());
-                    startActivity(MainActivity.class);
-                    finish();
+                if (loginBean.getCode().equals("0")) {
+                    SPUtil.saveInt("uid", loginBean.getUid());
+                    SPUtil.saveString("tel", loginBean.getTel());
+                    SPUtil.saveString("token", loginBean.getToken());
+                    getList(URLProvider.GUANZHU);
+
+                }else {
+                    ToastUtil.toastShortShow(context, "登录失败");
                 }
 
             }
@@ -191,6 +203,57 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         });
 
     }
+
+    private void getList(String url) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("uid", SPUtil.getInt("uid") + "");
+        XUtils.xUtilsPost(url, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("mafuhua", result);
+                Gson gson = new Gson();
+                FENSIBean fensiBean = gson.fromJson(result, FENSIBean.class);
+                fensiBeanData = fensiBean.getData();
+                ToastUtil.toastShortShow(context, "登录成功");
+                if (fensiBeanData==null){
+                    startActivity(MainActivity.class);
+                    finish();
+                }else {
+                    for (int i = 0; i < fensiBeanData.size(); i++) {
+                        PersonTable person = new PersonTable();
+                        person.setId(Integer.parseInt(fensiBeanData.get(i).getG_uid()));
+                        person.setName(fensiBeanData.get(i).getName());
+                        person.setImg(URLProvider.BaseImgUrl + fensiBeanData.get(i).getImage());
+                        try {
+                            db.saveOrUpdate(person);
+                        } catch (DbException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    startActivity(MainActivity.class);
+                    finish();
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
 
     private void submit() {
         // validate

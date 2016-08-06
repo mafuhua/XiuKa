@@ -335,6 +335,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 Log.d("MainActivity", result);
                 Gson gson = new Gson();
                 TokenBean tokenBean = gson.fromJson(result, TokenBean.class);
+                SPUtil.saveString("token", tokenBean.getToken());
                 rongConnect(tokenBean.getToken());
             }
 

@@ -12,7 +12,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yuen.baselib.activity.BaseFragment;
 import com.yuen.xiuka.MyApplication;
@@ -26,7 +25,6 @@ import com.yuen.xiuka.utils.PersonTable;
 import com.yuen.xiuka.utils.XUtils;
 
 import org.xutils.DbManager;
-import org.xutils.ex.DbException;
 import org.xutils.x;
 
 import java.io.Serializable;
@@ -39,7 +37,6 @@ import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.MessageContent;
-import io.rong.imlib.model.UserInfo;
 import io.rong.message.TextMessage;
 
 /**
@@ -148,24 +145,6 @@ public class XiaoXiFragment extends BaseFragment {
             @Override
             public boolean onReceived(Message message, int i) {
                 MessageContent messageContent = message.getContent();
-                UserInfo userInfo = messageContent.getUserInfo();
-                if (userInfo != null) {
-                    try {
-                        PersonTable person = new PersonTable();
-                        person.setId(Integer.parseInt(userInfo.getUserId()));
-                        Toast.makeText(getActivity(), person.toString(), Toast.LENGTH_SHORT).show();
-                        person.setName(userInfo.getName());
-                        Toast.makeText(getActivity(), person.toString(), Toast.LENGTH_SHORT).show();
-                        person.setImg(userInfo.getPortraitUri().toString());
-                        Toast.makeText(getActivity(), person.toString(), Toast.LENGTH_SHORT).show();
-                        MainActivity.userinfomap.put(userInfo.getUserId(), person);
-                        db.saveOrUpdate(person);
-                    } catch (DbException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
                 rongIMClient = RongIM.getInstance().getRongIMClient();
                 getListData();
                 android.os.Message message1 = new android.os.Message();
@@ -174,6 +153,21 @@ public class XiaoXiFragment extends BaseFragment {
                     TextMessage textMessage = (TextMessage) messageContent;
                     Log.d("mafuhua", "onReceived-TextMessage:jkj" + textMessage.getContent());
                 }
+               /* UserInfo userInfo = messageContent.getUserInfo();
+                if (userInfo != null) {
+                    try {
+                        PersonTable person = new PersonTable();
+                        person.setId(Integer.parseInt(userInfo.getUserId()));
+                        person.setName(userInfo.getName());
+                        person.setImg(userInfo.getPortraitUri().toString());
+                        MainActivity.userinfomap.put(userInfo.getUserId(), person);
+                        db.saveOrUpdate(person);
+                    } catch (DbException e) {
+                        e.printStackTrace();
+                    }
+
+                }*/
+
                 return false;
             }
         });

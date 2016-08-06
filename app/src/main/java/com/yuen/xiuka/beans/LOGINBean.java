@@ -15,6 +15,16 @@ public class LOGINBean {
     private String code;
     private String msg;
     private String tel;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    private String token;
     private int uid;
 
     public String getCode() {

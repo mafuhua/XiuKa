@@ -64,43 +64,8 @@ public class VerifyUtil {
         return m.matches();
     }
 
-    public static boolean isQQ(String QQ) {
-        String regex = "^[1-9][0-9]{4,} $";
-        return check(QQ, regex);
-    }
 
 
-    public static boolean isPSWD(String pawd) {
-        String regex = "[a-zA-Z]+";
-        String regex1 = "[0-9]+";
-        if (find(pawd, regex) && find(pawd, regex1)) {
-            return pawd.length() >= 6 && pawd.length() <= 20;
-
-        } else {
-            return false;
-        }
-    }
-
-    public static boolean find(String str, String regex) {
-        try {
-            Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(str);
-            return matcher.find();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public static boolean check(String str, String regex) {
-        try {
-            Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(str);
-            return matcher.matches();
-        } catch (Exception e) {
-            return false;
-        }
-
-    }
 
     /**
      * 身份证的有效验证

@@ -36,6 +36,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
+
 /**
  * Created by Administrator on 2016/6/13.
  */
@@ -53,6 +56,8 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
     private ImageView iv_user_icon;
     private TextView tv_user_tel;
     private TextView tv_user_name;
+    private boolean switchc = true;
+    private MyAdapter myAdapter;
 
     private void assignViews(View view) {
         context = getActivity();
@@ -72,8 +77,9 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
         tvFensi.setText(SPUtil.getString("fensi"));
         tvGuanzhu.setText(SPUtil.getString("guanzhu"));
         tv_user_name.setText(SPUtil.getString("name"));
-        tv_user_tel.setText("ID:"+SPUtil.getInt("uid"));
-        lvWode.setAdapter(new MyAdapter(wodeItemDec));
+        tv_user_tel.setText("ID:" + SPUtil.getInt("uid"));
+        myAdapter = new MyAdapter(wodeItemDec);
+        lvWode.setAdapter(myAdapter);
         lvWode.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -107,6 +113,41 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void initData() {
+        getNotificationStatus();
+    }
+
+    /**
+     * 得到当前消息免打扰状态
+     */
+    private void getNotificationStatus() {
+
+        if (RongIM.getInstance() == null || RongIM.getInstance().getRongIMClient() == null) {
+
+            return;
+        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                RongIM.getInstance().getRongIMClient().getNotificationQuietHours(new RongIMClient.GetNotificationQuietHoursCallback() {
+                    @Override
+                    public void onSuccess(String startTime, int spanMins) {
+                        Log.d("WoDeFragment", "消息通知");
+                    }
+
+                    @Override
+                    public void onError(RongIMClient.ErrorCode errorCode) {
+                        switchc = false;
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                myAdapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
 
     }
 
@@ -146,23 +187,23 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
             public void onSuccess(String result) {
                 Log.d("mafuhua", "----MY------" + result);
                 System.out.print(result);
-               //  Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+                //  Toast.makeText(context, result, Toast.LENGTH_LONG).show();
                 Gson gson = new Gson();
                 MYBean myBean = gson.fromJson(result, MYBean.class);
                 // Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
                 myBeanData = myBean.getData();
-                x.image().bind(iv_user_icon,URLProvider.BaseImgUrl+myBeanData.getImage(), MyApplication.options);
-                tvFensi.setText(myBeanData.getFensi()+"");
-                tvGuanzhu.setText(myBeanData.getGuanzhu()+"");
+                x.image().bind(iv_user_icon, URLProvider.BaseImgUrl + myBeanData.getImage(), MyApplication.options);
+                tvFensi.setText(myBeanData.getFensi() + "");
+                tvGuanzhu.setText(myBeanData.getGuanzhu() + "");
                 tv_user_name.setText(myBeanData.getName());
-                tv_user_tel.setText("ID:"+myBeanData.getUid());
+                tv_user_tel.setText("ID:" + myBeanData.getUid());
                 SPUtil.saveString("name", myBeanData.getName());
                 SPUtil.saveString("icon", myBeanData.getImage());
                 SPUtil.saveString("guanzhu", myBeanData.getGuanzhu() + "");
                 SPUtil.saveString("fensi", myBeanData.getFensi() + "");
                 SPUtil.saveString("platform", myBeanData.getPlatform());
                 SPUtil.saveString("token", myBeanData.getToken());
-         //      Toast.makeText(context,"icon"+myBeanData.getImage(), Toast.LENGTH_LONG).show();
+                //      Toast.makeText(context,"icon"+myBeanData.getImage(), Toast.LENGTH_LONG).show();
 
             }
 
@@ -211,7 +252,43 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
             sw_tixing = (Switch) root.findViewById(R.id.sw_tixing);
             line = root.findViewById(R.id.line);
             tvwodeitemdec = (TextView) root.findViewById(R.id.tv_wode_item_dec);
+            sw_tixing.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (sw_tixing.isChecked()) {
+                                RongIM.getInstance().getRongIMClient().removeNotificationQuietHours(new RongIMClient.OperationCallback() {
+                                    @Override
+                                    public void onSuccess() {
+                                        Log.d("WoDeHolder", "移除消息通知");
+                                    }
 
+                                    @Override
+                                    public void onError(RongIMClient.ErrorCode errorCode) {
+                                    }
+                                });
+                            } else {
+                                RongIM.getInstance().getRongIMClient().setNotificationQuietHours("00:00:00", 1339, new RongIMClient.OperationCallback() {
+                                    @Override
+                                    public void onSuccess() {
+                                        Log.d("WoDeHolder", "添加消息通知");
+                                    }
+
+                                    @Override
+                                    public void onError(RongIMClient.ErrorCode errorCode) {
+
+                                    }
+                                });
+                            }
+
+
+                        }
+                    });
+
+                }
+            });
             return root;
         }
 
@@ -224,6 +301,7 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
             }
             if (position == 2) {
                 sw_tixing.setVisibility(View.VISIBLE);
+                sw_tixing.setChecked(switchc);
             } else {
                 sw_tixing.setVisibility(View.GONE);
             }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.yuen.baselib.utils.SPUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
+import com.yuen.xiuka.utils.URLProvider;
 
 import java.util.Locale;
 
@@ -24,12 +25,13 @@ import io.rong.imkit.widget.provider.InputProvider;
 import io.rong.imkit.widget.provider.TextInputProvider;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.UserInfo;
 
 /**
  * Created by Bob on 15/8/18.
  * 会话页面
  */
-public class ConversationActivity extends ActionBarActivity implements View.OnClickListener {
+public class ConversationActivity extends ActionBarActivity implements View.OnClickListener, RongIM.UserInfoProvider {
 
     private String mTargetId;
 
@@ -192,5 +194,10 @@ public class ConversationActivity extends ActionBarActivity implements View.OnCl
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public UserInfo getUserInfo(String s) {
+        return new UserInfo(SPUtil.getInt("uid")+"",SPUtil.getString("name"), Uri.parse(URLProvider.BaseImgUrl+SPUtil.getString("icon")));
     }
 }

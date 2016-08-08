@@ -153,7 +153,7 @@ public class XiaoXiFragment extends BaseFragment {
                     TextMessage textMessage = (TextMessage) messageContent;
                     Log.d("mafuhua", "onReceived-TextMessage:jkj" + textMessage.getContent());
                 }
-               /* UserInfo userInfo = messageContent.getUserInfo();
+              /*  UserInfo userInfo = messageContent.getUserInfo();
                 if (userInfo != null) {
                     try {
                         PersonTable person = new PersonTable();

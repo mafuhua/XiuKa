@@ -252,7 +252,7 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
             sw_tixing = (Switch) root.findViewById(R.id.sw_tixing);
             line = root.findViewById(R.id.line);
             tvwodeitemdec = (TextView) root.findViewById(R.id.tv_wode_item_dec);
-            sw_tixing.setOnClickListener(new View.OnClickListener() {
+           /* sw_tixing.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     new Thread(new Runnable() {
@@ -288,7 +288,7 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
                     });
 
                 }
-            });
+            });*/
             return root;
         }
 

@@ -203,6 +203,7 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
                 SPUtil.saveString("fensi", myBeanData.getFensi() + "");
                 SPUtil.saveString("platform", myBeanData.getPlatform());
                 SPUtil.saveString("token", myBeanData.getToken());
+                SPUtil.saveString("type", myBeanData.getType());
                 //      Toast.makeText(context,"icon"+myBeanData.getImage(), Toast.LENGTH_LONG).show();
 
             }

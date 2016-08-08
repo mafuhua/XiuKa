@@ -28,6 +28,7 @@ import cn.finalteam.galleryfinal.CoreConfig;
 import cn.finalteam.galleryfinal.FunctionConfig;
 import cn.finalteam.galleryfinal.GalleryFinal;
 import cn.finalteam.galleryfinal.ThemeConfig;
+import cn.jpush.android.api.JPushInterface;
 import io.rong.imkit.RongIM;
 
 
@@ -97,6 +98,9 @@ public class MyApplication extends ApplicationEx {
         x.Ext.init(this);
         // 设置是否输出debug
         x.Ext.setDebug(true);
+
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
         options = new ImageOptions.Builder()
                 .setRadius(25)
                 // 是否忽略GIF格式的图片

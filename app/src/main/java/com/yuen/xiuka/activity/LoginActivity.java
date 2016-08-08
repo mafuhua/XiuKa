@@ -291,6 +291,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             return;
         }
         if (yzm.equals(duanxinBeanYan + "")) {
+            Toast.makeText(context, "正在登陆", Toast.LENGTH_SHORT).show();
             postlogin(tel);
         } else {
             ToastUtil.toastShortShow(context, "验证码错误");

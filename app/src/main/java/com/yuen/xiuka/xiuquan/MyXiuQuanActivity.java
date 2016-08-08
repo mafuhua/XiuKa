@@ -92,6 +92,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
         xiuquandataName = xiuquandata.getName();*/
        // Toast.makeText(this, xiuquandataId + xiuquandataName, Toast.LENGTH_SHORT).show();
         initView();
+        xiuquan();
         SysExitUtil.activityList.add(this);
     }
 
@@ -198,7 +199,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
     public void xiuquan() {
         HashMap<String, String> map = new HashMap<>();
         map.put("uid", xiuquandataId);
-        map.put("page", 0 + "");
+        map.put("page", page + "");
         XUtils.xUtilsPost(URLProvider.LOOK_MY_CIRCLE, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -237,7 +238,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
     @Override
     public void onResume() {
         super.onResume();
-        xiuquan();
+       //
 
     }
 

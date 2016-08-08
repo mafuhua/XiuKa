@@ -29,6 +29,7 @@ import com.yuen.xiuka.fragment.FaXianFragment;
 import com.yuen.xiuka.fragment.FragmentFractory;
 import com.yuen.xiuka.fragment.WoDeFragment;
 import com.yuen.xiuka.fragment.XiaoXiFragment;
+import com.yuen.xiuka.utils.MyEvent;
 import com.yuen.xiuka.utils.MyUtils;
 import com.yuen.xiuka.utils.PersonTable;
 import com.yuen.xiuka.utils.URLProvider;
@@ -43,6 +44,8 @@ import org.xutils.x;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.jpush.android.api.JPushInterface;
+import de.greenrobot.event.EventBus;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.RongIMClientWrapper;
 import io.rong.imkit.fragment.ConversationListFragment;
@@ -55,6 +58,7 @@ import io.rong.imlib.model.UserInfo;
 import io.rong.message.TextMessage;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
+    public static HashMap<String, PersonTable> userinfomap = new HashMap<>();
     private FragmentManager supportFragmentManager;
     private FrameLayout fl_home_content;
     private RadioButton rb_home_faxian;
@@ -62,7 +66,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private RadioButton rb_home_fabu;
     private RadioButton rb_home_xiuquan;
     private RadioButton rb_home_wode;
-
     private RadioGroup rg_home;
     private FaXianFragment faxianFragment;
     private XiaoXiFragment xiaoxiFragment;
@@ -77,26 +80,31 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private int currentcheck;
     private DbManager db;
     private List<PersonTable> persons;
-    public static HashMap<String, PersonTable> userinfomap = new HashMap<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             savedInstanceState = null;
         }
         super.onCreate(savedInstanceState);
-        SysExitUtil.activityList.add(this);
         setContentView(R.layout.activity_main);
+        JPushInterface.setAlias(context, SPUtil.getInt("uid") + "", null);
+        SysExitUtil.activityList.add(this);
+        boolean registered = EventBus.getDefault().isRegistered(this);
+        if (!registered) {
+            EventBus.getDefault().register(this);
+        }
         rongConnect(SPUtil.getString("token"));
         DbManager.DaoConfig daoConfig = XUtils.getDaoConfig();
         db = x.getDb(daoConfig);
         try {
             persons = db.findAll(PersonTable.class);
-            if (persons==null){
+            if (persons == null) {
 
-            }else {
-                for(PersonTable person: persons){
-                    Log.d("MyApplication", "MyApplication-----"+person.toString());
-                    userinfomap.put(person.getId()+"",person);
+            } else {
+                for (PersonTable person : persons) {
+                    Log.d("MyApplication", "MyApplication-----" + person.toString());
+                    userinfomap.put(person.getId() + "", person);
                 }
             }
         } catch (DbException e) {
@@ -105,6 +113,31 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         initView();
         loadData();
+
+    }
+
+
+    public void onEventMainThread(MyEvent event) {
+        MyEvent.Event eventEvent = event.getEvent();
+        switch (eventEvent) {
+            case GET_TOKEN:
+                getToken();
+                //   Toast.makeText(this, "onEventMainThread收到了消息", Toast.LENGTH_LONG).show();
+                break;
+        }
+       /* String msg = "onEventMainThread收到了消息：" + event.getMsg();
+        Log.d("harvic", msg);
+
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();*/
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        boolean registered = EventBus.getDefault().isRegistered(this);
+        if (registered) {
+            EventBus.getDefault().unregister(this);//反注册EventBus
+        }
 
     }
 
@@ -119,9 +152,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onTokenIncorrect() {
                 //Connect Token 失效的状态处理，需要重新获取 Token
-                Toast.makeText(context, " 失效的状态处理，需要重新获取 Token", Toast.LENGTH_SHORT).show();
-                Log.e("MainActivity", "——Connect Token— -" + "失效的状态处理，需要重新获取 Token");
-                getToken();
+           //     Toast.makeText(context, " 失效的状态处理，需要重新获取 Token", Toast.LENGTH_SHORT).show();
+             //   Log.e("MainActivity", "——Connect Token— -" + "失效的状态处理，需要重新获取 Token");
+
+                EventBus.getDefault().post(
+                        new MyEvent(MyEvent.Event.GET_TOKEN));
+           //
+
             }
 
 
@@ -197,7 +234,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")//设置讨论组会话非聚合显示
                 .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//设置系统会话非聚合显示
                 .build();
-       // listfragment.setUri(uri);
+        // listfragment.setUri(uri);
 
         getSupportFragmentManager().beginTransaction().add(R.id.fl_home_content, faxianFragment, "faxianFragment")
                 .add(R.id.fl_home_content, xiaoxiFragment, "listfragment").hide(xiaoxiFragment)
@@ -281,18 +318,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         });
         Downloader downloader = new Downloader();
         downloader.downloadImage("http://d.hiphotos.baidu.com/image/h%3D200/sign=ea218b2c5566d01661199928a729d498/a08b87d6277f9e2fd4f215e91830e924b999f308.jpg",Environment.getExternalStorageDirectory() + "/imagcaca646h.jpg");
-  */  }
+  */
+    }
 
     @Override
     public void loadData() {
-
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
     @Override
@@ -312,8 +347,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.rb_home_xiuquan:
                 currentcheck = R.id.rb_home_xiuquan;
                 switchContent(currentFragment, xiuquanFragment, "购物车", View.VISIBLE);
-               // xiuquanFragment.xiuquan();
-             //   xiuquanFragment.initheader(xiuquanBeanDatas);
+                // xiuquanFragment.xiuquan();
+                //   xiuquanFragment.initheader(xiuquanBeanDatas);
                 break;
             case R.id.rb_home_wode:
                 currentcheck = R.id.rb_home_wode;
@@ -321,14 +356,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
 
             case R.id.rb_home_fabu:
-                startActivity(ZhuBoFaBuActivity.class);
+                if (SPUtil.getString("type").equals("1")){
+                    startActivity(ZhuBoFaBuActivity.class);
+                }else {
+                    Toast.makeText(context, "请先认证成为主播", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
         }
     }
+
     private void getToken() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("uid", SPUtil.getInt("uid")+"");
-        map.put("tel",SPUtil.getString("tel"));
+        map.put("uid", SPUtil.getInt("uid") + "");
+        map.put("tel", SPUtil.getString("tel"));
         XUtils.xUtilsPost(URLProvider.SAVE_TOKEN, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -363,6 +404,35 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         } else {
             transaction.hide(from).show(to).commit(); // 隐藏当前的fragment，显示下一个
         }
+    }
+
+    private void getList(String url) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("uid", SPUtil.getInt("uid") + "");
+        XUtils.xUtilsPost(url, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("mafuhua", result);
+                Gson gson = new Gson();
+                FENSIBean fensiBean = gson.fromJson(result, FENSIBean.class);
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     class NewAdapter extends ConversationListAdapter {
@@ -438,35 +508,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             this.count = (TextView) rootView.findViewById(R.id.count);
         }
 
-    }
-
-    private void getList(String url) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("uid", SPUtil.getInt("uid") + "");
-        XUtils.xUtilsPost(url, map, new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                Log.d("mafuhua", result);
-                Gson gson = new Gson();
-                FENSIBean fensiBean = gson.fromJson(result, FENSIBean.class);
-
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-        });
     }
 
 }

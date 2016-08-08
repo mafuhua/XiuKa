@@ -47,6 +47,14 @@ android {
     tasks.withType(JavaCompile) {
         compileTask -> compileTask.dependsOn(nativeLibsToJar)
     }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+
+        }
+    }
+
 }
 android {
     useLibrary 'org.apache.http.legacy'
@@ -77,4 +85,5 @@ dependencies {
     compile files('libs/ShareSDK-Core-2.7.3.jar')
     compile project(':IMKit')
     compile files('libs/eventbus-2.4.0.jar')
+    compile files('libs/jpush-android-2.1.7.jar')
 }

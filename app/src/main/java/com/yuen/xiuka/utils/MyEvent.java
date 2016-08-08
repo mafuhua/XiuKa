@@ -20,7 +20,7 @@ public class MyEvent {
 
     public enum Event{
         REFRESH_XIUQUAN,
-        GET_FILE_MESSAGE_FAILD
+        GET_TOKEN
     }
 
 }

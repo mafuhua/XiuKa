@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.yuen.baselib.adapter.BaseHolder;
 import com.yuen.baselib.adapter.DefaultAdapter;
+import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.GongGaoBean;
 import com.yuen.xiuka.utils.URLProvider;
@@ -31,6 +32,7 @@ public class GongGaoActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_gong_gao);
+        SysExitUtil.activityList.add(this);
         initView();
 
     }

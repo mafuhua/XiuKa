@@ -14,7 +14,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.yuen.baselib.activity.BaseFragment;
@@ -321,7 +320,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
                     Intent intent = new Intent(getActivity(), ZhuBoListActivity.class);
                     intent.putExtra("type", type);
                     startActivity(intent);
-                    Toast.makeText(context, type, Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(context, type, Toast.LENGTH_SHORT).show();
                     myRCAdapter.notifyDataSetChanged();
                 }
             });

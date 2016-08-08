@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yuen.baselib.utils.SPUtil;
+import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.ImgBean;
 import com.yuen.xiuka.utils.URLProvider;
@@ -53,6 +54,7 @@ public class GongHuiRenZhengActivity extends BaseActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gong_hui_ren_zheng);
+        SysExitUtil.activityList.add(this);
         initView();
     }
 
@@ -229,7 +231,7 @@ public class GongHuiRenZhengActivity extends BaseActivity implements View.OnClic
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
                 String response = new String(responseBody);
-                Toast.makeText(context, response, Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(context, response, Toast.LENGTH_SHORT).show();
                 // Log.d("mafuhua", "responseBody" + response);
                 Gson gson = new Gson();
              /*   IconResultBean iconResultBean = gson.fromJson(response, IconResultBean.class);

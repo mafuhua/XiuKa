@@ -26,11 +26,13 @@ import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yuen.baselib.utils.SPUtil;
+import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.baselib.utils.ToastUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.ImgBean;
 import com.yuen.xiuka.fragment.FragmentFractory;
+import com.yuen.xiuka.utils.MyEvent;
 import com.yuen.xiuka.utils.MyUtils;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
@@ -52,6 +54,7 @@ import java.util.List;
 import cn.finalteam.galleryfinal.FunctionConfig;
 import cn.finalteam.galleryfinal.GalleryFinal;
 import cn.finalteam.galleryfinal.model.PhotoInfo;
+import de.greenrobot.event.EventBus;
 
 public class FaBuActivity extends BaseActivity implements View.OnClickListener {
 
@@ -175,6 +178,7 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fa_bu);
+        SysExitUtil.activityList.add(this);
         initView();
     }
 
@@ -316,7 +320,7 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
-    private void fabu(HashMap<String, String> map) {
+    public void fabu(HashMap<String, String> map) {
         addrenzhengimg();
         XUtils.xUtilsPost(URLProvider.CIRCLE, map, new Callback.CommonCallback<String>() {
 
@@ -326,6 +330,8 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
                 Gson gson = new Gson();
                 ImgBean imgBean = gson.fromJson(result, ImgBean.class);
                 if (ImageList.size()==0){
+                    EventBus.getDefault().post(
+                            new MyEvent(MyEvent.Event.REFRESH_XIUQUAN));
                     Toast.makeText(context, imgBean.getMsg(), Toast.LENGTH_SHORT).show();
                     if (mypDialog.isShowing()) {
                         mypDialog.dismiss();
@@ -368,6 +374,8 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
         for (int i = 0; i < ImageList.size(); i++) {
             sendimg(ImageList.get(i));
         }
+        EventBus.getDefault().post(
+                new MyEvent(MyEvent.Event.REFRESH_XIUQUAN));
         if (mypDialog.isShowing()) {
             mypDialog.dismiss();
         }

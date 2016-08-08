@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.ConverTListViewHolder;
@@ -48,6 +49,7 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
         Intent intent = getIntent();
         guanzhuList = (ArrayList<Conversation>) intent.getSerializableExtra("list");
         initView();
+        SysExitUtil.activityList.add(this);
         //   initData();
     }
 
@@ -186,7 +188,7 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
                 x.image().bind(viewHolder.icon,MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()).getImg(), MyApplication.optionscache);
 
             } else {
-                viewHolder.name.setText("");
+                viewHolder.name.setText(guanzhuList.get(position).getTargetId());
             }
             viewHolder.time.setText(MyUtils.formatTime(guanzhuList.get(position).getReceivedTime()));
             return convertView;

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.yuen.baselib.adapter.BaseHolder;
 import com.yuen.baselib.adapter.DefaultAdapter;
+import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.R;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class ZhuBoXinXiActivity extends BaseActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zhu_bo_xin_xi);
         initView();
+        SysExitUtil.activityList.add(this);
     }
 
     @Override

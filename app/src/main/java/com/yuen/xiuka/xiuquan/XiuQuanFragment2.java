@@ -37,6 +37,7 @@ import com.yuen.xiuka.activity.GuanZhuListActivity;
 import com.yuen.xiuka.activity.PingLunActivity;
 import com.yuen.xiuka.beans.XIUQUANBean;
 import com.yuen.xiuka.beans.XiuQuanDataBean;
+import com.yuen.xiuka.utils.MyEvent;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
 
@@ -52,6 +53,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
+
 
 /**
  * Created by Administrator on 2016/6/13.
@@ -101,6 +105,15 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
     private XIUQUANBean.DatasBean xiuquanBeanDatas;
 
     @Override
+    public void onStart() {
+        super.onStart();
+        boolean registered = EventBus.getDefault().isRegistered(this);
+        if (!registered) {
+            EventBus.getDefault().register(this);
+        }
+    }
+
+    @Override
     public View initView() {
         context = getActivity();
 
@@ -135,10 +148,10 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 // 滚动状态
-               // Log.d("mafuhua", "scrollState:" + scrollState);
+                // Log.d("mafuhua", "scrollState:" + scrollState);
                 int lastVisiblePosition = mixlist.getLastVisiblePosition();
                 Log.d("mafuhua", "lastVisiblePosition:" + lastVisiblePosition);
-                  Log.d("mafuhua", "mixlist.getCount():" + mixlist.getCount());
+                Log.d("mafuhua", "mixlist.getCount():" + mixlist.getCount());
                 // 如果处于空闲状态
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
                     //最后一个条目
@@ -211,13 +224,13 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                     Toast.makeText(context, "没有更多数据了", Toast.LENGTH_SHORT).show();
                     return;
                 }*/
-                XIUQUANBean xiuquanBean = gson.fromJson(result,XIUQUANBean.class);
+                XIUQUANBean xiuquanBean = gson.fromJson(result, XIUQUANBean.class);
                 xiuquanBeanDatas = xiuquanBean.getDatas();
                 xiuquanBeanData = xiuquanBean.getData();
                 xiuquanListData.addAll(xiuquanBeanData);
 
                 myAdapter.notifyDataSetChanged();
-                if (page == 0){
+                if (page == 0) {
                     initheader(xiuquanBeanDatas);
                 }
 
@@ -259,8 +272,8 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         tv_guanzhu.setText("关注" + xiuquanDatas.getGuanzhu());
         tv_name.setText(xiuquanDatas.getName());
         tv_renzheng.setText("认证平台" + xiuquanDatas.getPlatform());
-        x.image().bind(iv_user_icon,URLProvider.BaseImgUrl+ xiuquanDatas.getImage(), MyApplication.options);
-        x.image().bind(iv_bj,URLProvider.BaseImgUrl+ xiuquanDatas.getBj_image(), MyApplication.optionsxq);
+        x.image().bind(iv_user_icon, URLProvider.BaseImgUrl + xiuquanDatas.getImage(), MyApplication.options);
+        x.image().bind(iv_bj, URLProvider.BaseImgUrl + xiuquanDatas.getBj_image(), MyApplication.optionsxq);
         //Glide.with(context).load(URLProvider.BaseImgUrl + SPUtil.getString("icon")).centerCrop().error(R.drawable.cuowu).crossFade().into(iv_user_icon);
 
 
@@ -278,20 +291,47 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.iv_bj:
                 ShowPickDialog();
-                Toast.makeText(context, "iv_bj", Toast.LENGTH_SHORT).show();
+                //   Toast.makeText(context, "iv_bj", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.iv_user_icon:
                 Intent intent = new Intent(getActivity(), MyXiuQuanActivity.class);
-                intent.putExtra("id", SPUtil.getInt("uid")+"");
-                intent.putExtra("name",SPUtil.getString("name"));
+                intent.putExtra("id", SPUtil.getInt("uid") + "");
+                intent.putExtra("name", SPUtil.getString("name"));
                 startActivity(intent);
-                Toast.makeText(context, "iv_user_icon", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(context, "iv_user_icon", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_jia:
                 refresh = true;
                 startActivity(FaBuActivity.class);
                 break;
         }
+    }
+
+    public void onEventMainThread(MyEvent event) {
+        MyEvent.Event eventEvent = event.getEvent();
+        switch (eventEvent) {
+            case REFRESH_XIUQUAN:
+                page = 0;
+                xiuquanListData.clear();
+                Log.d("mafuhua", "刷新");
+                xiuquan();
+             //   Toast.makeText(getActivity(), "onEventMainThread收到了消息", Toast.LENGTH_LONG).show();
+                break;
+        }
+       /* String msg = "onEventMainThread收到了消息：" + event.getMsg();
+        Log.d("harvic", msg);
+
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();*/
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        boolean registered = EventBus.getDefault().isRegistered(this);
+        if (registered) {
+            EventBus.getDefault().unregister(this);//反注册EventBus
+        }
+
     }
 
     /**
@@ -357,7 +397,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                 Compresspic(Environment.getExternalStorageDirectory() + "/imagcacahe/"
                         + "/iconbg01.jpg", temp.getAbsolutePath());
 
-           //     x.image().bind(iv_bj, temp.getAbsolutePath());
+                //     x.image().bind(iv_bj, temp.getAbsolutePath());
                 sendimg(temp.getAbsolutePath());
                 break;
 
@@ -383,7 +423,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         String picturePath = cursor.getString(columnIndex);  //获取照片路径
         cursor.close();
         sendimg(picturePath);
-     //   x.image().bind(iv_bj, picturePath);
+        //   x.image().bind(iv_bj, picturePath);
         // ((ImageView) findViewById(R.id.iv_temp)).setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
     }
@@ -421,7 +461,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
             e.printStackTrace();
         }
 
-         sendimg(iconfile.getAbsolutePath());
+        sendimg(iconfile.getAbsolutePath());
     }
 
     private void sendimg(final String path) {
@@ -430,7 +470,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         com.loopj.android.http.RequestParams rp = new com.loopj.android.http.RequestParams();
 
         File file = new File(path);
-          Log.d("mafuhua", path + "**************");
+        Log.d("mafuhua", path + "**************");
         try {
             rp.add("uid", SPUtil.getInt("uid") + "");
             rp.put("img", file);
@@ -444,7 +484,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
                 String response = new String(responseBody);
-                 Log.d("mafuhua", "responseBody" + response);
+                Log.d("mafuhua", "responseBody" + response);
                 Gson gson = new Gson();
              /*   IconResultBean iconResultBean = gson.fromJson(response, IconResultBean.class);
                 if (iconResultBean.getStatus().equals("0")) {
@@ -456,7 +496,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                 Toast.makeText(context, "上传成功", Toast.LENGTH_SHORT).show();
                 x.image().bind(iv_bj, path);
                 //icon = true;
-              //  myAdapter.notifyDataSetChanged();
+                //  myAdapter.notifyDataSetChanged();
             }
 
             @Override

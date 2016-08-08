@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridLayout;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.yuen.baselib.utils.AppUtil;
 import com.yuen.xiuka.MyApplication;
@@ -89,7 +88,7 @@ class MyXiuQuanAdapter extends BaseAdapter {
             viewHolder.showimage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "position:" + position, Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(context, "position:" + position, Toast.LENGTH_SHORT).show();
                     List<MYXIUQUANBean.DataBean.ImageBean> image = xiuquanBeanData.get(position).getImage();
                     Intent intent = new Intent(context, PagersImgActivity.class);
                     intent.putExtra("data", (Serializable) image);
@@ -132,7 +131,7 @@ class MyXiuQuanAdapter extends BaseAdapter {
             /*    Intent intent = new Intent(context, MyXiuQuanActivity.class);
                 intent.putExtra("data", xiuquanBeanData.get(position));
                 context.startActivity(intent);*/
-                Toast.makeText(context, "list_img" + position, Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(context, "list_img" + position, Toast.LENGTH_SHORT).show();
             }
         });
         viewHolder.iv_zhuanfa.setOnClickListener(new View.OnClickListener() {
@@ -141,7 +140,7 @@ class MyXiuQuanAdapter extends BaseAdapter {
                 showShare();
                 String id = xiuquanBeanData.get(position).getId();
                 dianzanhefenxiang(URLProvider.ADD_SHARE,id);
-                Toast.makeText(context, "tv_zhuanfa" + position, Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(context, "tv_zhuanfa" + position, Toast.LENGTH_SHORT).show();
             }
         });
         viewHolder.iv_pinlun.setOnClickListener(new View.OnClickListener() {
@@ -150,7 +149,7 @@ class MyXiuQuanAdapter extends BaseAdapter {
                 Intent intent = new Intent(context, PingLunActivity.class);
                 intent.putExtra("data", xiuquanBeanData.get(position));
                 context.startActivity(intent);
-                Toast.makeText(context, "tv_pinglun" + position, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "tv_pinglun" + position, Toast.LENGTH_SHORT).show();
             }
         });
         viewHolder.iv_dianzan.setOnClickListener(new View.OnClickListener() {
@@ -167,7 +166,7 @@ class MyXiuQuanAdapter extends BaseAdapter {
                     viewHolder.tv_dianzan.setText(Integer.parseInt(xiuquanBeanData.get(position).getZan()) + 1 + "");
                     viewHolder.iv_dianzan.setBackgroundResource(R.drawable.dianzan_pressed);
                 }
-                Toast.makeText(context, "tv_dianzan" + position, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "tv_dianzan" + position, Toast.LENGTH_SHORT).show();
             }
         });
         return convertView;

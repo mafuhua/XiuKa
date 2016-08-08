@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.XiuQuanDataBean;
@@ -26,6 +27,7 @@ public class PagersImgActivity extends com.yuen.xiuka.activity.BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pagers_img);
         initView();
+        SysExitUtil.activityList.add(this);
     }
     private List<XiuQuanDataBean.ImageBean> data;
     private int index = 0;

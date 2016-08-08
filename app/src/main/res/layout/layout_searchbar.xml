@@ -38,7 +38,7 @@
         android:layout_height="25dp"
         android:layout_centerVertical="true"
         android:layout_margin="5dp"
-        android:layout_toLeftOf="@id/tv_quxiao"
+       android:layout_alignParentRight="true"
         android:background="@drawable/sousuo"/>
 
     <View

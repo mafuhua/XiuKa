@@ -17,10 +17,10 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.yuen.baselib.utils.SPUtil;
+import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.MYBean;
@@ -59,6 +59,7 @@ public class ZhuBoXiangXiActivity extends BaseActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zhu_bo_xiang_xi);
         initView();
+        SysExitUtil.activityList.add(this);
     }
 
     @Override
@@ -90,7 +91,7 @@ public class ZhuBoXiangXiActivity extends BaseActivity implements View.OnClickLi
         lv_xiangxi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(context, "position:" + position, Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(context, "position:" + position, Toast.LENGTH_SHORT).show();
                 if (position == 1) {
                     settingbeizhu(position, "设置备注", "");
                 }
@@ -164,7 +165,7 @@ public class ZhuBoXiangXiActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 final String weight = editText.getText().toString().trim();
-                Toast.makeText(context, weight, Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(context, weight, Toast.LENGTH_SHORT).show();
             /*    settingMap.put(position, weight + hint);
                 myAdapter.notifyDataSetChanged();*/
                 HashMap<String, String> map = new HashMap<>();
@@ -217,7 +218,7 @@ public class ZhuBoXiangXiActivity extends BaseActivity implements View.OnClickLi
                 Log.d("mafuhua", "----MY------" + result);
                 System.out.print(result);
                 // Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+              //  Toast.makeText(context, result, Toast.LENGTH_LONG).show();
                 Gson gson = new Gson();
                 MYBean myBean = gson.fromJson(result, MYBean.class);
                 myBeanData = myBean.getData();

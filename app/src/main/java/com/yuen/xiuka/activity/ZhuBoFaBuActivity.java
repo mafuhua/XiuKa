@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yuen.baselib.utils.SPUtil;
+import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.baselib.utils.ToastUtil;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.ImgBean;
@@ -114,6 +115,7 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zhu_bo_fa_bu);
         initView();
+        SysExitUtil.activityList.add(this);
     }
 
     @Override

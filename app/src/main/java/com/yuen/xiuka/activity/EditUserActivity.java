@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.yuen.baselib.utils.SPUtil;
+import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.BaseBean;
 import com.yuen.xiuka.beans.MYBean;
@@ -44,7 +45,7 @@ public class EditUserActivity extends BaseActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user);
-
+        SysExitUtil.activityList.add(this);
         initView();
     }
 
@@ -109,7 +110,7 @@ public class EditUserActivity extends BaseActivity implements View.OnClickListen
         map.put(key, info);
         map.put("uid", SPUtil.getInt("uid")+"");
 
-        Toast.makeText(EditUserActivity.this,key+ info+SPUtil.getInt("uid") + "", Toast.LENGTH_LONG).show();
+      //  Toast.makeText(EditUserActivity.this,key+ info+SPUtil.getInt("uid") + "", Toast.LENGTH_LONG).show();
         XUtils.xUtilsPost(URLProvider.SAVE_DATA, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

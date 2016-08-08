@@ -6,6 +6,7 @@
     <ImageView
         android:id="@+id/icon"
         android:layout_width="45dp"
+        android:background="@drawable/rc_default_portrait"
         android:layout_height="45dp"
         android:layout_margin="8dp"/>
 
@@ -15,8 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:layout_toRightOf="@id/icon"
-        android:text="456645"/>
+        android:layout_toRightOf="@id/icon" />
     <TextView
         android:id="@+id/count"
         android:layout_width="16dp"
@@ -35,14 +35,12 @@
         android:layout_below="@+id/name"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
-        android:layout_toRightOf="@id/icon"
-        android:text="456645"/>
+        android:layout_toRightOf="@id/icon" />
     <TextView
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
-        android:text="456fdassd645"/>
+        android:layout_marginRight="10dp"/>
 </RelativeLayout>

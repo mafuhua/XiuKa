@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.R;
 
 import java.io.File;
@@ -29,7 +30,7 @@ public class PhotoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_ac_photo);
-
+        SysExitUtil.activityList.add(this);
         mPhotoFragment = (PhotoFragment)getSupportFragmentManager().findFragmentById(R.id.photo_fragment);
         Uri uri = getIntent().getParcelableExtra("photo");
         Uri thumbUri = getIntent().getParcelableExtra("thumbnail");

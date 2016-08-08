@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.R;
 
 public class BanQuanActivity extends BaseActivity implements View.OnClickListener {
@@ -20,6 +21,7 @@ public class BanQuanActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ban_quan);
+        SysExitUtil.activityList.add(this);
         initView();
     }
 

@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.yuen.baselib.adapter.BaseHolder;
 import com.yuen.baselib.adapter.DefaultAdapter;
 import com.yuen.baselib.utils.SPUtil;
+import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.BaseBean;
@@ -47,6 +48,7 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guan_zhu_list);
+        SysExitUtil.activityList.add(this);
         stringExtra = getIntent().getStringExtra("data");
         DbManager.DaoConfig daoConfig = XUtils.getDaoConfig();
         db = x.getDb(daoConfig);
@@ -92,7 +94,7 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
                 Gson gson = new Gson();
                 FENSIBean fensiBean = gson.fromJson(result, FENSIBean.class);
                 fensiBeanData = fensiBean.getData();
-                Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
                 myAdapter = new MyAdapter(fensiBeanData);
                 lv_guanzhu.setAdapter(myAdapter);
                 if (stringExtra.equals("guanzhu")){
@@ -256,11 +258,11 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
                 }
 
                 private void addordelguanzhu(String url, String uid) {
-                    Toast.makeText(context, url, Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(context, url, Toast.LENGTH_SHORT).show();
                     HashMap<String, String> map = new HashMap<>();
                     map.put("uid", SPUtil.getInt("uid") + "");
                     map.put("g_uid", uid);
-                    Toast.makeText(context, "uid" + SPUtil.getInt("uid") + "g_uid" + uid, Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(context, "uid" + SPUtil.getInt("uid") + "g_uid" + uid, Toast.LENGTH_SHORT).show();
                     XUtils.xUtilsPost(url, map, new Callback.CommonCallback<String>() {
                         @Override
                         public void onSuccess(String result) {

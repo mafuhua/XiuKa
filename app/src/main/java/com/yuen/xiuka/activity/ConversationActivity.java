@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.yuen.baselib.utils.SPUtil;
+import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.utils.URLProvider;
@@ -48,7 +49,7 @@ public class ConversationActivity extends ActionBarActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.conversation);
-
+        SysExitUtil.activityList.add(this);
         TextInputProvider textInputProvider = new TextInputProvider(RongContext.getInstance());
         RongIM.setPrimaryInputProvider(textInputProvider);
         InputProvider.ExtendProvider[] provider = {

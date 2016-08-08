@@ -25,6 +25,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yuen.baselib.adapter.BaseHolder;
 import com.yuen.baselib.adapter.DefaultAdapter;
 import com.yuen.baselib.utils.SPUtil;
+import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.BaseBean;
@@ -78,6 +79,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bian_ji_zi_liao);
+        SysExitUtil.activityList.add(this);
         mydata = (MYBean.DataBean) getIntent().getSerializableExtra("user");
         // MYBean.XiuQuanDataBean mydata = (MYBean.XiuQuanDataBean)getIntent().getBundleExtra();
         mydatastrings = new ArrayList<>();
@@ -294,12 +296,12 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
         iconfile = new File(destDir + "/icon.jpg");
         if (iconfile.exists()) {
             iconfile.delete();
-            Toast.makeText(context, "删除文件", Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(context, "删除文件", Toast.LENGTH_SHORT).show();
             iconfile = new File(destDir + "/icon.jpg");
         }
         try {
 
-            Toast.makeText(context, "创建文件" + iconfile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+         //   Toast.makeText(context, "创建文件" + iconfile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(iconfile));
             iconphoto.compress(Bitmap.CompressFormat.JPEG, 100, bos);
             bos.flush();
@@ -341,7 +343,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
                 } else {
                     Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
                 }*/
-                Toast.makeText(context, "上传成功", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(context, "上传成功", Toast.LENGTH_SHORT).show();
                 icon = true;
                 myAdapter.notifyDataSetChanged();
             }

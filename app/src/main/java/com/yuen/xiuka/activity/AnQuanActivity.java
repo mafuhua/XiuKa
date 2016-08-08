@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yuen.baselib.utils.SPUtil;
+import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.utils.URLProvider;
@@ -30,6 +31,7 @@ public class AnQuanActivity extends BaseActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_an_quan);
+        SysExitUtil.activityList.add(this);
         initView();
     }
 
@@ -72,7 +74,7 @@ public class AnQuanActivity extends BaseActivity implements View.OnClickListener
 
                 break;
             case R.id.rl_phone:
-                startActivity(BangDingTelActivity.class);
+             //   startActivity(BangDingTelActivity.class);
                 break;
             case R.id.btn_tijiao:
 

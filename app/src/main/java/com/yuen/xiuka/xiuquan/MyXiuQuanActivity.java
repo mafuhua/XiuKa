@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.yuen.baselib.utils.SPUtil;
+import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.activity.FaBuActivity;
@@ -89,8 +90,9 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
         xiuquandataName = intent.getStringExtra("name");
       /*  xiuquandataId = xiuquandata.getId();
         xiuquandataName = xiuquandata.getName();*/
-        Toast.makeText(this, xiuquandataId + xiuquandataName, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, xiuquandataId + xiuquandataName, Toast.LENGTH_SHORT).show();
         initView();
+        SysExitUtil.activityList.add(this);
     }
 
     @Override
@@ -266,10 +268,10 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
 
                 break;
             case R.id.tv_renzheng:
-                Toast.makeText(context, "tv_renzheng", Toast.LENGTH_SHORT).show();
+            //    Toast.makeText(context, "tv_renzheng", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.iv_bj:
-                Toast.makeText(context, "iv_bj", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(context, "iv_bj", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.iv_user_icon:
                 if (xiuquanBeanDatas.getUid().equals(SPUtil.getInt("uid") + "")) {

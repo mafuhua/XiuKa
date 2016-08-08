@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.yuen.baselib.adapter.BaseHolder;
 import com.yuen.baselib.adapter.DefaultAdapter;
 import com.yuen.baselib.utils.SPUtil;
+import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.PINGLUNBean;
@@ -67,7 +68,7 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ping_lun);
-
+        SysExitUtil.activityList.add(this);
         Intent intent = getIntent();
         xiuquanBeanData = (XiuQuanDataBean) intent.getSerializableExtra("data");
         xiuquanid = xiuquanBeanData.getId();

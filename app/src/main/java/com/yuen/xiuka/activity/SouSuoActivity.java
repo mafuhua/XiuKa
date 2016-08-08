@@ -1,8 +1,11 @@
 package com.yuen.xiuka.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -15,6 +18,7 @@ import com.google.gson.Gson;
 import com.yuen.baselib.adapter.BaseHolder;
 import com.yuen.baselib.adapter.DefaultAdapter;
 import com.yuen.baselib.utils.SPUtil;
+import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.BaseBean;
@@ -45,6 +49,7 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sou_suo);
+        SysExitUtil.activityList.add(this);
         initView();
     }
 
@@ -57,7 +62,7 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
         tv_sousuo = (EditText) findViewById(R.id.tv_sousuo);
         tv_sousuo.setOnClickListener(this);
         tv_quxiao = (TextView) findViewById(R.id.tv_quxiao);
-        tv_quxiao.setOnClickListener(this);
+        tv_quxiao.setVisibility(View.GONE);
         btn_search = (Button) findViewById(R.id.btn_search);
         btn_search.setOnClickListener(this);
         lv_guanzhu = (ListView) findViewById(R.id.lv_guanzhu);
@@ -80,6 +85,15 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
+
+    }
+
     private void submit() {
         // validate
         String sousuo = tv_sousuo.getText().toString().trim();
@@ -87,7 +101,9 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
             Toast.makeText(this, "秀咖号/昵称/直播平台标签不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        tv_sousuo.clearFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(tv_sousuo.getWindowToken(), 0) ;
         // TODO validate success, do something
         HashMap<String, String> map = new HashMap<>();
         map.put("uid", SPUtil.getInt("uid") + "");
@@ -105,7 +121,6 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
                 Gson gson = new Gson();
                 FENSIBean fensiBean = gson.fromJson(result, FENSIBean.class);
                 fensiBeanData = fensiBean.getData();
-                Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
                 myAdapter = new MyAdapter(fensiBeanData);
                 lv_guanzhu.setAdapter(myAdapter);
             }
@@ -191,7 +206,7 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
                 }
 
                 private void addordelguanzhu(String url, String uid) {
-                    Toast.makeText(context, url, Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(context, url, Toast.LENGTH_SHORT).show();
                     HashMap<String, String> map = new HashMap<>();
                     map.put("uid", SPUtil.getInt("uid") + "");
                     map.put("g_uid", uid);

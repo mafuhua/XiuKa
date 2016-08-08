@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.R;
 
 public class BangDingTelActivity extends BaseActivity implements View.OnClickListener {
@@ -26,6 +27,7 @@ public class BangDingTelActivity extends BaseActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bang_ding_tel);
+        SysExitUtil.activityList.add(this);
         initView();
     }
 

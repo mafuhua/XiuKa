@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yuen.baselib.utils.SPUtil;
+import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.baselib.utils.VerifyUtil;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.ImgBean;
@@ -62,6 +63,7 @@ public class RenZhengActivity extends BaseActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ren_zheng);
+        SysExitUtil.activityList.add(this);
         initView();
     }
 

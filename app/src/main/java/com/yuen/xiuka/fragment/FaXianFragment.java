@@ -3,6 +3,9 @@ package com.yuen.xiuka.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -49,7 +52,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
     private Context context;
     private GridView gv_renqi;
 
-    private ImageView iv_baoming;
+    private ViewPager mVpHomepageDec;
     private TextView tv_gengduo;
     private TextView tv_gengduo1;
     private GridView gv_tuijian;
@@ -64,6 +67,23 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
     private GridView gv_remen;
     private TextView tv_gengduo3;
     private MyAdapter myAdapter4;
+    /**
+     * 自动切换是否开启
+     */
+    private boolean isRunning = false;
+    private Handler handler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+
+            // 让viewPager 显示下一页
+            if (isRunning && mVpHomepageDec.getCurrentItem() < myPagerAdapter.getCount() - 1) {
+                mVpHomepageDec.setCurrentItem(mVpHomepageDec.getCurrentItem() + 1);
+                handler.sendEmptyMessageDelayed(88, 3000);
+            }
+        }
+
+        ;
+    };
+    private MyPagerAdapter myPagerAdapter;
 
     @Override
     public View initView() {
@@ -91,9 +111,8 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
             }
         });
 
-        iv_baoming = (ImageView) view.findViewById(R.id.iv_baoming);
-        x.image().bind(iv_baoming, "aa.jpg");
-        iv_baoming.setOnClickListener(this);
+        mVpHomepageDec = (ViewPager) view.findViewById(R.id.vp_homepage_dec);
+
         tv_gengduo = (TextView) view.findViewById(R.id.tv_gengduo);
         tv_gengduo.setOnClickListener(this);
         tv_gengduo1 = (TextView) view.findViewById(R.id.tv_gengduo1);
@@ -143,9 +162,58 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
                 startActivity(intent);
             }
         });
+
+        myPagerAdapter = new MyPagerAdapter();
+        mVpHomepageDec.setAdapter(myPagerAdapter);
+        //  addPoints();
+        regListener();
+        isRunning = true;
+      //  handler.sendEmptyMessageDelayed(88, 3000);
+
         return view;
     }
+    private void regListener() {
+        //给viewPager 添加页面改变的监听
+        mVpHomepageDec.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
+            @Override
+            /**
+             *  当页面选择发生改变时，调用此方法
+             *  @param position 新选择的页面的下标
+             */
+            public void onPageSelected(int position) {
+                position = position % imageIds.length; // 防止集合下标越界
+              /*
+                //改变描述文字
+                tvDesc.setText(imageDescriptions[position]);*/
+                // 改变指示点
+                // 上一个页面，灰点
+            /*    mLlPointGroup.getChildAt(lastPosition).setEnabled(false);
+                // 找到对应下标的point ，并改变显示
+                mLlPointGroup.getChildAt(position).setEnabled(true);
+*/
+                lastPosition = position;// 为上一个页面赋值
+
+            }
+
+            @Override
+            // 当页面滑动时，调用此方法
+            public void onPageScrolled(int position, float positionOffset,
+                                       int positionOffsetPixels) {
+            }
+
+            @Override
+            // 当页面的滑动状态发生改变时，
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    /**
+     * 页面改变时，上一个页面的下标
+     */
+    private int lastPosition;
     @Override
     public void initData() {
         XUtils.xUtilsGet(URLProvider.BIAOQIAN, new Callback.CommonCallback<String>() {
@@ -371,4 +439,38 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
             x.image().bind(user_icon, URLProvider.BaseImgUrl + data.getImage(), MyApplication.optionsxq);
         }
     }
+
+    class MyPagerAdapter extends PagerAdapter {
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            ImageView imageView = new ImageView(getActivity());
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+           /* LinearLayout.LayoutParams mParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
+                    ViewGroup.LayoutParams.FILL_PARENT);
+            imageView .setLayoutParams(mParams);*/
+            imageView.setImageResource(imageIds[position % imageIds.length]);
+            // x.image().bind(imageView, imageIds[position], options);
+            container.addView(imageView);
+            return imageView;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View) object);
+        }
+
+        @Override
+        public int getCount() {
+            return Integer.MAX_VALUE;
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
+    }
+    // 图片资源ID
+    //private final int[] imageIds = {R.drawable.tu1, R.drawable.tu2, R.drawable.tu3};
+    private final int[] imageIds = {R.drawable.ssk};
+
 }

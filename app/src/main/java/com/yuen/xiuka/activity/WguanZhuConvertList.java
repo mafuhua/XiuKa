@@ -19,7 +19,12 @@ import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.ConverTListViewHolder;
 import com.yuen.xiuka.utils.MyUtils;
+import com.yuen.xiuka.utils.PersonTable;
+import com.yuen.xiuka.utils.WPersonTable;
+import com.yuen.xiuka.utils.XUtils;
 
+import org.xutils.DbManager;
+import org.xutils.ex.DbException;
 import org.xutils.x;
 
 import java.util.ArrayList;
@@ -40,6 +45,7 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
     private NewAdapter newAdapter;
     private Button btn_fanhui;
     private TextView tv_titlecontent;
+    private DbManager db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +56,43 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
         guanzhuList = (ArrayList<Conversation>) intent.getSerializableExtra("list");
         initView();
         SysExitUtil.activityList.add(this);
+        DbManager.DaoConfig daoConfig = XUtils.getDaoConfig();
+        db = x.getDb(daoConfig);
+        for (Conversation conversation : guanzhuList) {
+            PersonTable personTable = MainActivity.userinfomap.get(conversation.getTargetId());
+            if (personTable != null) {
+                WPersonTable wperson = new WPersonTable();
+                wperson.setId(personTable.getId());
+                wperson.setName(personTable.getName());
+                wperson.setImg(personTable.getImg());
+                try {
+                    db.saveOrUpdate(wperson);
+                } catch (DbException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+        try {
+            List<WPersonTable> wPersonTables = db.findAll(WPersonTable.class);
+            if (wPersonTables==null||wPersonTables.size()<1)return;
+            for (WPersonTable wPersonTable : wPersonTables) {
+                PersonTable personTable = new PersonTable();
+                personTable.setId(wPersonTable.getId());
+                personTable.setImg(wPersonTable.getImg());
+                personTable.setName(wPersonTable.getName());
+                MainActivity.userinfomap.put(wPersonTable.getId()+"",personTable);
+                newAdapter.notifyDataSetChanged();
+            }
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+
+            /*    try {
+                    db.saveOrUpdate(person);
+                } catch (DbException e) {
+                    e.printStackTrace();
+                }*/
         //   initData();
     }
 
@@ -75,8 +118,6 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
                     } else {
                         RongIM.getInstance().startPrivateChat(context, conversation.getTargetId(), "");
                     }
-
-
                 }
 
             }

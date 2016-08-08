@@ -70,8 +70,11 @@ public class XiaoXiFragment extends BaseFragment {
                 person.setImg(userInfo.getPortraitUri().toString());
                 MainActivity.userinfomap.put(userInfo.getUserId(), person);
                 newAdapter.notifyDataSetChanged();
-                // db.saveOrUpdate(person);
-
+            /*    try {
+                    db.saveOrUpdate(person);
+                } catch (DbException e) {
+                    e.printStackTrace();
+                }*/
             } else {
                 newAdapter.notifyDataSetChanged();
             }

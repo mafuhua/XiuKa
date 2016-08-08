@@ -13,7 +13,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_margin="5dp"
+            android:layout_margin="3dp"
             android:src="@drawable/sousuokuang" />
 
         <TextView
@@ -50,11 +50,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/iv_baoming"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:background="@drawable/ssk" />
+            <android.support.v4.view.ViewPager
+                android:id="@+id/vp_homepage_dec"
+                android:layout_width="fill_parent"
+                android:layout_height="180dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

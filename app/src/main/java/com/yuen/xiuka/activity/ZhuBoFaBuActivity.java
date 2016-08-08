@@ -49,19 +49,19 @@ import cn.finalteam.galleryfinal.model.PhotoInfo;
 
 public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListener {
     private final int REQUEST_CODE_GALLERY = 1001;
-    public String[] mMonth = new String[]{"月", "8", "9", "10", "11", "12"};
+    public String[] mMonth = new String[]{"月", "1月","2月","3月","4月","5月","6月","7月","8月", "9月", "10月", "11月", "12月"};
     public String[] mDay = new String[]{
-            "日", "1", "2", "3", "4", "5", "6", "7",
-            "8", "9", "10", "11", "12", "13", "14",
-            "15", "16", "17", "18", "19", "20", "21",
-            "22", "23", "24", "25", "26", "27", "28",
-            "29", "30", "31"};
+            "日", "1日", "2日", "3日", "4日", "5日", "6日", "7日",
+            "8日", "9日", "10日", "11日", "12日", "13日", "14日",
+            "15日", "16日", "17日", "18日", "19日", "20日", "21日",
+            "22日", "23日", "24日", "25日", "26日", "27日", "28日",
+            "29日", "30日", "31日"};
     public String[] mhour = new String[]{
-            "时", "1", "2", "3", "4", "5", "6", "7",
-            "8", "9", "10", "11", "12", "13", "14",
-            "15", "16", "17", "18", "19", "20", "21",
-            "22", "23", "24"};
-    public String zhibo_time = "2016-月-日 时";
+            "时", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00",
+            "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00",
+            "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00",
+            "22:00", "23:00", "24:00"};
+    public String zhibo_time = "2016-月-日-时";
     private Button btn_fanhui;
     private Button btn_sousuo;
     private TextView tv_titlecontent;
@@ -178,7 +178,7 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int pos, long id) {
                 if (pos == 0) return;
-                zhibo_time.replace("月", mMonth[pos]);
+                zhibo_time =   zhibo_time.replace("月", mMonth[pos]);
                 Toast.makeText(context, zhibo_time, Toast.LENGTH_SHORT).show();
             }
 
@@ -192,7 +192,7 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int pos, long id) {
                 if (pos == 0) return;
-                zhibo_time.replace("日", mDay[pos]);
+                zhibo_time =    zhibo_time.replace("日", mDay[pos]);
                 Toast.makeText(context, zhibo_time, Toast.LENGTH_SHORT).show();
 
             }
@@ -207,7 +207,7 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int pos, long id) {
                 if (pos == 0) return;
-                zhibo_time.replace("时", mhour[pos]);
+                zhibo_time =  zhibo_time.replace("时", mhour[pos]);
                 Toast.makeText(context, zhibo_time, Toast.LENGTH_SHORT).show();
 
             }
@@ -316,7 +316,7 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
             Toast.makeText(this, "直播平台不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        platname = "我在"+platname+"平台";
         String content = et_content.getText().toString().trim();
         if (TextUtils.isEmpty(content)) {
             Toast.makeText(this, "说点什么吧!", Toast.LENGTH_SHORT).show();
@@ -324,11 +324,9 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
         }
         HashMap<String, String> map = new HashMap<>();
         map.put("uid", SPUtil.getInt("uid") + "");
-        map.put("content", content);
-        map.put("platform", platname);
-        map.put("zhibo_time", platname);
+        map.put("content",platname+ zhibo_time+content);
         // TODO validate success, do something
-        // fabu(map);
+        fabu(map);
 
 
     }

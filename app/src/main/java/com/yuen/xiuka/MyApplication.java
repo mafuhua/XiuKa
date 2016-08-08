@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.support.multidex.MultiDex;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -206,6 +207,10 @@ public class MyApplication extends ApplicationEx {
         // Initialize ImageLoader with configuration.
         ImageLoader.getInstance().init(config);
     }
-
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 }
 

@@ -148,8 +148,8 @@ class XiuQuanAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                // Toast.makeText(context, "tv_zhuanfa" + position, Toast.LENGTH_SHORT).show();
-                showShare();
                 String id = xiuquanBeanData.get(position).getId();
+                showShare(id);
                 dianzanhefenxiang(URLProvider.ADD_SHARE,id);
             }
         });
@@ -210,7 +210,7 @@ class XiuQuanAdapter extends BaseAdapter {
         });
     }
 
-    private void showShare() {
+    private void showShare(String id) {
         ShareSDK.initSDK(context);// 初始化sdk（校验appkey）
         OnekeyShare oks = new OnekeyShare();
 
@@ -219,20 +219,20 @@ class XiuQuanAdapter extends BaseAdapter {
         // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
         oks.setTitle("秀咖");
         // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-        oks.setTitleUrl("http://139.196.175.144/xiuka/index/index/id/4");// 自己公司主页（分析文章的url）
+        oks.setTitleUrl("http://139.196.175.144/xiuka/index/index/id/"+id);// 自己公司主页（分析文章的url）
         // text是分享文本，所有平台都需要这个字段
         oks.setText("这里是秀咖");
         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
       //  oks.setImagePath("/storage/emulated/0/imagcacahe/0.jpg");
         oks.setImageUrl("http://114.215.210.112/xiaoermei/upload/product/201607/1468892679-28566.jpg");
         // url仅在微信（包括好友和朋友圈）中使用
-        oks.setUrl("http://139.196.175.144/xiuka/index/index/id/4");
+        oks.setUrl("http://139.196.175.144/xiuka/index/index/id/"+id);
         // comment是我对这条分享的评论，仅在人人网和QQ空间使用
       //  oks.setComment("服务上班一族，博您闲暇时一笑~顺便提供点儿与企业服务、工作生活相关的咨询与服务");
         // site是分享此内容的网站名称，仅在QQ空间使用
         oks.setSite(context.getString(R.string.app_name));
         // siteUrl是分享此内容的网站地址，仅在QQ空间使用
-        oks.setSiteUrl("http://www.baidu.com/");
+        oks.setSiteUrl("http://139.196.175.144/xiuka/index/index/id/"+id);
         // 启动分享GUI
         oks.show(context);
 

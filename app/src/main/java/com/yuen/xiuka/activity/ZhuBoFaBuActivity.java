@@ -49,7 +49,7 @@ import cn.finalteam.galleryfinal.model.PhotoInfo;
 
 public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListener {
     private final int REQUEST_CODE_GALLERY = 1001;
-    public String[] mMonth = new String[]{"月", "1","2月","3月","4月","5月","6月","7月","8月", "9月", "10月", "11月", "12月"};
+    public String[] mMonth = new String[]{"月", "1月","2月","3月","4月","5月","6月","7月","8月", "9月", "10月", "11月", "12月"};
     public String[] mDay = new String[]{
             "日", "1日", "2日", "3日", "4日", "5日", "6日", "7日",
             "8日", "9日", "10日", "11日", "12日", "13日", "14日",
@@ -316,7 +316,7 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
             Toast.makeText(this, "直播平台不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
-        platname = "我在"+platname+"平台";
+
         String content = et_content.getText().toString().trim();
         if (TextUtils.isEmpty(content)) {
             Toast.makeText(this, "说点什么吧!", Toast.LENGTH_SHORT).show();
@@ -324,6 +324,10 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
         }
         HashMap<String, String> map = new HashMap<>();
         map.put("uid", SPUtil.getInt("uid") + "");
+        map.put("zhibo_time", zhibo_time);
+        map.put("uid", SPUtil.getInt("uid") + "");
+        map.put("platform", platname);
+        platname = "我在"+platname+"平台";
         map.put("content",platname+ zhibo_time+content);
         // TODO validate success, do something
         fabu(map);

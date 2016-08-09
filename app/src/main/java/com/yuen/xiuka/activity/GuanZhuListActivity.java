@@ -268,7 +268,7 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
                         public void onSuccess(String result) {
                             Gson gson = new Gson();
                             BaseBean baseBean = gson.fromJson(result, BaseBean.class);
-                            Toast.makeText(context, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "关注"+baseBean.getMsg(), Toast.LENGTH_SHORT).show();
 
                         }
 

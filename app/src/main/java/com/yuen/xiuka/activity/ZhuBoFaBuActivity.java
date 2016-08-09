@@ -49,7 +49,7 @@ import cn.finalteam.galleryfinal.model.PhotoInfo;
 
 public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListener {
     private final int REQUEST_CODE_GALLERY = 1001;
-    public String[] mMonth = new String[]{"月", "1月","2月","3月","4月","5月","6月","7月","8月", "9月", "10月", "11月", "12月"};
+    public String[] mMonth = new String[]{"月", "1","2月","3月","4月","5月","6月","7月","8月", "9月", "10月", "11月", "12月"};
     public String[] mDay = new String[]{
             "日", "1日", "2日", "3日", "4日", "5日", "6日", "7日",
             "8日", "9日", "10日", "11日", "12日", "13日", "14日",
@@ -251,7 +251,7 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
                 android.R.layout.simple_spinner_item, mCountries);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
         spinners.setAdapter(adapter);
 
     }

@@ -25,6 +25,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.jpush.a.a.x;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
@@ -170,11 +171,11 @@ class XiuQuanAdapter extends BaseAdapter {
                 if (xiuquanBeanData.get(position).isZanflag()) {
                     xiuquanBeanData.get(position).setZanflag(false);
                     viewHolder.tv_dianzan.setText(xiuquanBeanData.get(position).getZan());
-                    viewHolder.ic_dianzan.setBackgroundResource(R.drawable.dianzan_normal);
+                   // viewHolder.ic_dianzan.setBackgroundResource(R.drawable.dianzan_normal);
                 } else {
                     xiuquanBeanData.get(position).setZanflag(true);
                     viewHolder.tv_dianzan.setText(Integer.parseInt(xiuquanBeanData.get(position).getZan()) + 1 + "");
-                    viewHolder.ic_dianzan.setBackgroundResource(R.drawable.dianzan_pressed);
+                  //  viewHolder.ic_dianzan.setBackgroundResource(R.drawable.dianzan_pressed);
                 }
               //  Toast.makeText(context, "tv_dianzan" + position, Toast.LENGTH_SHORT).show();
             }
@@ -219,14 +220,14 @@ class XiuQuanAdapter extends BaseAdapter {
         // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
         oks.setTitle("秀咖");
         // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-        oks.setTitleUrl("http://www.sina.com.cn/");// 自己公司主页（分析文章的url）
+        oks.setTitleUrl("http://139.196.175.144/xiuka/index/index/id/4");// 自己公司主页（分析文章的url）
         // text是分享文本，所有平台都需要这个字段
         oks.setText("这里是秀咖");
         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
       //  oks.setImagePath("/storage/emulated/0/imagcacahe/0.jpg");
         oks.setImageUrl("http://114.215.210.112/xiaoermei/upload/product/201607/1468892679-28566.jpg");
         // url仅在微信（包括好友和朋友圈）中使用
-        oks.setUrl("http://www.baidu.com/");
+        oks.setUrl("http://139.196.175.144/xiuka/index/index/id/4");
         // comment是我对这条分享的评论，仅在人人网和QQ空间使用
       //  oks.setComment("服务上班一族，博您闲暇时一笑~顺便提供点儿与企业服务、工作生活相关的咨询与服务");
         // site是分享此内容的网站名称，仅在QQ空间使用

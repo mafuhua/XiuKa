@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -59,7 +60,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
     private TextView tv_gengduo2;
     private GridView gv_xinren;
     private MyAdapter myAdapter1;
-    private TextView tv_sousuo;
+    private RelativeLayout tv_sousuo;
     private ShouyeBean shouyeBean;
     private MyAdapter myAdapter2;
     private MyAdapter myAdapter3;
@@ -90,7 +91,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         context = getActivity();
         View view = View.inflate(getActivity(), R.layout.layout_homefragment, null);
         mRcHomeHorizontal = (RecyclerView) view.findViewById(R.id.rc_home_horizontal);
-        tv_sousuo = (TextView) view.findViewById(R.id.tv_sousuo);
+        tv_sousuo = (RelativeLayout) view.findViewById(R.id.tv_sousuo);
         tv_sousuo.setOnClickListener(this);
         gv_renqi = (GridView) view.findViewById(R.id.gv_renqi);
         //设置布局管理器

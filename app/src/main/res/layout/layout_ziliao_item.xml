@@ -13,12 +13,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="我的账号"
             android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/et_user_num"
-            android:text="jadf;lkj"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

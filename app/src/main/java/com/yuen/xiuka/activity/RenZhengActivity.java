@@ -57,6 +57,8 @@ public class RenZhengActivity extends BaseActivity implements View.OnClickListen
     private ProgressDialog mypDialog;
     private String resultid;
     private List<String> renzhengimgs = new ArrayList<>();
+    private long currentTimeMillis;
+    private int flag = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +107,7 @@ public class RenZhengActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+        currentTimeMillis = System.currentTimeMillis();
         switch (v.getId()) {
             case R.id.btn_fanhui:
                 finish();
@@ -120,13 +123,13 @@ public class RenZhengActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.btn_idcardz:
 
-                takephoto("idcardz", 0);
+                takephoto("" + currentTimeMillis, 0);
                 break;
             case R.id.btn_idcardb:
-                takephoto("idcardb", 1);
+                takephoto("" + currentTimeMillis, 1);
                 break;
             case R.id.btn_idcardsc:
-                takephoto("idcardsc", 2);
+                takephoto("" + currentTimeMillis, 2);
                 break;
         }
     }
@@ -148,33 +151,33 @@ public class RenZhengActivity extends BaseActivity implements View.OnClickListen
         switch (requestCode) {
             case 0:
                 temp = new File(Environment.getExternalStorageDirectory()
-                        + "/idcardz.jpg");
+                        + "/" + currentTimeMillis + ".jpg");
                 takephotos.put(0, temp.getAbsolutePath());
                 Compresspic(Environment.getExternalStorageDirectory()
-                        + "/idcardz01.jpg", temp.getAbsolutePath());
+                        + "/" + currentTimeMillis + "core.jpg", temp.getAbsolutePath());
                 renzhengimgs.add(Environment.getExternalStorageDirectory()
-                        + "/idcardz01.jpg");
+                        + "/" + currentTimeMillis + "core.jpg");
                 x.image().bind(btn_idcardz, temp.getAbsolutePath());
                 break;
             case 1:
                 temp = new File(Environment.getExternalStorageDirectory()
-                        + "/idcardb.jpg");
+                        + "/" + currentTimeMillis + ".jpg");
                 takephotos.put(1, temp.getAbsolutePath());
                 Compresspic(Environment.getExternalStorageDirectory()
-                        + "/idcardb01.jpg", temp.getAbsolutePath());
+                        + "/" + currentTimeMillis + "core.jpg", temp.getAbsolutePath());
                 renzhengimgs.add(Environment.getExternalStorageDirectory()
-                        + "/idcardb01.jpg");
+                        + "/" + currentTimeMillis + "core.jpg");
                 x.image().bind(btn_idcardb, temp.getAbsolutePath());
                 break;
             // 取得裁剪后的图片
             case 2:
                 temp = new File(Environment.getExternalStorageDirectory()
-                        + "/idcardsc.jpg");
+                        + "/" + currentTimeMillis + ".jpg");
                 takephotos.put(2, temp.getAbsolutePath());
                 Compresspic(Environment.getExternalStorageDirectory()
-                        + "/idcardsc01.jpg", temp.getAbsolutePath());
+                        + "/" + currentTimeMillis + "core.jpg", temp.getAbsolutePath());
                 renzhengimgs.add(Environment.getExternalStorageDirectory()
-                        + "/idcardsc01.jpg");
+                        + "/" + currentTimeMillis + "core.jpg");
                 x.image().bind(btn_idcardsc, temp.getAbsolutePath());
                 break;
 
@@ -217,6 +220,7 @@ public class RenZhengActivity extends BaseActivity implements View.OnClickListen
             Toast.makeText(this, "直播ID不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (renzhengimgs.size() < 3) return;
         addrenzheng(name, idcard, zhibo, zhiboroom, zhiboid);
         // TODO validate success, do something
 
@@ -245,9 +249,7 @@ public class RenZhengActivity extends BaseActivity implements View.OnClickListen
         for (int i = 0; i < renzhengimgs.size(); i++) {
             sendimg(renzhengimgs.get(i));
         }
-        if (mypDialog.isShowing()) {
-            mypDialog.dismiss();
-        }
+
     }
 
     private void addrenzheng(String name, String idcard, String zhibo, String zhiboroom, String zhiboid) {
@@ -297,6 +299,8 @@ public class RenZhengActivity extends BaseActivity implements View.OnClickListen
     }
 
     public void Compresspic(final String path, final String old) {
+        File file = new File(old);
+        if (!file.exists()) return;
         new Thread(new Runnable() {//开启多线程进行压缩处理
             private int options;
 
@@ -307,7 +311,7 @@ public class RenZhengActivity extends BaseActivity implements View.OnClickListen
                 BitmapFactory.Options opts = new BitmapFactory.Options();
                 opts.inSampleSize = 2;
                 Bitmap bitmap = BitmapFactory.decodeFile(old, opts);
-                Log.d("mafuhua", "bitmap.getByteCount():" + bitmap.getByteCount() / 1024);
+                //   Log.d("mafuhua", "bitmap.getByteCount():" + bitmap.getByteCount() / 1024);
                 options = 80;
                 bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);
                 //质量压缩方法，把压缩后的数据存放到baos中 (100表示不压缩，0表示压缩到最小)
@@ -339,7 +343,7 @@ public class RenZhengActivity extends BaseActivity implements View.OnClickListen
         AsyncHttpClient client = new AsyncHttpClient();
         com.loopj.android.http.RequestParams rp = new com.loopj.android.http.RequestParams();
 
-        File file = new File(path);
+        final File file = new File(path);
         //  Log.d("mafuhua", path + "**************");
         try {
             rp.add("id", resultid);
@@ -354,21 +358,20 @@ public class RenZhengActivity extends BaseActivity implements View.OnClickListen
 
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
-                String response = new String(responseBody);
-                // Log.d("mafuhua", "responseBody" + response);
-                Gson gson = new Gson();
-             /*   IconResultBean iconResultBean = gson.fromJson(response, IconResultBean.class);
-                if (iconResultBean.getStatus().equals("0")) {
+
+                flag += 1;
+                if (flag == renzhengimgs.size()) {
+                    if (mypDialog.isShowing()) {
+                        mypDialog.dismiss();
+                    }
                     Toast.makeText(context, "上传成功", Toast.LENGTH_SHORT).show();
-                    getUserIcon(ContactURL.SHOP_STORE_TOU + MainActivity.userid);
-                } else {
-                    Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
-                }*/
-                Toast.makeText(context, "上传成功", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
 
             @Override
             public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
                 if (mypDialog.isShowing()) {
                     mypDialog.dismiss();
                 }

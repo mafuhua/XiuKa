@@ -49,6 +49,8 @@ public class GongHuiRenZhengActivity extends BaseActivity implements View.OnClic
     private EditText et_idcard;
     private ImageView btn_zhengmian;
     private ImageView btn_fanmian;
+    private long currentTimeMillis;
+    private int flag = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +89,7 @@ public class GongHuiRenZhengActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
+        currentTimeMillis = System.currentTimeMillis();
         switch (v.getId()) {
             case R.id.btn_fanhui:
                 finish();
@@ -101,10 +104,10 @@ public class GongHuiRenZhengActivity extends BaseActivity implements View.OnClic
                 submit();
                 break;
             case R.id.btn_zhengmian:
-                takephoto("zhengmian",0);
+                takephoto(currentTimeMillis+"",0);
                 break;
             case R.id.btn_fanmian:
-                takephoto("fanmian",1);
+                takephoto(currentTimeMillis+"",1);
                 break;
         }
     }
@@ -124,22 +127,22 @@ public class GongHuiRenZhengActivity extends BaseActivity implements View.OnClic
         switch (requestCode) {
             case 0:
                 temp = new File(Environment.getExternalStorageDirectory()
-                        + "/zhengmian.jpg");
+                        + "/"+currentTimeMillis+".jpg");
                 takephotos.put(0, temp.getAbsolutePath());
                 Compresspic(Environment.getExternalStorageDirectory()
-                        + "/zhengmian01.jpg", temp.getAbsolutePath());
+                        + "/"+currentTimeMillis+"core.jpg", temp.getAbsolutePath());
                 renzhengimgs.add(Environment.getExternalStorageDirectory()
-                        + "/zhengmian01.jpg");
+                        + "/"+currentTimeMillis+"core.jpg");
                 x.image().bind(btn_zhengmian,temp.getAbsolutePath());
                 break;
             case 1:
                 temp = new File(Environment.getExternalStorageDirectory()
-                        + "/fanmian.jpg");
+                        + "/"+currentTimeMillis+".jpg");
                 takephotos.put(0, temp.getAbsolutePath());
                 Compresspic(Environment.getExternalStorageDirectory()
-                        + "/fanmian01.jpg", temp.getAbsolutePath());
+                        + "/"+currentTimeMillis+"core.jpg", temp.getAbsolutePath());
                 renzhengimgs.add(Environment.getExternalStorageDirectory()
-                        + "/fanmian01.jpg");
+                        + "/"+currentTimeMillis+"core.jpg");
                 x.image().bind(btn_fanmian,temp.getAbsolutePath());
                 break;
 
@@ -159,6 +162,7 @@ public class GongHuiRenZhengActivity extends BaseActivity implements View.OnClic
             Toast.makeText(this, "组织机构代码不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (renzhengimgs.size()<2)return;
         addrenzheng(name, idcard);
         // TODO validate success, do something
 
@@ -168,11 +172,11 @@ public class GongHuiRenZhengActivity extends BaseActivity implements View.OnClic
         for (int i = 0; i < renzhengimgs.size(); i++) {
             sendimg(renzhengimgs.get(i));
         }
-        if (mypDialog.isShowing()) {
-            mypDialog.dismiss();
-        }
+
     }
     public void Compresspic(final String path, final String old) {
+        File file = new File(old);
+        if (!file.exists())return;
         new Thread(new Runnable() {//开启多线程进行压缩处理
             private int options;
 
@@ -230,22 +234,20 @@ public class GongHuiRenZhengActivity extends BaseActivity implements View.OnClic
 
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
-                String response = new String(responseBody);
-             //   Toast.makeText(context, response, Toast.LENGTH_SHORT).show();
-                // Log.d("mafuhua", "responseBody" + response);
-                Gson gson = new Gson();
-             /*   IconResultBean iconResultBean = gson.fromJson(response, IconResultBean.class);
-                if (iconResultBean.getStatus().equals("0")) {
+
+                flag += 1;
+                if (flag == renzhengimgs.size()) {
+                    if (mypDialog.isShowing()) {
+                        mypDialog.dismiss();
+                    }
                     Toast.makeText(context, "上传成功", Toast.LENGTH_SHORT).show();
-                    getUserIcon(ContactURL.SHOP_STORE_TOU + MainActivity.userid);
-                } else {
-                    Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
-                }*/
-                Toast.makeText(context, "上传成功", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
 
             @Override
             public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
                 if (mypDialog.isShowing()) {
                     mypDialog.dismiss();
                 }

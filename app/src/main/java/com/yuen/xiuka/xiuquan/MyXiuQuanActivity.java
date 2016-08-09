@@ -26,17 +26,24 @@ import com.yuen.xiuka.activity.FaBuActivity;
 import com.yuen.xiuka.activity.GuanZhuListActivity;
 import com.yuen.xiuka.activity.PingLunActivity;
 import com.yuen.xiuka.activity.ZhuBoXiangXiActivity;
+import com.yuen.xiuka.beans.BaseBean;
 import com.yuen.xiuka.beans.XIUQUANBean;
 import com.yuen.xiuka.beans.XiuQuanDataBean;
+import com.yuen.xiuka.utils.MyEvent;
+import com.yuen.xiuka.utils.PersonTable;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
 
+import org.xutils.DbManager;
 import org.xutils.common.Callback;
+import org.xutils.ex.DbException;
 import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity implements View.OnClickListener {
 
@@ -79,6 +86,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
         }
     };
     private List<XiuQuanDataBean> xiuquanListData = new ArrayList<>();
+    private DbManager db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +96,9 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
         // xiuquandata = (XIUQUANBean.XiuQuanDataBean) intent.getSerializableExtra("data");
         xiuquandataId = intent.getStringExtra("id");
         xiuquandataName = intent.getStringExtra("name");
+
+        DbManager.DaoConfig daoConfig = XUtils.getDaoConfig();
+        db = x.getDb(daoConfig);
       /*  xiuquandataId = xiuquandata.getId();
         xiuquandataName = xiuquandata.getName();*/
        // Toast.makeText(this, xiuquandataId + xiuquandataName, Toast.LENGTH_SHORT).show();
@@ -185,14 +196,29 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
             }
-
         });
-
 
     }
 
     @Override
     public void loadData() {
+
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        boolean registered = EventBus.getDefault().isRegistered(this);
+        if (!registered) {
+            EventBus.getDefault().register(this);
+        }
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        boolean registered = EventBus.getDefault().isRegistered(this);
+        if (registered) {
+            EventBus.getDefault().unregister(this);//反注册EventBus
+        }
 
     }
 
@@ -238,19 +264,68 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
     @Override
     public void onResume() {
         super.onResume();
-       //
+    }
+    public void onEventMainThread(MyEvent event) {
+        MyEvent.Event eventEvent = event.getEvent();
+        switch (eventEvent) {
+            case REFRESH_XIUQUAN:
+                page = 0;
+                xiuquanListData.clear();
+                Log.d("mafuhua", "刷新");
+                xiuquan();
+               // Toast.makeText(MyXiuQuanActivity.this, "onEventMainThread消息", Toast.LENGTH_LONG).show();
+                break;
+        }
 
     }
-
-    public void initheader(XIUQUANBean.DatasBean xiuquanBeanDatas) {
+    public void initheader(final XIUQUANBean.DatasBean xiuquanBeanDatas) {
         tv_fensi.setText("粉丝" + xiuquanBeanDatas.getFensi());
-        tv_guanzhu.setText("关注" + xiuquanBeanDatas.getGuanzhu());
+
+
         tv_name.setText(xiuquanBeanDatas.getName());
         tv_renzheng.setText("认证平台" + xiuquanBeanDatas.getPlatform());
 
         x.image().bind(iv_user_icon, URLProvider.BaseImgUrl + xiuquanBeanDatas.getImage(), MyApplication.options);
          x.image().bind(iv_bj, URLProvider.BaseImgUrl + xiuquanBeanDatas.getBj_image(), MyApplication.optionsxq);
         //Glide.with(context).load(URLProvider.BaseImgUrl + SPUtil.getString("icon")).centerCrop().error(R.drawable.cuowu).crossFade().into(iv_user_icon);
+
+        if (SPUtil.getInt("uid")==Integer.parseInt(xiuquanBeanDatas.getUid())){
+            tv_guanzhu.setText("关注" + xiuquanBeanDatas.getGuanzhu());
+        }else {
+            tv_guanzhu.setText("我要关注");
+
+        }
+    }
+    private void addordelguanzhu(String url, String uid) {
+        //  Toast.makeText(context, url, Toast.LENGTH_SHORT).show();
+        HashMap<String, String> map = new HashMap<>();
+        map.put("uid", SPUtil.getInt("uid") + "");
+        map.put("g_uid", uid);
+        Toast.makeText(context, "uid" + SPUtil.getInt("uid") + "g_uid" + uid, Toast.LENGTH_SHORT).show();
+        XUtils.xUtilsPost(url, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Gson gson = new Gson();
+                BaseBean baseBean = gson.fromJson(result, BaseBean.class);
+                Toast.makeText(context, "关注" + baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+
     }
 
     @Override
@@ -265,14 +340,24 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
             case R.id.tv_guanzhu:
                 if (xiuquandataId.equals(SPUtil.getInt("uid") + "")) {
                     startActivity(GuanZhuListActivity.class, "guanzhu");
+                } else {
+                    addordelguanzhu(URLProvider.ADD_GUANZHU, xiuquanBeanDatas.getUid());
+                    PersonTable person = new PersonTable();
+                    person.setId(Integer.parseInt(xiuquanBeanDatas.getUid()));
+                    person.setName(xiuquanBeanDatas.getName());
+                    person.setImg(URLProvider.BaseImgUrl + xiuquanBeanDatas.getImage());
+                    try {
+                        db.saveOrUpdate(person);
+                    } catch (DbException e) {
+                        e.printStackTrace();
+                    }
                 }
-
                 break;
             case R.id.tv_renzheng:
-            //    Toast.makeText(context, "tv_renzheng", Toast.LENGTH_SHORT).show();
+                //    Toast.makeText(context, "tv_renzheng", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.iv_bj:
-              //  Toast.makeText(context, "iv_bj", Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(context, "iv_bj", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.iv_user_icon:
                 if (xiuquanBeanDatas.getUid().equals(SPUtil.getInt("uid") + "")) {
@@ -282,6 +367,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
                 intent.putExtra("uid", xiuquanBeanDatas.getUid());
                 startActivity(intent);
                 break;
+
             case R.id.btn_jia:
                 startActivity(FaBuActivity.class);
                 break;

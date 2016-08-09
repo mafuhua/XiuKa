@@ -108,7 +108,7 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
         HashMap<String, String> map = new HashMap<>();
         map.put("uid", SPUtil.getInt("uid") + "");
         map.put("title", sousuo);
-
+        Toast.makeText(context, "正在搜索", Toast.LENGTH_SHORT).show();
         search(map);
 
     }
@@ -120,9 +120,14 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
                 System.out.println(result);
                 Gson gson = new Gson();
                 FENSIBean fensiBean = gson.fromJson(result, FENSIBean.class);
-                fensiBeanData = fensiBean.getData();
-                myAdapter = new MyAdapter(fensiBeanData);
-                lv_guanzhu.setAdapter(myAdapter);
+                if (fensiBeanData == null) {
+                    Toast.makeText(context, "没有此用户", Toast.LENGTH_SHORT).show();
+                }else {
+                    fensiBeanData = fensiBean.getData();
+                    myAdapter = new MyAdapter(fensiBeanData);
+                    lv_guanzhu.setAdapter(myAdapter);
+                }
+
             }
 
             @Override
@@ -193,8 +198,6 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
                         } catch (DbException e) {
                             e.printStackTrace();
                         }
-
-
                     } else {
                         addordelguanzhu(URLProvider.DEL_GUANZHU, data.getUid());
                         try {

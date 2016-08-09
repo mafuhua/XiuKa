@@ -264,7 +264,11 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
     @Override
     public void onResume() {
         super.onResume();
-
+      /*  page = 0;
+        xiuquanListData.clear();
+        Toast.makeText(context, "刷新", Toast.LENGTH_SHORT).show();
+        Log.d("mafuhua", "刷新");
+        xiuquan();*/
     }
 
     public void initheader(XIUQUANBean.DatasBean xiuquanDatas) {
@@ -318,10 +322,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
              //   Toast.makeText(getActivity(), "onEventMainThread收到了消息", Toast.LENGTH_LONG).show();
                 break;
         }
-       /* String msg = "onEventMainThread收到了消息：" + event.getMsg();
-        Log.d("harvic", msg);
 
-        Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();*/
     }
 
     @Override

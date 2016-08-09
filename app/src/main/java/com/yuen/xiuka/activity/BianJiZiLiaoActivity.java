@@ -139,7 +139,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
         mydatastrings.add(4, mydata.getQianming());
         mydatastrings.add(5, mydata.getAge());
         mydatastrings.add(6, mydata.getConstellation());
-        mydatastrings.add(7, mydata.getLabel().replace("|"," "));
+        mydatastrings.add(7, mydata.getLabel().replace("|","/"));
         mydatastrings.add(8, mydata.getAdd());
         mydatastrings.add(9, mydata.getZhiye());
         if (SPUtil.getString("type").equals("1")){
@@ -423,7 +423,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
         switch (requestCode) {
             // 如果是直接从相册获取
             case 11:
-                if (data.getData() != null) {
+                if (data != null&&data.getData()!=null) {
                     startPhotoZoom(data.getData());
                 }
 

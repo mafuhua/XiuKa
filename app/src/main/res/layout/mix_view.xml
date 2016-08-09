@@ -24,7 +24,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/listuserimg"
-            android:text="DavidWang"
             android:textColor="@android:color/black"
             android:textSize="16dp" />
 
@@ -35,7 +34,6 @@
             android:layout_below="@+id/add"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
-            android:text="这是一个单张的演示"
             android:textColor="@android:color/primary_text_light"
             android:textSize="14dp" />
 
@@ -45,8 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/username"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/listuserimg"
-            android:text="上海市" />
+            android:layout_toRightOf="@id/listuserimg" />
 
         <TextView
             android:id="@+id/time"
@@ -54,8 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/username"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/add"
-            android:text="12分钟前" />
+            android:layout_toRightOf="@id/add" />
 
         <ImageView
             android:id="@+id/showimage"
@@ -170,10 +166,11 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:id="@+id/iv_zhuanfa"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
 
@@ -190,15 +187,15 @@
                 android:layout_width="0dp"
                 android:layout_height="20dp"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="268" />
+                android:gravity="center_vertical" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:id="@+id/iv_pinlun"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <ImageView
@@ -214,32 +211,32 @@
                 android:layout_width="0dp"
                 android:layout_height="20dp"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="268" />
+                android:gravity="center_vertical" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:id="@+id/iv_dianzan"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <ImageView
+            <Button
                 android:id="@+id/ic_dianzan"
                 android:layout_width="23dp"
                 android:layout_height="23dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="5dp"
-                android:background="@drawable/dianzan_normal" />
+                android:background="@drawable/dianzan_normal"
+                android:focusable="true" />
 
             <TextView
                 android:id="@+id/tv_dianzan"
                 android:layout_width="0dp"
                 android:layout_height="20dp"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="268" />
+                android:gravity="center_vertical" />
         </LinearLayout>
     </LinearLayout>
 

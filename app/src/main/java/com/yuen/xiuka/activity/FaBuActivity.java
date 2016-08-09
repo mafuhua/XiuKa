@@ -31,12 +31,10 @@ import com.yuen.baselib.utils.ToastUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.ImgBean;
-import com.yuen.xiuka.fragment.FragmentFractory;
 import com.yuen.xiuka.utils.MyEvent;
 import com.yuen.xiuka.utils.MyUtils;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
-import com.yuen.xiuka.xiuquan.XiuQuanFragment2;
 
 import org.xutils.common.Callback;
 import org.xutils.x;
@@ -193,7 +191,6 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
         if (!destDir.exists()) {
             destDir.mkdirs();
         }
-
         btn_fanhui = (Button) findViewById(R.id.btn_fanhui);
         btn_fanhui.setOnClickListener(this);
         btn_sousuo = (Button) findViewById(R.id.btn_sousuo);
@@ -332,20 +329,22 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
                 if (ImageList.size()==0){
                     EventBus.getDefault().post(
                             new MyEvent(MyEvent.Event.REFRESH_XIUQUAN));
-                    Toast.makeText(context, imgBean.getMsg(), Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(context, imgBean.getMsg(), Toast.LENGTH_SHORT).show();
                     if (mypDialog.isShowing()) {
                         mypDialog.dismiss();
                     }
+                    finish();
                 }   else {
                     if (imgBean.getCode().equals("0")) {
                         resultid = imgBean.getId() + "";
-                        Toast.makeText(context, imgBean.getMsg(), Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(context, imgBean.getMsg(), Toast.LENGTH_SHORT).show();
                         sendComPic();
                     } else {
                         Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
                         if (mypDialog.isShowing()) {
                             mypDialog.dismiss();
                         }
+                        finish();
                     }
 
                 }
@@ -374,15 +373,9 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
         for (int i = 0; i < ImageList.size(); i++) {
             sendimg(ImageList.get(i));
         }
-        EventBus.getDefault().post(
-                new MyEvent(MyEvent.Event.REFRESH_XIUQUAN));
-        if (mypDialog.isShowing()) {
-            mypDialog.dismiss();
-        }
-        XiuQuanFragment2 xiuQuanFragment2 = (XiuQuanFragment2) FragmentFractory.getInstance().createFragment(2);
-       // xiuQuanFragment2.xiuquan();
-    }
 
+    }
+private int flag = 0;
     private void sendimg(String path) {
 
         AsyncHttpClient client = new AsyncHttpClient();
@@ -402,14 +395,21 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
-                String response = new String(responseBody);
-                // Log.d("mafuhua", "responseBody" + response);
-                Gson gson = new Gson();
-                Toast.makeText(context, "上传成功", Toast.LENGTH_SHORT).show();
+                flag+= 1;
+                if (flag == ImageList.size()){
+                    EventBus.getDefault().post(
+                            new MyEvent(MyEvent.Event.REFRESH_XIUQUAN));
+                    if (mypDialog.isShowing()) {
+                        mypDialog.dismiss();
+                    }
+                    Toast.makeText(context, "上传成功", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
 
             @Override
             public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(context, "上传图片失败", Toast.LENGTH_SHORT).show();
                 if (mypDialog.isShowing()) {
                     mypDialog.dismiss();
                 }

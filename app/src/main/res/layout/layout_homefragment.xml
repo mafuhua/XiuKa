@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/tv_sousuo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="true"
@@ -17,7 +18,7 @@
             android:src="@drawable/sousuokuang" />
 
         <TextView
-            android:id="@+id/tv_sousuo"
+            android:id="@+id/tv_sousuo1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -28,7 +29,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/tv_sousuo"
+            android:layout_toLeftOf="@id/tv_sousuo1"
             android:background="@drawable/sousuo" />
     </RelativeLayout>
 
@@ -53,7 +54,7 @@
             <android.support.v4.view.ViewPager
                 android:id="@+id/vp_homepage_dec"
                 android:layout_width="fill_parent"
-                android:layout_height="180dp"/>
+                android:layout_height="160dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

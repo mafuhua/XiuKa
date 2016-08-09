@@ -22,7 +22,6 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:padding="15dp"
-            android:text="营业时间"
             android:textSize="16sp"/>
 
         <TextView

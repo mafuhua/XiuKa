@@ -21,6 +21,5 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="20dp"
         android:layout_toRightOf="@id/iv_user_icon"
-        android:text="dka;fk"
         android:textSize="16sp"/>
 </LinearLayout>

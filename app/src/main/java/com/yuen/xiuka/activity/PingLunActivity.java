@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
@@ -222,6 +223,8 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
             Toast.makeText(this, "发评论", Toast.LENGTH_SHORT).show();
             return;
         }
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(et_pinglun.getWindowToken(), 0) ;
         HashMap<String, String> map = new HashMap<>();
         map.put("uid", SPUtil.getInt("uid")+"");
         map.put("circle_id", xiuquanid);

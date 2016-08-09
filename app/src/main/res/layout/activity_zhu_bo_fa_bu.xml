@@ -29,23 +29,8 @@
         <TextView
             style="@style/ShopDecTv"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:text="直播时间:"/>
-
-        <TextView
-            style="@style/ShopDecTv"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="0.6"
-            android:text="年"
-            android:textSize="14sp"/>
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/xia"/>
-
-
+            android:layout_weight="0.5"
+            android:text="时间:"/>
 
         <Spinner
             android:id="@+id/spinner0"

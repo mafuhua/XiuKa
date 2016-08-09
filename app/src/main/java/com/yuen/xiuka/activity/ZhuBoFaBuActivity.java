@@ -275,12 +275,9 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
         try {
             rp.add("id", resultid);
             rp.put("img", file);
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
-
         client.post(URLProvider.ADD_CIRCLE_IMG, rp, new AsyncHttpResponseHandler() {
 
             @Override
@@ -304,8 +301,6 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
                     mypDialog.dismiss();
                 }
             }
-
-
         });
     }
 

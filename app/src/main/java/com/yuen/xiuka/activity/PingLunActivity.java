@@ -64,6 +64,7 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
 
 
     private String xiuquanid;
+    private Button btn_fanhui;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +105,9 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
         lv_pinglun = (ListView) findViewById(R.id.lv_pinglun);
         et_pinglun = (EditText) findViewById(R.id.et_pinglun);
         btn_pinglun = (Button) findViewById(R.id.btn_pinglun);
+        btn_fanhui = (Button) findViewById(R.id.btn_fanhui);
         btn_pinglun.setOnClickListener(this);
+        btn_fanhui.setOnClickListener(this);
         add.setText(xiuquanBeanData.getAdd());
         time.setText(xiuquanBeanData.getTime());
         username.setText(xiuquanBeanData.getName());
@@ -172,11 +175,11 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
 
     public void xiuquan(String xiukaid) {
         HashMap<String, String> map = new HashMap<>();
-        map.put("id",xiukaid);
+        map.put("id", xiukaid);
         XUtils.xUtilsPost(URLProvider.COMMENTS, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                  System.out.println(result);
+                System.out.println(result);
                 // Toast.makeText(PingLunActivity.this, result, Toast.LENGTH_SHORT).show();
                 Gson gson = new Gson();
                 PINGLUNBean pinglunBean = gson.fromJson(result, PINGLUNBean.class);
@@ -213,6 +216,9 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
             case R.id.btn_pinglun:
                 submit();
                 break;
+            case R.id.btn_fanhui:
+                finish();
+                break;
         }
     }
 
@@ -224,9 +230,9 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
             return;
         }
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(et_pinglun.getWindowToken(), 0) ;
+        imm.hideSoftInputFromWindow(et_pinglun.getWindowToken(), 0);
         HashMap<String, String> map = new HashMap<>();
-        map.put("uid", SPUtil.getInt("uid")+"");
+        map.put("uid", SPUtil.getInt("uid") + "");
         map.put("circle_id", xiuquanid);
         map.put("content", pinglun);
         XUtils.xUtilsPost(URLProvider.ADD_COMMENTS, map, new Callback.CommonCallback<String>() {
@@ -315,7 +321,7 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
             rootusername.setText(data.getName());
             rootusercontent.setText(data.getContent());
             roottime.setText(data.getTime());
-            System.out.println(URLProvider.BaseImgUrl + data.getImg()+"haha");
+            System.out.println(URLProvider.BaseImgUrl + data.getImg() + "haha");
 
             x.image().bind(rootlistuserimg, URLProvider.BaseImgUrl + data.getImg(), MyApplication.options);
         }

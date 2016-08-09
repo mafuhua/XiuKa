@@ -138,15 +138,7 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
             case R.id.btn_fanhui:
                 finish();
                 break;
-            case R.id.btn_sousuo:
 
-                break;
-            case R.id.btn_jia:
-
-                break;
-            case R.id.btn_tijiao:
-
-                break;
         }
     }
 
@@ -180,7 +172,6 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
         @Override
         public void refreshView(final FENSIBean.DataBean data, int position) {
             tvusername.setText(data.getName());
-        //    Toast.makeText(context, data.getName(), Toast.LENGTH_SHORT).show();
             tvusercontent.setText(data.getQianming());
             x.image().bind(ivusericon, URLProvider.BaseImgUrl + data.getImage(), MyApplication.options);
             cbguanzhu.setChecked(data.getXianghu() == 1 ? true : false);
@@ -193,23 +184,15 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
                         if (stringExtra.equals("fensi")){
                             addordelguanzhu(URLProvider.ADD_GUANZHU,data.getUid());
                             try {
-
                                 PersonTable person = new PersonTable();
                                 person.setId(Integer.parseInt(data.getUid()));
                                 person.setName(data.getName());
                                 person.setImg(URLProvider.BaseImgUrl+data.getImage());
                                 db.saveOrUpdate(person);
-
-
-                                List<PersonTable> persons = db.findAll(PersonTable.class);
-                                for (PersonTable personTable : persons) {
-                                    Log.e("personsadd---fensi", personTable.toString());
-                                }
                             } catch (DbException e) {
                                 e.printStackTrace();
                             }
                         }else if (stringExtra.equals("guanzhu")){
-
                             addordelguanzhu(URLProvider.ADD_GUANZHU,data.getG_uid());
                             try {
                                 PersonTable person = new PersonTable();
@@ -217,10 +200,7 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
                                 person.setName(data.getName());
                                 person.setImg(URLProvider.BaseImgUrl+data.getImage());
                                 db.saveOrUpdate(person);
-                                List<PersonTable> persons = db.findAll(PersonTable.class);
-                             /*   for (PersonTable personTable : persons) {
-                                    Log.e("personsadd----guanzhu", personTable.toString());
-                                }*/
+
                             } catch (DbException e) {
                                 e.printStackTrace();
                             }
@@ -233,10 +213,7 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
                             addordelguanzhu(URLProvider.DEL_GUANZHU,data.getUid());
                             try {
                                 db.deleteById(PersonTable.class, data.getUid());
-                                List<PersonTable> persons = db.findAll(PersonTable.class);
-                               /* for (PersonTable personTable : persons) {
-                                    Log.e("personsdel----fensi", personTable.toString());
-                                }*/
+
                             } catch (DbException e) {
                                 e.printStackTrace();
                             }
@@ -245,10 +222,7 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
                             addordelguanzhu(URLProvider.DEL_GUANZHU,data.getG_uid());
                             try {
                                 db.deleteById(PersonTable.class, data.getG_uid());
-                                List<PersonTable> persons = db.findAll(PersonTable.class);
-                              /*  for (PersonTable personTable : persons) {
-                                    Log.e("personsdel----guanzhu", personTable.toString());
-                                }*/
+
                             } catch (DbException e) {
                                 e.printStackTrace();
                             }

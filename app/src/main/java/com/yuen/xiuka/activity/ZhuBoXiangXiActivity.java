@@ -133,7 +133,7 @@ public class ZhuBoXiangXiActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_fanhui:
-
+                finish();
                 break;
             case R.id.btn_sousuo:
 

@@ -253,8 +253,8 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
                 myAdapter2 = new MyAdapter(shouyeBean.getData2());
                 myAdapter3 = new MyAdapter(shouyeBean.getData3());
                 myAdapter4 = new MyAdapter(shouyeBean.getData4());
-                gv_tuijian.setAdapter(myAdapter1);
-                gv_renqi.setAdapter(myAdapter2);
+                gv_renqi.setAdapter(myAdapter1);
+                gv_tuijian.setAdapter(myAdapter2);
                 gv_xinren.setAdapter(myAdapter3);
                 gv_remen.setAdapter(myAdapter4);
 

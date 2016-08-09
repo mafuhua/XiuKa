@@ -48,11 +48,14 @@ import java.util.HashMap;
 import java.util.List;
 
 public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickListener {
+    /**
+     * 拍照
+     */
+    public static final int DATA_WITH_CAMERA = 0x7;//拍照
     int infowhich = -1;
     String xingzuoitems[] = {"摩羯座", "水瓶座", "双鱼座", "白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座"};
-
-    private List settingString2 = new ArrayList(Arrays.asList("头像", "昵称", "秀咖号", "性别", "个性签名", "年龄", "星座", "标签", "所在地区", "职业"));
-    private List settingkey = new ArrayList(Arrays.asList("Uid", "name", "秀咖号", "sex", "qianming", "age", "constellation", "label", "add", "zhiye"));
+    private List settingString2 = new ArrayList(Arrays.asList("头像", "昵称", "秀咖号", "性别", "个性签名", "年龄", "星座", "标签", "所在地区", "职业", "直播平台"));
+    private List settingkey = new ArrayList(Arrays.asList("Uid", "name", "秀咖号", "sex", "qianming", "age", "constellation", "label", "add", "zhiye", "platform"));
     private Button btn_fanhui;
     private Button btn_sousuo;
     private TextView tv_titlecontent;
@@ -99,10 +102,9 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
                 biaoqianitems = new String[bianQianBeanData.size()];
                 selected = new boolean[bianQianBeanData.size()];
                 for (int i = 0; i < bianQianBeanData.size(); i++) {
-                   biaoqianitems[i] =  bianQianBeanData.get(i).getName();
+                    biaoqianitems[i] = bianQianBeanData.get(i).getName();
                     selected[i] = false;
                 }
-
 
 
             }
@@ -137,9 +139,13 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
         mydatastrings.add(4, mydata.getQianming());
         mydatastrings.add(5, mydata.getAge());
         mydatastrings.add(6, mydata.getConstellation());
-        mydatastrings.add(7, mydata.getLabel());
+        mydatastrings.add(7, mydata.getLabel().replace("|"," "));
         mydatastrings.add(8, mydata.getAdd());
         mydatastrings.add(9, mydata.getZhiye());
+        if (SPUtil.getString("type").equals("1")){
+            mydatastrings.add(10, mydata.getPlatform());
+        }
+
     }
 
     @Override
@@ -172,6 +178,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
                     dialogxingzuo();
                 } else if (position == 7) {
                     dialogbiaoqian();
+                  //  startActivity(BiaoQianActivity.class);
                 } else {
                     Intent intent = new Intent(BianJiZiLiaoActivity.this, EditUserActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -183,10 +190,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
             }
         });
     }
-    /**
-     * 拍照
-     */
-    public static final int DATA_WITH_CAMERA = 0x7;//拍照
+
     /**
      * 选择提示对话框
      */
@@ -212,7 +216,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
                         intent.setDataAndType(
                                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                                 "image/*");
-                        startActivityForResult(intent, 1);
+                        startActivityForResult(intent, 11);
 
                     }
                 })
@@ -296,12 +300,12 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
         iconfile = new File(destDir + "/icon.jpg");
         if (iconfile.exists()) {
             iconfile.delete();
-          //  Toast.makeText(context, "删除文件", Toast.LENGTH_SHORT).show();
+            //  Toast.makeText(context, "删除文件", Toast.LENGTH_SHORT).show();
             iconfile = new File(destDir + "/icon.jpg");
         }
         try {
 
-         //   Toast.makeText(context, "创建文件" + iconfile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+            //   Toast.makeText(context, "创建文件" + iconfile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(iconfile));
             iconphoto.compress(Bitmap.CompressFormat.JPEG, 100, bos);
             bos.flush();
@@ -343,7 +347,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
                 } else {
                     Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
                 }*/
-              //  Toast.makeText(context, "上传成功", Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(context, "上传成功", Toast.LENGTH_SHORT).show();
                 icon = true;
                 myAdapter.notifyDataSetChanged();
             }
@@ -402,7 +406,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
                 for (int i = 0; i < selected.length; i++) {
                     Log.e("mafuhua", "" + biaoqianitems[i]);
                     if (selected[i]) {
-                        biaoqian += biaoqianitems[i];
+                        biaoqian += biaoqianitems[i]+"|";
                     }
                 }
                 Toast.makeText(context, biaoqian, Toast.LENGTH_SHORT).show();
@@ -418,8 +422,10 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
 
         switch (requestCode) {
             // 如果是直接从相册获取
-            case 1:
-                if (data.getData()!=null) {startPhotoZoom(data.getData());}
+            case 11:
+                if (data.getData() != null) {
+                    startPhotoZoom(data.getData());
+                }
 
                 break;
             // 如果是调用相机拍照时
@@ -483,6 +489,12 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
             case 9:
                 extras = data.getStringExtra("key");
                 mydata.setZhiye(extras);
+                datasetting();
+                myAdapter.notifyDataSetChanged();
+                break;
+            case 10:
+                extras = data.getStringExtra("key");
+                mydata.setPlatform(extras);
                 datasetting();
                 myAdapter.notifyDataSetChanged();
                 break;

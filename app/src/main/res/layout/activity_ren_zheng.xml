@@ -195,7 +195,7 @@
 
                 <TextView
                     style="@style/ShopDecTv"
-                    android:layout_weight="1"
+                    android:layout_weight="1.5"
                     android:text="直播房间号:"/>
 
                 <EditText

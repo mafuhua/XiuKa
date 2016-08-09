@@ -37,7 +37,7 @@ public class EditUserActivity extends BaseActivity implements View.OnClickListen
     private Button btn_edit_info_ok;
     private MYBean.DataBean mydata;
 
-    private List settingString2 = new ArrayList(Arrays.asList("头像", "昵称", "秀咖号", "性别", "个性签名", "年龄", "星座", "标签", "所在地区", "职业"));
+    private List settingString2 = new ArrayList(Arrays.asList("头像", "昵称", "秀咖号", "性别", "个性签名", "年龄", "星座", "标签", "所在地区", "职业","直播平台"));
     private String key;
     private int position;
 
@@ -80,16 +80,7 @@ public class EditUserActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_fanhui:
-
-                break;
-            case R.id.btn_sousuo:
-
-                break;
-            case R.id.btn_jia:
-
-                break;
-            case R.id.btn_tijiao:
-
+                finish();
                 break;
             case R.id.btn_edit_info_ok:
                 submit();

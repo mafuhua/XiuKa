@@ -22,7 +22,6 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yuen.baselib.utils.SPUtil;
 import com.yuen.baselib.utils.SysExitUtil;
-import com.yuen.baselib.utils.VerifyUtil;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.ImgBean;
 import com.yuen.xiuka.utils.URLProvider;
@@ -196,10 +195,10 @@ public class RenZhengActivity extends BaseActivity implements View.OnClickListen
             Toast.makeText(this, "身份证号不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (!VerifyUtil.isIDCard(idcard)) {
+     /*   if (!VerifyUtil.isIDCard(idcard)) {
             Toast.makeText(this, "请输入正确的身份证号", Toast.LENGTH_SHORT).show();
             return;
-        }
+        }*/
 
         String zhibo = et_zhibo.getText().toString().trim();
         if (TextUtils.isEmpty(zhibo)) {

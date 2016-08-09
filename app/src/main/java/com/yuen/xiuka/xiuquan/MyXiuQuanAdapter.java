@@ -160,11 +160,11 @@ class MyXiuQuanAdapter extends BaseAdapter {
                 if (xiuquanBeanData.get(position).isZanflag()) {
                     xiuquanBeanData.get(position).setZanflag(false);
                     viewHolder.tv_dianzan.setText(xiuquanBeanData.get(position).getZan());
-                    viewHolder.iv_dianzan.setBackgroundResource(R.drawable.dianzan_normal);
+                    viewHolder.ic_dianzan.setBackgroundResource(R.drawable.dianzan_normal);
                 } else {
                     xiuquanBeanData.get(position).setZanflag(true);
                     viewHolder.tv_dianzan.setText(Integer.parseInt(xiuquanBeanData.get(position).getZan()) + 1 + "");
-                    viewHolder.iv_dianzan.setBackgroundResource(R.drawable.dianzan_pressed);
+                    viewHolder.ic_dianzan.setBackgroundResource(R.drawable.dianzan_pressed);
                 }
                 //Toast.makeText(context, "tv_dianzan" + position, Toast.LENGTH_SHORT).show();
             }

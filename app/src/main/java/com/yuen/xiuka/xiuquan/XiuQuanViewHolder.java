@@ -3,13 +3,15 @@ package com.yuen.xiuka.xiuquan;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yuen.xiuka.R;
 
 public class XiuQuanViewHolder {
-    public ImageView iv_dianzan;
+    public LinearLayout iv_dianzan;
     public ImageView listuserimg;
+    public ImageView ic_dianzan;
     public TextView username;
     public TextView usercontent;
     public TextView add;
@@ -20,8 +22,8 @@ public class XiuQuanViewHolder {
     public TextView tv_pinglun;
     public TextView tv_dianzan;
     public ImageView imgview[] = new ImageView[9];
-    public ImageView iv_zhuanfa;
-    public ImageView iv_pinlun;
+    public LinearLayout iv_zhuanfa;
+    public LinearLayout iv_pinlun;
     public int ImagaId[] = {R.id.img_0, R.id.img_1, R.id.img_2, R.id.img_3, R.id.img_4, R.id.img_5, R.id.img_6, R.id.img_7, R.id.img_8};
 
     public XiuQuanViewHolder(View rootView) {
@@ -36,9 +38,10 @@ public class XiuQuanViewHolder {
         }
         gridview = (GridLayout) rootView.findViewById(R.id.gridview);
         tv_zhuanfa = (TextView) rootView.findViewById(R.id.tv_zhuanfa);
-        iv_zhuanfa = (ImageView) rootView.findViewById(R.id.iv_zhuanfa);
-        iv_pinlun = (ImageView) rootView.findViewById(R.id.iv_pinlun);
-        iv_dianzan = (ImageView) rootView.findViewById(R.id.iv_dianzan);
+        iv_zhuanfa = (LinearLayout) rootView.findViewById(R.id.iv_zhuanfa);
+        iv_pinlun = (LinearLayout) rootView.findViewById(R.id.iv_pinlun);
+        iv_dianzan = (LinearLayout) rootView.findViewById(R.id.iv_dianzan);
+        ic_dianzan = (ImageView) rootView.findViewById(R.id.ic_dianzan);
         tv_pinglun = (TextView) rootView.findViewById(R.id.tv_pinglun);
         tv_dianzan = (TextView) rootView.findViewById(R.id.tv_dianzan);
     }

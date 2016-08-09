@@ -25,7 +25,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 
-import cn.jpush.a.a.x;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 

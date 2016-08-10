@@ -108,7 +108,7 @@ public class EditUserActivity extends BaseActivity implements View.OnClickListen
                 Log.d("mafuhua", "----SAVE_DATA-----" + result);
                 Gson gson = new Gson();
                 BaseBean baseBean = gson.fromJson(result, BaseBean.class);
-                Toast.makeText(EditUserActivity.this, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(EditUserActivity.this, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
                 intent.putExtra("key",info);
                 setResult(position,intent);

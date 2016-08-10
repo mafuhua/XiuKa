@@ -28,6 +28,7 @@ import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.baselib.utils.ToastUtil;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.ImgBean;
+import com.yuen.xiuka.utils.MyEvent;
 import com.yuen.xiuka.utils.MyUtils;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
@@ -46,6 +47,7 @@ import java.util.List;
 import cn.finalteam.galleryfinal.FunctionConfig;
 import cn.finalteam.galleryfinal.GalleryFinal;
 import cn.finalteam.galleryfinal.model.PhotoInfo;
+import de.greenrobot.event.EventBus;
 
 public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListener {
     private final int REQUEST_CODE_GALLERY = 1001;
@@ -179,7 +181,7 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
                                        int pos, long id) {
                 if (pos == 0) return;
                 zhibo_time =   zhibo_time.replace("月", mMonth[pos]);
-                Toast.makeText(context, zhibo_time, Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(context, zhibo_time, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -193,7 +195,7 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
                                        int pos, long id) {
                 if (pos == 0) return;
                 zhibo_time =    zhibo_time.replace("日", mDay[pos]);
-                Toast.makeText(context, zhibo_time, Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(context, zhibo_time, Toast.LENGTH_SHORT).show();
 
             }
 
@@ -208,7 +210,7 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
                                        int pos, long id) {
                 if (pos == 0) return;
                 zhibo_time =  zhibo_time.replace("时", mhour[pos]);
-                Toast.makeText(context, zhibo_time, Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(context, zhibo_time, Toast.LENGTH_SHORT).show();
 
             }
 
@@ -260,17 +262,15 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
         for (int i = 0; i < ImageList.size(); i++) {
             sendimg(ImageList.get(i));
         }
-        if (mypDialog.isShowing()) {
-            mypDialog.dismiss();
-        }
-    }
 
+    }
+    private int flag = 0;
     private void sendimg(String path) {
 
         AsyncHttpClient client = new AsyncHttpClient();
         com.loopj.android.http.RequestParams rp = new com.loopj.android.http.RequestParams();
 
-        File file = new File(path);
+        final File file = new File(path);
         //  Log.d("mafuhua", path + "**************");
         try {
             rp.add("id", resultid);
@@ -282,24 +282,25 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
 
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
-                String response = new String(responseBody);
-                // Log.d("mafuhua", "responseBody" + response);
-                Gson gson = new Gson();
-             /*   IconResultBean iconResultBean = gson.fromJson(response, IconResultBean.class);
-                if (iconResultBean.getStatus().equals("0")) {
+                flag+= 1;
+                if (flag == ImageList.size()){
+                    EventBus.getDefault().post(
+                            new MyEvent(MyEvent.Event.REFRESH_XIUQUAN));
+                    if (mypDialog.isShowing()) {
+                        mypDialog.dismiss();
+                    }
                     Toast.makeText(context, "上传成功", Toast.LENGTH_SHORT).show();
-                    getUserIcon(ContactURL.SHOP_STORE_TOU + MainActivity.userid);
-                } else {
-                    Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
-                }*/
-                Toast.makeText(context, "上传成功", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
 
             @Override
             public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(context, "上传图片失败", Toast.LENGTH_SHORT).show();
                 if (mypDialog.isShowing()) {
                     mypDialog.dismiss();
                 }
+                finish();
             }
         });
     }
@@ -340,20 +341,22 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
                 Gson gson = new Gson();
                 ImgBean imgBean = gson.fromJson(result, ImgBean.class);
                 if (ImageList.size() == 0) {
-                    Toast.makeText(context, imgBean.getMsg(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,"发布"+ imgBean.getMsg(), Toast.LENGTH_SHORT).show();
                     if (mypDialog.isShowing()) {
                         mypDialog.dismiss();
                     }
+                    finish();
                 } else {
                     if (imgBean.getCode().equals("0")) {
                         resultid = imgBean.getId() + "";
-                        Toast.makeText(context, imgBean.getMsg(), Toast.LENGTH_SHORT).show();
+                     //   Toast.makeText(context, imgBean.getMsg(), Toast.LENGTH_SHORT).show();
                         sendComPic();
                     } else {
                         Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
                         if (mypDialog.isShowing()) {
                             mypDialog.dismiss();
                         }
+                        finish();
                     }
 
                 }

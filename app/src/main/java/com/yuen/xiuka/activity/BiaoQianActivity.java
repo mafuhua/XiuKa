@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.yuen.xiuka.R;
@@ -50,8 +49,8 @@ public class BiaoQianActivity extends AppCompatActivity {
         mTagContainerLayout1.setOnTagClickListener(new TagView.OnTagClickListener() {
             @Override
             public void onTagClick(int position, String text) {
-                Toast.makeText(BiaoQianActivity.this, "click-position:" + position + ", text:" + text,
-                        Toast.LENGTH_SHORT).show();
+           //     Toast.makeText(BiaoQianActivity.this, "click-position:" + position + ", text:" + text,
+                      //  Toast.LENGTH_SHORT).show();
                 mTagContainerLayout1.setTagTextColor(Color.BLUE);
 
             }

@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
@@ -276,7 +275,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
                 infowhich = which + 1;
                 saveInfo("sex", infowhich + "", 10);
 
-                Toast.makeText(BianJiZiLiaoActivity.this, items[which] + infowhich, Toast.LENGTH_SHORT).show();
+            //    Toast.makeText(BianJiZiLiaoActivity.this, items[which] + infowhich, Toast.LENGTH_SHORT).show();
             }
         });
         builder.create().show();
@@ -370,7 +369,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
             public void onClick(DialogInterface dialog, int which) {
                 //dialog.dismiss();
                 infowhich = which;
-                Toast.makeText(BianJiZiLiaoActivity.this, xingzuoitems[which], Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(BianJiZiLiaoActivity.this, xingzuoitems[which], Toast.LENGTH_SHORT).show();
             }
         });
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -378,7 +377,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 saveInfo("constellation", xingzuoitems[infowhich], 11);
-                Toast.makeText(context, xingzuoitems[infowhich], Toast.LENGTH_SHORT).show();
+           //     Toast.makeText(context, xingzuoitems[infowhich], Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -409,7 +408,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
                         biaoqian += biaoqianitems[i]+"|";
                     }
                 }
-                Toast.makeText(context, biaoqian, Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(context, biaoqian, Toast.LENGTH_SHORT).show();
                 saveInfo("label", biaoqian, 12);
 
             }
@@ -515,7 +514,7 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
                 Log.d("mafuhua", "----SAVE_DATA-----" + result);
                 Gson gson = new Gson();
                 BaseBean baseBean = gson.fromJson(result, BaseBean.class);
-                Toast.makeText(BianJiZiLiaoActivity.this, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+            //    Toast.makeText(BianJiZiLiaoActivity.this, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
                 if (flag == 10) {
                     mydata.setSex(infowhich + "");
                     datasetting();

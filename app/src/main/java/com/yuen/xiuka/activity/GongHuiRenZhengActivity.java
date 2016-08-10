@@ -219,7 +219,7 @@ public class GongHuiRenZhengActivity extends BaseActivity implements View.OnClic
         AsyncHttpClient client = new AsyncHttpClient();
         com.loopj.android.http.RequestParams rp = new com.loopj.android.http.RequestParams();
 
-        File file = new File(path);
+        final File file = new File(path);
         //  Log.d("mafuhua", path + "**************");
         try {
             rp.add("id", resultid);
@@ -251,6 +251,7 @@ public class GongHuiRenZhengActivity extends BaseActivity implements View.OnClic
                 if (mypDialog.isShowing()) {
                     mypDialog.dismiss();
                 }
+                finish();
             }
 
 
@@ -277,6 +278,7 @@ public class GongHuiRenZhengActivity extends BaseActivity implements View.OnClic
                     if (mypDialog.isShowing()) {
                         mypDialog.dismiss();
                     }
+                    finish();
                 }
 
 

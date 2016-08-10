@@ -276,6 +276,7 @@ public class RenZhengActivity extends BaseActivity implements View.OnClickListen
                     if (mypDialog.isShowing()) {
                         mypDialog.dismiss();
                     }
+                    finish();
                 }
 
 
@@ -375,6 +376,7 @@ public class RenZhengActivity extends BaseActivity implements View.OnClickListen
                 if (mypDialog.isShowing()) {
                     mypDialog.dismiss();
                 }
+                finish();
             }
 
 

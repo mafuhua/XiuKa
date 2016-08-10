@@ -413,6 +413,7 @@ private int flag = 0;
                 if (mypDialog.isShowing()) {
                     mypDialog.dismiss();
                 }
+                finish();
             }
         });
     }

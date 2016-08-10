@@ -75,7 +75,7 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
         xiuquanBeanData = (XiuQuanDataBean) intent.getSerializableExtra("data");
         xiuquanid = xiuquanBeanData.getId();
         initView();
-        Toast.makeText(context, xiuquanid, Toast.LENGTH_SHORT).show();
+     //   Toast.makeText(context, xiuquanid, Toast.LENGTH_SHORT).show();
         xiuquan(xiuquanid);
     }
 

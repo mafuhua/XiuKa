@@ -301,7 +301,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
         HashMap<String, String> map = new HashMap<>();
         map.put("uid", SPUtil.getInt("uid") + "");
         map.put("g_uid", uid);
-        Toast.makeText(context, "uid" + SPUtil.getInt("uid") + "g_uid" + uid, Toast.LENGTH_SHORT).show();
+     //   Toast.makeText(context, "uid" + SPUtil.getInt("uid") + "g_uid" + uid, Toast.LENGTH_SHORT).show();
         XUtils.xUtilsPost(url, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

@@ -79,12 +79,11 @@ class XiuQuanAdapter extends BaseAdapter {
         x.image().bind(viewHolder.listuserimg, URLProvider.BaseImgUrl + xiuquanBeanData.get(position).getImg(), MyApplication.optionscache);
         //    Glide.with(context).load(URLProvider.BaseImgUrl + xiuquanBeanData.get(position).getImg()).centerCrop().error(R.drawable.cuowu).crossFade().into(viewHolder.listuserimg);
         imageBeanList = xiuquanBeanData.get(position).getImage();
-          /*  if (position>0){
-                imagepagerList = xiuquanBeanData.get(position - 1).getImage();
+            if (xiuquanBeanData.get(position).isZanflag()){
+                viewHolder.ic_dianzan.setBackgroundResource(R.drawable.dianzan_pressed);
             }else {
-
-            }*/
-
+                viewHolder.ic_dianzan.setBackgroundResource(R.drawable.dianzan_normal);
+            }
         if (imageBeanList.size() == 1) {
             viewHolder.showimage.setVisibility(View.VISIBLE);
             viewHolder.gridview.setVisibility(View.GONE);
@@ -169,17 +168,17 @@ class XiuQuanAdapter extends BaseAdapter {
                 dianzanhefenxiang(URLProvider.ADD_ZAN,id);
                 if (xiuquanBeanData.get(position).isZanflag()) {
                     xiuquanBeanData.get(position).setZanflag(false);
-                    viewHolder.tv_dianzan.setText(xiuquanBeanData.get(position).getZan());
+                    xiuquanBeanData.get(position).setZan(Integer.parseInt(xiuquanBeanData.get(position).getZan())-1 + "");
+                  //  viewHolder.tv_dianzan.setText(xiuquanBeanData.get(position).getZan());
                    // viewHolder.ic_dianzan.setBackgroundResource(R.drawable.dianzan_normal);
                 } else {
                     xiuquanBeanData.get(position).setZanflag(true);
-                    viewHolder.tv_dianzan.setText(Integer.parseInt(xiuquanBeanData.get(position).getZan()) + 1 + "");
+                    xiuquanBeanData.get(position).setZan(Integer.parseInt(xiuquanBeanData.get(position).getZan()) + 1 + "");
+                  //  viewHolder.tv_dianzan.setText(Integer.parseInt(xiuquanBeanData.get(position).getZan()) + 1 + "");
                   //  viewHolder.ic_dianzan.setBackgroundResource(R.drawable.dianzan_pressed);
                 }
-              //  Toast.makeText(context, "tv_dianzan" + position, Toast.LENGTH_SHORT).show();
+                notifyDataSetChanged();
             }
-
-
         });
         return convertView;
     }

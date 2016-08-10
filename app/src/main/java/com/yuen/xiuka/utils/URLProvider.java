@@ -6,6 +6,7 @@ package com.yuen.xiuka.utils;
 public class URLProvider {
     public static String BaseUrl = "http://139.196.175.144/xiuka/jiekou/";
     public static String BaseImgUrl = "http://139.196.175.144/xiuka/upload/";
+    public static String JPUSHURL = "http://192.168.0.123/xiuka/Jpush/doadd";
   //  public static String BaseImgUrl = "http://192.168.0.123/xiuka/upload/";
 
     public static String DUANXIN = BaseUrl + "duanxin";

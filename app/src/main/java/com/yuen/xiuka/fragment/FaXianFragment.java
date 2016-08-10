@@ -221,6 +221,11 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
             @Override
             public void onSuccess(String result) {
                 Gson gson = new Gson();
+                for (int i = 0; i < settingString2.size(); i++) {
+                    if (i>3){
+                        settingString2.remove(i);
+                    }
+                }
                 bianQianBean = gson.fromJson(result, BianQianBean.class);
                 for (int i = 0; i < bianQianBean.getData().size(); i++) {
                     BianQianBean.DataBean dataBean = bianQianBean.getData().get(i);
@@ -377,9 +382,9 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
             //  Log.d("mafuhua", "mPosition****:" + mrcPosition);
             if (mrcPosition == mRCPosition) {
                 viewHolder.mTxt.setTextColor(Color.RED);
-                viewHolder.tv_line.setVisibility(View.VISIBLE);
+              //  viewHolder.tv_line.setVisibility(View.VISIBLE);
             } else {
-                viewHolder.tv_line.setVisibility(View.GONE);
+               // viewHolder.tv_line.setVisibility(View.GONE);
                 viewHolder.mTxt.setTextColor(Color.BLACK);
             }
             viewHolder.mTxt.setOnClickListener(new View.OnClickListener() {

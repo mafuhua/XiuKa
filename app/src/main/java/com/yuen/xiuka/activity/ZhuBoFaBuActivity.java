@@ -294,6 +294,8 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
                 }
             }
 
+
+
             @Override
             public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
                 Toast.makeText(context, "上传图片失败", Toast.LENGTH_SHORT).show();
@@ -304,7 +306,37 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
             }
         });
     }
+    private void Jpush(String content) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("uid", SPUtil.getInt("uid")+"");
+        map.put("content", content);
+        XUtils.xUtilsPost(URLProvider.JPUSHURL, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Toast.makeText(context, "JPUSH_URL", Toast.LENGTH_SHORT).show();
+                Log.d("HomeFragment", "---JPUSH_URL------" + result);
+                     /*   Gson gson = new Gson();
+                        BaseBean baseBean = gson.fromJson(result, BaseBean.class);
+                        Toast.makeText(context, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+*/
+            }
 
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
     private void submit() {
         // validate
         String platname = et_platname.getText().toString().trim();
@@ -327,7 +359,7 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
         map.put("content",platname+ zhibo_time+content);
         // TODO validate success, do something
         fabu(map);
-
+        Jpush(content);
 
     }
 
@@ -345,6 +377,7 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
                     if (mypDialog.isShowing()) {
                         mypDialog.dismiss();
                     }
+
                     finish();
                 } else {
                     if (imgBean.getCode().equals("0")) {

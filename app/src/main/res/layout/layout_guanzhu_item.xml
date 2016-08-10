@@ -8,6 +8,7 @@
     <ImageView
         android:id="@+id/iv_user_icon"
         android:layout_width="50dp"
+        android:background="@drawable/rc_default_portrait"
         android:layout_height="50dp"
         android:layout_centerVertical="true"/>
 

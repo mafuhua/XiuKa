@@ -9,13 +9,12 @@
         android:layout_width="120dp"
         android:layout_height="110dp"
         android:scaleType="centerCrop"
-        android:layout_centerInParent="true"
-        android:background="@drawable/tuceng12"/>
+        android:layout_centerInParent="true"/>
     <View
         android:background="#aa363636"
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_height="20dp"/>
+        android:layout_height="18dp"/>
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
@@ -23,8 +22,9 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_margin="5dp"
-        android:textColor="@android:color/white"
-        android:text="哈哈"/>
+        android:maxLength="4"
+        android:ellipsize="end"
+        android:textColor="@android:color/white"/>
 
     <TextView
         android:id="@+id/tv_add"
@@ -32,9 +32,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="5dp"
-        android:textColor="@android:color/white"
-        android:text="哈哈"/>
+        android:layout_margin="2dp"
+        android:maxLength="4"
+        android:ellipsize="end"
+        android:textColor="@android:color/white" />
 
     <ImageView
         android:layout_width="15dp"

@@ -173,7 +173,7 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
         public void refreshView(final FENSIBean.DataBean data, int position) {
             tvusername.setText(data.getName());
             tvusercontent.setText(data.getQianming());
-            x.image().bind(ivusericon, URLProvider.BaseImgUrl + data.getImage(), MyApplication.options);
+            x.image().bind(ivusericon, URLProvider.BaseImgUrl + data.getImage(), MyApplication.optionscache);
             cbguanzhu.setChecked(data.getXianghu() == 1 ? true : false);
             cbguanzhu.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -200,7 +200,6 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
                                 person.setName(data.getName());
                                 person.setImg(URLProvider.BaseImgUrl+data.getImage());
                                 db.saveOrUpdate(person);
-
                             } catch (DbException e) {
                                 e.printStackTrace();
                             }
@@ -242,7 +241,7 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
                         public void onSuccess(String result) {
                             Gson gson = new Gson();
                             BaseBean baseBean = gson.fromJson(result, BaseBean.class);
-                            Toast.makeText(context, "关注"+baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
 
                         }
 

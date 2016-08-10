@@ -44,6 +44,7 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
     private ListView lv_guanzhu;
     private MyAdapter myAdapter;
     private List<FENSIBean.DataBean> fensiBeanData;
+    private DbManager db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +88,7 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode==KeyEvent.KEYCODE_BACK){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             finish();
         }
         return super.onKeyDown(keyCode, event);
@@ -103,7 +104,7 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
         }
         tv_sousuo.clearFocus();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(tv_sousuo.getWindowToken(), 0) ;
+        imm.hideSoftInputFromWindow(tv_sousuo.getWindowToken(), 0);
         // TODO validate success, do something
         HashMap<String, String> map = new HashMap<>();
         map.put("uid", SPUtil.getInt("uid") + "");
@@ -120,11 +121,12 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
                 System.out.println(result);
                 Gson gson = new Gson();
                 FENSIBean fensiBean = gson.fromJson(result, FENSIBean.class);
-                if (fensiBeanData == null) {
+
+                if (fensiBean == null || fensiBean.getData() == null) {
                     Toast.makeText(context, "没有此用户", Toast.LENGTH_SHORT).show();
-                }else {
-                    fensiBeanData = fensiBean.getData();
-                    myAdapter = new MyAdapter(fensiBeanData);
+                } else {
+                   fensiBeanData = fensiBean.getData();
+                    myAdapter = new MyAdapter(SouSuoActivity.this.fensiBeanData);
                     lv_guanzhu.setAdapter(myAdapter);
                 }
 
@@ -157,7 +159,7 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
             return new WoDeHolder();
         }
     }
-    private DbManager db;
+
     class WoDeHolder extends BaseHolder<FENSIBean.DataBean> {
         public ImageView ivusericon;
         public TextView tvusername;
@@ -179,7 +181,7 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
             tvusername.setText(data.getName());
             //    Toast.makeText(context, data.getName(), Toast.LENGTH_SHORT).show();
             tvusercontent.setText(data.getQianming());
-            x.image().bind(ivusericon, URLProvider.BaseImgUrl + data.getImage(), MyApplication.options);
+            x.image().bind(ivusericon, URLProvider.BaseImgUrl + data.getImage(), MyApplication.optionscache);
             cbguanzhu.setChecked(data.getGuanzhu() == 1 ? true : false);
             cbguanzhu.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -188,11 +190,11 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
                     db = x.getDb(daoConfig);
                     if (cbguanzhu.isChecked()) {
                         addordelguanzhu(URLProvider.ADD_GUANZHU, data.getUid());
-
+                        data.setGuanzhu(1);
                         PersonTable person = new PersonTable();
                         person.setId(Integer.parseInt(data.getUid()));
                         person.setName(data.getName());
-                        person.setImg(URLProvider.BaseImgUrl+data.getImage());
+                        person.setImg(URLProvider.BaseImgUrl + data.getImage());
                         try {
                             db.saveOrUpdate(person);
                         } catch (DbException e) {
@@ -200,26 +202,28 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
                         }
                     } else {
                         addordelguanzhu(URLProvider.DEL_GUANZHU, data.getUid());
+                        data.setGuanzhu(0);
                         try {
                             db.deleteById(PersonTable.class, data.getUid());
                         } catch (DbException e) {
                             e.printStackTrace();
                         }
                     }
+
                 }
 
                 private void addordelguanzhu(String url, String uid) {
-                  //  Toast.makeText(context, url, Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(context, url, Toast.LENGTH_SHORT).show();
                     HashMap<String, String> map = new HashMap<>();
                     map.put("uid", SPUtil.getInt("uid") + "");
                     map.put("g_uid", uid);
-                  //  Toast.makeText(context, "uid" + SPUtil.getInt("uid") + "g_uid" + uid, Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(context, "uid" + SPUtil.getInt("uid") + "g_uid" + uid, Toast.LENGTH_SHORT).show();
                     XUtils.xUtilsPost(url, map, new Callback.CommonCallback<String>() {
                         @Override
                         public void onSuccess(String result) {
                             Gson gson = new Gson();
                             BaseBean baseBean = gson.fromJson(result, BaseBean.class);
-                            Toast.makeText(context,"关注"+ baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
 
                         }
 

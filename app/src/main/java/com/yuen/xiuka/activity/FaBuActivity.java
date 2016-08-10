@@ -329,7 +329,7 @@ public class FaBuActivity extends BaseActivity implements View.OnClickListener {
                 if (ImageList.size()==0){
                     EventBus.getDefault().post(
                             new MyEvent(MyEvent.Event.REFRESH_XIUQUAN));
-                   // Toast.makeText(context, imgBean.getMsg(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"发布"+  imgBean.getMsg(), Toast.LENGTH_SHORT).show();
                     if (mypDialog.isShowing()) {
                         mypDialog.dismiss();
                     }

@@ -209,7 +209,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         });
         return view;
     }
-
+    private boolean head = true;
     public void xiuquan() {
         HashMap<String, String> map = new HashMap<>();
         map.put("uid", SPUtil.getInt("uid") + "");
@@ -230,7 +230,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                 xiuquanListData.addAll(xiuquanBeanData);
 
                 myAdapter.notifyDataSetChanged();
-                if (page == 0) {
+                if (page == 0&&head) {
                     initheader(xiuquanBeanDatas);
                 }
 
@@ -272,6 +272,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
     }
 
     public void initheader(XIUQUANBean.DatasBean xiuquanDatas) {
+        head = false;
         tv_fensi.setText("粉丝" + xiuquanDatas.getFensi());
         tv_guanzhu.setText("关注" + xiuquanDatas.getGuanzhu());
         tv_name.setText(xiuquanDatas.getName());

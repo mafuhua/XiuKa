@@ -2,6 +2,7 @@ package com.yuen.xiuka.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.yuen.baselib.activity.BaseFragment;
+import com.yuen.baselib.utils.SPUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.activity.GongGaoActivity;
@@ -23,6 +25,7 @@ import com.yuen.xiuka.activity.WguanZhuConvertList;
 import com.yuen.xiuka.beans.ConverTListViewHolder;
 import com.yuen.xiuka.utils.MyUtils;
 import com.yuen.xiuka.utils.PersonTable;
+import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
 
 import org.xutils.DbManager;
@@ -44,7 +47,7 @@ import io.rong.message.TextMessage;
 /**
  * Created by Administrator on 2016/6/13.
  */
-public class XiaoXiFragment extends BaseFragment {
+public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvider {
 
     private ListView converlist;
     private List<Conversation> conversationList;
@@ -212,6 +215,15 @@ public class XiaoXiFragment extends BaseFragment {
             }
         });
         builder.create().show();
+    }
+
+    @Override
+    public UserInfo getUserInfo(String s) {
+        for (int i = 0; i < MainActivity.userinfomap.size(); i++) {
+            PersonTable personTable = MainActivity.userinfomap.get(i);
+            return new UserInfo(personTable.getId() + "", personTable.getName() + "", Uri.parse(personTable.getImg()));
+        }
+        return new UserInfo(SPUtil.getInt("uid") + "", SPUtil.getString("name"), Uri.parse(URLProvider.BaseImgUrl + SPUtil.getString("icon")));
     }
 
     class NewAdapter extends BaseAdapter {

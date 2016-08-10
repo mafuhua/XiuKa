@@ -229,13 +229,18 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
         XUtils.xUtilsPost(URLProvider.LOOK_MY_CIRCLE, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-
+                isRefresh = false;
                 Gson gson = new Gson();
-                System.out.println(result);
+              /*  if (!result.contains("data")){
+                    Toast.makeText(context, "没有更多数据了", Toast.LENGTH_SHORT).show();
+                    return;
+                }*/
                 XIUQUANBean xiuquanBean = gson.fromJson(result, XIUQUANBean.class);
-                xiuquanBeanData = xiuquanBean.getData();
                 xiuquanBeanDatas = xiuquanBean.getDatas();
+                xiuquanBeanData = xiuquanBean.getData();
                 xiuquanListData.addAll(xiuquanBeanData);
+
+                myAdapter.notifyDataSetChanged();
                 if (page == 0) {
                     initheader(xiuquanBeanDatas);
                 }
@@ -360,6 +365,9 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
                 //  Toast.makeText(context, "iv_bj", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.iv_user_icon:
+                if (xiuquanBeanDatas == null) {
+                    return;
+                }
                 if (xiuquanBeanDatas.getUid().equals(SPUtil.getInt("uid") + "")) {
                     return;
                 }

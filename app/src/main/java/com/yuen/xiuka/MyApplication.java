@@ -106,7 +106,7 @@ public class MyApplication extends ApplicationEx {
                 .setRadius(25)
                 // 是否忽略GIF格式的图片
                 .setIgnoreGif(false)
-                .setFailureDrawableId(R.drawable.cuowu)
+                .setFailureDrawableId(R.drawable.rc_default_portrait)
                 // 图片缩放模式
                 .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                 .setUseMemCache(false)

@@ -1,5 +1,6 @@
 package com.yuen.xiuka.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.yuen.xiuka.beans.FENSIBean;
 import com.yuen.xiuka.utils.PersonTable;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
+import com.yuen.xiuka.xiuquan.MyXiuQuanActivity;
 
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
@@ -174,6 +176,22 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
             tvusername.setText(data.getName());
             tvusercontent.setText(data.getQianming());
             x.image().bind(ivusericon, URLProvider.BaseImgUrl + data.getImage(), MyApplication.optionscache);
+            ivusericon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (stringExtra.equals("fensi")){
+                        Intent intent = new Intent(context, MyXiuQuanActivity.class);
+                        intent.putExtra("id", data.getUid());
+                        intent.putExtra("name", data.getName());
+                        startActivity(intent);
+                    }else if (stringExtra.equals("guanzhu")){
+                        Intent intent = new Intent(context, MyXiuQuanActivity.class);
+                        intent.putExtra("id", data.getG_uid());
+                        intent.putExtra("name", data.getName());
+                        startActivity(intent);
+                    }
+                }
+            });
             cbguanzhu.setChecked(data.getXianghu() == 1 ? true : false);
             cbguanzhu.setOnClickListener(new View.OnClickListener() {
                 @Override

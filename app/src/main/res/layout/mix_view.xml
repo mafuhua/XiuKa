@@ -16,6 +16,7 @@
             android:id="@+id/listuserimg"
             android:layout_width="45dp"
             android:layout_height="45dp"
+            android:background="@drawable/rc_default_portrait"
             android:scaleType="centerCrop" />
 
         <TextView

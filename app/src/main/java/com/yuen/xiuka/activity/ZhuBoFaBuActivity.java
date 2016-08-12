@@ -310,11 +310,12 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
         HashMap<String, String> map = new HashMap<>();
         map.put("uid", SPUtil.getInt("uid")+"");
         map.put("content", content);
+        map.put("name", SPUtil.getString("name"));
         XUtils.xUtilsPost(URLProvider.JPUSHURL, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Toast.makeText(context, "JPUSH_URL", Toast.LENGTH_SHORT).show();
-                Log.d("HomeFragment", "---JPUSH_URL------" + result);
+           //     Toast.makeText(context, "JPUSH_URL", Toast.LENGTH_SHORT).show();
+           //     Log.d("HomeFragment", "---JPUSH_URL------" + result);
                      /*   Gson gson = new Gson();
                         BaseBean baseBean = gson.fromJson(result, BaseBean.class);
                         Toast.makeText(context, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
@@ -356,6 +357,7 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
         map.put("uid", SPUtil.getInt("uid") + "");
         map.put("platform", platname);
         platname = "我在"+platname+"平台";
+        content = "直播"+content;
         map.put("content",platname+ zhibo_time+content);
         // TODO validate success, do something
         fabu(map);

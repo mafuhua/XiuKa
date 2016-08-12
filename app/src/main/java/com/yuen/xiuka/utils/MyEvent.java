@@ -1,11 +1,24 @@
 package com.yuen.xiuka.utils;
 
+import java.util.List;
+
+import io.rong.imlib.model.Conversation;
+
 /**
  * Created by Administrator on 2016/8/8.
  */
 public class MyEvent {
     public Event event;
 
+    public List<Conversation> getGuanzhuList() {
+        return guanzhuList;
+    }
+
+    public void setGuanzhuList(List<Conversation> guanzhuList) {
+        this.guanzhuList = guanzhuList;
+    }
+
+    private List<Conversation> guanzhuList;
     public Event getEvent() {
         return event;
     }
@@ -20,7 +33,8 @@ public class MyEvent {
 
     public enum Event{
         REFRESH_XIUQUAN,
-        GET_TOKEN
+        GET_TOKEN,
+        REFRESH_LIAOTIAN
     }
 
 }

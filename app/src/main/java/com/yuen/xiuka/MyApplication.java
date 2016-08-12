@@ -106,7 +106,6 @@ public class MyApplication extends ApplicationEx {
                 .setRadius(25)
                 // 是否忽略GIF格式的图片
                 .setIgnoreGif(false)
-                .setFailureDrawableId(R.drawable.rc_default_portrait)
                 // 图片缩放模式
                 .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                 .setUseMemCache(false)
@@ -145,7 +144,7 @@ public class MyApplication extends ApplicationEx {
 
 
         }
-        PlatformConfig.setWeixin("wx576cf31829c5138b", "c4ffeeef49ed0280618bf7e5b35c4e2e");
+          PlatformConfig.setWeixin("wx576cf31829c5138b", "c4ffeeef49ed0280618bf7e5b35c4e2e");
         //微信 appid appsecret
         PlatformConfig.setSinaWeibo("2005558614", "91cd97d9e1db43afe8ccf878493dc7b7");
         //新浪微博 appkey appsecret

@@ -221,10 +221,6 @@ class XiuQuanAdapter extends BaseAdapter {
         oks.setTitleUrl("http://139.196.175.144/xiuka/index/index/id/"+id);// 自己公司主页（分析文章的url）
         // text是分享文本，所有平台都需要这个字段
         oks.setText(content);
-        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-      //  oks.setImagePath("/storage/emulated/0/imagcacahe/0.jpg");
-       // http://192.168.0.123
-       // oks.setImageUrl("http://114.215.210.112/xiaoermei/upload/product/201607/1468892679-28566.jpg");
         oks.setImageUrl("http://139.196.175.144/xiuka/logo.png");
        // oks.setImageUrl("/storage/emulated/0/imagcacahe/0.jpg");
         // url仅在微信（包括好友和朋友圈）中使用

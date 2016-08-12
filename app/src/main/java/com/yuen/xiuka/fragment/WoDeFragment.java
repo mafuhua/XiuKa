@@ -2,6 +2,7 @@ package com.yuen.xiuka.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -38,6 +39,7 @@ import java.util.List;
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.UserInfo;
 
 /**
  * Created by Administrator on 2016/6/13.
@@ -204,6 +206,7 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
                 SPUtil.saveString("platform", myBeanData.getPlatform());
                 SPUtil.saveString("token", myBeanData.getToken());
                 SPUtil.saveString("type", myBeanData.getType());
+                RongIM.getInstance().setCurrentUserInfo(new UserInfo(SPUtil.getInt("uid")+"",SPUtil.getString("name"), Uri.parse(URLProvider.BaseImgUrl+SPUtil.getString("icon"))));
                 //      Toast.makeText(context,"icon"+myBeanData.getImage(), Toast.LENGTH_LONG).show();
 
             }

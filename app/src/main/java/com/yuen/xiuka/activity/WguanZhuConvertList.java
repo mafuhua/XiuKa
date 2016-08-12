@@ -18,6 +18,7 @@ import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.ConverTListViewHolder;
+import com.yuen.xiuka.utils.MyEvent;
 import com.yuen.xiuka.utils.MyUtils;
 import com.yuen.xiuka.utils.PersonTable;
 import com.yuen.xiuka.utils.WPersonTable;
@@ -30,6 +31,7 @@ import org.xutils.x;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.RongIMClientWrapper;
 import io.rong.imlib.model.Conversation;
@@ -46,6 +48,37 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
     private Button btn_fanhui;
     private TextView tv_titlecontent;
     private DbManager db;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        boolean registered = EventBus.getDefault().isRegistered(this);
+        if (!registered) {
+            EventBus.getDefault().register(this);
+        }
+    }
+
+    public void onEventMainThread(MyEvent event) {
+        MyEvent.Event eventEvent = event.getEvent();
+        switch (eventEvent) {
+            case REFRESH_LIAOTIAN:
+                guanzhuList = (ArrayList<Conversation>) event.getGuanzhuList();
+                newAdapter.notifyDataSetChanged();
+                //  Toast.makeText(WguanZhuConvertList.this, "onEventM-----", Toast.LENGTH_LONG).show();
+                break;
+        }
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        boolean registered = EventBus.getDefault().isRegistered(this);
+        if (registered) {
+            EventBus.getDefault().unregister(this);//反注册EventBus
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,13 +108,13 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
         }
         try {
             List<WPersonTable> wPersonTables = db.findAll(WPersonTable.class);
-            if (wPersonTables==null||wPersonTables.size()<1)return;
+            if (wPersonTables == null || wPersonTables.size() < 1) return;
             for (WPersonTable wPersonTable : wPersonTables) {
                 PersonTable personTable = new PersonTable();
                 personTable.setId(wPersonTable.getId());
                 personTable.setImg(wPersonTable.getImg());
                 personTable.setName(wPersonTable.getName());
-                MainActivity.userinfomap.put(wPersonTable.getId()+"",personTable);
+                MainActivity.userinfomap.put(wPersonTable.getId() + "", personTable);
                 newAdapter.notifyDataSetChanged();
             }
         } catch (DbException e) {
@@ -226,11 +259,15 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
             }
             if (MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()) != null) {
                 viewHolder.name.setText(MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()).getName());
-                x.image().bind(viewHolder.icon,MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()).getImg(), MyApplication.optionscache);
-
+                x.image().bind(viewHolder.icon, MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()).getImg(), MyApplication.optionscache);
+              //  Toast.makeText(WguanZhuConvertList.this, MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()).getName() + MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()).getImg(), Toast.LENGTH_SHORT).show();
             } else {
                 viewHolder.name.setText(guanzhuList.get(position).getTargetId());
+                x.image().bind(viewHolder.icon, "", MyApplication.optionscache);
+              //  Toast.makeText(context, "空格", Toast.LENGTH_SHORT).show();
+
             }
+           // Toast.makeText(context, "position:" + position, Toast.LENGTH_SHORT).show();
             viewHolder.time.setText(MyUtils.formatTime(guanzhuList.get(position).getReceivedTime()));
             return convertView;
         }

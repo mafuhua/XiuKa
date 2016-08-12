@@ -9,7 +9,7 @@
     android:layout_gravity="center_horizontal"
     android:layout_width="100dp"
     android:id="@+id/iv_user_icon"
-    android:background="@drawable/cuowu"
+    android:background="@drawable/rc_default_portrait"
     android:layout_margin="30dp"
     android:layout_height="100dp"/>
     <TextView

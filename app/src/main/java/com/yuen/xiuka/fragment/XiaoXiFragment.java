@@ -23,6 +23,7 @@ import com.yuen.xiuka.activity.GongGaoActivity;
 import com.yuen.xiuka.activity.MainActivity;
 import com.yuen.xiuka.activity.WguanZhuConvertList;
 import com.yuen.xiuka.beans.ConverTListViewHolder;
+import com.yuen.xiuka.utils.MyEvent;
 import com.yuen.xiuka.utils.MyUtils;
 import com.yuen.xiuka.utils.PersonTable;
 import com.yuen.xiuka.utils.URLProvider;
@@ -35,6 +36,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.RongIMClientWrapper;
 import io.rong.imlib.RongIMClient;
@@ -81,8 +83,10 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
             } else {
                 newAdapter.notifyDataSetChanged();
             }
-
-
+            MyEvent myEvent = new MyEvent(MyEvent.Event.REFRESH_LIAOTIAN);
+            myEvent.setGuanzhuList(WguanzhuList);
+            EventBus.getDefault().post(
+                   myEvent);
             return true;
         }
     });
@@ -301,6 +305,7 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
                         x.image().bind(viewHolder.icon, MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()).getImg(), MyApplication.optionscache);
                     } else {
                         viewHolder.name.setText(guanzhuList.get(position).getTargetId());
+                        x.image().bind(viewHolder.icon, "", MyApplication.optionscache);
                     }
                     // x.image().bind(viewHolder.icon, "http://192.168.0.123/xiuka/upload/avatar/201608/1470292503-16432.jpg", MyApplication.optionscache);
                     viewHolder.time.setText(MyUtils.formatTime(guanzhuList.get(position).getReceivedTime()));

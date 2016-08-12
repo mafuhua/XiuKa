@@ -164,13 +164,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void onSuccess(String userId) {
-                Toast.makeText(context, "——onSuccess— -" + userId, Toast.LENGTH_SHORT).show();
-                Log.e("MainActivity", "——onSuccess— -" + userId);
+           //     Toast.makeText(context, "——onSuccess— -" + userId, Toast.LENGTH_SHORT).show();
+              //  Log.e("MainActivity", "——onSuccess— -" + userId);
             }
 
             @Override
             public void onError(RongIMClient.ErrorCode errorCode) {
-                Toast.makeText(context, "——onError— -" + errorCode, Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(context, "——onError— -" + errorCode, Toast.LENGTH_SHORT).show();
                 Log.e("MainActivity", "——onError— -" + errorCode);
             }
         });

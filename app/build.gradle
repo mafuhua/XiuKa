@@ -86,5 +86,5 @@ dependencies {
     compile project(':IMKit')
     compile files('libs/jpush-android-2.1.7.jar')
     compile 'co.lujun:androidtagview:1.0.3'
-
+    compile files('libs/ShareSDK-SinaWeibo-2.7.4.jar')
 }

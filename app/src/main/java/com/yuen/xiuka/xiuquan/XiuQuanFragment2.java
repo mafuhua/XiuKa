@@ -199,7 +199,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                             xiuquanListData.clear();
                             Log.d("mafuhua", "刷新");
                             xiuquan();
-                            mHandler.sendEmptyMessage(1);
+
                         }
 
                     }
@@ -230,11 +230,11 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                 xiuquanListData.addAll(xiuquanBeanData);
 
                 myAdapter.notifyDataSetChanged();
-                if (page == 0&&head) {
+                if (page == 0) {
                     initheader(xiuquanBeanDatas);
                 }
 
-
+                mHandler.sendEmptyMessage(1);
             }
 
             @Override
@@ -259,6 +259,12 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
     public void initData() {
         xiuquan();
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        head = true;
     }
 
     @Override

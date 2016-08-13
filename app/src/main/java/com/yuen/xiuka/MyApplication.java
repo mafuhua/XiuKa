@@ -41,6 +41,7 @@ public class MyApplication extends ApplicationEx {
     public static ImageOptions options;
     public static ImageOptions optionscache;
     public static ImageOptions optionsxq;
+    public static ImageOptions optionsxq2;
 
     /**
      * 获得当前进程的名字
@@ -125,6 +126,14 @@ public class MyApplication extends ApplicationEx {
                 //    .setFailureDrawableId(R.drawable.cuowu)
                 // 图片缩放模式
                 .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                .setUseMemCache(true)
+                .build();
+    optionsxq2 = new ImageOptions.Builder()
+                // 是否忽略GIF格式的图片
+                .setIgnoreGif(false)
+                //    .setFailureDrawableId(R.drawable.cuowu)
+                // 图片缩放模式
+                .setImageScaleType(ImageView.ScaleType.FIT_CENTER)
                 .setUseMemCache(true)
                 .build();
 

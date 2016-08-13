@@ -34,12 +34,22 @@
             android:text="发现"
             android:textColor="@drawable/color_radiobutton"
             />
-
+<RelativeLayout
+    android:layout_width="0dp"
+    android:layout_height="fill_parent"
+    android:layout_weight="1">
+<View
+    android:id="@+id/xiaoxidian"
+    android:layout_width="10dp"
+    android:layout_alignParentRight="true"
+    android:layout_margin="5dp"
+    android:visibility="gone"
+    android:background="@drawable/shape_group_bg"
+    android:layout_height="10dp"/>
         <RadioButton
             android:id="@+id/rb_home_xiaoxi"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="1"
             android:button="@null"
             android:drawableTop="@drawable/xiaoxi"
             android:gravity="center"
@@ -48,7 +58,7 @@
             android:textColor="@drawable/color_radiobutton"
             />
 
-
+</RelativeLayout>
         <RadioButton
             android:id="@+id/rb_home_fabu"
             android:layout_width="0dp"

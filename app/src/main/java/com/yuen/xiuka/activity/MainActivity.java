@@ -80,6 +80,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private int currentcheck;
     private DbManager db;
     private List<PersonTable> persons;
+    private View xiaoxidian;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +123,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (eventEvent) {
             case GET_TOKEN:
                 getToken();
+            case REFRESH_LIAOTIAN:
+                int visibility = xiaoxidian.getVisibility();
+                if (visibility == View.GONE&&  currentcheck != R.id.rb_home_xiaoxi) {
+                    xiaoxidian.setVisibility(View.VISIBLE);
+                }
                 //   Toast.makeText(this, "onEventMainThread收到了消息", Toast.LENGTH_LONG).show();
                 break;
         }
@@ -152,25 +158,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onTokenIncorrect() {
                 //Connect Token 失效的状态处理，需要重新获取 Token
-           //     Toast.makeText(context, " 失效的状态处理，需要重新获取 Token", Toast.LENGTH_SHORT).show();
-             //   Log.e("MainActivity", "——Connect Token— -" + "失效的状态处理，需要重新获取 Token");
+                //     Toast.makeText(context, " 失效的状态处理，需要重新获取 Token", Toast.LENGTH_SHORT).show();
+                //   Log.e("MainActivity", "——Connect Token— -" + "失效的状态处理，需要重新获取 Token");
 
                 EventBus.getDefault().post(
                         new MyEvent(MyEvent.Event.GET_TOKEN));
-           //
+                //
 
             }
 
 
             @Override
             public void onSuccess(String userId) {
-           //     Toast.makeText(context, "——onSuccess— -" + userId, Toast.LENGTH_SHORT).show();
-              //  Log.e("MainActivity", "——onSuccess— -" + userId);
+                //     Toast.makeText(context, "——onSuccess— -" + userId, Toast.LENGTH_SHORT).show();
+                //  Log.e("MainActivity", "——onSuccess— -" + userId);
             }
 
             @Override
             public void onError(RongIMClient.ErrorCode errorCode) {
-              //  Toast.makeText(context, "——onError— -" + errorCode, Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(context, "——onError— -" + errorCode, Toast.LENGTH_SHORT).show();
                 Log.e("MainActivity", "——onError— -" + errorCode);
             }
         });
@@ -192,6 +198,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         rb_home_wode = (RadioButton) findViewById(R.id.rb_home_wode);
         rb_home_wode.setOnClickListener(this);
         rg_home = (RadioGroup) findViewById(R.id.rg_home);
+        xiaoxidian = findViewById(R.id.xiaoxidian);
         rg_home.setOnClickListener(this);
         Drawable drawable = getResources().getDrawable(R.drawable.faxian);
         int dp = MyUtils.dip2px(context, 30);
@@ -336,29 +343,37 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.rb_home_faxian:
                 currentcheck = R.id.rb_home_faxian;
+                rg_home.check(currentcheck);
                 if (currentFragment != faxianFragment) {
                     switchContent(currentFragment, faxianFragment, "首页", View.GONE);
                 }
                 break;
             case R.id.rb_home_xiaoxi:
+                int visibility = xiaoxidian.getVisibility();
+                if (visibility == View.VISIBLE) {
+                    xiaoxidian.setVisibility(View.GONE);
+                }
                 currentcheck = R.id.rb_home_xiaoxi;
+                rg_home.check(currentcheck);
                 switchContent(currentFragment, xiaoxiFragment, "快递", View.GONE);
                 break;
             case R.id.rb_home_xiuquan:
                 currentcheck = R.id.rb_home_xiuquan;
+                rg_home.check(currentcheck);
                 switchContent(currentFragment, xiuquanFragment, "购物车", View.VISIBLE);
                 // xiuquanFragment.xiuquan();
                 //   xiuquanFragment.initheader(xiuquanBeanDatas);
                 break;
             case R.id.rb_home_wode:
                 currentcheck = R.id.rb_home_wode;
+                rg_home.check(currentcheck);
                 switchContent(currentFragment, woDeFragment, "个人中心", View.GONE);
                 break;
 
             case R.id.rb_home_fabu:
-                if (SPUtil.getString("type").equals("1")){
+                if (SPUtil.getString("type").equals("1")) {
                     startActivity(ZhuBoFaBuActivity.class);
-                }else {
+                } else {
                     Toast.makeText(context, "请先认证成为主播", Toast.LENGTH_SHORT).show();
                 }
 

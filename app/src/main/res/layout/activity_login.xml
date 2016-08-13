@@ -52,6 +52,7 @@
         <Button
             android:id="@+id/btn_get_yzm"
             android:layout_width="0dp"
+            android:textColor="@android:color/holo_red_light"
             android:layout_height="30dp"
             android:layout_marginRight="20dp"
             android:layout_weight="1.5"

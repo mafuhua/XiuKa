@@ -3,6 +3,7 @@ package com.yuen.xiuka.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -63,6 +64,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private int duanxinBeanYan;
     private List<FENSIBean.DataBean> fensiBeanData;
     private DbManager db;
+    private TimeCount time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +109,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         SHARE_MEDIA platform;
         switch (v.getId()) {
             case R.id.btn_get_yzm:
+                time = new TimeCount(60000, 1000);
+
                 submit();
 
                 break;
@@ -125,8 +129,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             case R.id.btn_weobo:
                 platform = SHARE_MEDIA.SINA;
                 mShareAPI.doOauthVerify(this, platform, umAuthListener);
-
-
                 break;
         }
     }
@@ -162,6 +164,26 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         });
 
     }
+
+
+    class TimeCount extends CountDownTimer {
+        public TimeCount(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onFinish() {// 计时完毕
+           btn_get_yzm.setText("获取验证码");
+            btn_get_yzm.setClickable(true);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {// 计时过程
+            btn_get_yzm.setClickable(false);//防止重复点击
+            btn_get_yzm.setText(millisUntilFinished / 1000 + "秒");
+        }
+    }
+
 
     public void postlogin(String tel) {
         HashMap<String, String> map = new HashMap<>();
@@ -266,6 +288,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
             return;
         }
+        time.start();// 开始计时
         getYzm(tel);
 
         // TODO validate success, do something

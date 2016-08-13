@@ -26,6 +26,7 @@ import com.yuen.xiuka.beans.PINGLUNBean;
 import com.yuen.xiuka.beans.XiuQuanDataBean;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
+import com.yuen.xiuka.xiuquan.MyXiuQuanActivity;
 import com.yuen.xiuka.xiuquan.PagersImgActivity;
 
 import org.xutils.common.Callback;
@@ -317,11 +318,22 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
         }
 
         @Override
-        public void refreshView(PINGLUNBean.DataBean.CommentsBean data, int position) {
+        public void refreshView(final PINGLUNBean.DataBean.CommentsBean data, int position) {
             rootusername.setText(data.getName());
             rootusercontent.setText(data.getContent());
             roottime.setText(data.getTime());
             System.out.println(URLProvider.BaseImgUrl + data.getImg() + "haha");
+
+            rootlistuserimg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(PingLunActivity.this, MyXiuQuanActivity.class);
+                    intent.putExtra("id", data.getUid()+ "");
+                    intent.putExtra("name", data.getName());
+                    startActivity(intent);
+                }
+            });
+
 
             x.image().bind(rootlistuserimg, URLProvider.BaseImgUrl + data.getImg(), MyApplication.options);
         }

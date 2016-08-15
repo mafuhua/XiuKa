@@ -1,9 +1,11 @@
 package com.yuen.xiuka.activity;
 
 
+import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,11 +13,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -23,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.yuen.baselib.utils.AppUtil;
 import com.yuen.baselib.utils.SPUtil;
 import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.MyApplication;
@@ -93,6 +100,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private TextView yugao;
     private ImageView ivQuxiao;
     private TextView fabu;
+    private PopupWindow popupWindow;
+    private View contentview;
 
 
     @Override
@@ -211,18 +220,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         rb_home_wode = (RadioButton) findViewById(R.id.rb_home_wode);
         rb_home_wode.setOnClickListener(this);
 
-        rlTankuang = (RelativeLayout) findViewById(R.id.rl_tankuang);
-        ivYugao = (ImageView) findViewById(R.id.iv_yugao);
-        ivbFabu = (ImageView) findViewById(R.id.ivb_fabu);
-        yugao = (TextView) findViewById(R.id.yugao);
-        ivQuxiao = (ImageView) findViewById(R.id.iv_quxiao);
-        fabu = (TextView) findViewById(R.id.fabu);
+
         rg_home = (RadioGroup) findViewById(R.id.rg_home);
         xiaoxidian = findViewById(R.id.xiaoxidian);
         rg_home.setOnClickListener(this);
-        ivYugao.setOnClickListener(this);
+      /*  ivYugao.setOnClickListener(this);
         ivbFabu.setOnClickListener(this);
-        ivQuxiao.setOnClickListener(this);
+        ivQuxiao.setOnClickListener(this);*/
         Drawable drawable = getResources().getDrawable(R.drawable.faxian);
         int dp = MyUtils.dip2px(context, 30);
         drawable.setBounds(0, 0, dp, dp);
@@ -396,7 +400,67 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.rb_home_fabu:
                 // 通过静态方法构建一个ObjectAnimator对象
                 // 设置作用对象、属性名称、数值集合
-                rlTankuang.setVisibility(View.VISIBLE);
+                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                contentview = inflater.inflate(R.layout.dialog_fabu, null);
+
+
+                ivYugao = (ImageView) contentview.findViewById(R.id.iv_yugao);
+                ivbFabu = (ImageView) contentview.findViewById(R.id.ivb_fabu);
+                ivQuxiao = (ImageView) contentview.findViewById(R.id.iv_quxiao);
+                ivYugao.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (SPUtil.getString("type").equals("1")) {
+                            startActivity(ZhuBoFaBuActivity.class);
+                        } else {
+                            Toast.makeText(context, "请先认证成为主播", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+                ivbFabu.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(FaBuActivity.class);
+                    }
+                });
+                ivQuxiao.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        rotateyAnimRun(ivQuxiao);
+                    }
+                });
+                ObjectAnimator tankuang = ObjectAnimator.ofFloat(contentview, "translationY", 600.0F, 0.0F);
+                ObjectAnimator ivYugaotor = ObjectAnimator.ofFloat(ivYugao, "translationY", -80.0F, 0.0F);
+                ObjectAnimator ivbFabutor = ObjectAnimator.ofFloat(ivbFabu, "translationY", -80.0F, 0.0F);
+                // 设置执行时间(1000ms)
+                tankuang.setDuration(500);
+                ivYugaotor.setDuration(500);
+                ivYugaotor.setInterpolator(new BounceInterpolator());
+                ivbFabutor.setDuration(500);
+                ivbFabutor.setInterpolator(new BounceInterpolator());
+
+
+                AnimatorSet bouncer = new AnimatorSet();
+                bouncer.play(tankuang);
+                bouncer.play(ivYugaotor).with(ivbFabutor).after(tankuang);
+
+
+                contentview.setFocusable(true); // 这个很重要
+                contentview.setFocusableInTouchMode(true);
+                popupWindow = new PopupWindow(contentview, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                popupWindow.setHeight(AppUtil.dp2Px(context, 200));
+                popupWindow.setFocusable(true);
+                popupWindow.setOutsideTouchable(true);
+                // 这个是为了点击“返回Back”也能使其消失，并且并不会影响你的背景
+                popupWindow.setBackgroundDrawable(new BitmapDrawable());
+
+                popupWindow.showAtLocation(contentview, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                //  popupWindow.setAnimationStyle(R.style.anim_menu_bottombar);
+                bouncer.start();
+                popupWindow.update();
+
+            /*    rlTankuang.setVisibility(View.VISIBLE);
                 ObjectAnimator tankuang = ObjectAnimator.ofFloat(rlTankuang, "translationY", 600.0F, 0.0F);
                 ObjectAnimator ivYugaotor = ObjectAnimator.ofFloat(ivYugao, "translationY", -80.0F, 0.0F);
                 ObjectAnimator ivbFabutor = ObjectAnimator.ofFloat(ivbFabu, "translationY", -80.0F, 0.0F);
@@ -412,10 +476,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 bouncer.play(tankuang);
                 bouncer.play(ivYugaotor).with(ivbFabutor).after(tankuang);
                 bouncer.start();
-
+*/
 
                 break;
-            case R.id.iv_yugao:
+         /*   case R.id.iv_yugao:
                 if (SPUtil.getString("type").equals("1")) {
                     startActivity(ZhuBoFaBuActivity.class);
                 } else {
@@ -429,7 +493,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.iv_quxiao:
                 rotateyAnimRun(ivQuxiao);
 
-                break;
+                break;*/
         }
     }
 
@@ -437,10 +501,30 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         ObjectAnimator rotation = ObjectAnimator//
                 .ofFloat(view, "rotation", 0.0F, 360.0F);
         rotation.setDuration(300);
-        ObjectAnimator animator = ObjectAnimator.ofFloat(rlTankuang, "translationY", 0.0F, 600.0F);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(contentview, "translationY", 0.0F, 600.0F);
         // 设置执行时间(1000ms)
         animator.setDuration(300);
+        animator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
 
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                popupWindow.dismiss();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
         AnimatorSet bouncer = new AnimatorSet();
         bouncer.play(rotation);
         bouncer.play(animator).after(rotation);

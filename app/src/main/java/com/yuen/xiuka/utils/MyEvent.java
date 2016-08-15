@@ -10,6 +10,16 @@ import io.rong.imlib.model.Conversation;
 public class MyEvent {
     public Event event;
 
+    public String getmTargetId() {
+        return mTargetId;
+    }
+
+    public void setmTargetId(String mTargetId) {
+        this.mTargetId = mTargetId;
+    }
+
+    public String mTargetId;
+
     public List<Conversation> getGuanzhuList() {
         return guanzhuList;
     }
@@ -34,7 +44,8 @@ public class MyEvent {
     public enum Event{
         REFRESH_XIUQUAN,
         GET_TOKEN,
-        REFRESH_LIAOTIAN
+        REFRESH_LIAOTIAN,
+        REFRESH_DIAN
     }
 
 }

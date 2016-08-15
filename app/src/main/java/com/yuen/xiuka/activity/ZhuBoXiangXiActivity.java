@@ -88,6 +88,7 @@ public class ZhuBoXiangXiActivity extends BaseActivity implements View.OnClickLi
         setListViewHeightBasedOnChildren(lv_xiangxi);
         btn_sendmsg = (Button) findViewById(R.id.btn_sendmsg);
         btn_sendmsg.setOnClickListener(this);
+        usericon.setOnClickListener(this);
         lv_xiangxi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -97,6 +98,8 @@ public class ZhuBoXiangXiActivity extends BaseActivity implements View.OnClickLi
                 }
             }
         });
+
+
         other();
     }
 
@@ -138,8 +141,10 @@ public class ZhuBoXiangXiActivity extends BaseActivity implements View.OnClickLi
             case R.id.btn_sousuo:
 
                 break;
-            case R.id.btn_jia:
-
+            case R.id.iv_user_icon:
+                Intent intent = new Intent(this,IconActivity.class);
+                intent.putExtra("icon", myBeanData.getImage());
+                startActivity(intent);
                 break;
             case R.id.btn_tijiao:
 

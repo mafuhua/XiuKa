@@ -48,6 +48,7 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
     private Button btn_fanhui;
     private TextView tv_titlecontent;
     private DbManager db;
+    private String targetId;
 
     @Override
     public void onStart() {
@@ -63,6 +64,11 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
         switch (eventEvent) {
             case REFRESH_LIAOTIAN:
                 guanzhuList = (ArrayList<Conversation>) event.getGuanzhuList();
+                newAdapter.notifyDataSetChanged();
+                //  Toast.makeText(WguanZhuConvertList.this, "onEventM-----", Toast.LENGTH_LONG).show();
+                break;
+            case REFRESH_DIAN:
+                targetId = event.getmTargetId();
                 newAdapter.notifyDataSetChanged();
                 //  Toast.makeText(WguanZhuConvertList.this, "onEventM-----", Toast.LENGTH_LONG).show();
                 break;
@@ -255,19 +261,19 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
                 viewHolder.count.setVisibility(View.GONE);
             } else {
                 viewHolder.count.setText(guanzhuList.get(position).getUnreadMessageCount() + "");
-                viewHolder.count.setVisibility(View.GONE);
+                viewHolder.count.setVisibility(View.VISIBLE);
             }
             if (MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()) != null) {
                 viewHolder.name.setText(MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()).getName());
                 x.image().bind(viewHolder.icon, MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()).getImg(), MyApplication.optionscache);
-              //  Toast.makeText(WguanZhuConvertList.this, MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()).getName() + MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()).getImg(), Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(WguanZhuConvertList.this, MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()).getName() + MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()).getImg(), Toast.LENGTH_SHORT).show();
             } else {
                 viewHolder.name.setText(guanzhuList.get(position).getTargetId());
                 x.image().bind(viewHolder.icon, "", MyApplication.optionscache);
-              //  Toast.makeText(context, "空格", Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(context, "空格", Toast.LENGTH_SHORT).show();
 
             }
-           // Toast.makeText(context, "position:" + position, Toast.LENGTH_SHORT).show();
+            // Toast.makeText(context, "position:" + position, Toast.LENGTH_SHORT).show();
             viewHolder.time.setText(MyUtils.formatTime(guanzhuList.get(position).getReceivedTime()));
             return convertView;
         }

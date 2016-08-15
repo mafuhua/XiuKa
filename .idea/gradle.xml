@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/IMKit" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/baselib" />
+            <option value="$PROJECT_DIR$/citypicker" />
           </set>
         </option>
         <option name="myModules">
@@ -20,6 +21,7 @@
             <option value="$PROJECT_DIR$/IMKit" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/baselib" />
+            <option value="$PROJECT_DIR$/citypicker" />
           </set>
         </option>
       </GradleProjectSettings>

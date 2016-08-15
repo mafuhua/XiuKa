@@ -34,12 +34,13 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/quanguo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_margin="5dp"
         android:gravity="center"
         android:text="全国"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <ScrollView
         android:layout_width="match_parent"

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -11,15 +10,14 @@
         android:id="@+id/fl_home_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
-    </FrameLayout>
+        android:layout_weight="1"></FrameLayout>
 
     <RadioGroup
         android:id="@+id/rg_home"
-        android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="end|bottom"
+        android:background="@android:color/white"
         android:orientation="horizontal">
 
         <RadioButton
@@ -30,45 +28,46 @@
             android:button="@null"
             android:drawableTop="@drawable/faxian"
             android:gravity="center"
-            android:textSize="10sp"
             android:text="发现"
             android:textColor="@drawable/color_radiobutton"
-            />
-<RelativeLayout
-    android:layout_width="0dp"
-    android:layout_height="fill_parent"
-    android:layout_weight="1">
-<View
-    android:id="@+id/xiaoxidian"
-    android:layout_width="10dp"
-    android:layout_alignParentRight="true"
-    android:layout_margin="5dp"
-    android:visibility="gone"
-    android:background="@drawable/shape_group_bg"
-    android:layout_height="10dp"/>
-        <RadioButton
-            android:id="@+id/rb_home_xiaoxi"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:button="@null"
-            android:drawableTop="@drawable/xiaoxi"
-            android:gravity="center"
-            android:text="消息"
-            android:textSize="10sp"
-            android:textColor="@drawable/color_radiobutton"
-            />
+            android:textSize="10sp" />
 
-</RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1">
+
+            <View
+                android:id="@+id/xiaoxidian"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_margin="5dp"
+                android:background="@drawable/shape_group_bg"
+                android:visibility="gone" />
+
+            <RadioButton
+                android:id="@+id/rb_home_xiaoxi"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:button="@null"
+                android:drawableTop="@drawable/xiaoxi"
+                android:gravity="center"
+                android:text="消息"
+                android:textColor="@drawable/color_radiobutton"
+                android:textSize="10sp" />
+
+        </RelativeLayout>
+
         <RadioButton
             android:id="@+id/rb_home_fabu"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="1"
             android:layout_marginTop="10dp"
+            android:layout_weight="1"
             android:button="@null"
             android:drawable="@drawable/fabu"
-            android:gravity="center_vertical"
-            />
+            android:gravity="center_vertical" />
 
         <RadioButton
             android:id="@+id/rb_home_xiuquan"
@@ -79,14 +78,12 @@
             android:drawableTop="@drawable/xiuquan"
             android:gravity="center"
             android:text="秀圈"
-            android:textSize="10sp"
             android:textColor="@drawable/color_radiobutton"
-            />
+            android:textSize="10sp" />
 
         <RadioButton
             android:id="@+id/rb_home_wode"
             android:layout_width="0dp"
-            android:textSize="10sp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:button="@null"
@@ -94,6 +91,6 @@
             android:gravity="center"
             android:text="我的"
             android:textColor="@drawable/color_radiobutton"
-            />
+            android:textSize="10sp" />
     </RadioGroup>
 </LinearLayout>

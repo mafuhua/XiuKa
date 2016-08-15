@@ -13,10 +13,12 @@ import com.yuen.baselib.utils.SPUtil;
 import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
+import com.yuen.xiuka.utils.MyEvent;
 import com.yuen.xiuka.utils.URLProvider;
 
 import java.util.Locale;
 
+import de.greenrobot.event.EventBus;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationFragment;
@@ -44,6 +46,9 @@ public class ConversationActivity extends ActionBarActivity implements View.OnCl
     private Button btn_fanhui;
     private TextView tv_titlecontent;
     private String title;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +80,11 @@ public class ConversationActivity extends ActionBarActivity implements View.OnCl
 
          mTargetId = intent.getData().getQueryParameter("targetId");
         title = intent.getData().getQueryParameter("title");
+
+        MyEvent myEvent = new MyEvent(MyEvent.Event.REFRESH_DIAN);
+        myEvent.setmTargetId(mTargetId);
+        EventBus.getDefault().post(
+                myEvent);
 
         //intent.getData().getLastPathSegment();//获得当前会话类型
         mConversationType = Conversation.ConversationType.valueOf(intent.getData().getLastPathSegment().toUpperCase(Locale.getDefault()));

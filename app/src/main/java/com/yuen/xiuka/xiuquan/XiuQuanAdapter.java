@@ -72,9 +72,9 @@ class XiuQuanAdapter extends BaseAdapter {
         viewHolder.time.setText(xiuquanBeanData.get(position).getTime());
         viewHolder.username.setText(xiuquanBeanData.get(position).getName());
         viewHolder.usercontent.setText(xiuquanBeanData.get(position).getContent());
-        viewHolder.tv_dianzan.setText(xiuquanBeanData.get(position).getZan());
-        viewHolder.tv_pinglun.setText(xiuquanBeanData.get(position).getComments());
-        viewHolder.tv_zhuanfa.setText(xiuquanBeanData.get(position).getShare());
+        viewHolder.tv_dianzan.setText(Integer.parseInt(xiuquanBeanData.get(position).getZan())==0?"赞":xiuquanBeanData.get(position).getZan());
+        viewHolder.tv_pinglun.setText(Integer.parseInt(xiuquanBeanData.get(position).getComments())==0?"评论":xiuquanBeanData.get(position).getComments());
+        viewHolder.tv_zhuanfa.setText(Integer.parseInt(xiuquanBeanData.get(position).getShare())==0?"分享":xiuquanBeanData.get(position).getShare());
 
         x.image().bind(viewHolder.listuserimg, URLProvider.BaseImgUrl + xiuquanBeanData.get(position).getImg(), MyApplication.optionscache);
         //    Glide.with(context).load(URLProvider.BaseImgUrl + xiuquanBeanData.get(position).getImg()).centerCrop().error(R.drawable.cuowu).crossFade().into(viewHolder.listuserimg);

@@ -47,12 +47,14 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
     public static int mPosition;
     public static int mRCPosition = 0;
     private static String[] settingString = new String[]{"意见", "更新", "缓存", "中心", "我们", "退出", "意见", "更新", "缓存", "中心", "我们", "退出", "意见", "更新", "缓存", "中心", "我们", "退出"};
+    // 图片资源ID
+    //private final int[] imageIds = {R.drawable.tu1, R.drawable.tu2, R.drawable.tu3};
+    private final int[] imageIds = {R.drawable.ssk};
     private RecyclerView mRcHomeHorizontal;
     private MyRCAdapter myRCAdapter;
     private List settingString2 = new ArrayList(Arrays.asList("推荐", "热门", "最新", "人气"));
     private Context context;
     private GridView gv_renqi;
-
     private ViewPager mVpHomepageDec;
     private TextView tv_gengduo;
     private TextView tv_gengduo1;
@@ -72,6 +74,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
      * 自动切换是否开启
      */
     private boolean isRunning = false;
+    private MyPagerAdapter myPagerAdapter;
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
 
@@ -84,13 +87,18 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
 
         ;
     };
-    private MyPagerAdapter myPagerAdapter;
+    private TextView quanguo;
+    /**
+     * 页面改变时，上一个页面的下标
+     */
+    private int lastPosition;
 
     @Override
     public View initView() {
         context = getActivity();
         View view = View.inflate(getActivity(), R.layout.layout_homefragment, null);
         mRcHomeHorizontal = (RecyclerView) view.findViewById(R.id.rc_home_horizontal);
+        quanguo = (TextView) view.findViewById(R.id.quanguo);
         tv_sousuo = (RelativeLayout) view.findViewById(R.id.tv_sousuo);
         tv_sousuo.setOnClickListener(this);
         gv_renqi = (GridView) view.findViewById(R.id.gv_renqi);
@@ -123,6 +131,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         tv_gengduo2.setOnClickListener(this);
         tv_gengduo3 = (TextView) view.findViewById(R.id.tv_gengduo3);
         tv_gengduo3.setOnClickListener(this);
+        quanguo.setOnClickListener(this);
         gv_xinren = (GridView) view.findViewById(R.id.gv_xinren);
         gv_remen = (GridView) view.findViewById(R.id.gv_remen);
 
@@ -169,10 +178,11 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         //  addPoints();
         regListener();
         isRunning = true;
-      //  handler.sendEmptyMessageDelayed(88, 3000);
+        //  handler.sendEmptyMessageDelayed(88, 3000);
 
         return view;
     }
+
     private void regListener() {
         //给viewPager 添加页面改变的监听
         mVpHomepageDec.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -211,10 +221,6 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         });
     }
 
-    /**
-     * 页面改变时，上一个页面的下标
-     */
-    private int lastPosition;
     @Override
     public void initData() {
         XUtils.xUtilsGet(URLProvider.BIAOQIAN, new Callback.CommonCallback<String>() {
@@ -222,7 +228,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
             public void onSuccess(String result) {
                 Gson gson = new Gson();
                 for (int i = 0; i < settingString2.size(); i++) {
-                    if (i>3){
+                    if (i > 3) {
                         settingString2.remove(i);
                     }
                 }
@@ -315,6 +321,9 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
             case R.id.tv_sousuo:
                 startActivity(SouSuoActivity.class);
                 break;
+            case R.id.quanguo:
+            //    startActivity(CityPickerActivity.class);
+                break;
         }
 
     }
@@ -382,9 +391,9 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
             //  Log.d("mafuhua", "mPosition****:" + mrcPosition);
             if (mrcPosition == mRCPosition) {
                 viewHolder.mTxt.setTextColor(Color.RED);
-              //  viewHolder.tv_line.setVisibility(View.VISIBLE);
+                //  viewHolder.tv_line.setVisibility(View.VISIBLE);
             } else {
-               // viewHolder.tv_line.setVisibility(View.GONE);
+                // viewHolder.tv_line.setVisibility(View.GONE);
                 viewHolder.mTxt.setTextColor(Color.BLACK);
             }
             viewHolder.mTxt.setOnClickListener(new View.OnClickListener() {
@@ -394,7 +403,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
                     Intent intent = new Intent(getActivity(), ZhuBoListActivity.class);
                     intent.putExtra("type", type);
                     startActivity(intent);
-                 //   Toast.makeText(context, type, Toast.LENGTH_SHORT).show();
+                    //   Toast.makeText(context, type, Toast.LENGTH_SHORT).show();
                     myRCAdapter.notifyDataSetChanged();
                 }
             });
@@ -475,8 +484,5 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
             return view == object;
         }
     }
-    // 图片资源ID
-    //private final int[] imageIds = {R.drawable.tu1, R.drawable.tu2, R.drawable.tu3};
-    private final int[] imageIds = {R.drawable.ssk};
 
 }

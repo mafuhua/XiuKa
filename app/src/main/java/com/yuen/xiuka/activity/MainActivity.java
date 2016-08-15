@@ -404,6 +404,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 contentview = inflater.inflate(R.layout.dialog_fabu, null);
 
 
+                yugao = (TextView) contentview.findViewById(R.id.yugao);
+                fabu = (TextView) contentview.findViewById(R.id.fabu);
                 ivYugao = (ImageView) contentview.findViewById(R.id.iv_yugao);
                 ivbFabu = (ImageView) contentview.findViewById(R.id.ivb_fabu);
                 ivQuxiao = (ImageView) contentview.findViewById(R.id.iv_quxiao);
@@ -431,11 +433,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                 });
                 ObjectAnimator tankuang = ObjectAnimator.ofFloat(contentview, "translationY", 600.0F, 0.0F);
+                ObjectAnimator tvYugaotor = ObjectAnimator.ofFloat(fabu, "translationY", -80.0F, 0.0F);
+                ObjectAnimator tvFabuotor = ObjectAnimator.ofFloat(yugao, "translationY", -80.0F, 0.0F);
                 ObjectAnimator ivYugaotor = ObjectAnimator.ofFloat(ivYugao, "translationY", -80.0F, 0.0F);
                 ObjectAnimator ivbFabutor = ObjectAnimator.ofFloat(ivbFabu, "translationY", -80.0F, 0.0F);
                 // 设置执行时间(1000ms)
                 tankuang.setDuration(500);
                 ivYugaotor.setDuration(500);
+                tvYugaotor.setInterpolator(new BounceInterpolator());
+                tvFabuotor.setInterpolator(new BounceInterpolator());
                 ivYugaotor.setInterpolator(new BounceInterpolator());
                 ivbFabutor.setDuration(500);
                 ivbFabutor.setInterpolator(new BounceInterpolator());
@@ -443,13 +449,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                 AnimatorSet bouncer = new AnimatorSet();
                 bouncer.play(tankuang);
-                bouncer.play(ivYugaotor).with(ivbFabutor).after(tankuang);
+                bouncer.play(ivYugaotor).with(ivbFabutor).with(tvYugaotor).with(tvFabuotor).after(tankuang);
 
 
                 contentview.setFocusable(true); // 这个很重要
                 contentview.setFocusableInTouchMode(true);
                 popupWindow = new PopupWindow(contentview, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                popupWindow.setHeight(AppUtil.dp2Px(context, 200));
+                popupWindow.setHeight(AppUtil.dp2Px(context, 220));
                 popupWindow.setFocusable(true);
                 popupWindow.setOutsideTouchable(true);
                 // 这个是为了点击“返回Back”也能使其消失，并且并不会影响你的背景

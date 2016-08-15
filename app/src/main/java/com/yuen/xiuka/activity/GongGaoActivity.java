@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -94,21 +95,23 @@ public class GongGaoActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public class ViewHolder extends BaseHolder<GongGaoBean.DataBean> {
-        public TextView content;
-        public TextView shijian;
+        TextView tvSendtime;
+        ImageView ivUserhead;
+        TextView tvChatcontent;
 
         @Override
         public View initView() {
-            View root = View.inflate(GongGaoActivity.this, R.layout.item_gonggao, null);
-            content = (TextView) root.findViewById(R.id.content);
-            shijian = (TextView) root.findViewById(R.id.shijian);
+            View root = View.inflate(GongGaoActivity.this, R.layout.chatting_item_msg_text_left, null);
+           tvSendtime = (TextView) root.findViewById(R.id.tv_sendtime);
+           ivUserhead = (ImageView) root.findViewById(R.id.iv_userhead);
+           tvChatcontent = (TextView) root.findViewById(R.id.tv_chatcontent);
             return root;
         }
 
         @Override
         public void refreshView(GongGaoBean.DataBean data, int position) {
-            content.setText(data.getContent());
-            shijian.setText(data.getData_time());
+            tvChatcontent.setText(data.getContent());
+            tvSendtime.setText(data.getData_time());
         }
     }
 }

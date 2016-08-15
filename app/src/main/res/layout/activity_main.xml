@@ -1,96 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true">
 
-
-    <FrameLayout
-        android:id="@+id/fl_home_content"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"></FrameLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <RadioGroup
-        android:id="@+id/rg_home"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="end|bottom"
-        android:background="@android:color/white"
-        android:orientation="horizontal">
+        <FrameLayout
+            android:id="@+id/fl_home_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"></FrameLayout>
 
-        <RadioButton
-            android:id="@+id/rb_home_faxian"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:button="@null"
-            android:drawableTop="@drawable/faxian"
-            android:gravity="center"
-            android:text="发现"
-            android:textColor="@drawable/color_radiobutton"
-            android:textSize="10sp" />
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1">
-
-            <View
-                android:id="@+id/xiaoxidian"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_alignParentRight="true"
-                android:layout_margin="5dp"
-                android:background="@drawable/shape_group_bg"
-                android:visibility="gone" />
+        <RadioGroup
+            android:id="@+id/rg_home"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="end|bottom"
+            android:background="@android:color/white"
+            android:orientation="horizontal">
 
             <RadioButton
-                android:id="@+id/rb_home_xiaoxi"
-                android:layout_width="match_parent"
+                android:id="@+id/rb_home_faxian"
+                android:layout_width="0dp"
                 android:layout_height="fill_parent"
+                android:layout_weight="1"
                 android:button="@null"
-                android:drawableTop="@drawable/xiaoxi"
+                android:drawableTop="@drawable/faxian"
                 android:gravity="center"
-                android:text="消息"
+                android:text="发现"
                 android:textColor="@drawable/color_radiobutton"
                 android:textSize="10sp" />
 
-        </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1">
 
-        <RadioButton
-            android:id="@+id/rb_home_fabu"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:button="@null"
-            android:drawable="@drawable/fabu"
-            android:gravity="center_vertical" />
+                <View
+                    android:id="@+id/xiaoxidian"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/shape_group_bg"
+                    android:visibility="gone" />
 
-        <RadioButton
-            android:id="@+id/rb_home_xiuquan"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:button="@null"
-            android:drawableTop="@drawable/xiuquan"
-            android:gravity="center"
-            android:text="秀圈"
-            android:textColor="@drawable/color_radiobutton"
-            android:textSize="10sp" />
+                <RadioButton
+                    android:id="@+id/rb_home_xiaoxi"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:button="@null"
+                    android:drawableTop="@drawable/xiaoxi"
+                    android:gravity="center"
+                    android:text="消息"
+                    android:textColor="@drawable/color_radiobutton"
+                    android:textSize="10sp" />
 
-        <RadioButton
-            android:id="@+id/rb_home_wode"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:button="@null"
-            android:drawableTop="@drawable/wode"
-            android:gravity="center"
-            android:text="我的"
-            android:textColor="@drawable/color_radiobutton"
-            android:textSize="10sp" />
-    </RadioGroup>
-</LinearLayout>
+            </RelativeLayout>
+
+            <RadioButton
+                android:id="@+id/rb_home_fabu"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawable="@drawable/fabu"
+                android:gravity="center_vertical" />
+
+            <RadioButton
+                android:id="@+id/rb_home_xiuquan"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/xiuquan"
+                android:gravity="center"
+                android:text="秀圈"
+                android:textColor="@drawable/color_radiobutton"
+                android:textSize="10sp" />
+
+            <RadioButton
+                android:id="@+id/rb_home_wode"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/wode"
+                android:gravity="center"
+                android:text="我的"
+                android:textColor="@drawable/color_radiobutton"
+                android:textSize="10sp" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_tankuang"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        android:visibility="gone">
+
+        <View
+            android:id="@+id/center"
+            android:layout_width="2dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@android:color/white" />
+
+        <ImageView
+            android:id="@+id/iv_yugao"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_toLeftOf="@id/center"
+            android:background="@drawable/yugao" />
+
+        <ImageView
+            android:id="@+id/ivb_fabu"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_toRightOf="@id/center"
+            android:background="@drawable/fabuxiuquan" />
+
+        <TextView
+            android:id="@+id/yugao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_yugao"
+            android:layout_marginRight="65dp"
+            android:layout_marginTop="5dp"
+            android:layout_toLeftOf="@id/center"
+            android:text="发预告" />
+
+        <ImageView
+            android:id="@+id/iv_quxiao"
+            android:layout_width="32dp"
+            android:layout_height="35dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
+            android:background="@drawable/quxiao"></ImageView>
+
+        <TextView
+            android:id="@+id/fabu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivb_fabu"
+            android:layout_marginLeft="65dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/center"
+            android:text="发秀圈" />
+    </RelativeLayout>
+</RelativeLayout>

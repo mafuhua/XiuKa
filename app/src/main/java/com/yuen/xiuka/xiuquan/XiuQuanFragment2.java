@@ -124,7 +124,6 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         tv_titlecontent = (TextView) view.findViewById(R.id.tv_titlecontent);
         swiperefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
         btn_fanhui.setVisibility(View.GONE);
-        btn_jia.setVisibility(View.VISIBLE);
         tv_titlecontent.setText("秀圈");
         header = (RelativeLayout) View.inflate(getActivity(), R.layout.layout_xiuquan_header, null);
         tv_fensi = (TextView) header.findViewById(R.id.tv_fensi);

@@ -115,7 +115,6 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
         btn_jia = (Button) findViewById(R.id.btn_jia);
         tv_titlecontent = (TextView) findViewById(R.id.tv_titlecontent);
         btn_fanhui.setVisibility(View.VISIBLE);
-        btn_jia.setVisibility(View.VISIBLE);
         swiperefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
         tv_titlecontent.setText(xiuquandataName + "");
         header = (RelativeLayout) View.inflate(this, R.layout.layout_xiuquan_header, null);

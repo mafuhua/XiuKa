@@ -1,6 +1,8 @@
 package com.yuen.xiuka.activity;
 
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -11,10 +13,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.BounceInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,6 +86,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private List<PersonTable> persons;
     private View xiaoxidian;
 
+
+    private RelativeLayout rlTankuang;
+    private ImageView ivYugao;
+    private ImageView ivbFabu;
+    private TextView yugao;
+    private ImageView ivQuxiao;
+    private TextView fabu;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
@@ -125,7 +138,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 getToken();
             case REFRESH_LIAOTIAN:
                 int visibility = xiaoxidian.getVisibility();
-                if (visibility == View.GONE&&  currentcheck != R.id.rb_home_xiaoxi) {
+                if (visibility == View.GONE && currentcheck != R.id.rb_home_xiaoxi) {
                     xiaoxidian.setVisibility(View.VISIBLE);
                 }
                 //   Toast.makeText(this, "onEventMainThread收到了消息", Toast.LENGTH_LONG).show();
@@ -197,9 +210,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         rb_home_xiuquan.setOnClickListener(this);
         rb_home_wode = (RadioButton) findViewById(R.id.rb_home_wode);
         rb_home_wode.setOnClickListener(this);
+
+        rlTankuang = (RelativeLayout) findViewById(R.id.rl_tankuang);
+        ivYugao = (ImageView) findViewById(R.id.iv_yugao);
+        ivbFabu = (ImageView) findViewById(R.id.ivb_fabu);
+        yugao = (TextView) findViewById(R.id.yugao);
+        ivQuxiao = (ImageView) findViewById(R.id.iv_quxiao);
+        fabu = (TextView) findViewById(R.id.fabu);
         rg_home = (RadioGroup) findViewById(R.id.rg_home);
         xiaoxidian = findViewById(R.id.xiaoxidian);
         rg_home.setOnClickListener(this);
+        ivYugao.setOnClickListener(this);
+        ivbFabu.setOnClickListener(this);
+        ivQuxiao.setOnClickListener(this);
         Drawable drawable = getResources().getDrawable(R.drawable.faxian);
         int dp = MyUtils.dip2px(context, 30);
         drawable.setBounds(0, 0, dp, dp);
@@ -371,6 +394,28 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
 
             case R.id.rb_home_fabu:
+                // 通过静态方法构建一个ObjectAnimator对象
+                // 设置作用对象、属性名称、数值集合
+                rlTankuang.setVisibility(View.VISIBLE);
+                ObjectAnimator tankuang = ObjectAnimator.ofFloat(rlTankuang, "translationY", 600.0F, 0.0F);
+                ObjectAnimator ivYugaotor = ObjectAnimator.ofFloat(ivYugao, "translationY", -80.0F, 0.0F);
+                ObjectAnimator ivbFabutor = ObjectAnimator.ofFloat(ivbFabu, "translationY", -80.0F, 0.0F);
+                // 设置执行时间(1000ms)
+                tankuang.setDuration(300);
+                ivYugaotor.setDuration(500);
+                ivYugaotor.setInterpolator(new BounceInterpolator());
+                ivbFabutor.setDuration(500);
+                ivbFabutor.setInterpolator(new BounceInterpolator());
+
+
+                AnimatorSet bouncer = new AnimatorSet();
+                bouncer.play(tankuang);
+                bouncer.play(ivYugaotor).with(ivbFabutor).after(tankuang);
+                bouncer.start();
+
+
+                break;
+            case R.id.iv_yugao:
                 if (SPUtil.getString("type").equals("1")) {
                     startActivity(ZhuBoFaBuActivity.class);
                 } else {
@@ -378,8 +423,32 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
 
                 break;
+            case R.id.ivb_fabu:
+                startActivity(FaBuActivity.class);
+                break;
+            case R.id.iv_quxiao:
+                rotateyAnimRun(ivQuxiao);
+
+                break;
         }
     }
+
+    public void rotateyAnimRun(View view) {
+        ObjectAnimator rotation = ObjectAnimator//
+                .ofFloat(view, "rotation", 0.0F, 360.0F);
+        rotation.setDuration(300);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(rlTankuang, "translationY", 0.0F, 600.0F);
+        // 设置执行时间(1000ms)
+        animator.setDuration(300);
+
+        AnimatorSet bouncer = new AnimatorSet();
+        bouncer.play(rotation);
+        bouncer.play(animator).after(rotation);
+        bouncer.start();
+
+        //  rlTankuang.setVisibility(View.GONE);
+    }
+
 
     private void getToken() {
         HashMap<String, String> map = new HashMap<>();

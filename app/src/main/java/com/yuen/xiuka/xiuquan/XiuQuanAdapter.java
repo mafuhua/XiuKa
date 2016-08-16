@@ -13,6 +13,7 @@ import com.yuen.baselib.utils.AppUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.activity.PingLunActivity;
+import com.yuen.xiuka.activity.ZhuBoXiangXiActivity;
 import com.yuen.xiuka.beans.XiuQuanDataBean;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
@@ -139,6 +140,10 @@ class XiuQuanAdapter extends BaseAdapter {
                     intent.putExtra("name", xiuquanBeanData.get(position).getName());
                     context.startActivity(intent);
              //       Toast.makeText(context, "list_img" + position, Toast.LENGTH_SHORT).show();
+                }else {
+                    Intent intent2 = new Intent(context, ZhuBoXiangXiActivity.class);
+                    intent2.putExtra("uid",xiuquanBeanData.get(position).getUid());
+                    context.startActivity(intent2);
                 }
 
             }

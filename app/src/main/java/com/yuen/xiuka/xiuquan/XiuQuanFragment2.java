@@ -294,10 +294,12 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_fensi:
-                startActivity(GuanZhuListActivity.class, "fensi");
+                if (xiuquanBeanDatas==null)return;
+                startActivity(GuanZhuListActivity.class, "fensi", xiuquanBeanDatas.getUid());
                 break;
             case R.id.tv_guanzhu:
-                startActivity(GuanZhuListActivity.class, "guanzhu");
+                if (xiuquanBeanDatas==null)return;
+                startActivity(GuanZhuListActivity.class, "guanzhu",xiuquanBeanDatas.getUid());
                 break;
             case R.id.iv_bj:
                 ShowPickDialog();

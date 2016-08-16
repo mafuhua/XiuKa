@@ -163,10 +163,12 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_fensi:
-                startActivity(GuanZhuListActivity.class, "fensi");
+                if (myBeanData==null)return;
+                startActivity(GuanZhuListActivity.class, "fensi",myBeanData.getUid());
                 break;
             case R.id.ll_guanzhu:
-                startActivity(GuanZhuListActivity.class, "guanzhu");
+                if (myBeanData==null)return;
+                startActivity(GuanZhuListActivity.class, "guanzhu",myBeanData.getUid());
                 break;
             case R.id.layout_title_usericon:
                 if (myBeanData == null) return;

@@ -110,6 +110,21 @@ public abstract class BaseActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.next_in, R.anim.next_out);
     }
 
+    /**
+     * 打开界面
+     *
+     * @param cls 需要打开的界面
+     */
+    public void startActivity( Class<?> cls,String data,String uid) {
+        Intent intent = new Intent(this, cls);
+        intent.putExtra("data",data);
+        intent.putExtra("uid",uid);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+
+    }
+
     public void startActivityForNew(Class<?> cls, Object obj) {
         Intent intent = new Intent(this, cls);
         if (obj != null)

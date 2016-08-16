@@ -45,6 +45,7 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
     private MyAdapter myAdapter;
     private String stringExtra;
     private DbManager db;
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +53,16 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
         setContentView(R.layout.activity_guan_zhu_list);
         SysExitUtil.activityList.add(this);
         stringExtra = getIntent().getStringExtra("data");
+        uid = getIntent().getStringExtra("uid");
         DbManager.DaoConfig daoConfig = XUtils.getDaoConfig();
         db = x.getDb(daoConfig);
         initView();
         if (stringExtra.equals("fensi")){
-            getList(URLProvider.FANS);
-            tv_titlecontent.setText("我的粉丝");
+            getList(URLProvider.FANS, uid);
+            tv_titlecontent.setText("粉丝");
         }else if (stringExtra.equals("guanzhu")){
-            getList(URLProvider.GUANZHU);
-            tv_titlecontent.setText("我的关注");
+            getList(URLProvider.GUANZHU, uid);
+            tv_titlecontent.setText("关注");
         }
 
     }
@@ -86,9 +88,9 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
 
     }
 
-    private void getList(String url) {
+    private void getList(String url, String uid) {
         HashMap<String, String> map = new HashMap<>();
-        map.put("uid", SPUtil.getInt("uid") + "");
+        map.put("uid", uid);
         XUtils.xUtilsPost(url, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

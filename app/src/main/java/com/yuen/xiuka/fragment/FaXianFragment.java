@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,17 +25,18 @@ import com.google.gson.Gson;
 import com.yuen.baselib.activity.BaseFragment;
 import com.yuen.baselib.adapter.BaseHolder;
 import com.yuen.baselib.adapter.DefaultAdapter;
+import com.yuen.xiuka.MYCityPickerActivity;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.activity.SouSuoActivity;
 import com.yuen.xiuka.activity.ZhuBoListActivity;
 import com.yuen.xiuka.beans.BianQianBean;
+import com.yuen.xiuka.beans.ImgBeans;
 import com.yuen.xiuka.beans.ShouyeBean;
 import com.yuen.xiuka.utils.MyEvent;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
 import com.yuen.xiuka.xiuquan.MyXiuQuanActivity;
-import com.zaaach.citypicker.CityPickerActivity;
 
 import org.xutils.common.Callback;
 import org.xutils.x;
@@ -97,6 +99,9 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
      * 页面改变时，上一个页面的下标
      */
     private int lastPosition;
+    private List<ImgBeans.DataBean> imgBeansData;
+    private LinearLayout ll_point_group;
+
     @Override
     public void onStart() {
         super.onStart();
@@ -104,6 +109,38 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         if (!registered) {
             EventBus.getDefault().register(this);
         }
+    }
+
+    public void getImg() {
+        XUtils.xUtilsGet(URLProvider.LUNBO, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+               // Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+                Gson gson = new Gson();
+                ImgBeans imgBeans = gson.fromJson(result, ImgBeans.class);
+                imgBeansData = imgBeans.getData();
+                myPagerAdapter = new MyPagerAdapter();
+                mVpHomepageDec.setAdapter(myPagerAdapter);
+                addPoints();
+                isRunning = true;
+                handler.sendEmptyMessageDelayed(88, 3000);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     @Override
@@ -115,14 +152,14 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         }
 
     }
+
     public void onEventMainThread(MyEvent event) {
         MyEvent.Event eventEvent = event.getEvent();
         switch (eventEvent) {
             case REFRESH_ADD:
-                   Toast.makeText(getActivity(), "onEventMainThread收到了消息"+event.getAdd(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "onEventMainThread收到了消息" + event.getAdd(), Toast.LENGTH_LONG).show();
                 break;
         }
-
     }
 
     @Override
@@ -155,6 +192,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         mVpHomepageDec = (ViewPager) view.findViewById(R.id.vp_homepage_dec);
 
         tv_gengduo = (TextView) view.findViewById(R.id.tv_gengduo);
+        ll_point_group = (LinearLayout) view.findViewById(R.id.ll_point_group);
         tv_gengduo.setOnClickListener(this);
         tv_gengduo1 = (TextView) view.findViewById(R.id.tv_gengduo1);
         tv_gengduo1.setOnClickListener(this);
@@ -204,15 +242,37 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
                 startActivity(intent);
             }
         });
+        getImg();
 
-        myPagerAdapter = new MyPagerAdapter();
-        mVpHomepageDec.setAdapter(myPagerAdapter);
-        //  addPoints();
+
         regListener();
-        isRunning = true;
-        //  handler.sendEmptyMessageDelayed(88, 3000);
+
 
         return view;
+    }
+
+    private void addPoints() {
+        for (int i = 0; i < imgBeansData.size(); i++) {
+            // 动态添加指示点
+            ImageView point = new ImageView(getActivity());
+            point.setBackgroundResource(R.drawable.point_bg); // 设置背景
+
+            // 默认让第一个点是选中状态
+            if (i == 0) {
+                point.setEnabled(true);
+            } else {
+                point.setEnabled(false);
+            }
+
+            // 布局参数 : 当布局添加子view 时， 布局参数一定要和布局的类型 匹配
+            // 向线性布局中，添加子view时，一定要指定线性布局的布局参数
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, -2);
+
+            layoutParams.leftMargin = 10; // 左边距，10象素
+            layoutParams.topMargin = 5; // 上边距 ,5 象素
+
+            ll_point_group.addView(point, layoutParams); // 添加至页面中之前准备好的布局
+        }
     }
 
     private void regListener() {
@@ -225,16 +285,15 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
              *  @param position 新选择的页面的下标
              */
             public void onPageSelected(int position) {
-                position = position % imageIds.length; // 防止集合下标越界
+                position = position % imgBeansData.size(); // 防止集合下标越界
               /*
                 //改变描述文字
                 tvDesc.setText(imageDescriptions[position]);*/
                 // 改变指示点
                 // 上一个页面，灰点
-            /*    mLlPointGroup.getChildAt(lastPosition).setEnabled(false);
+                ll_point_group.getChildAt(lastPosition).setEnabled(false);
                 // 找到对应下标的point ，并改变显示
-                mLlPointGroup.getChildAt(position).setEnabled(true);
-*/
+                ll_point_group.getChildAt(position).setEnabled(true);
                 lastPosition = position;// 为上一个页面赋值
 
             }
@@ -354,7 +413,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
                 startActivity(SouSuoActivity.class);
                 break;
             case R.id.quanguo:
-                startActivity(CityPickerActivity.class);
+                startActivity(MYCityPickerActivity.class);
                 break;
         }
 
@@ -491,11 +550,12 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             ImageView imageView = new ImageView(getActivity());
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+           // imageView.setScaleType(ImageView.ScaleType.FIT_XY);
            /* LinearLayout.LayoutParams mParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
                     ViewGroup.LayoutParams.FILL_PARENT);
             imageView .setLayoutParams(mParams);*/
-            imageView.setImageResource(imageIds[position % imageIds.length]);
+            String uil = URLProvider.BaseImgUrl2 + "pictures/" + imgBeansData.get(position % imgBeansData.size()).getAd_img();
+            x.image().bind(imageView, uil, MyApplication.optionsxq3);
             // x.image().bind(imageView, imageIds[position], options);
             container.addView(imageView);
             return imageView;

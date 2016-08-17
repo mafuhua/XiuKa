@@ -6,6 +6,7 @@ package com.yuen.xiuka.utils;
 public class URLProvider {
     public static String BaseUrl = "http://139.196.175.144/xiuka/jiekou/";
     public static String BaseImgUrl = "http://139.196.175.144/xiuka/upload/";
+    public static String BaseImgUrl2 = "http://139.196.175.144/xiuka/uploads/";
     public static String JPUSHURL = "http://139.196.175.144/xiuka/Jpush/doadd";
   //  public static String BaseImgUrl = "http://192.168.0.123/xiuka/upload/";
 
@@ -39,5 +40,6 @@ public class URLProvider {
     public static String ADD_SHARE = BaseUrl + "add_share";
     public static String INDEX_READ = BaseUrl + "index_read";
     public static String SAVE_TOKEN = BaseUrl + "save_token";
+    public static String LUNBO = BaseUrl + "lunbo";
 
 }

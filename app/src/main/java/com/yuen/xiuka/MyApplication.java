@@ -42,6 +42,7 @@ public class MyApplication extends ApplicationEx {
     public static ImageOptions optionscache;
     public static ImageOptions optionsxq;
     public static ImageOptions optionsxq2;
+    public static ImageOptions optionsxq3;
 
     /**
      * 获得当前进程的名字
@@ -128,7 +129,15 @@ public class MyApplication extends ApplicationEx {
                 .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                 .setUseMemCache(true)
                 .build();
-    optionsxq2 = new ImageOptions.Builder()
+        optionsxq3 = new ImageOptions.Builder()
+                // 是否忽略GIF格式的图片
+                .setIgnoreGif(false)
+                //    .setFailureDrawableId(R.drawable.cuowu)
+                // 图片缩放模式
+                .setImageScaleType(ImageView.ScaleType.FIT_XY)
+                .setUseMemCache(true)
+                .build();
+        optionsxq2 = new ImageOptions.Builder()
                 // 是否忽略GIF格式的图片
                 .setIgnoreGif(false)
                 //    .setFailureDrawableId(R.drawable.cuowu)
@@ -153,7 +162,7 @@ public class MyApplication extends ApplicationEx {
 
 
         }
-          PlatformConfig.setWeixin("wx576cf31829c5138b", "c4ffeeef49ed0280618bf7e5b35c4e2e");
+        PlatformConfig.setWeixin("wx576cf31829c5138b", "c4ffeeef49ed0280618bf7e5b35c4e2e");
         //微信 appid appsecret
         PlatformConfig.setSinaWeibo("2005558614", "91cd97d9e1db43afe8ccf878493dc7b7");
         //新浪微博 appkey appsecret
@@ -193,7 +202,6 @@ public class MyApplication extends ApplicationEx {
         initImageLoader(getApplicationContext());
 
 
-
     }
 
     public void initImageLoader(Context context) {
@@ -215,6 +223,7 @@ public class MyApplication extends ApplicationEx {
         // Initialize ImageLoader with configuration.
         ImageLoader.getInstance().init(config);
     }
+
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);

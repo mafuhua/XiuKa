@@ -251,9 +251,9 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
             @Override
             public void onSuccess(String result) {
                 isRefresh = false;
+                    Toast.makeText(context,result, Toast.LENGTH_SHORT).show();
                 Gson gson = new Gson();
               /*  if (!result.contains("data")){
-                    Toast.makeText(context, "没有更多数据了", Toast.LENGTH_SHORT).show();
                     return;
                 }*/
                 XIUQUANBean xiuquanBean = gson.fromJson(result, XIUQUANBean.class);

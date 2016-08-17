@@ -64,10 +64,25 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/vp_homepage_dec"
+            <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="160dp" />
+                android:layout_height="200dp">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/vp_homepage_dec"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"/>
+
+                <LinearLayout
+                    android:id="@+id/ll_point_group"
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dp"
+                    android:layout_alignBottom="@id/vp_homepage_dec"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                </LinearLayout>
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

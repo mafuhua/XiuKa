@@ -335,6 +335,10 @@
 
         <activity android:name=".activity.BiaoQianActivity" />
         <activity android:name=".activity.IconActivity"></activity>
+        <activity
+            android:name=".MYCityPickerActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"></activity>
     </application>
 
 </manifest>

@@ -11,38 +11,40 @@ public class XIUQUANBean implements Serializable{
 
     /**
      * code : 0
-     * data : [{"add":"上海市","comments":"0","content":"fgh","id":"40","image":[{"img":"circle/201607/1469429715-69114.jpg"}],"img":"avatar/201607/1468836256-37916.jpg","name":"vayne","platform":"","share":"0","time":"07-25 14:55","uid":"10000005","zan":"0","zhibo_time":""},{"add":"上海市","comments":"0","content":"fgh","id":"39","image":[{"img":"circle/201607/1469429708-57114.jpg"}],"img":"avatar/201607/1468836256-37916.jpg","name":"vayne","platform":"","share":"0","time":"07-25 14:55","uid":"10000005","zan":"0","zhibo_time":""},{"add":"上海市","comments":"0","content":"fhj","id":"38","image":[{"img":"circle/201607/1469429525-86148.jpg"}],"img":"avatar/201607/1468836256-37916.jpg","name":"vayne","platform":"","share":"0","time":"07-25 14:52","uid":"10000005","zan":"0","zhibo_time":""},{"add":"上海市","comments":"0","content":"ftffyv","id":"37","image":[{"img":"circle/201607/1469429482-25702.jpg"}],"img":"avatar/201607/1468836256-37916.jpg","name":"vayne","platform":"","share":"0","time":"07-25 14:51","uid":"10000005","zan":"0","zhibo_time":""},{"add":"上海市","comments":"0","content":"ftffyv","id":"36","image":[{"img":"circle/201607/1469429374-21173.jpg"}],"img":"avatar/201607/1468836256-37916.jpg","name":"vayne","platform":"","share":"0","time":"07-25 14:49","uid":"10000005","zan":"0","zhibo_time":""}]
-     * datas : {"bj_image":"avatar/201606/1466234501","fensi":"3","guanzhu":"2","image":"avatar/201607/1468836256-37916.jpg","name":"vayne","platform":"虎牙","type":"1","uid":"10000005"}
+     * data : [{"add":"上海市","comments":"2","content":"回家咯","id":"192","image":[{"img":""}],"img":"avatar/201608/1471069687-72731.jpg","name":"你是谁","platform":"","share":"2","time":"08-13 15:20","uid":"10000042","zan":"10","zhibo_time":""}]
+     * datas : {"bj_image":"","fensi":"3","guanzhu":"3","image":"avatar/201608/1471069687-72731.jpg","name":"你是谁","platform":"","shifou":0,"shifou_ren":0,"type":"0","uid":"10000042"}
      * msg : 成功
      */
 
     private String code;
     /**
-     * bj_image : avatar/201606/1466234501
+     * bj_image :
      * fensi : 3
-     * guanzhu : 2
-     * image : avatar/201607/1468836256-37916.jpg
-     * name : vayne
-     * platform : 虎牙
-     * type : 1
-     * uid : 10000005
+     * guanzhu : 3
+     * image : avatar/201608/1471069687-72731.jpg
+     * name : 你是谁
+     * platform :
+     * shifou : 0
+     * shifou_ren : 0
+     * type : 0
+     * uid : 10000042
      */
 
     private DatasBean datas;
     private String msg;
     /**
      * add : 上海市
-     * comments : 0
-     * content : fgh
-     * id : 40
-     * image : [{"img":"circle/201607/1469429715-69114.jpg"}]
-     * img : avatar/201607/1468836256-37916.jpg
-     * name : vayne
+     * comments : 2
+     * content : 回家咯
+     * id : 192
+     * image : [{"img":""}]
+     * img : avatar/201608/1471069687-72731.jpg
+     * name : 你是谁
      * platform :
-     * share : 0
-     * time : 07-25 14:55
-     * uid : 10000005
-     * zan : 0
+     * share : 2
+     * time : 08-13 15:20
+     * uid : 10000042
+     * zan : 10
      * zhibo_time :
      */
 
@@ -87,6 +89,8 @@ public class XIUQUANBean implements Serializable{
         private String image;
         private String name;
         private String platform;
+        private int shifou;
+        private int shifou_ren;
         private String type;
         private String uid;
 
@@ -138,6 +142,22 @@ public class XIUQUANBean implements Serializable{
             this.platform = platform;
         }
 
+        public int getShifou() {
+            return shifou;
+        }
+
+        public void setShifou(int shifou) {
+            this.shifou = shifou;
+        }
+
+        public int getShifou_ren() {
+            return shifou_ren;
+        }
+
+        public void setShifou_ren(int shifou_ren) {
+            this.shifou_ren = shifou_ren;
+        }
+
         public String getType() {
             return type;
         }
@@ -154,6 +174,5 @@ public class XIUQUANBean implements Serializable{
             this.uid = uid;
         }
     }
-
 
 }

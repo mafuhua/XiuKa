@@ -103,6 +103,8 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
     private File destDir;
     private Bitmap iconphoto;
     private XIUQUANBean.DatasBean xiuquanBeanDatas;
+    private ImageView iv_huangwei;
+    private ImageView iv_lanwei;
 
     @Override
     public void onStart() {
@@ -131,6 +133,8 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         tv_renzheng = (TextView) header.findViewById(R.id.tv_renzheng);
         tv_name = (TextView) header.findViewById(R.id.tv_user_name);
         iv_user_icon = (ImageView) header.findViewById(R.id.iv_user_icon);
+        iv_huangwei = (ImageView) header.findViewById(R.id.iv_huangwei);
+        iv_lanwei = (ImageView) header.findViewById(R.id.iv_lanwei);
         iv_bj = (ImageView) header.findViewById(R.id.iv_bj);
         mixlist.addHeaderView(header);
         tv_fensi.setOnClickListener(this);
@@ -216,7 +220,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         XUtils.xUtilsPost(URLProvider.LOOK_CIRCLE, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("2222222222222222" + getActivity());
+                System.out.println("2222222222222222" +result);
                 isRefresh = false;
                 Gson gson = new Gson();
               /*  if (!result.contains("data")){
@@ -281,9 +285,22 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         tv_fensi.setText("粉丝" + xiuquanDatas.getFensi());
         tv_guanzhu.setText("关注" + xiuquanDatas.getGuanzhu());
         tv_name.setText(xiuquanDatas.getName());
-        tv_renzheng.setText("认证平台" + xiuquanDatas.getPlatform());
+        if (xiuquanBeanDatas.getPlatform() != null&&xiuquanBeanDatas.getPlatform().length()>0) {
+            tv_renzheng.setText("认证平台" + xiuquanBeanDatas.getPlatform());
+        }
         x.image().bind(iv_user_icon, URLProvider.BaseImgUrl + xiuquanDatas.getImage(), MyApplication.options);
         x.image().bind(iv_bj, URLProvider.BaseImgUrl + xiuquanDatas.getBj_image(), MyApplication.optionsxq);
+
+        if (xiuquanBeanDatas.getShifou_ren() == 0) {
+            iv_lanwei.setVisibility(View.GONE);
+        } else if (xiuquanBeanDatas.getShifou_ren() == 1) {
+            iv_lanwei.setVisibility(View.VISIBLE);
+        }
+        if (xiuquanBeanDatas.getType().equals("0")) {
+            iv_huangwei.setVisibility(View.GONE);
+        } else if (xiuquanBeanDatas.getType().equals("1")) {
+            iv_huangwei.setVisibility(View.VISIBLE);
+        }
         //Glide.with(context).load(URLProvider.BaseImgUrl + SPUtil.getString("icon")).centerCrop().error(R.drawable.cuowu).crossFade().into(iv_user_icon);
 
 

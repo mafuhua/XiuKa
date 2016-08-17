@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.yuen.baselib.activity.BaseFragment;
@@ -29,9 +30,11 @@ import com.yuen.xiuka.activity.SouSuoActivity;
 import com.yuen.xiuka.activity.ZhuBoListActivity;
 import com.yuen.xiuka.beans.BianQianBean;
 import com.yuen.xiuka.beans.ShouyeBean;
+import com.yuen.xiuka.utils.MyEvent;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
 import com.yuen.xiuka.xiuquan.MyXiuQuanActivity;
+import com.zaaach.citypicker.CityPickerActivity;
 
 import org.xutils.common.Callback;
 import org.xutils.x;
@@ -39,6 +42,8 @@ import org.xutils.x;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Administrator on 2016/6/13.
@@ -92,6 +97,33 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
      * 页面改变时，上一个页面的下标
      */
     private int lastPosition;
+    @Override
+    public void onStart() {
+        super.onStart();
+        boolean registered = EventBus.getDefault().isRegistered(this);
+        if (!registered) {
+            EventBus.getDefault().register(this);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        boolean registered = EventBus.getDefault().isRegistered(this);
+        if (registered) {
+            EventBus.getDefault().unregister(this);//反注册EventBus
+        }
+
+    }
+    public void onEventMainThread(MyEvent event) {
+        MyEvent.Event eventEvent = event.getEvent();
+        switch (eventEvent) {
+            case REFRESH_ADD:
+                   Toast.makeText(getActivity(), "onEventMainThread收到了消息"+event.getAdd(), Toast.LENGTH_LONG).show();
+                break;
+        }
+
+    }
 
     @Override
     public View initView() {
@@ -322,7 +354,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
                 startActivity(SouSuoActivity.class);
                 break;
             case R.id.quanguo:
-            //    startActivity(CityPickerActivity.class);
+                startActivity(CityPickerActivity.class);
                 break;
         }
 

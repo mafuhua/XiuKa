@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rl_tankuang"
     android:layout_width="match_parent"
-    android:layout_height="220dp"
+    android:layout_height="180dp"
     android:background="@android:color/white"
     android:visibility="visible">
 
@@ -15,8 +15,8 @@
 
     <ImageView
         android:id="@+id/iv_yugao"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginRight="50dp"
         android:layout_marginTop="30dp"
         android:layout_toLeftOf="@id/center"
@@ -24,8 +24,8 @@
 
     <ImageView
         android:id="@+id/ivb_fabu"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="30dp"
         android:layout_toRightOf="@id/center"
@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/iv_yugao"
-        android:layout_marginRight="65dp"
+        android:layout_marginRight="60dp"
         android:layout_marginTop="5dp"
         android:layout_toLeftOf="@id/center"
         android:text="发预告" />
@@ -55,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/ivb_fabu"
-        android:layout_marginLeft="65dp"
+        android:layout_marginLeft="60dp"
         android:layout_marginTop="5dp"
         android:layout_toRightOf="@id/center"
         android:text="发秀圈" />

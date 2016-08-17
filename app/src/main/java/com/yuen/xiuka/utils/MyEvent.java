@@ -20,6 +20,16 @@ public class MyEvent {
 
     public String mTargetId;
 
+    public String getAdd() {
+        return add;
+    }
+
+    public void setAdd(String add) {
+        this.add = add;
+    }
+
+    public String add;
+
     public List<Conversation> getGuanzhuList() {
         return guanzhuList;
     }
@@ -45,7 +55,9 @@ public class MyEvent {
         REFRESH_XIUQUAN,
         GET_TOKEN,
         REFRESH_LIAOTIAN,
-        REFRESH_DIAN
+        REFRESH_DIAN,
+        REFRESH_ADD
+
     }
 
 }

@@ -65,6 +65,7 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
             case REFRESH_LIAOTIAN:
                 guanzhuList = (ArrayList<Conversation>) event.getGuanzhuList();
                 newAdapter.notifyDataSetChanged();
+
                 //  Toast.makeText(WguanZhuConvertList.this, "onEventM-----", Toast.LENGTH_LONG).show();
                 break;
             case REFRESH_DIAN:

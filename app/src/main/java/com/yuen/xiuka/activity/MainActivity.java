@@ -145,6 +145,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (eventEvent) {
             case GET_TOKEN:
                 getToken();
+                break;
             case REFRESH_LIAOTIAN:
                 int visibility = xiaoxidian.getVisibility();
                 if (visibility == View.GONE && currentcheck != R.id.rb_home_xiaoxi) {
@@ -417,6 +418,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         } else {
                             Toast.makeText(context, "请先认证成为主播", Toast.LENGTH_SHORT).show();
                         }
+                        if (popupWindow.isShowing()) {
+                            popupWindow.dismiss();
+                        }
 
                     }
                 });
@@ -424,6 +428,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     @Override
                     public void onClick(View v) {
                         startActivity(FaBuActivity.class);
+                        if (popupWindow.isShowing()) {
+                            popupWindow.dismiss();
+                        }
                     }
                 });
                 ivQuxiao.setOnClickListener(new View.OnClickListener() {

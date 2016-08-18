@@ -43,6 +43,7 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
@@ -101,6 +102,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
     private int lastPosition;
     private List<ImgBeans.DataBean> imgBeansData;
     private LinearLayout ll_point_group;
+    private String eventAdd;
 
     @Override
     public void onStart() {
@@ -115,7 +117,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         XUtils.xUtilsGet(URLProvider.LUNBO, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-               // Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
                 Gson gson = new Gson();
                 ImgBeans imgBeans = gson.fromJson(result, ImgBeans.class);
                 imgBeansData = imgBeans.getData();
@@ -157,6 +159,9 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         MyEvent.Event eventEvent = event.getEvent();
         switch (eventEvent) {
             case REFRESH_ADD:
+                eventAdd = event.getAdd();
+                quanguo.setText(event.getAdd());
+                getShouye(event.getAdd());
                 Toast.makeText(getActivity(), "onEventMainThread收到了消息" + event.getAdd(), Toast.LENGTH_LONG).show();
                 break;
         }
@@ -204,7 +209,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         quanguo.setOnClickListener(this);
         gv_xinren = (GridView) view.findViewById(R.id.gv_xinren);
         gv_remen = (GridView) view.findViewById(R.id.gv_remen);
-
+        eventAdd = "全国";
 
         gv_renqi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -347,7 +352,16 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
 
             }
         });
-        XUtils.xUtilsGet(URLProvider.INDEX_LIST, new Callback.CommonCallback<String>() {
+        getShouye("");
+    }
+
+    private void getShouye(String add) {
+        HashMap<String, String> map = new HashMap<>();
+        if (add.equals("全国")) {
+            add = "";
+        }
+        map.put("add", add);
+        XUtils.xUtilsPost(URLProvider.INDEX_LIST, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Gson gson = new Gson();
@@ -387,24 +401,28 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(getActivity(), ZhuBoListActivity.class);
+
         switch (v.getId()) {
             case R.id.tv_gengduo:
-
+                intent.putExtra("add", eventAdd);
                 intent.putExtra("type", settingString2.get(0).toString());
                 startActivity(intent);
 
                 break;
             case R.id.tv_gengduo1:
+                intent.putExtra("add", eventAdd);
                 intent.putExtra("type", settingString2.get(1).toString());
                 startActivity(intent);
 
                 break;
             case R.id.tv_gengduo2:
+                intent.putExtra("add", eventAdd);
                 intent.putExtra("type", settingString2.get(2).toString());
                 startActivity(intent);
 
                 break;
             case R.id.tv_gengduo3:
+                intent.putExtra("add", eventAdd);
                 intent.putExtra("type", settingString2.get(3).toString());
                 startActivity(intent);
 
@@ -427,7 +445,13 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         }
 
         int totalHeight = 0;
-        for (int i = 0, len = listAdapter.getCount(); i < 2; i++) {
+        int count = listAdapter.getCount() / 3;
+        if (count < 1) {
+            count = 1;
+        } else if (count > 1 && count < 2) {
+            count = 2;
+        }
+        for (int i = 0, len = listAdapter.getCount(); i < count; i++) {
             // listAdapter.getCount()返回数据项的数目
             View listItem = listAdapter.getView(i, null, listView);
             // 计算子项View 的宽高
@@ -492,6 +516,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
                 public void onClick(View v) {
                     String type = settingString2.get(i).toString();
                     Intent intent = new Intent(getActivity(), ZhuBoListActivity.class);
+                    intent.putExtra("add", eventAdd);
                     intent.putExtra("type", type);
                     startActivity(intent);
                     //   Toast.makeText(context, type, Toast.LENGTH_SHORT).show();
@@ -550,7 +575,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             ImageView imageView = new ImageView(getActivity());
-           // imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            // imageView.setScaleType(ImageView.ScaleType.FIT_XY);
            /* LinearLayout.LayoutParams mParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
                     ViewGroup.LayoutParams.FILL_PARENT);
             imageView .setLayoutParams(mParams);*/

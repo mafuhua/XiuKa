@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.yuen.xiuka.R;
 
 public class XiuQuanViewHolder {
+    public ImageView lajitong;
     public LinearLayout iv_dianzan;
     public ImageView listuserimg;
     public ImageView ic_dianzan;
@@ -42,6 +43,7 @@ public class XiuQuanViewHolder {
         iv_pinlun = (LinearLayout) rootView.findViewById(R.id.iv_pinlun);
         iv_dianzan = (LinearLayout) rootView.findViewById(R.id.iv_dianzan);
         ic_dianzan = (ImageView) rootView.findViewById(R.id.ic_dianzan);
+        lajitong = (ImageView) rootView.findViewById(R.id.lajitong);
         tv_pinglun = (TextView) rootView.findViewById(R.id.tv_pinglun);
         tv_dianzan = (TextView) rootView.findViewById(R.id.tv_dianzan);
     }

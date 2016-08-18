@@ -41,5 +41,6 @@ public class URLProvider {
     public static String INDEX_READ = BaseUrl + "index_read";
     public static String SAVE_TOKEN = BaseUrl + "save_token";
     public static String LUNBO = BaseUrl + "lunbo";
+    public static String DEL = BaseUrl + "del";
 
 }

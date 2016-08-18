@@ -1,6 +1,7 @@
 package com.yuen.xiuka.xiuquan;
 
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -8,8 +9,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.yuen.baselib.utils.AppUtil;
+import com.yuen.baselib.utils.SPUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.activity.PingLunActivity;
@@ -77,6 +80,12 @@ class XiuQuanAdapter extends BaseAdapter {
         viewHolder.tv_pinglun.setText(Integer.parseInt(xiuquanBeanData.get(position).getComments())==0?"评论":xiuquanBeanData.get(position).getComments());
         viewHolder.tv_zhuanfa.setText(Integer.parseInt(xiuquanBeanData.get(position).getShare())==0?"分享":xiuquanBeanData.get(position).getShare());
 
+        if (xiuquanBeanData.get(position).getUid().equals(SPUtil.getInt("uid")+"")){
+            viewHolder.lajitong.setVisibility(View.VISIBLE);
+        }else {
+            viewHolder.lajitong.setVisibility(View.GONE);
+        }
+
         x.image().bind(viewHolder.listuserimg, URLProvider.BaseImgUrl + xiuquanBeanData.get(position).getImg(), MyApplication.optionscache);
         //    Glide.with(context).load(URLProvider.BaseImgUrl + xiuquanBeanData.get(position).getImg()).centerCrop().error(R.drawable.cuowu).crossFade().into(viewHolder.listuserimg);
         imageBeanList = xiuquanBeanData.get(position).getImage();
@@ -131,6 +140,15 @@ class XiuQuanAdapter extends BaseAdapter {
                 viewHolder.imgview[i].setOnClickListener(new GridOnclick(position, viewHolder.imgview[i], imageBeanList, i, viewHolder.gridview));
             }
         }
+        viewHolder.lajitong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lajitong(position);
+
+
+            }
+        });
+
         viewHolder.listuserimg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,11 +205,59 @@ class XiuQuanAdapter extends BaseAdapter {
         });
         return convertView;
     }
+    public void lajitong(final int position){
+        final Dialog dialog = new Dialog(context, R.style.MyDialog);
+        //设置它的ContentView
+        dialog.setContentView(R.layout.task_saveimg_dialog);
+        TextView viewById = (TextView) dialog.findViewById(R.id.dialog_title);
+        viewById.setText("确定删除这条秀圈吗？");
+        dialog.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.btn_ok).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                shanchuxiuquan(xiuquanBeanData.get(position).getId());
+                xiuquanBeanData.remove(position);
+                notifyDataSetChanged();
+            }
 
+        });
+        dialog.show();
+    }
     private void dianzanhefenxiang(String url,String id) {
         HashMap<String, String> map = new HashMap<>();
         map.put("id", id);
         XUtils.xUtilsPost(url, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+ private void shanchuxiuquan(String id) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("id", id);
+        XUtils.xUtilsPost(URLProvider.DEL, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
 

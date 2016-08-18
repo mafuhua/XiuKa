@@ -55,6 +55,14 @@
             android:layout_toRightOf="@id/add" />
 
         <ImageView
+            android:id="@+id/lajitong"
+            android:background="@drawable/lajitong"
+            android:layout_width="20dp"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            android:layout_height="20dp" />
+        <ImageView
             android:id="@+id/showimage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -152,6 +160,7 @@
 
 
         </GridLayout>
+
     </RelativeLayout>
 
     <View

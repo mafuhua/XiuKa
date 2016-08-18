@@ -67,7 +67,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
     private TextView tv_titlecontent;
     private Button btn_jia;
     private XIUQUANBean.DatasBean xiuquanBeanDatas;
-    private List<XiuQuanDataBean> xiuquanBeanData;
+    public  List<XiuQuanDataBean> xiuquanBeanData;
     private boolean refresh = false;
     private SwipeRefreshLayout swiperefresh;
     private int page = 0;
@@ -87,7 +87,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
             }
         }
     };
-    private List<XiuQuanDataBean> xiuquanListData = new ArrayList<>();
+    public static List<XiuQuanDataBean> xiuquanListData = new ArrayList<>();
     private DbManager db;
     private TextView tv_jiaguanzhu;
     private LinearLayout ll_jiasixin;
@@ -183,7 +183,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(context, PingLunActivity.class);
-                intent.putExtra("data", xiuquanBeanData.get(position - 1));
+                intent.putExtra("data", xiuquanListData.get(position-1));
                 context.startActivity(intent);
             }
         });
@@ -251,7 +251,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
             @Override
             public void onSuccess(String result) {
                 isRefresh = false;
-                    Toast.makeText(context,result, Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(context,result, Toast.LENGTH_SHORT).show();
                 Gson gson = new Gson();
               /*  if (!result.contains("data")){
                     return;
@@ -293,6 +293,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
     @Override
     public void onResume() {
         super.onResume();
+        xiuquanListData.clear();
     }
 
     public void onEventMainThread(MyEvent event) {

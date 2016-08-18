@@ -99,7 +99,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
     /**
      * 页面改变时，上一个页面的下标
      */
-    private int lastPosition;
+    private int lastPosition = 0;
     private List<ImgBeans.DataBean> imgBeansData;
     private LinearLayout ll_point_group;
     private String eventAdd;

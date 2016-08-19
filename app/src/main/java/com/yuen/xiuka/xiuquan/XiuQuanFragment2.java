@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -88,7 +89,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:
-
+                    isRefresh = false;
                     swiperefresh.setRefreshing(false);
                     //adapter.notifyDataSetChanged();
                     //swipeRefreshLayout.setEnabled(false);
@@ -105,6 +106,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
     private XIUQUANBean.DatasBean xiuquanBeanDatas;
     private ImageView iv_huangwei;
     private ImageView iv_lanwei;
+    private boolean head = true;
 
     @Override
     public void onStart() {
@@ -185,34 +187,52 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                 context.startActivity(intent);
             }
         });
+        mixlist.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (isRefresh) {
+                    return true;
+                } else {
+                    return false;
+                }
 
+            }
+        });
         swiperefresh.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light,
                 android.R.color.holo_orange_light, android.R.color.holo_green_light);
         swiperefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override
             public void onRefresh() {
+                if (!isRefresh) {
+                    isRefresh = true;
+                    page = 0;
+                    xiuquanListData.clear();
+                 /*   mixlist.requestLayout();
+                    myAdapter.notifyDataSetChanged();*/
+                    Log.d("mafuhua", "刷新");
+                    xiuquan();
+                }
                 Toast.makeText(context, "正在刷新", Toast.LENGTH_SHORT).show();
-                new Thread(new Runnable() {
+               /* new Thread(new Runnable() {
                     @Override
-
                     public void run() {
                         if (!isRefresh) {
+                            isRefresh = true;
                             page = 0;
                             xiuquanListData.clear();
                             Log.d("mafuhua", "刷新");
                             xiuquan();
-
                         }
 
                     }
                 }).start();
-
+*/
             }
         });
         return view;
     }
-    private boolean head = true;
+
     public void xiuquan() {
         HashMap<String, String> map = new HashMap<>();
         map.put("uid", SPUtil.getInt("uid") + "");
@@ -220,8 +240,8 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         XUtils.xUtilsPost(URLProvider.LOOK_CIRCLE, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                System.out.println("2222222222222222" +result);
-                isRefresh = false;
+                System.out.println("2222222222222222" + result);
+
                 Gson gson = new Gson();
               /*  if (!result.contains("data")){
                     Toast.makeText(context, "没有更多数据了", Toast.LENGTH_SHORT).show();
@@ -285,7 +305,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         tv_fensi.setText("粉丝" + xiuquanDatas.getFensi());
         tv_guanzhu.setText("关注" + xiuquanDatas.getGuanzhu());
         tv_name.setText(xiuquanDatas.getName());
-        if (xiuquanBeanDatas.getPlatform() != null&&xiuquanBeanDatas.getPlatform().length()>0) {
+        if (xiuquanBeanDatas.getPlatform() != null && xiuquanBeanDatas.getPlatform().length() > 0) {
             tv_renzheng.setText("认证平台" + xiuquanBeanDatas.getPlatform());
         }
         x.image().bind(iv_user_icon, URLProvider.BaseImgUrl + xiuquanDatas.getImage(), MyApplication.options);
@@ -311,12 +331,12 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_fensi:
-                if (xiuquanBeanDatas==null)return;
+                if (xiuquanBeanDatas == null) return;
                 startActivity(GuanZhuListActivity.class, "fensi", xiuquanBeanDatas.getUid());
                 break;
             case R.id.tv_guanzhu:
-                if (xiuquanBeanDatas==null)return;
-                startActivity(GuanZhuListActivity.class, "guanzhu",xiuquanBeanDatas.getUid());
+                if (xiuquanBeanDatas == null) return;
+                startActivity(GuanZhuListActivity.class, "guanzhu", xiuquanBeanDatas.getUid());
                 break;
             case R.id.iv_bj:
                 ShowPickDialog();
@@ -344,7 +364,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                 xiuquanListData.clear();
                 Log.d("mafuhua", "刷新");
                 xiuquan();
-             //   Toast.makeText(getActivity(), "onEventMainThread收到了消息", Toast.LENGTH_LONG).show();
+                //   Toast.makeText(getActivity(), "onEventMainThread收到了消息", Toast.LENGTH_LONG).show();
                 break;
         }
 

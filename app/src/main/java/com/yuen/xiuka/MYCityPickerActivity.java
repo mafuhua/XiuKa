@@ -189,15 +189,15 @@ public class MYCityPickerActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-           /* case R.id.iv_search_clear:
+            case R.id.back:
+                finish();
+                break;
+            case R.id.iv_search_clear:
                 searchBox.setText("");
                 clearBtn.setVisibility(View.GONE);
                 emptyView.setVisibility(View.GONE);
                 mResultListView.setVisibility(View.GONE);
                 break;
-            case R.id.back:
-                finish();
-                break;*/
         }
     }
 

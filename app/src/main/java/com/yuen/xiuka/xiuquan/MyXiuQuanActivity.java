@@ -77,10 +77,17 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:
-
+                    isRefresh = false;
                     swiperefresh.setRefreshing(false);
                     //adapter.notifyDataSetChanged();
                     //swipeRefreshLayout.setEnabled(false);
+                    break;
+                case 2:
+                    Toast.makeText(context, "正在刷新", Toast.LENGTH_SHORT).show();
+                  /*  mixlist.requestLayout();
+                    myAdapter.notifyDataSetChanged();*/
+                    Log.d("mafuhua", "刷新");
+                    xiuquan();
                     break;
                 default:
                     break;
@@ -167,11 +174,10 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
 
                     public void run() {
                         if (!isRefresh) {
+                            isRefresh = true;
                             page = 0;
-                            xiuquanListData.clear();
-                            Log.d("mafuhua", "刷新");
-                            xiuquan();
-                            mHandler.sendEmptyMessage(1);
+                           // xiuquanListData.clear();
+                            mHandler.sendEmptyMessage(2);
                         }
 
                     }
@@ -259,16 +265,19 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
                 XIUQUANBean xiuquanBean = gson.fromJson(result, XIUQUANBean.class);
                 xiuquanBeanDatas = xiuquanBean.getDatas();
                 xiuquanBeanData = xiuquanBean.getData();
+                if (page == 0) {
+                    xiuquanListData.clear();
+                    initheader(xiuquanBeanDatas);
+                }
                 xiuquanListData.addAll(xiuquanBeanData);
                 if (xiuquanBeanDatas.getUid().equals(SPUtil.getInt("uid") + "")) {
                     ll_bottom.setVisibility(View.GONE);
                 } else {
                     ll_bottom.setVisibility(View.VISIBLE);
                 }
-                if (page == 0) {
-                    initheader(xiuquanBeanDatas);
-                }
+
                 myAdapter.notifyDataSetChanged();
+                mHandler.sendEmptyMessage(1);
             }
 
             @Override

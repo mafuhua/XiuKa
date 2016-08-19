@@ -7,15 +7,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.yuen.xiuka.utils.MyEvent;
+
 import org.json.JSONObject;
 
 import cn.jpush.android.api.JPushInterface;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Administrator on 2016/8/8.
  */
 public class JReciever extends BroadcastReceiver {
     private static final String TAG = "MyReceiver";
+
 
     private NotificationManager nm;
 
@@ -33,6 +37,7 @@ public class JReciever extends BroadcastReceiver {
 
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
             Log.d(TAG, "接受到推送下来的自定义消息");
+            receivingNotification(context,bundle);
 
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
             Log.d(TAG, "接受到推送下来的通知");
@@ -41,13 +46,14 @@ public class JReciever extends BroadcastReceiver {
 
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.d(TAG, "用户点击打开了通知");
-
             openNotification(context,bundle);
-
         } else {
             Log.d(TAG, "Unhandled intent - " + intent.getAction());
         }
     }
+
+
+
 
     private void receivingNotification(Context context, Bundle bundle){
         String title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);
@@ -55,6 +61,8 @@ public class JReciever extends BroadcastReceiver {
         String message = bundle.getString(JPushInterface.EXTRA_ALERT);
         Log.d(TAG, "message : " + message);
         String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
+        EventBus.getDefault().post(
+                new MyEvent(MyEvent.Event.NOTIFICATION_PINGLUN));
         Log.d(TAG, "extras : " + extras);
     }
 

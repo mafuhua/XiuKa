@@ -4,6 +4,8 @@ package com.yuen.xiuka.activity;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -12,6 +14,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -71,6 +74,8 @@ import io.rong.message.TextMessage;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     public static HashMap<String, PersonTable> userinfomap = new HashMap<>();
+    private static NotificationManager mNotificationManager;
+    private static NotificationCompat.Builder mBuilder;
     private FragmentManager supportFragmentManager;
     private FrameLayout fl_home_content;
     private RadioButton rb_home_faxian;
@@ -103,8 +108,35 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private TextView fabu;
     private PopupWindow popupWindow;
     private View contentview;
-
-
+    /**
+     * Notification的ID
+     */
+    public static int notifyId = 100;
+    /**
+     * 初始化通知栏
+     */
+    public static void initNotify() {
+        mNotificationManager = (NotificationManager) MyApplication.context.getSystemService(NOTIFICATION_SERVICE);
+        mBuilder = new NotificationCompat.Builder(MyApplication.context);
+        mBuilder.setContentTitle("小而美")
+                .setContentText("您有一条新消息")
+                .setAutoCancel(true)
+//				.setNumber(number)//显示数量
+                .setTicker("小而美:您有一条新消息")//通知首次出现在通知栏，带上升动画效果的
+                .setWhen(System.currentTimeMillis())//通知产生的时间，会在通知信息里显示
+                .setPriority(Notification.PRIORITY_DEFAULT)//设置该通知优先级
+//				.setAutoCancel(true)//设置这个标志当用户单击面板就可以让通知将自动取消
+                .setOngoing(false)//ture，设置他为一个正在进行的通知。他们通常是用来表示一个后台任务,用户积极参与(如播放音乐)或以某种方式正在等待,因此占用设备(如一个文件下载,同步操作,主动网络连接)
+                .setDefaults(Notification.DEFAULT_VIBRATE)//向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合：
+                //Notification.DEFAULT_ALL  Notification.DEFAULT_SOUND 添加声音 // requires VIBRATE permission
+                .setSmallIcon(R.drawable.xiuka);
+       /* Intent resultIntent = new Intent(MyApplication.context, ConvertalkActivity.class);
+        resultIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        resultIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(MyApplication.context, 0, resultIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        mBuilder.setContentIntent(pendingIntent);*/
+        mNotificationManager.notify(notifyId, mBuilder.build());
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
@@ -137,15 +169,43 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         initView();
         loadData();
+      //  hahha();
 
     }
 
+public void hahha(){
+    XUtils.xUtilsGet("http://139.196.175.144/xiuka/jpush/comment"
+            , new Callback.CommonCallback<String>() {
+        @Override
+        public void onSuccess(String result) {
+            Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+            Log.d("MainActivity", result);
+        }
 
+        @Override
+        public void onError(Throwable ex, boolean isOnCallback) {
+
+        }
+
+        @Override
+        public void onCancelled(CancelledException cex) {
+
+        }
+
+        @Override
+        public void onFinished() {
+
+        }
+    });
+}
     public void onEventMainThread(MyEvent event) {
         MyEvent.Event eventEvent = event.getEvent();
         switch (eventEvent) {
             case GET_TOKEN:
                 getToken();
+                break;
+            case NOTIFICATION_PINGLUN:
+                initNotify();
                 break;
             case REFRESH_LIAOTIAN:
                 int visibility = xiaoxidian.getVisibility();

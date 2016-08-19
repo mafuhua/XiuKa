@@ -30,6 +30,7 @@ import java.io.File;
 import java.util.List;
 
 import uk.co.senab.photoview.PhotoView;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class PagersImgActivity extends com.yuen.xiuka.activity.BaseActivity {
 
@@ -94,6 +95,13 @@ public class PagersImgActivity extends com.yuen.xiuka.activity.BaseActivity {
         public Object instantiateItem(ViewGroup container, final int position) {
 
             PhotoView imageView = mImageViews[position];
+
+            imageView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
+                @Override
+                public void onPhotoTap(View view, float v, float v1) {
+                    finish();
+                }
+            });
 
             imageView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override

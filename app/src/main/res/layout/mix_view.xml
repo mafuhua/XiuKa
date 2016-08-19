@@ -186,8 +186,8 @@
 
             <ImageView
 
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/zhuangfa" />
@@ -210,8 +210,8 @@
 
             <ImageView
 
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/pinglun" />
@@ -234,8 +234,8 @@
 
             <ImageView
                 android:id="@+id/ic_dianzan"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/dianzan_normal"

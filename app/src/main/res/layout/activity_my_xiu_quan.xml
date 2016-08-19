@@ -38,11 +38,11 @@
                 android:layout_height="match_parent">
                 <ImageView
                     android:id="@+id/iv_jiaguanzhu"
-                    android:layout_width="25dp"
+                    android:layout_width="20dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="60dp"
                     android:background="@drawable/jiaguanzhu"
-                    android:layout_height="25dp" />
+                    android:layout_height="20dp" />
                 <TextView
                     android:id="@+id/tv_jiaguanzhu"
                     android:layout_width="0dp"
@@ -58,11 +58,11 @@
                 android:layout_weight="1"
                 android:layout_height="match_parent">
                 <ImageView
-                    android:layout_width="25dp"
+                    android:layout_width="20dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="60dp"
                     android:background="@drawable/liaotian"
-                    android:layout_height="25dp" />
+                    android:layout_height="20dp" />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"

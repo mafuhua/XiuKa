@@ -56,7 +56,8 @@ public class MyEvent {
         GET_TOKEN,
         REFRESH_LIAOTIAN,
         REFRESH_DIAN,
-        REFRESH_ADD
+        REFRESH_ADD,
+        NOTIFICATION_PINGLUN
 
     }
 

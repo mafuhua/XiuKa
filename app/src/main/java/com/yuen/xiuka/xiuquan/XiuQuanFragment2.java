@@ -15,7 +15,6 @@ import android.provider.MediaStore;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -92,7 +91,14 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                     isRefresh = false;
                     swiperefresh.setRefreshing(false);
                     //adapter.notifyDataSetChanged();
-                    //swipeRefreshLayout.setEnabled(false);
+                  //  swiperefresh.setEnabled(false);
+                    break;
+                case 2:
+                    Toast.makeText(context, "正在刷新", Toast.LENGTH_SHORT).show();
+                 /*   mixlist.requestLayout();
+                    myAdapter.notifyDataSetChanged();*/
+                    Log.d("mafuhua", "刷新");
+                    xiuquan();
                     break;
                 default:
                     break;
@@ -187,7 +193,10 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                 context.startActivity(intent);
             }
         });
-        mixlist.setOnTouchListener(new View.OnTouchListener() {
+
+
+
+      /*  mixlist.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (isRefresh) {
@@ -197,37 +206,24 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                 }
 
             }
-        });
+        });*/
         swiperefresh.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light,
                 android.R.color.holo_orange_light, android.R.color.holo_green_light);
         swiperefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override
             public void onRefresh() {
-                if (!isRefresh) {
-                    isRefresh = true;
-                    page = 0;
-                    xiuquanListData.clear();
-                 /*   mixlist.requestLayout();
-                    myAdapter.notifyDataSetChanged();*/
-                    Log.d("mafuhua", "刷新");
-                    xiuquan();
-                }
-                Toast.makeText(context, "正在刷新", Toast.LENGTH_SHORT).show();
-               /* new Thread(new Runnable() {
+                new Thread(new Runnable() {
                     @Override
                     public void run() {
                         if (!isRefresh) {
                             isRefresh = true;
                             page = 0;
-                            xiuquanListData.clear();
-                            Log.d("mafuhua", "刷新");
-                            xiuquan();
-                        }
 
+                            mHandler.sendEmptyMessage(2);
+                        }
                     }
                 }).start();
-*/
             }
         });
         return view;
@@ -250,13 +246,12 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                 XIUQUANBean xiuquanBean = gson.fromJson(result, XIUQUANBean.class);
                 xiuquanBeanDatas = xiuquanBean.getDatas();
                 xiuquanBeanData = xiuquanBean.getData();
-                xiuquanListData.addAll(xiuquanBeanData);
-
-                myAdapter.notifyDataSetChanged();
                 if (page == 0) {
+                    xiuquanListData.clear();
                     initheader(xiuquanBeanDatas);
                 }
-
+                xiuquanListData.addAll(xiuquanBeanData);
+                myAdapter.notifyDataSetChanged();
                 mHandler.sendEmptyMessage(1);
             }
 

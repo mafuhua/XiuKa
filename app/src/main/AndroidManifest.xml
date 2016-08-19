@@ -91,7 +91,7 @@
         android:name=".MyApplication"
         android:allowBackup="true"
         android:configChanges="orientation|screenSize|keyboardHidden|keyboard|"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
@@ -304,9 +304,6 @@
             android:exported="false" />
 
         <!-- User defined.  For test only  用户自定义的广播接收器 -->
-
-
-        <!--
         <receiver
             android:name=".JReciever"
             android:enabled="true"
@@ -323,7 +320,6 @@
                 <category android:name="com.yuen.xiuka" />
             </intent-filter>
         </receiver>
-        -->
         <!-- Required  . Enable it you can get statistics data with channel -->
         <meta-data
             android:name="JPUSH_CHANNEL"

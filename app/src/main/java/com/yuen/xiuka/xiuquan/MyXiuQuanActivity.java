@@ -205,17 +205,14 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
                     //最后一个条目
                     if (lastVisiblePosition == mixlist.getCount() - 1) {
-
                         Log.d("mafuhua", "加载下一页");
                         //请求下一页数据：handler模拟加载下一页数据
 //                        handler.sendEmptyMessageDelayed(REFRESHFINISH, 2000);
                         page += 1;
                         xiuquan();
                     }
-
                 }
             }
-
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
@@ -302,7 +299,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
     @Override
     public void onResume() {
         super.onResume();
-        xiuquanListData.clear();
+
     }
 
     public void onEventMainThread(MyEvent event) {

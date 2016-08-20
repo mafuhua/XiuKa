@@ -169,7 +169,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         initView();
         loadData();
-      //  hahha();
+        hahha();
 
     }
 

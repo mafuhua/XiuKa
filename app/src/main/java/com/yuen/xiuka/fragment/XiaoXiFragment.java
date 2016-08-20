@@ -21,6 +21,7 @@ import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.activity.GongGaoActivity;
 import com.yuen.xiuka.activity.MainActivity;
+import com.yuen.xiuka.activity.PinglunListActivity;
 import com.yuen.xiuka.activity.WguanZhuConvertList;
 import com.yuen.xiuka.beans.ConverTListViewHolder;
 import com.yuen.xiuka.utils.MyEvent;
@@ -113,15 +114,19 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
                 if (position == 0) {
                     startActivity(GongGaoActivity.class);
                 } else if (position == 1) {
+                    Intent intent = new Intent(getActivity(), PinglunListActivity.class);
+                 //   intent.putExtra("list", (Serializable) WguanzhuList);
+                    startActivity(intent);
+                }  else if (position == 2) {
                     Intent intent = new Intent(getActivity(), WguanZhuConvertList.class);
                     intent.putExtra("list", (Serializable) WguanzhuList);
                     startActivity(intent);
                 } else {
                     if (RongIM.getInstance() != null) {
-                        Conversation conversation = guanzhuList.get(position - 2);
-                        if (MainActivity.userinfomap.get(guanzhuList.get(position - 2).getTargetId()) != null) {
+                        Conversation conversation = guanzhuList.get(position - 3);
+                        if (MainActivity.userinfomap.get(guanzhuList.get(position - 3).getTargetId()) != null) {
                             RongIM.getInstance().startPrivateChat(getActivity(), conversation.getTargetId(),
-                                    MainActivity.userinfomap.get(guanzhuList.get(position - 2).getTargetId()).getName());
+                                    MainActivity.userinfomap.get(guanzhuList.get(position - 3).getTargetId()).getName());
                         } else {
                             RongIM.getInstance().startPrivateChat(getActivity(), conversation.getTargetId(), "");
                         }
@@ -134,7 +139,7 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
         converlist.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                clearDialog(guanzhuList.get(position - 2).getTargetId(), position);
+                clearDialog(guanzhuList.get(position - 3).getTargetId(), position);
                 return false;
             }
         });
@@ -207,7 +212,7 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 RongIM.getInstance().getRongIMClient().removeConversation(Conversation.ConversationType.PRIVATE, targetId);
-                guanzhuList.remove(position - 2);
+                guanzhuList.remove(position - 3);
                 newAdapter.notifyDataSetChanged();
                 dialog.dismiss();
             }
@@ -234,7 +239,7 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
 
         @Override
         public int getCount() {
-            return guanzhuList == null ? 2 : guanzhuList.size() + 2;
+            return guanzhuList == null ? 3 : guanzhuList.size() + 3;
         }
 
         @Override
@@ -253,8 +258,10 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
                 return 0;
             } else if (position == 1) {
                 return 1;
-            } else {
+            } else  if(position == 2) {
                 return 2;
+            }else {
+                return 3;
             }
 
         }
@@ -279,14 +286,21 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
                     viewHolder.icon.setBackgroundResource(R.drawable.ka);
                     break;
                 case 1:
+                    viewHolder.name.setText("评论");
+                    viewHolder.name.setTextSize(20);
+                    viewHolder.time.setVisibility(View.GONE);
+                    viewHolder.content.setVisibility(View.GONE);
+                    viewHolder.icon.setBackgroundResource(R.drawable.pinglunlist);
+                    break;
+                case 2:
                     viewHolder.name.setText("未关注人的消息");
                     viewHolder.name.setTextSize(20);
                     viewHolder.time.setVisibility(View.GONE);
                     viewHolder.content.setVisibility(View.GONE);
                     viewHolder.icon.setBackgroundResource(R.drawable.weiguanzbhu);
                     break;
-                case 2:
-                    position -= 2;
+                case 3:
+                    position -= 3;
                     TextMessage latestMessage;
                     if (guanzhuList.get(position).getLatestMessage() instanceof TextMessage) {
                         latestMessage = (TextMessage) guanzhuList.get(position).getLatestMessage();

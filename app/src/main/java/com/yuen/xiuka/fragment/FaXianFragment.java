@@ -83,18 +83,6 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
      */
     private boolean isRunning = false;
     private MyPagerAdapter myPagerAdapter;
-    private Handler handler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
-
-            // 让viewPager 显示下一页
-            if (isRunning && mVpHomepageDec.getCurrentItem() < myPagerAdapter.getCount() - 1) {
-                mVpHomepageDec.setCurrentItem(mVpHomepageDec.getCurrentItem() + 1);
-                handler.sendEmptyMessageDelayed(88, 3000);
-            }
-        }
-
-        ;
-    };
     private TextView quanguo;
     /**
      * 页面改变时，上一个页面的下标
@@ -102,6 +90,16 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
     private int lastPosition = 0;
     private List<ImgBeans.DataBean> imgBeansData;
     private LinearLayout ll_point_group;
+    private Handler handler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+
+            // 让viewPager 显示下一页
+            if (ll_point_group != null && isRunning && mVpHomepageDec.getCurrentItem() < myPagerAdapter.getCount() - 1) {
+                mVpHomepageDec.setCurrentItem(mVpHomepageDec.getCurrentItem() + 1);
+                handler.sendEmptyMessageDelayed(88, 3000);
+            }
+        }
+    };
     private String eventAdd;
 
     @Override
@@ -277,6 +275,8 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
             layoutParams.topMargin = 5; // 上边距 ,5 象素
 
             ll_point_group.addView(point, layoutParams); // 添加至页面中之前准备好的布局
+
+
         }
     }
 
@@ -296,9 +296,15 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
                 tvDesc.setText(imageDescriptions[position]);*/
                 // 改变指示点
                 // 上一个页面，灰点
-                ll_point_group.getChildAt(lastPosition).setEnabled(false);
+                ImageView childAt = (ImageView) ll_point_group.getChildAt(lastPosition);
+                ImageView childAtposition = (ImageView) ll_point_group.getChildAt(position);
+                if (childAt != null) {
+                    ll_point_group.getChildAt(lastPosition).setEnabled(false);
+                }
+                if (childAtposition != null) {
+                    ll_point_group.getChildAt(position).setEnabled(true);
+                }
                 // 找到对应下标的point ，并改变显示
-                ll_point_group.getChildAt(position).setEnabled(true);
                 lastPosition = position;// 为上一个页面赋值
 
             }

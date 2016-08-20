@@ -330,11 +330,15 @@
         <!-- </>值来自开发者平台取得的AppKey -->
 
         <activity android:name=".activity.BiaoQianActivity" />
-        <activity android:name=".activity.IconActivity"></activity>
+        <activity android:name=".activity.IconActivity" />
         <activity
             android:name=".MYCityPickerActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan"></activity>
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".activity.PinglunListActivity" />
+        <activity android:name=".activity.Pinlun2Activity" />
+        <activity android:name=".xiuquan.PagesImg2Activity" />
+        <activity android:name=".activity.LianxiwomenActivity"></activity>
     </application>
 
 </manifest>

@@ -11,7 +11,7 @@
         android:layout_height="150dp"
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
-        android:background="@drawable/xiuka"/>
+        android:background="@drawable/ic_launcher"/>
 
     <EditText
         android:id="@+id/et_tel"
@@ -72,7 +72,9 @@
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_margin="30dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:background="@android:color/holo_red_light"
         android:text="登录"
         android:textColor="@android:color/white"/>

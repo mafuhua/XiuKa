@@ -23,6 +23,7 @@ import com.yuen.xiuka.R;
 import com.yuen.xiuka.activity.BianJiZiLiaoActivity;
 import com.yuen.xiuka.activity.GongHuiRenZhengActivity;
 import com.yuen.xiuka.activity.GuanZhuListActivity;
+import com.yuen.xiuka.activity.LianxiwomenActivity;
 import com.yuen.xiuka.activity.RenZhengActivity;
 import com.yuen.xiuka.activity.SettingActivity;
 import com.yuen.xiuka.beans.MYBean;
@@ -46,7 +47,7 @@ import io.rong.imlib.model.UserInfo;
  */
 public class WoDeFragment extends BaseFragment implements View.OnClickListener {
     private List<String> wodeItemDec = new ArrayList<String>(Arrays.asList("主播认证", "传媒公司/工会认证",
-            "消息提醒", "设置"));
+            "消息提醒", "联系我们","设置"));
     private TextView tvGuanzhu;
     private TextView tvFensi;
     private ListView lvWode;
@@ -93,11 +94,11 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
                     case 1:
                         startActivity(GongHuiRenZhengActivity.class);
                         break;
-                    case 2:
-                        //  startActivity(ZhuBoXinXiActivity.class);
+                    case 3:
+                          startActivity(LianxiwomenActivity.class);
                         break;
 
-                    case 3:
+                    case 4:
                         startActivity(SettingActivity.class);
                         break;
 
@@ -300,7 +301,7 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
 
         @Override
         public void refreshView(String data, int position) {
-            if (position == 2 || position == 3 || position == 4) {
+            if (position == 2 || position == 3 || position == 4||position==5) {
                 line.setVisibility(View.VISIBLE);
             } else {
                 line.setVisibility(View.GONE);
@@ -308,7 +309,7 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
             if (position == 2) {
                 sw_tixing.setVisibility(View.VISIBLE);
                 sw_tixing.setChecked(switchc);
-            } else {
+            } else  {
                 sw_tixing.setVisibility(View.GONE);
             }
             tvwodeitemdec.setText(data);

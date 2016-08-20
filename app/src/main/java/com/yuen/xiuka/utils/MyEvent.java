@@ -20,6 +20,16 @@ public class MyEvent {
 
     public String mTargetId;
 
+    public String getmPush() {
+        return mPush;
+    }
+
+    public void setmPush(String mPush) {
+        this.mPush = mPush;
+    }
+
+    public String mPush;
+
     public String getAdd() {
         return add;
     }

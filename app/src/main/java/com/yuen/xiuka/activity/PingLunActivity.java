@@ -66,6 +66,7 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
 
     private String xiuquanid;
     private Button btn_fanhui;
+    private PINGLUNBean.DataBean pinglunBeanData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,7 +185,7 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
                 // Toast.makeText(PingLunActivity.this, result, Toast.LENGTH_SHORT).show();
                 Gson gson = new Gson();
                 PINGLUNBean pinglunBean = gson.fromJson(result, PINGLUNBean.class);
-                PINGLUNBean.DataBean pinglunBeanData = pinglunBean.getData();
+                pinglunBeanData = pinglunBean.getData();
                 pinglunBeanDataComments = pinglunBeanData.getComments();
 
                 myAdapter = new MyAdapter(pinglunBeanDataComments);
@@ -216,6 +217,7 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
         switch (v.getId()) {
             case R.id.btn_pinglun:
                 submit();
+
                 break;
             case R.id.btn_fanhui:
                 finish();
@@ -225,7 +227,7 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
 
     private void submit() {
         // validate
-        String pinglun = et_pinglun.getText().toString().trim();
+        final String pinglun = et_pinglun.getText().toString().trim();
         if (TextUtils.isEmpty(pinglun)) {
             Toast.makeText(this, "发评论", Toast.LENGTH_SHORT).show();
             return;
@@ -242,6 +244,7 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
                 //   Toast.makeText(context, result, Toast.LENGTH_LONG).show();
 
                 xiuquan(xiuquanid);
+                Jpush(pinglun);
                 et_pinglun.clearFocus();
                 et_pinglun.setText("");
             }
@@ -263,7 +266,41 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
         });
 
     }
+    private void Jpush(String content) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("p_id", SPUtil.getInt("uid")+"");
+        map.put("bp_id", pinglunBeanData.getUid());
+        map.put("x_id", pinglunBeanData.getId());
+        map.put("p_content", content);
+        map.put("type", "2");//2是评论3是发布
+        map.put("p_name", SPUtil.getString("name"));
+        XUtils.xUtilsPost(URLProvider.JPUSHCOMMETURL, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                     Toast.makeText(context, "JPUSHCOMMETURL", Toast.LENGTH_SHORT).show();
+                //     Log.d("HomeFragment", "---JPUSH_URL------" + result);
+                     /*   Gson gson = new Gson();
+                        BaseBean baseBean = gson.fromJson(result, BaseBean.class);
+                        Toast.makeText(context, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+*/
+            }
 
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
     class GridOnclick implements View.OnClickListener {
 
         private List<XiuQuanDataBean.ImageBean> imageBeanList;
@@ -282,7 +319,6 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
 
         @Override
         public void onClick(View v) {
-
             Intent intent = new Intent(context, PagersImgActivity.class);
             intent.putExtra("data", (Serializable) imageBeanList);
             intent.putExtra("index", index);
@@ -333,8 +369,6 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
                     startActivity(intent);
                 }
             });
-
-
             x.image().bind(rootlistuserimg, URLProvider.BaseImgUrl + data.getImg(), MyApplication.options);
         }
     }

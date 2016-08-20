@@ -12,12 +12,11 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.yuen.baselib.utils.AppUtil;
 import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.baselib.utils.ToastUtil;
+import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.XiuQuanDataBean;
 import com.yuen.xiuka.utils.URLProvider;
@@ -57,14 +56,6 @@ public class PagersImgActivity extends com.yuen.xiuka.activity.BaseActivity {
         mImageViews = new PhotoView[data.size()];
         for (int i = 0; i < mImageViews.length; i++) {
             final PhotoView imageView = new PhotoView(this);
-            // imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
             mImageViews[i] = imageView;
         }
 
@@ -121,7 +112,6 @@ public class PagersImgActivity extends com.yuen.xiuka.activity.BaseActivity {
                             dialog.dismiss();
                             saveImg(URLProvider.BaseImgUrl + data.get(position).getImg());
                         }
-
                     });
                     dialog.show();
 
@@ -131,12 +121,15 @@ public class PagersImgActivity extends com.yuen.xiuka.activity.BaseActivity {
             });
 
 //            ImageLoader.getInstance().displayImage(urls.get(position), imageView, options);
-            Glide.with(imageView.getContext())
+         /*   Glide.with(imageView.getContext())
                     .load(URLProvider.BaseImgUrl + data.get(position).getImg())
                     .override(AppUtil.getWidth(PagersImgActivity.this) / 2, AppUtil.getHeigth(PagersImgActivity.this) / 2)
                     .crossFade()
                     .fitCenter()
-                    .into(imageView);
+                    .into(imageView);*/
+
+            x.image().bind(imageView,URLProvider.BaseImgUrl + data.get(position).getImg(), MyApplication.optionsxq2);
+
             container.addView(imageView);
             return imageView;
 

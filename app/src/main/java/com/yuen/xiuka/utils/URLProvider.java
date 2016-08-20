@@ -7,7 +7,8 @@ public class URLProvider {
     public static String BaseUrl = "http://139.196.175.144/xiuka/jiekou/";
     public static String BaseImgUrl = "http://139.196.175.144/xiuka/upload/";
     public static String BaseImgUrl2 = "http://139.196.175.144/xiuka/uploads/";
-    public static String JPUSHURL = "http://139.196.175.144/xiuka/Jpush/doadd";
+    public static String JPUSHDOADDURL = "http://139.196.175.144/xiuka/Jpush/doadd";
+    public static String JPUSHCOMMETURL = "http://139.196.175.144/xiuka/Jpush/comment";
   //  public static String BaseImgUrl = "http://192.168.0.123/xiuka/upload/";
 
     public static String DUANXIN = BaseUrl + "duanxin";
@@ -42,5 +43,6 @@ public class URLProvider {
     public static String SAVE_TOKEN = BaseUrl + "save_token";
     public static String LUNBO = BaseUrl + "lunbo";
     public static String DEL = BaseUrl + "del";
+    public static String COMMENTSOTHER = BaseUrl + "commentsother";
 
 }

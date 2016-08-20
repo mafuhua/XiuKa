@@ -219,7 +219,6 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                         if (!isRefresh) {
                             isRefresh = true;
                             page = 0;
-
                             mHandler.sendEmptyMessage(2);
                         }
                     }
@@ -237,7 +236,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
             @Override
             public void onSuccess(String result) {
                 System.out.println("2222222222222222" + result);
-
+                mHandler.sendEmptyMessage(1);
                 Gson gson = new Gson();
               /*  if (!result.contains("data")){
                     Toast.makeText(context, "没有更多数据了", Toast.LENGTH_SHORT).show();
@@ -252,7 +251,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                 }
                 xiuquanListData.addAll(xiuquanBeanData);
                 myAdapter.notifyDataSetChanged();
-                mHandler.sendEmptyMessage(1);
+
             }
 
             @Override

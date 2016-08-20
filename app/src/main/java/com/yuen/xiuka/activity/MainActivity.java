@@ -6,7 +6,9 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -39,6 +41,7 @@ import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.FENSIBean;
+import com.yuen.xiuka.beans.PushBean;
 import com.yuen.xiuka.beans.TokenBean;
 import com.yuen.xiuka.fragment.FaXianFragment;
 import com.yuen.xiuka.fragment.FragmentFractory;
@@ -49,6 +52,7 @@ import com.yuen.xiuka.utils.MyUtils;
 import com.yuen.xiuka.utils.PersonTable;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
+import com.yuen.xiuka.xiuquan.MyXiuQuanActivity;
 import com.yuen.xiuka.xiuquan.XiuQuanFragment2;
 
 import org.xutils.DbManager;
@@ -112,29 +116,55 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      * Notification的ID
      */
     public static int notifyId = 100;
+    private Intent resultIntent;
     /**
      * 初始化通知栏
+     * @param pushBean
      */
-    public static void initNotify() {
+    public static void initNotify(PushBean pushBean) {
         mNotificationManager = (NotificationManager) MyApplication.context.getSystemService(NOTIFICATION_SERVICE);
         mBuilder = new NotificationCompat.Builder(MyApplication.context);
-        mBuilder.setContentTitle("小而美")
-                .setContentText("您有一条新消息")
-                .setAutoCancel(true)
+        Intent resultIntent;
+        if (pushBean.getType().equals("1")) {
+            mBuilder.setContentTitle(pushBean.getName())
+                    .setContentText(pushBean.getContent())
+                    .setAutoCancel(true)
 //				.setNumber(number)//显示数量
-                .setTicker("小而美:您有一条新消息")//通知首次出现在通知栏，带上升动画效果的
-                .setWhen(System.currentTimeMillis())//通知产生的时间，会在通知信息里显示
-                .setPriority(Notification.PRIORITY_DEFAULT)//设置该通知优先级
+                    .setTicker("秀咖:您有一条新消息")//通知首次出现在通知栏，带上升动画效果的
+                    .setWhen(System.currentTimeMillis())//通知产生的时间，会在通知信息里显示
+                    .setPriority(Notification.PRIORITY_DEFAULT)//设置该通知优先级
 //				.setAutoCancel(true)//设置这个标志当用户单击面板就可以让通知将自动取消
-                .setOngoing(false)//ture，设置他为一个正在进行的通知。他们通常是用来表示一个后台任务,用户积极参与(如播放音乐)或以某种方式正在等待,因此占用设备(如一个文件下载,同步操作,主动网络连接)
-                .setDefaults(Notification.DEFAULT_VIBRATE)//向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合：
-                //Notification.DEFAULT_ALL  Notification.DEFAULT_SOUND 添加声音 // requires VIBRATE permission
-                .setSmallIcon(R.drawable.xiuka);
-       /* Intent resultIntent = new Intent(MyApplication.context, ConvertalkActivity.class);
+                    .setOngoing(false)//ture，设置他为一个正在进行的通知。他们通常是用来表示一个后台任务,用户积极参与(如播放音乐)或以某种方式正在等待,因此占用设备(如一个文件下载,同步操作,主动网络连接)
+                    .setDefaults(Notification.DEFAULT_VIBRATE)//向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合：
+                    //Notification.DEFAULT_ALL  Notification.DEFAULT_SOUND 添加声音 // requires VIBRATE permission
+                    .setSmallIcon(R.drawable.ic_launcher);
+
+            resultIntent = new Intent(MyApplication.context, Pinlun2Activity.class);
+            resultIntent.putExtra("data", pushBean.getXid());
+
+        }else if (pushBean.getType().equals("0")) {
+            mBuilder.setContentTitle(pushBean.getFabuname())
+                    .setContentText(pushBean.getFabucontent())
+                    .setAutoCancel(true)
+//				.setNumber(number)//显示数量
+                    .setTicker("秀咖:您有一条新消息")//通知首次出现在通知栏，带上升动画效果的
+                    .setWhen(System.currentTimeMillis())//通知产生的时间，会在通知信息里显示
+                    .setPriority(Notification.PRIORITY_DEFAULT)//设置该通知优先级
+//				.setAutoCancel(true)//设置这个标志当用户单击面板就可以让通知将自动取消
+                    .setOngoing(false)//ture，设置他为一个正在进行的通知。他们通常是用来表示一个后台任务,用户积极参与(如播放音乐)或以某种方式正在等待,因此占用设备(如一个文件下载,同步操作,主动网络连接)
+                    .setDefaults(Notification.DEFAULT_VIBRATE)//向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合：
+                    //Notification.DEFAULT_ALL  Notification.DEFAULT_SOUND 添加声音 // requires VIBRATE permission
+                    .setSmallIcon(R.drawable.ic_launcher);
+
+            resultIntent = new Intent(MyApplication.context, MyXiuQuanActivity.class);
+            resultIntent.putExtra("id", pushBean.getFabuid());
+            resultIntent.putExtra("name", pushBean.getFabuname());
+        }
+
         resultIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         resultIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(MyApplication.context, 0, resultIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-        mBuilder.setContentIntent(pendingIntent);*/
+        mBuilder.setContentIntent(pendingIntent);
         mNotificationManager.notify(notifyId, mBuilder.build());
     }
     @Override
@@ -169,7 +199,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         initView();
         loadData();
-        hahha();
+       // hahha();
 
     }
 
@@ -205,7 +235,10 @@ public void hahha(){
                 getToken();
                 break;
             case NOTIFICATION_PINGLUN:
-                initNotify();
+                String getmPush = event.getmPush();
+                Gson gson = new Gson();
+                PushBean pushBean = gson.fromJson(getmPush, PushBean.class);
+                initNotify(pushBean);
                 break;
             case REFRESH_LIAOTIAN:
                 int visibility = xiaoxidian.getVisibility();

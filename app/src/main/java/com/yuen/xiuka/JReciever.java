@@ -61,8 +61,9 @@ public class JReciever extends BroadcastReceiver {
         String message = bundle.getString(JPushInterface.EXTRA_ALERT);
         Log.d(TAG, "message : " + message);
         String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-        EventBus.getDefault().post(
-                new MyEvent(MyEvent.Event.NOTIFICATION_PINGLUN));
+        MyEvent myEvent = new MyEvent(MyEvent.Event.NOTIFICATION_PINGLUN);
+        myEvent.setmPush(extras);
+        EventBus.getDefault().post(myEvent);
         Log.d(TAG, "extras : " + extras);
     }
 

@@ -308,13 +308,14 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
     }
     private void Jpush(String content) {
         HashMap<String, String> map = new HashMap<>();
-        map.put("uid", SPUtil.getInt("uid")+"");
-        map.put("content", content);
-        map.put("name", SPUtil.getString("name"));
-        XUtils.xUtilsPost(URLProvider.JPUSHURL, map, new Callback.CommonCallback<String>() {
+        map.put("c_id", SPUtil.getInt("uid")+"");
+        map.put("c_content", content);
+        map.put("type", "3");//2是评论3是发布
+        map.put("c_name", SPUtil.getString("name"));
+        XUtils.xUtilsPost(URLProvider.JPUSHCOMMETURL, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-           //     Toast.makeText(context, "JPUSH_URL", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "JPUSH_URL", Toast.LENGTH_SHORT).show();
            //     Log.d("HomeFragment", "---JPUSH_URL------" + result);
                      /*   Gson gson = new Gson();
                         BaseBean baseBean = gson.fromJson(result, BaseBean.class);

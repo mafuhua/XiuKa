@@ -188,8 +188,10 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
         mixlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+              //  Intent intent = new Intent(context, Pinlun2Activity.class);
                 Intent intent = new Intent(context, PingLunActivity.class);
                 intent.putExtra("data", xiuquanListData.get(position-1));
+               // intent.putExtra("data", xiuquanListData.get(position-1).getId());
                 context.startActivity(intent);
             }
         });
@@ -253,7 +255,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
         XUtils.xUtilsPost(URLProvider.LOOK_MY_CIRCLE, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                isRefresh = false;
+                mHandler.sendEmptyMessage(1);
                    // Toast.makeText(context,result, Toast.LENGTH_SHORT).show();
                 Gson gson = new Gson();
               /*  if (!result.contains("data")){
@@ -274,7 +276,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
                 }
 
                 myAdapter.notifyDataSetChanged();
-                mHandler.sendEmptyMessage(1);
+
             }
 
             @Override

@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.yuen.baselib.activity.BaseFragment;
 import com.yuen.baselib.utils.SPUtil;
 import com.yuen.xiuka.MyApplication;
@@ -24,6 +25,7 @@ import com.yuen.xiuka.activity.MainActivity;
 import com.yuen.xiuka.activity.PinglunListActivity;
 import com.yuen.xiuka.activity.WguanZhuConvertList;
 import com.yuen.xiuka.beans.ConverTListViewHolder;
+import com.yuen.xiuka.beans.PushBean;
 import com.yuen.xiuka.utils.MyEvent;
 import com.yuen.xiuka.utils.MyUtils;
 import com.yuen.xiuka.utils.PersonTable;
@@ -63,11 +65,19 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
     private Button btn_fanhui;
     private TextView tv_titlecontent;
     private DbManager db;
+    private boolean unreadMessage;
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(android.os.Message msg) {
             rongIMClient = RongIM.getInstance().getRongIMClient();
             getListData();
+            for (int i = 0; i < WguanzhuList.size(); i++) {
+                int unreadMessageCount = WguanzhuList.get(i).getUnreadMessageCount();
+                if (unreadMessageCount > 0) {
+                    unreadMessage = true;
+                    break;
+                }
+            }
             UserInfo userInfo = msg.getData().getParcelable("user");
             if (userInfo != null) {
                 PersonTable person = new PersonTable();
@@ -87,10 +97,55 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
             MyEvent myEvent = new MyEvent(MyEvent.Event.REFRESH_LIAOTIAN);
             myEvent.setGuanzhuList(WguanzhuList);
             EventBus.getDefault().post(
-                   myEvent);
+                    myEvent);
             return true;
         }
     });
+    private boolean pinglundian;
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        boolean registered = EventBus.getDefault().isRegistered(this);
+        if (registered) {
+            EventBus.getDefault().unregister(this);//反注册EventBus
+        }
+
+    }
+
+    public void onEventMainThread(MyEvent event) {
+        MyEvent.Event eventEvent = event.getEvent();
+        switch (eventEvent) {
+
+            case NOTIFICATION_PINGLUN:
+                String getmPush = event.getmPush();
+                Gson gson = new Gson();
+                PushBean pushBean = gson.fromJson(getmPush, PushBean.class);
+                if (pushBean.getTxt().getType().equals("2")) {
+                    pinglundian = true;
+                    newAdapter.notifyDataSetChanged();
+                }
+                //    initNotify(pushBean);
+                break;
+            case NOTIFICATION_PINGLUNDIAN:
+                    pinglundian = false;
+                    newAdapter.notifyDataSetChanged();
+                //    initNotify(pushBean);
+                break;
+
+        }
+
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        boolean registered = EventBus.getDefault().isRegistered(this);
+        if (!registered) {
+            EventBus.getDefault().register(this);
+        }
+    }
 
     @Override
     public View initView() {
@@ -114,10 +169,12 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
                 if (position == 0) {
                     startActivity(GongGaoActivity.class);
                 } else if (position == 1) {
+                    pinglundian = false;
                     Intent intent = new Intent(getActivity(), PinglunListActivity.class);
-                 //   intent.putExtra("list", (Serializable) WguanzhuList);
+                    //   intent.putExtra("list", (Serializable) WguanzhuList);
                     startActivity(intent);
-                }  else if (position == 2) {
+                } else if (position == 2) {
+                    unreadMessage = false;
                     Intent intent = new Intent(getActivity(), WguanZhuConvertList.class);
                     intent.putExtra("list", (Serializable) WguanzhuList);
                     startActivity(intent);
@@ -258,9 +315,9 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
                 return 0;
             } else if (position == 1) {
                 return 1;
-            } else  if(position == 2) {
+            } else if (position == 2) {
                 return 2;
-            }else {
+            } else {
                 return 3;
             }
 
@@ -291,6 +348,11 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
                     viewHolder.time.setVisibility(View.GONE);
                     viewHolder.content.setVisibility(View.GONE);
                     viewHolder.icon.setBackgroundResource(R.drawable.pinglunlist);
+                    if (pinglundian) {
+                        viewHolder.pinglundian.setVisibility(View.VISIBLE);
+                    } else {
+                        viewHolder.pinglundian.setVisibility(View.GONE);
+                    }
                     break;
                 case 2:
                     viewHolder.name.setText("未关注人的消息");
@@ -298,6 +360,11 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
                     viewHolder.time.setVisibility(View.GONE);
                     viewHolder.content.setVisibility(View.GONE);
                     viewHolder.icon.setBackgroundResource(R.drawable.weiguanzbhu);
+                    if (unreadMessage) {
+                        viewHolder.pinglundian.setVisibility(View.VISIBLE);
+                    } else {
+                        viewHolder.pinglundian.setVisibility(View.GONE);
+                    }
                     break;
                 case 3:
                     position -= 3;

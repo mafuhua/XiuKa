@@ -58,7 +58,7 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
             EventBus.getDefault().register(this);
         }
     }
-
+    private List<String> targetIds = new ArrayList<>();
     public void onEventMainThread(MyEvent event) {
         MyEvent.Event eventEvent = event.getEvent();
         switch (eventEvent) {
@@ -70,6 +70,7 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
                 break;
             case REFRESH_DIAN:
                 targetId = event.getmTargetId();
+                targetIds.add(targetId);
                 newAdapter.notifyDataSetChanged();
                 //  Toast.makeText(WguanZhuConvertList.this, "onEventM-----", Toast.LENGTH_LONG).show();
                 break;
@@ -255,15 +256,14 @@ public class WguanZhuConvertList extends AppCompatActivity implements View.OnCli
 
             } else {
                 viewHolder.content.setText("");
-
             }
 
-            if (guanzhuList.get(position).getUnreadMessageCount() < 1) {
+         /*   if (guanzhuList.get(position).getUnreadMessageCount() < 1||!targetIds.contains(guanzhuList.get(position).getTargetId())) {
                 viewHolder.count.setVisibility(View.GONE);
             } else {
                 viewHolder.count.setText(guanzhuList.get(position).getUnreadMessageCount() + "");
                 viewHolder.count.setVisibility(View.VISIBLE);
-            }
+            }*/
             if (MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()) != null) {
                 viewHolder.name.setText(MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()).getName());
                 x.image().bind(viewHolder.icon, MainActivity.userinfomap.get(guanzhuList.get(position).getTargetId()).getImg(), MyApplication.optionscache);

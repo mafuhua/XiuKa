@@ -315,7 +315,7 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
         XUtils.xUtilsPost(URLProvider.JPUSHCOMMETURL, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Toast.makeText(context, "JPUSH_URL", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(context, "JPUSH_URL", Toast.LENGTH_SHORT).show();
            //     Log.d("HomeFragment", "---JPUSH_URL------" + result);
                      /*   Gson gson = new Gson();
                         BaseBean baseBean = gson.fromJson(result, BaseBean.class);

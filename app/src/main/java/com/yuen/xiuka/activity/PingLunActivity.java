@@ -277,7 +277,7 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
         XUtils.xUtilsPost(URLProvider.JPUSHCOMMETURL, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                     Toast.makeText(context, "JPUSHCOMMETURL", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
                 //     Log.d("HomeFragment", "---JPUSH_URL------" + result);
                      /*   Gson gson = new Gson();
                         BaseBean baseBean = gson.fromJson(result, BaseBean.class);

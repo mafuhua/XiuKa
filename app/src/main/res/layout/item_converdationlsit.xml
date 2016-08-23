@@ -28,6 +28,14 @@
         android:textSize="12sp"
         android:layout_toLeftOf="@+id/name"
         android:background="@drawable/shape_group_bg"/>
+    <View
+        android:id="@+id/pinglundian"
+        android:layout_width="10dp"
+        android:visibility="gone"
+        android:layout_height="10dp"
+        android:layout_toLeftOf="@+id/name"
+        android:background="@drawable/shape_group_bg"
+        android:layout_marginTop="8dp"/>
     <TextView
         android:id="@+id/content"
         android:layout_width="wrap_content"

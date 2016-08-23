@@ -67,7 +67,9 @@ public class MyEvent {
         REFRESH_LIAOTIAN,
         REFRESH_DIAN,
         REFRESH_ADD,
-        NOTIFICATION_PINGLUN
+        NOTIFICATION_PINGLUN,
+        NOTIFICATION_PINGLUNDIAN,
+        REFRESH_HOUTAIDIAN
 
     }
 

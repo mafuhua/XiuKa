@@ -162,7 +162,7 @@ public class GongHuiRenZhengActivity extends BaseActivity implements View.OnClic
             Toast.makeText(this, "组织机构代码不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (renzhengimgs.size()<2)return;
+        if (renzhengimgs.size()<1)return;
         addrenzheng(name, idcard);
         // TODO validate success, do something
 

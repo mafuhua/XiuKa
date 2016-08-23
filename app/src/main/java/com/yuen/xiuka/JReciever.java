@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.yuen.xiuka.activity.Pinlun2Activity;
+import com.yuen.xiuka.beans.PushBean;
 import com.yuen.xiuka.utils.MyEvent;
-
-import org.json.JSONObject;
+import com.yuen.xiuka.xiuquan.MyXiuQuanActivity;
 
 import cn.jpush.android.api.JPushInterface;
 import de.greenrobot.event.EventBus;
@@ -19,8 +21,6 @@ import de.greenrobot.event.EventBus;
  */
 public class JReciever extends BroadcastReceiver {
     private static final String TAG = "MyReceiver";
-
-
     private NotificationManager nm;
 
     @Override
@@ -37,7 +37,7 @@ public class JReciever extends BroadcastReceiver {
 
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
             Log.d(TAG, "接受到推送下来的自定义消息");
-            receivingNotification(context,bundle);
+        //    receivingNotification(context,bundle);
 
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
             Log.d(TAG, "接受到推送下来的通知");
@@ -51,8 +51,6 @@ public class JReciever extends BroadcastReceiver {
             Log.d(TAG, "Unhandled intent - " + intent.getAction());
         }
     }
-
-
 
 
     private void receivingNotification(Context context, Bundle bundle){
@@ -69,24 +67,24 @@ public class JReciever extends BroadcastReceiver {
 
     private void openNotification(Context context, Bundle bundle){
         String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-        String myValue = "";
-        try {
-            JSONObject extrasJson = new JSONObject(extras);
-            myValue = extrasJson.optString("myKey");
-        } catch (Exception e) {
-            Log.w(TAG, "Unexpected: extras is not a valid json", e);
-            return;
+        Gson gson = new Gson();
+        PushBean pushBean = gson.fromJson(extras, PushBean.class);
+        if (pushBean.getTxt().getType().equals("2")) {
+            MyEvent myEvent = new MyEvent(MyEvent.Event.NOTIFICATION_PINGLUNDIAN);
+            EventBus.getDefault().post(myEvent);
+            Intent mIntent  = new Intent(MyApplication.context, Pinlun2Activity.class);
+            mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+           // mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            mIntent.putExtra("data", pushBean.getTxt().getXid());
+            context.startActivity(mIntent);
+        } else if (pushBean.getTxt().getType().equals("3")) {
+            Intent mIntent  = new Intent(MyApplication.context, MyXiuQuanActivity.class);
+            mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //    mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            mIntent.putExtra("id", pushBean.getTxt().getFabuid());
+            mIntent.putExtra("name", pushBean.getTxt().getFabuname());
+            context.startActivity(mIntent);
         }
-       /* if (TYPE_THIS.equals(myValue)) {
-            Intent mIntent = new Intent(context, ThisActivity.class);
-            mIntent.putExtras(bundle);
-            mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(mIntent);
-        } else if (TYPE_ANOTHER.equals(myValue)){
-            Intent mIntent = new Intent(context, AnotherActivity.class);
-            mIntent.putExtras(bundle);
-            mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(mIntent);
-        }*/
+
     }
 }

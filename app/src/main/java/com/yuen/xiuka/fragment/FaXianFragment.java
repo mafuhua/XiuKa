@@ -19,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.yuen.baselib.activity.BaseFragment;
@@ -160,7 +159,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
                 eventAdd = event.getAdd();
                 quanguo.setText(event.getAdd());
                 getShouye(event.getAdd());
-                Toast.makeText(getActivity(), "onEventMainThread收到了消息" + event.getAdd(), Toast.LENGTH_LONG).show();
+              //  Toast.makeText(getActivity(), "onEventMainThread收到了消息" + event.getAdd(), Toast.LENGTH_LONG).show();
                 break;
         }
     }

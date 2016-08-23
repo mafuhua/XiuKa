@@ -63,6 +63,7 @@ import org.xutils.x;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.jpush.android.api.CustomPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
 import de.greenrobot.event.EventBus;
 import io.rong.imkit.RongIM;
@@ -78,6 +79,10 @@ import io.rong.message.TextMessage;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     public static HashMap<String, PersonTable> userinfomap = new HashMap<>();
+    /**
+     * Notification的ID
+     */
+    public static int notifyId = 100;
     private static NotificationManager mNotificationManager;
     private static NotificationCompat.Builder mBuilder;
     private FragmentManager supportFragmentManager;
@@ -102,8 +107,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private DbManager db;
     private List<PersonTable> persons;
     private View xiaoxidian;
-
-
     private RelativeLayout rlTankuang;
     private ImageView ivYugao;
     private ImageView ivbFabu;
@@ -112,20 +115,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private TextView fabu;
     private PopupWindow popupWindow;
     private View contentview;
-    /**
-     * Notification的ID
-     */
-    public static int notifyId = 100;
     private Intent resultIntent;
+    private long exitTime = 0;
+
     /**
      * 初始化通知栏
+     *
      * @param pushBean
      */
-    public static void initNotify(PushBean pushBean) {
+   /* public static void initNotify(PushBean pushBean) {
         mNotificationManager = (NotificationManager) MyApplication.context.getSystemService(NOTIFICATION_SERVICE);
         mBuilder = new NotificationCompat.Builder(MyApplication.context);
-        Intent resultIntent;
-        if (pushBean.getType().equals("1")) {
+        Intent resultIntent = null;
+        if (pushBean.getType().equals("2")) {
             mBuilder.setContentTitle(pushBean.getName())
                     .setContentText(pushBean.getContent())
                     .setAutoCancel(true)
@@ -142,7 +144,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             resultIntent = new Intent(MyApplication.context, Pinlun2Activity.class);
             resultIntent.putExtra("data", pushBean.getXid());
 
-        }else if (pushBean.getType().equals("0")) {
+        } else if (pushBean.getType().equals("3")) {
             mBuilder.setContentTitle(pushBean.getFabuname())
                     .setContentText(pushBean.getFabucontent())
                     .setAutoCancel(true)
@@ -160,13 +162,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             resultIntent.putExtra("id", pushBean.getFabuid());
             resultIntent.putExtra("name", pushBean.getFabuname());
         }
-
+        if (resultIntent == null) return;
         resultIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         resultIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(MyApplication.context, 0, resultIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         mBuilder.setContentIntent(pendingIntent);
         mNotificationManager.notify(notifyId, mBuilder.build());
     }
+*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
@@ -175,6 +178,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         JPushInterface.setAlias(context, SPUtil.getInt("uid") + "", null);
+        CustomPushNotificationBuilder builder = new
+                CustomPushNotificationBuilder(MainActivity.this,
+                R.layout.customer_notitfication_layout,
+                R.id.icon,
+                R.id.title,
+                R.id.text);
+        // 指定定制的 Notification Layout
+        builder.statusBarDrawable = R.drawable.ic_launcher;
+        // 指定最顶层状态栏小图标
+        builder.layoutIconDrawable = R.drawable.ic_launcher;
+        // 指定下拉状态栏时显示的通知图标
+        JPushInterface.setPushNotificationBuilder(0, builder);
+
         SysExitUtil.activityList.add(this);
         boolean registered = EventBus.getDefault().isRegistered(this);
         if (!registered) {
@@ -199,35 +215,36 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         initView();
         loadData();
-       // hahha();
+        // hahha();
 
     }
 
-public void hahha(){
-    XUtils.xUtilsGet("http://139.196.175.144/xiuka/jpush/comment"
-            , new Callback.CommonCallback<String>() {
-        @Override
-        public void onSuccess(String result) {
-            Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
-            Log.d("MainActivity", result);
-        }
+    public void hahha() {
+        XUtils.xUtilsGet("http://139.196.175.144/xiuka/jpush/comment"
+                , new Callback.CommonCallback<String>() {
+                    @Override
+                    public void onSuccess(String result) {
+                        Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+                        Log.d("MainActivity", result);
+                    }
 
-        @Override
-        public void onError(Throwable ex, boolean isOnCallback) {
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
 
-        }
+                    }
 
-        @Override
-        public void onCancelled(CancelledException cex) {
+                    @Override
+                    public void onCancelled(CancelledException cex) {
 
-        }
+                    }
 
-        @Override
-        public void onFinished() {
+                    @Override
+                    public void onFinished() {
 
-        }
-    });
-}
+                    }
+                });
+    }
+
     public void onEventMainThread(MyEvent event) {
         MyEvent.Event eventEvent = event.getEvent();
         switch (eventEvent) {
@@ -238,7 +255,7 @@ public void hahha(){
                 String getmPush = event.getmPush();
                 Gson gson = new Gson();
                 PushBean pushBean = gson.fromJson(getmPush, PushBean.class);
-                initNotify(pushBean);
+                //    initNotify(pushBean);
                 break;
             case REFRESH_LIAOTIAN:
                 int visibility = xiaoxidian.getVisibility();
@@ -246,6 +263,10 @@ public void hahha(){
                     xiaoxidian.setVisibility(View.VISIBLE);
                 }
                 //   Toast.makeText(this, "onEventMainThread收到了消息", Toast.LENGTH_LONG).show();
+                break;
+            case REFRESH_HOUTAIDIAN:
+                xiaoxidian.setVisibility(View.GONE);
+
                 break;
         }
        /* String msg = "onEventMainThread收到了消息：" + event.getMsg();
@@ -640,7 +661,6 @@ public void hahha(){
         //  rlTankuang.setVisibility(View.GONE);
     }
 
-
     private void getToken() {
         HashMap<String, String> map = new HashMap<>();
         map.put("uid", SPUtil.getInt("uid") + "");
@@ -709,11 +729,11 @@ public void hahha(){
             }
         });
     }
-    private long exitTime = 0;
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
-            if((System.currentTimeMillis()-exitTime) > 2000){
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
                 Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
             } else {
@@ -724,6 +744,7 @@ public void hahha(){
         }
         return super.onKeyDown(keyCode, event);
     }
+
     class NewAdapter extends ConversationListAdapter {
 
         private Context contextt;

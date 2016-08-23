@@ -71,6 +71,8 @@ public class ConversationActivity extends ActionBarActivity implements View.OnCl
         isReconnect(intent);
 
         initView();
+        EventBus.getDefault().post(
+                new MyEvent(MyEvent.Event.REFRESH_HOUTAIDIAN));
     }
 
     /**

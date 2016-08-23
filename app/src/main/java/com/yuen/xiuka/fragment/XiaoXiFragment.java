@@ -187,7 +187,6 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
                         } else {
                             RongIM.getInstance().startPrivateChat(getActivity(), conversation.getTargetId(), "");
                         }
-
                     }
                 }
             }

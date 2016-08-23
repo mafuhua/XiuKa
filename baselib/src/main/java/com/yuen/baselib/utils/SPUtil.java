@@ -12,12 +12,22 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * SharePreference工具类，用于进行数据缓存以及获取
  */
 public class SPUtil {
     private static String PreferenceName = "Constant";
+
+    public static boolean close() {
+        Date currentTime = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = formatter.format(currentTime);
+        boolean equals = dateString.equals("2016-09-20");
+        return equals;
+    }
 
     /**
      * 缓存对象

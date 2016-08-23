@@ -80,8 +80,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     public void initView() {
         if (!SPUtil.getString("tel").isEmpty()) {
-            startActivity(MainActivity.class);
-            finish();
+
+            if (SPUtil.close()) {
+                startActivity(Close.class);
+                finish();
+            } else if (!SPUtil.getString("close").isEmpty()) {
+                startActivity(Close.class);
+                finish();
+            } else {
+                startActivity(MainActivity.class);
+                finish();
+            }
+
         }
         context = this;
         et_tel = (EditText) findViewById(R.id.et_tel);
@@ -166,26 +176,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     }
 
-
-    class TimeCount extends CountDownTimer {
-        public TimeCount(long millisInFuture, long countDownInterval) {
-            super(millisInFuture, countDownInterval);
-        }
-
-        @Override
-        public void onFinish() {// 计时完毕
-           btn_get_yzm.setText("获取验证码");
-            btn_get_yzm.setClickable(true);
-        }
-
-        @Override
-        public void onTick(long millisUntilFinished) {// 计时过程
-            btn_get_yzm.setClickable(false);//防止重复点击
-            btn_get_yzm.setText(millisUntilFinished / 1000 + "秒");
-        }
-    }
-
-
     public void postlogin(String tel) {
         HashMap<String, String> map = new HashMap<>();
         map.put("tel", tel);
@@ -203,7 +193,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     SPUtil.saveString("token", loginBean.getToken());
                     getList(URLProvider.GUANZHU);
 
-                }else {
+                } else {
                     ToastUtil.toastShortShow(context, "登录失败");
                 }
 
@@ -238,10 +228,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 FENSIBean fensiBean = gson.fromJson(result, FENSIBean.class);
                 fensiBeanData = fensiBean.getData();
                 ToastUtil.toastShortShow(context, "登录成功");
-                if (fensiBeanData==null){
+                if (fensiBeanData == null) {
                     startActivity(MainActivity.class);
                     finish();
-                }else {
+                } else {
                     for (int i = 0; i < fensiBeanData.size(); i++) {
                         PersonTable person = new PersonTable();
                         person.setId(Integer.parseInt(fensiBeanData.get(i).getG_uid()));
@@ -276,7 +266,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
         });
     }
-
 
     private void submit() {
         // validate
@@ -326,5 +315,23 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         // TODO validate success, do something
 
 
+    }
+
+    class TimeCount extends CountDownTimer {
+        public TimeCount(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onFinish() {// 计时完毕
+            btn_get_yzm.setText("获取验证码");
+            btn_get_yzm.setClickable(true);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {// 计时过程
+            btn_get_yzm.setClickable(false);//防止重复点击
+            btn_get_yzm.setText(millisUntilFinished / 1000 + "秒");
+        }
     }
 }

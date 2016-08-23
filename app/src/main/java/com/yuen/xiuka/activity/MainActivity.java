@@ -4,9 +4,7 @@ package com.yuen.xiuka.activity;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
@@ -52,7 +50,6 @@ import com.yuen.xiuka.utils.MyUtils;
 import com.yuen.xiuka.utils.PersonTable;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
-import com.yuen.xiuka.xiuquan.MyXiuQuanActivity;
 import com.yuen.xiuka.xiuquan.XiuQuanFragment2;
 
 import org.xutils.DbManager;
@@ -60,6 +57,8 @@ import org.xutils.common.Callback;
 import org.xutils.ex.DbException;
 import org.xutils.x;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 

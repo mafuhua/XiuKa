@@ -338,7 +338,8 @@
         <activity android:name=".activity.PinglunListActivity" />
         <activity android:name=".activity.Pinlun2Activity" />
         <activity android:name=".xiuquan.PagesImg2Activity" />
-        <activity android:name=".activity.LianxiwomenActivity"></activity>
+        <activity android:name=".activity.LianxiwomenActivity" />
+        <activity android:name=".activity.Close"></activity>
     </application>
 
 </manifest>

@@ -32,6 +32,9 @@ import org.xutils.common.Callback;
 import org.xutils.ex.DbException;
 import org.xutils.x;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,6 +74,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         mShareAPI = UMShareAPI.get(this);
         DbManager.DaoConfig daoConfig = XUtils.getDaoConfig();
         db = x.getDb(daoConfig);
@@ -81,7 +85,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public void initView() {
         if (!SPUtil.getString("tel").isEmpty()) {
 
-            if (SPUtil.close()) {
+
+            if (time()) {
                 startActivity(Close.class);
                 finish();
             } else if (!SPUtil.getString("close").isEmpty()) {
@@ -110,6 +115,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         btn_weobo.setOnClickListener(this);
     }
 
+    public static Long dateToLong(String date) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date dates = null;
+        try {
+            dates = format.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return dates.getTime();
+    }
     @Override
     public void loadData() {
 
@@ -333,5 +348,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             btn_get_yzm.setClickable(false);//防止重复点击
             btn_get_yzm.setText(millisUntilFinished / 1000 + "秒");
         }
+    }
+    public boolean time(){
+        Date currentTime = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = formatter.format(currentTime);
+
+        Long aLong = dateToLong("2016-09-20");
+        Long aLong2 = dateToLong(dateString);
+        if (aLong2>aLong) {
+            return true;
+        }else {
+            return false;
+        }
+
     }
 }

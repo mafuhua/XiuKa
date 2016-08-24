@@ -14,13 +14,15 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
+
     }
+
     signingConfigs {
         keystore {
             keyAlias 'mafuhua'
             keyPassword '123456'
             storeFile file('src/main/doc/keystore.jks')
-         //   storeFile file('D:/AndroidStudioProjects/XiuKa/app/src/keystore.jks')
+            //   storeFile file('D:/AndroidStudioProjects/XiuKa/app/src/keystore.jks')
             storePassword '123456'
         }
     }
@@ -31,7 +33,7 @@ android {
             minifyEnabled false
             debuggable true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig    signingConfigs.keystore
+            signingConfig signingConfigs.keystore
         }
     }
     task nativeLibsToJar(type: Zip, description: "create a jar archive of the native libs") {
@@ -53,6 +55,7 @@ android {
         }
     }
 
+
 }
 android {
     useLibrary 'org.apache.http.legacy'
@@ -69,7 +72,7 @@ dependencies {
     compile(name: 'citypicker-release', ext: 'aar')
     compile(name: 'baselib-release', ext: 'aar')
     compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.android.support:recyclerview-v7:24.0.0-alpha1'
+    compile 'com.android.support:recyclerview-v7:23.3.0'
     compile 'org.xutils:xutils:3.3.34'
     compile 'com.facebook.rebound:rebound:0.3.8'
     compile 'com.nineoldandroids:library:2.4.0'
@@ -87,6 +90,8 @@ dependencies {
     compile files('libs/jpush-android-2.1.7.jar')
     compile 'co.lujun:androidtagview:1.0.3'
     compile files('libs/ShareSDK-SinaWeibo-2.7.4.jar')
+    compile files('libs/GetuiSDK2.9.0.0.jar')
+    compile files('libs/json_simple-1.1.jar')
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 }

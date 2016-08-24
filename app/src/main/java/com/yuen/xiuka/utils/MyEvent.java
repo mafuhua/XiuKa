@@ -30,6 +30,16 @@ public class MyEvent {
 
     public String mPush;
 
+    public String tmGTPush() {
+        return mGTPush;
+    }
+
+    public void setmGTPush(String mGTPush) {
+        this.mGTPush = mGTPush;
+    }
+
+    public String mGTPush;
+
     public String getAdd() {
         return add;
     }
@@ -68,6 +78,7 @@ public class MyEvent {
         REFRESH_DIAN,
         REFRESH_ADD,
         NOTIFICATION_PINGLUN,
+        NOTIFICATION_GT,
         NOTIFICATION_PINGLUNDIAN,
         REFRESH_HOUTAIDIAN
 

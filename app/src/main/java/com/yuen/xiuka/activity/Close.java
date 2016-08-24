@@ -11,5 +11,6 @@ public class Close extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_close);
+       // SPUtil.saveString("close", "13634870628");
     }
 }

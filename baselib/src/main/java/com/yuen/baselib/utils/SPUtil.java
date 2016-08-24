@@ -12,6 +12,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -27,6 +28,16 @@ public class SPUtil {
         String dateString = formatter.format(currentTime);
         boolean equals = dateString.equals("2016-09-20");
         return equals;
+    }
+    public static Long dateToLong(String date) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date dates = null;
+        try {
+            dates = format.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return dates.getTime();
     }
 
     /**

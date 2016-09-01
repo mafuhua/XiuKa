@@ -89,11 +89,11 @@ class XiuQuanAdapter extends BaseAdapter {
         x.image().bind(viewHolder.listuserimg, URLProvider.BaseImgUrl + xiuquanBeanData.get(position).getImg(), MyApplication.optionscache);
         //    Glide.with(context).load(URLProvider.BaseImgUrl + xiuquanBeanData.get(position).getImg()).centerCrop().error(R.drawable.cuowu).crossFade().into(viewHolder.listuserimg);
         imageBeanList = xiuquanBeanData.get(position).getImage();
-          /*  if (xiuquanBeanData.get(position).isZanflag()){
+            if (xiuquanBeanData.get(position).getIszan().equals("1")){
                 viewHolder.ic_dianzan.setBackgroundResource(R.drawable.dianzan_pressed);
             }else {
                 viewHolder.ic_dianzan.setBackgroundResource(R.drawable.dianzan_normal);
-            }*/
+            }
         if (imageBeanList.size() == 1) {
             viewHolder.showimage.setVisibility(View.VISIBLE);
             viewHolder.gridview.setVisibility(View.GONE);
@@ -188,14 +188,16 @@ class XiuQuanAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 String id = xiuquanBeanData.get(position).getId();
-                dianzanhefenxiang(URLProvider.ADD_ZAN,id);
-                if (xiuquanBeanData.get(position).isZanflag()) {
-                    xiuquanBeanData.get(position).setZanflag(false);
+
+                if (xiuquanBeanData.get(position).getIszan().equals("1")) {
+                    dianzanhefenxiang(URLProvider.DEL_ZAN,id);
+                    xiuquanBeanData.get(position).setIszan("0");
                     xiuquanBeanData.get(position).setZan(Integer.parseInt(xiuquanBeanData.get(position).getZan())-1 + "");
                   //  viewHolder.tv_dianzan.setText(xiuquanBeanData.get(position).getZan());
                    // viewHolder.ic_dianzan.setBackgroundResource(R.drawable.dianzan_normal);
                 } else {
-                    xiuquanBeanData.get(position).setZanflag(true);
+                    dianzanhefenxiang(URLProvider.ADD_ZAN,id);
+                    xiuquanBeanData.get(position).setIszan("1");
                     xiuquanBeanData.get(position).setZan(Integer.parseInt(xiuquanBeanData.get(position).getZan()) + 1 + "");
                   //  viewHolder.tv_dianzan.setText(Integer.parseInt(xiuquanBeanData.get(position).getZan()) + 1 + "");
                   //  viewHolder.ic_dianzan.setBackgroundResource(R.drawable.dianzan_pressed);
@@ -232,6 +234,7 @@ class XiuQuanAdapter extends BaseAdapter {
     private void dianzanhefenxiang(String url,String id) {
         HashMap<String, String> map = new HashMap<>();
         map.put("id", id);
+        map.put("uid", SPUtil.getInt("uid")+"");
         XUtils.xUtilsPost(url, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

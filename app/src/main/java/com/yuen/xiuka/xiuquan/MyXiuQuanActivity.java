@@ -103,6 +103,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
     private LinearLayout ll_bottom;
     private ImageView iv_huangwei;
     private ImageView iv_lanwei;
+    private TextView tv_fangjian;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +142,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
         header = (RelativeLayout) View.inflate(this, R.layout.layout_xiuquan_header, null);
         tv_fensi = (TextView) header.findViewById(R.id.tv_fensi);
         tv_guanzhu = (TextView) header.findViewById(R.id.tv_guanzhu);
+        tv_fangjian = (TextView) header.findViewById(R.id.tv_fangjian);
         tv_renzheng = (TextView) header.findViewById(R.id.tv_renzheng);
         tv_name = (TextView) header.findViewById(R.id.tv_user_name);
         iv_user_icon = (ImageView) header.findViewById(R.id.iv_user_icon);
@@ -328,7 +330,13 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
         }
         x.image().bind(iv_user_icon, URLProvider.BaseImgUrl + xiuquanBeanDatas.getImage(), MyApplication.options);
         x.image().bind(iv_bj, URLProvider.BaseImgUrl + xiuquanBeanDatas.getBj_image(), MyApplication.optionsxq);
-
+        if (xiuquanBeanDatas.getPlatformname().length() > 0&&xiuquanBeanDatas.getPlatformid().length()>0) {
+            tv_fangjian.setText("房间号：" + xiuquanBeanDatas.getPlatformname()+" 房间ID："+xiuquanBeanDatas.getPlatformid());
+        }else if (xiuquanBeanDatas.getPlatformname().length() > 0){
+            tv_fangjian.setText("房间号：" + xiuquanBeanDatas.getPlatformname());
+        }else if(xiuquanBeanDatas.getPlatformid().length() > 0){
+            tv_fangjian.setText("房间ID："+xiuquanBeanDatas.getPlatformid());
+        }
         if (xiuquanBeanDatas.getShifou_ren() == 0) {
             iv_lanwei.setVisibility(View.GONE);
         } else if (xiuquanBeanDatas.getShifou_ren() == 1) {

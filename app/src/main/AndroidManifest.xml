@@ -130,6 +130,7 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.umeng.socialize.editorpage.ShareActivity"
@@ -200,6 +201,7 @@
         <activity android:name=".activity.ZhuBoXinXiActivity" />
         <activity android:name=".activity.ZhuBoXiangXiActivity" />
         <activity android:name=".activity.EditUserActivity" />
+        <activity android:name=".activity.EditUserActivity2" />
         <activity android:name=".xiuquan.PagersImgActivity" />
         <activity android:name=".activity.PingLunActivity" />
         <activity android:name=".activity.ZhuBoFaBuActivity" />

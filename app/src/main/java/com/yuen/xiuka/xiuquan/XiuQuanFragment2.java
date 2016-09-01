@@ -82,6 +82,15 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
     private boolean refresh = false;
     private SwipeRefreshLayout swiperefresh;
     private int page = 0;
+    private File iconfile;
+    private boolean icon = false;
+    private File destDir;
+    private Bitmap iconphoto;
+    private XIUQUANBean.DatasBean xiuquanBeanDatas;
+    private ImageView iv_huangwei;
+    private ImageView iv_lanwei;
+    private boolean head = true;
+    private TextView tv_fangjian;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -91,7 +100,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
                     isRefresh = false;
                     swiperefresh.setRefreshing(false);
                     //adapter.notifyDataSetChanged();
-                  //  swiperefresh.setEnabled(false);
+                    //  swiperefresh.setEnabled(false);
                     break;
                 case 2:
                     Toast.makeText(context, "正在刷新", Toast.LENGTH_SHORT).show();
@@ -105,14 +114,6 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
             }
         }
     };
-    private File iconfile;
-    private boolean icon = false;
-    private File destDir;
-    private Bitmap iconphoto;
-    private XIUQUANBean.DatasBean xiuquanBeanDatas;
-    private ImageView iv_huangwei;
-    private ImageView iv_lanwei;
-    private boolean head = true;
 
     @Override
     public void onStart() {
@@ -139,6 +140,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         tv_fensi = (TextView) header.findViewById(R.id.tv_fensi);
         tv_guanzhu = (TextView) header.findViewById(R.id.tv_guanzhu);
         tv_renzheng = (TextView) header.findViewById(R.id.tv_renzheng);
+        tv_fangjian = (TextView) header.findViewById(R.id.tv_fangjian);
         tv_name = (TextView) header.findViewById(R.id.tv_user_name);
         iv_user_icon = (ImageView) header.findViewById(R.id.iv_user_icon);
         iv_huangwei = (ImageView) header.findViewById(R.id.iv_huangwei);
@@ -304,7 +306,13 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         }
         x.image().bind(iv_user_icon, URLProvider.BaseImgUrl + xiuquanDatas.getImage(), MyApplication.options);
         x.image().bind(iv_bj, URLProvider.BaseImgUrl + xiuquanDatas.getBj_image(), MyApplication.optionsxq);
-
+        if (xiuquanDatas.getPlatformname().length() > 0&&xiuquanDatas.getPlatformid().length()>0) {
+            tv_fangjian.setText("房间号：" + xiuquanDatas.getPlatformname()+" 房间ID："+xiuquanDatas.getPlatformid());
+        }else if (xiuquanDatas.getPlatformname().length() > 0){
+            tv_fangjian.setText("房间号：" + xiuquanDatas.getPlatformname());
+        }else if(xiuquanDatas.getPlatformid().length() > 0){
+            tv_fangjian.setText("房间ID："+xiuquanDatas.getPlatformid());
+        }
         if (xiuquanBeanDatas.getShifou_ren() == 0) {
             iv_lanwei.setVisibility(View.GONE);
         } else if (xiuquanBeanDatas.getShifou_ren() == 1) {
@@ -427,6 +435,7 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         switch (requestCode) {
             // 如果是直接从相册获取
             case 1:
+                if (data == null) return;
                 Uri data1 = data.getData();
                 getPhoneImage(data1);
                 break;

@@ -7,13 +7,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.yuen.baselib.utils.SPUtil;
 import com.yuen.baselib.utils.SysExitUtil;
-import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
-import com.yuen.xiuka.utils.URLProvider;
-
-import org.xutils.x;
 
 public class AnQuanActivity extends BaseActivity implements View.OnClickListener {
 
@@ -56,7 +51,7 @@ public class AnQuanActivity extends BaseActivity implements View.OnClickListener
         iv_shop_item_image.setOnClickListener(this);
         rl_phone = (RelativeLayout) findViewById(R.id.rl_phone);
         rl_phone.setOnClickListener(this);
-        x.image().bind(iv_user_icon, URLProvider.BaseImgUrl+ SPUtil.getString("icon"), MyApplication.options);
+       // x.image().bind(iv_user_icon, URLProvider.BaseImgUrl+ SPUtil.getString("icon"), MyApplication.options);
     }
 
     @Override

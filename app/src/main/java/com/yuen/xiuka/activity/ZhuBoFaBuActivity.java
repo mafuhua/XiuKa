@@ -376,6 +376,8 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
                 Gson gson = new Gson();
                 ImgBean imgBean = gson.fromJson(result, ImgBean.class);
                 if (ImageList.size() == 0) {
+                    EventBus.getDefault().post(
+                            new MyEvent(MyEvent.Event.REFRESH_XIUQUAN));
                     Toast.makeText(context,"发布"+ imgBean.getMsg(), Toast.LENGTH_SHORT).show();
                     if (mypDialog.isShowing()) {
                         mypDialog.dismiss();

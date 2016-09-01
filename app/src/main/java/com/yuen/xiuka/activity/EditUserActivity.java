@@ -95,7 +95,6 @@ public class EditUserActivity extends BaseActivity implements View.OnClickListen
             Toast.makeText(this, "内容不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
-
         // TODO validate success, do something
         HashMap<String, String> map = new HashMap<>();
         map.put(key, info);

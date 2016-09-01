@@ -89,6 +89,25 @@ public class XIUQUANBean implements Serializable{
         private String image;
         private String name;
         private String platform;
+        private String platformid;
+
+        public String getPlatformname() {
+            return platformname;
+        }
+
+        public void setPlatformname(String platformname) {
+            this.platformname = platformname;
+        }
+
+        public String getPlatformid() {
+            return platformid;
+        }
+
+        public void setPlatformid(String platformid) {
+            this.platformid = platformid;
+        }
+
+        private String platformname;
         private int shifou;
         private int shifou_ren;
         private String type;

@@ -130,10 +130,12 @@ public class MYCityPickerActivity extends AppCompatActivity implements View.OnCl
         searchBox = (EditText) findViewById(com.zaaach.citypicker.R.id.et_search);
         searchBox.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -173,12 +175,16 @@ public class MYCityPickerActivity extends AppCompatActivity implements View.OnCl
         backBtn.setOnClickListener(this);
     }
 
-    private void back(String city){
+    private void back(String city) {
         MyEvent myEvent = new MyEvent(MyEvent.Event.REFRESH_ADD);
         myEvent.setAdd(city);
         EventBus.getDefault().post(
                 myEvent);
-       // ToastUtils.showToast(this, "点击的城市：" + city);
+      /*  Intent intent = new Intent(this, ZhuBoListActivity.class);
+        intent.putExtra("add", city);
+        intent.putExtra("type","推荐");
+        startActivity(intent);*/
+        // ToastUtils.showToast(this, "点击的城市：" + city);
         finish();
 //        Intent data = new Intent();
 //        data.putExtra(KEY_PICKED_CITY, city);
@@ -188,7 +194,7 @@ public class MYCityPickerActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back:
                 finish();
                 break;

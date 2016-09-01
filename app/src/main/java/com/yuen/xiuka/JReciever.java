@@ -69,6 +69,12 @@ public class JReciever extends BroadcastReceiver {
 
     private void openNotification(Context context, Bundle bundle) {
         String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
+      /*  if (extras.length()<3){
+            Intent mIntent = new Intent(MyApplication.context, MainActivity.class);
+            mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(mIntent);
+            return;
+        }*/
         Gson gson = new Gson();
         PushBean pushBean = gson.fromJson(extras, PushBean.class);
         if (pushBean.getTxt().getType().equals("2")) {

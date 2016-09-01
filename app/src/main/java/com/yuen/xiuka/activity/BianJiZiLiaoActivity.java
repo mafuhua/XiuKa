@@ -173,6 +173,14 @@ public class BianJiZiLiaoActivity extends BaseActivity implements View.OnClickLi
                 } else if (position == 3) {
                     dialogsex();
 
+                }else if (position == 5) {
+                    Intent intent = new Intent(BianJiZiLiaoActivity.this, EditUserActivity2.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    intent.putExtra("data", mydata);
+                    intent.putExtra("position", position);
+                    intent.putExtra("key", (String) settingkey.get(position));
+                    startActivityForResult(intent, position);
+
                 } else if (position == 6) {
                     dialogxingzuo();
                 } else if (position == 7) {

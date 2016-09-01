@@ -510,7 +510,7 @@ public class FaXianFragment extends BaseFragment implements View.OnClickListener
             mrcPosition = i;
             //  Log.d("mafuhua", "mPosition****:" + mrcPosition);
             if (mrcPosition == mRCPosition) {
-                viewHolder.mTxt.setTextColor(Color.RED);
+                viewHolder.mTxt.setTextColor(Color.BLACK);
                 //  viewHolder.tv_line.setVisibility(View.VISIBLE);
             } else {
                 // viewHolder.tv_line.setVisibility(View.GONE);

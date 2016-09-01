@@ -38,6 +38,7 @@ public class URLProvider {
     public static String LOOK_MY_CIRCLE = BaseUrl + "look_my_circle";
     public static String ADD_BJ_IMAGE = BaseUrl + "add_bj_image";
     public static String ADD_ZAN = BaseUrl + "add_zan";
+    public static String DEL_ZAN = BaseUrl + "del_zan";
     public static String ADD_SHARE = BaseUrl + "add_share";
     public static String INDEX_READ = BaseUrl + "index_read";
     public static String SAVE_TOKEN = BaseUrl + "save_token";

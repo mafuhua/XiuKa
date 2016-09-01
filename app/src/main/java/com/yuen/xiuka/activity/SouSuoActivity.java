@@ -1,6 +1,7 @@
 package com.yuen.xiuka.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -26,6 +27,7 @@ import com.yuen.xiuka.beans.FENSIBean;
 import com.yuen.xiuka.utils.PersonTable;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
+import com.yuen.xiuka.xiuquan.MyXiuQuanActivity;
 
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
@@ -67,6 +69,7 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
         btn_search = (Button) findViewById(R.id.btn_search);
         btn_search.setOnClickListener(this);
         lv_guanzhu = (ListView) findViewById(R.id.lv_guanzhu);
+
     }
 
     @Override
@@ -177,12 +180,22 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
         }
 
         @Override
-        public void refreshView(final FENSIBean.DataBean data, int position) {
+        public void refreshView(final FENSIBean.DataBean data, final int position) {
             tvusername.setText(data.getName());
             //    Toast.makeText(context, data.getName(), Toast.LENGTH_SHORT).show();
             tvusercontent.setText(data.getQianming());
             x.image().bind(ivusericon, URLProvider.BaseImgUrl + data.getImage(), MyApplication.optionscache);
+            ivusericon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(SouSuoActivity.this, MyXiuQuanActivity.class);
+                    intent.putExtra("id", fensiBeanData.get(position).getUid());
+                    intent.putExtra("name", fensiBeanData.get(position).getName());
+                    startActivity(intent);
+                }
+            });
             cbguanzhu.setChecked(data.getGuanzhu() == 1 ? true : false);
+
             cbguanzhu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

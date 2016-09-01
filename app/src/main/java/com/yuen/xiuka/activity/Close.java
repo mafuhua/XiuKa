@@ -3,6 +3,7 @@ package com.yuen.xiuka.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.yuen.baselib.utils.SPUtil;
 import com.yuen.xiuka.R;
 
 public class Close extends AppCompatActivity {
@@ -11,6 +12,6 @@ public class Close extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_close);
-       // SPUtil.saveString("close", "13634870628");
+        SPUtil.saveString("close", "13634870628");
     }
 }

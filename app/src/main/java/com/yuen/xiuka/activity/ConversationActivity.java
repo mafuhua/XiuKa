@@ -8,12 +8,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yuen.baselib.utils.SPUtil;
 import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.utils.MyEvent;
+import com.yuen.xiuka.utils.PersonTable;
 import com.yuen.xiuka.utils.URLProvider;
 
 import java.util.Locale;
@@ -73,6 +75,8 @@ public class ConversationActivity extends ActionBarActivity implements View.OnCl
         initView();
         EventBus.getDefault().post(
                 new MyEvent(MyEvent.Event.REFRESH_HOUTAIDIAN));
+
+        RongIM.setUserInfoProvider(this, true);
     }
 
     /**
@@ -211,6 +215,14 @@ public class ConversationActivity extends ActionBarActivity implements View.OnCl
 
     @Override
     public UserInfo getUserInfo(String s) {
-        return new UserInfo(SPUtil.getInt("uid")+"",SPUtil.getString("name"), Uri.parse(URLProvider.BaseImgUrl+SPUtil.getString("icon")));
+        Toast.makeText(this, "****", Toast.LENGTH_SHORT).show();
+        for (PersonTable personTable : MainActivity.userinfomap.values()) {
+           if (personTable!=null){
+               Toast.makeText(this, "---", Toast.LENGTH_SHORT).show();
+               return new UserInfo(personTable.getId() + "", personTable.getName() + "", Uri.parse(personTable.getImg()));
+           }
+        }
+        return new UserInfo(SPUtil.getInt("uid") + "", SPUtil.getString("name"), Uri.parse(URLProvider.BaseImgUrl + SPUtil.getString("icon")));
     }
+
 }

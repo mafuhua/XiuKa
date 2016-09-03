@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yuen.baselib.utils.SPUtil;
 import com.yuen.baselib.utils.SysExitUtil;
@@ -215,14 +214,13 @@ public class ConversationActivity extends ActionBarActivity implements View.OnCl
 
     @Override
     public UserInfo getUserInfo(String s) {
-        Toast.makeText(this, "****", Toast.LENGTH_SHORT).show();
         for (PersonTable personTable : MainActivity.userinfomap.values()) {
-           if (personTable!=null){
-               Toast.makeText(this, "---", Toast.LENGTH_SHORT).show();
+           if (personTable!=null&&(personTable.getId()+"").equals(s)){
                return new UserInfo(personTable.getId() + "", personTable.getName() + "", Uri.parse(personTable.getImg()));
            }
         }
         return new UserInfo(SPUtil.getInt("uid") + "", SPUtil.getString("name"), Uri.parse(URLProvider.BaseImgUrl + SPUtil.getString("icon")));
+
     }
 
 }

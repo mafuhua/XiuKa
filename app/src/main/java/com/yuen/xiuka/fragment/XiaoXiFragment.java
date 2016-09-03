@@ -25,6 +25,7 @@ import com.yuen.xiuka.activity.MainActivity;
 import com.yuen.xiuka.activity.PinglunListActivity;
 import com.yuen.xiuka.activity.WguanZhuConvertList;
 import com.yuen.xiuka.beans.ConverTListViewHolder;
+import com.yuen.xiuka.beans.MYBean;
 import com.yuen.xiuka.beans.PushBean;
 import com.yuen.xiuka.utils.MyEvent;
 import com.yuen.xiuka.utils.MyUtils;
@@ -33,10 +34,12 @@ import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
 
 import org.xutils.DbManager;
+import org.xutils.common.Callback;
 import org.xutils.x;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
@@ -79,7 +82,7 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
                 }
             }
             UserInfo userInfo = msg.getData().getParcelable("user");
-            if (userInfo != null) {
+            if (userInfo != null&&userInfo.getPortraitUri().toString().length()>0) {
                 PersonTable person = new PersonTable();
                 person.setId(Integer.parseInt(userInfo.getUserId()));
                 person.setName(userInfo.getName());
@@ -93,6 +96,7 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
                 }*/
             } else {
                 newAdapter.notifyDataSetChanged();
+
             }
             MyEvent myEvent = new MyEvent(MyEvent.Event.REFRESH_LIAOTIAN);
             myEvent.setGuanzhuList(WguanzhuList);
@@ -102,6 +106,42 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
         }
     });
     private boolean pinglundian;
+    private MYBean.DataBean myBeanData;
+
+    public void my(String targetId) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("uid", targetId);
+        XUtils.xUtilsPost(URLProvider.MY, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Gson gson = new Gson();
+                MYBean myBean = gson.fromJson(result, MYBean.class);
+                myBeanData = myBean.getData();
+                PersonTable person = new PersonTable();
+                person.setId(Integer.parseInt(myBeanData.getUid()));
+                person.setName(myBeanData.getName());
+                person.setImg(URLProvider.BaseImgUrl+myBeanData.getImage());
+                MainActivity.userinfomap.put(myBeanData.getUid()+"", person);
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+
+    }
 
     @Override
     public void onDestroy() {
@@ -217,11 +257,13 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
                     PersonTable personTable = persons.get(j);
                     if (Integer.parseInt(conversation.getTargetId()) == (personTable.getId())) {
                         guanzhuList.add(conversation);
+
                         break;
                     } else if (j == persons.size() - 1) {
                         WguanzhuList.add(conversation);
                     }
                 }
+                my(conversation.getTargetId());
             }
 
         } catch (Exception e) {

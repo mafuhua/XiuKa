@@ -208,6 +208,7 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
                         person.setId(Integer.parseInt(data.getUid()));
                         person.setName(data.getName());
                         person.setImg(URLProvider.BaseImgUrl + data.getImage());
+                        MainActivity.userinfomap.put(data.getUid(), person);
                         try {
                             db.saveOrUpdate(person);
                         } catch (DbException e) {

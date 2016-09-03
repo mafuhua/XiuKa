@@ -25,6 +25,7 @@ import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.activity.FaBuActivity;
 import com.yuen.xiuka.activity.GuanZhuListActivity;
+import com.yuen.xiuka.activity.MainActivity;
 import com.yuen.xiuka.activity.PingLunActivity;
 import com.yuen.xiuka.activity.ZhuBoXiangXiActivity;
 import com.yuen.xiuka.beans.BaseBean;
@@ -454,6 +455,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
                     person.setId(Integer.parseInt(xiuquanBeanDatas.getUid()));
                     person.setName(xiuquanBeanDatas.getName());
                     person.setImg(URLProvider.BaseImgUrl + xiuquanBeanDatas.getImage());
+                    MainActivity.userinfomap.put(xiuquanBeanDatas.getUid(), person);
                     try {
                         db.saveOrUpdate(person);
                     } catch (DbException e) {

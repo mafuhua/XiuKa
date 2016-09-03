@@ -301,11 +301,11 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
 
         @Override
         public void refreshView(String data, int position) {
-            if (position == 2 || position == 3 || position == 4||position==5) {
+          /*  if (position == 2 || position == 3 || position == 4||position==5) {
                 line.setVisibility(View.VISIBLE);
             } else {
                 line.setVisibility(View.GONE);
-            }
+            }*/
             if (position == 2) {
                 sw_tixing.setVisibility(View.VISIBLE);
                 sw_tixing.setChecked(switchc);

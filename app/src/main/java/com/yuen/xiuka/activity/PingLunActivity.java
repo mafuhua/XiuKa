@@ -24,6 +24,7 @@ import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.PINGLUNBean;
 import com.yuen.xiuka.beans.XiuQuanDataBean;
+import com.yuen.xiuka.utils.MyEvent;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
 import com.yuen.xiuka.xiuquan.MyXiuQuanActivity;
@@ -37,6 +38,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 public class PingLunActivity extends BaseActivity implements View.OnClickListener {
 
@@ -247,6 +250,8 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
                 Jpush(pinglun);
                 et_pinglun.clearFocus();
                 et_pinglun.setText("");
+                EventBus.getDefault().post(
+                        new MyEvent(MyEvent.Event.REFRESH_XIUQUAN));
             }
 
             @Override

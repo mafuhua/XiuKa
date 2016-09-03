@@ -19,7 +19,7 @@
         android:textColor="#36D585"
         android:layout_width="match_parent"
         android:gravity="center_horizontal"
-        android:layout_height="20dp"/>
+        android:layout_height="30dp"/>
     <ImageView
         android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"

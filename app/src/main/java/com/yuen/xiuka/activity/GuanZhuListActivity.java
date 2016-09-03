@@ -208,6 +208,7 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
                                 person.setId(Integer.parseInt(data.getUid()));
                                 person.setName(data.getName());
                                 person.setImg(URLProvider.BaseImgUrl+data.getImage());
+                                MainActivity.userinfomap.put(data.getUid(), person);
                                 db.saveOrUpdate(person);
                             } catch (DbException e) {
                                 e.printStackTrace();
@@ -219,6 +220,7 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
                                 person.setId(Integer.parseInt(data.getG_uid()));
                                 person.setName(data.getName());
                                 person.setImg(URLProvider.BaseImgUrl+data.getImage());
+                                MainActivity.userinfomap.put(data.getUid(), person);
                                 db.saveOrUpdate(person);
                             } catch (DbException e) {
                                 e.printStackTrace();

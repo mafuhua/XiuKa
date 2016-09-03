@@ -166,11 +166,12 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:visibility="gone"
         android:background="@color/line" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:gravity="center_vertical"
         android:orientation="horizontal">
@@ -188,7 +189,7 @@
 
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="45dp"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/zhuangfa" />
 
@@ -254,6 +255,7 @@
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="10dp"
+        android:visibility="gone"
         android:layout_gravity="center"
-        android:background="@color/line" />
+        android:background="#99F5EFED" />
 </LinearLayout>

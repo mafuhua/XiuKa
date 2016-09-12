@@ -84,17 +84,36 @@
                 android:textColor="@drawable/color_radiobutton"
                 android:textSize="10sp" />
 
-            <RadioButton
-                android:id="@+id/rb_home_wode"
+
+            <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:button="@null"
-                android:drawableTop="@drawable/wode"
-                android:gravity="center"
-                android:text="我的"
-                android:textColor="@drawable/color_radiobutton"
-                android:textSize="10sp" />
+                android:layout_weight="1">
+
+                <View
+                    android:id="@+id/fensi"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/shape_group_bg"
+                    android:visibility="gone" />
+
+                <RadioButton
+                    android:id="@+id/rb_home_wode"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:button="@null"
+                    android:drawableTop="@drawable/wode"
+                    android:gravity="center"
+                    android:text="我的"
+                    android:textColor="@drawable/color_radiobutton"
+                    android:textSize="10sp" />
+
+            </RelativeLayout>
+
+
+
         </RadioGroup>
     </LinearLayout>
 

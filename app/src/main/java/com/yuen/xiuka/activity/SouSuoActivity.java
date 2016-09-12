@@ -203,6 +203,7 @@ public class SouSuoActivity extends BaseActivity implements View.OnClickListener
                     db = x.getDb(daoConfig);
                     if (cbguanzhu.isChecked()) {
                         addordelguanzhu(URLProvider.ADD_GUANZHU, data.getUid());
+                        MyApplication.Jpush(data.getUid());
                         data.setGuanzhu(1);
                         PersonTable person = new PersonTable();
                         person.setId(Integer.parseInt(data.getUid()));

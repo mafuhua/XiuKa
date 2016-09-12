@@ -10,6 +10,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.yuen.baselib.utils.SPUtil;
 import com.yuen.xiuka.activity.Close;
+import com.yuen.xiuka.activity.GuanZhuListActivity;
 import com.yuen.xiuka.activity.Pinlun2Activity;
 import com.yuen.xiuka.beans.PushBean;
 import com.yuen.xiuka.utils.MyEvent;
@@ -64,6 +65,12 @@ public class JReciever extends BroadcastReceiver {
         MyEvent myEvent = new MyEvent(MyEvent.Event.NOTIFICATION_PINGLUN);
         myEvent.setmPush(extras);
         EventBus.getDefault().post(myEvent);
+        MyEvent myEvent2 = new MyEvent(MyEvent.Event.REFRESH_FENSI);
+        myEvent2.setmPush(extras);
+        EventBus.getDefault().post(myEvent2);
+
+
+
         Log.d(TAG, "extras : " + extras);
     }
 
@@ -99,6 +106,13 @@ public class JReciever extends BroadcastReceiver {
             //    mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             mIntent.putExtra("id", pushBean.getTxt().getFabuid());
             mIntent.putExtra("name", pushBean.getTxt().getFabuname());
+            context.startActivity(mIntent);
+        }else if (pushBean.getTxt().getType().equals("4")) {
+            Intent mIntent = new Intent(MyApplication.context, GuanZhuListActivity.class);
+            mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            //    mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            mIntent.putExtra("data", "fensi");
+            mIntent.putExtra("uid", pushBean.getTxt().getBplid());
             context.startActivity(mIntent);
         }
 

@@ -117,6 +117,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private View contentview;
     private Intent resultIntent;
     private long exitTime = 0;
+    private View fensi;
 
     /**
      * 初始化通知栏
@@ -228,9 +229,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 getToken();
                 break;
             case NOTIFICATION_PINGLUN:
-                String getmPush = event.getmPush();
+              /*  String getmPush = event.getmPush();
                 Gson gson = new Gson();
-                PushBean pushBean = gson.fromJson(getmPush, PushBean.class);
+                PushBean pushBean = gson.fromJson(getmPush, PushBean.class);*/
                 //    initNotify(pushBean);
                 break;
             case NOTIFICATION_GT:
@@ -243,9 +244,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
                 //   Toast.makeText(this, "onEventMainThread收到了消息", Toast.LENGTH_LONG).show();
                 break;
+            case REFRESH_PINGLUNDIAN:
+                    xiaoxidian.setVisibility(View.VISIBLE);
+                //   Toast.makeText(this, "onEventMainThread收到了消息", Toast.LENGTH_LONG).show();
+                break;
+            case REFRESH_FENSI:
+                String getmPush = event.getmPush();
+                Gson gson = new Gson();
+                PushBean pushBean = gson.fromJson(getmPush, PushBean.class);
+                String type = pushBean.getTxt().getType();
+                if (type.equals("4")) {
+                    fensi.setVisibility(View.VISIBLE);
+                }
+
+                break;
             case REFRESH_HOUTAIDIAN:
                 xiaoxidian.setVisibility(View.GONE);
-
+                break;
+            case REFRESH_FENSIH:
+                fensi.setVisibility(View.GONE);
                 break;
         }
        /* String msg = "onEventMainThread收到了消息：" + event.getMsg();
@@ -318,10 +335,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         rg_home = (RadioGroup) findViewById(R.id.rg_home);
         xiaoxidian = findViewById(R.id.xiaoxidian);
+        fensi = findViewById(R.id.fensi);
         rg_home.setOnClickListener(this);
       /*  ivYugao.setOnClickListener(this);
         ivbFabu.setOnClickListener(this);
         ivQuxiao.setOnClickListener(this);*/
+
+        if (SPUtil.getInt("pinglun")==1){
+            xiaoxidian.setVisibility(View.VISIBLE);
+        }else {
+            xiaoxidian.setVisibility(View.GONE);
+        }
+        if (SPUtil.getInt("fensij")==1){
+            fensi.setVisibility(View.VISIBLE);
+        }else {
+            fensi.setVisibility(View.GONE);
+        }
         Drawable drawable = getResources().getDrawable(R.drawable.faxian);
         int dp = MyUtils.dip2px(context, 30);
         drawable.setBounds(0, 0, dp, dp);

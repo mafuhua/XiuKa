@@ -1,5 +1,6 @@
 package com.yuen.xiuka.beans;
 
+import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ public class ConverTListViewHolder {
             this.time = (TextView) rootView.findViewById(R.id.time);
             this.content = (TextView) rootView.findViewById(R.id.content);
             this.count = (TextView) rootView.findViewById(R.id.count);
+            count.setTextColor(Color.WHITE);
         }
 
     }

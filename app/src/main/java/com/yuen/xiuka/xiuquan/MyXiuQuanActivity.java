@@ -450,7 +450,7 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
                 }
                 if (xiuquanBeanDatas.getShifou()==0) {
                     addordelguanzhu(URLProvider.ADD_GUANZHU, xiuquanBeanDatas.getUid(), 1);
-
+                    MyApplication.Jpush(xiuquanBeanDatas.getUid());
                     PersonTable person = new PersonTable();
                     person.setId(Integer.parseInt(xiuquanBeanDatas.getUid()));
                     person.setName(xiuquanBeanDatas.getName());

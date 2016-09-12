@@ -75,11 +75,14 @@ public class MyEvent {
         REFRESH_XIUQUAN,
         GET_TOKEN,
         REFRESH_LIAOTIAN,
+        REFRESH_FENSI,
+        REFRESH_FENSIH,
         REFRESH_DIAN,
         REFRESH_ADD,
         NOTIFICATION_PINGLUN,
         NOTIFICATION_GT,
         NOTIFICATION_PINGLUNDIAN,
+        REFRESH_PINGLUNDIAN,
         REFRESH_HOUTAIDIAN
 
     }

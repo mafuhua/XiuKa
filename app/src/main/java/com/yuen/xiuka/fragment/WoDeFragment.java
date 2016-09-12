@@ -27,6 +27,8 @@ import com.yuen.xiuka.activity.LianxiwomenActivity;
 import com.yuen.xiuka.activity.RenZhengActivity;
 import com.yuen.xiuka.activity.SettingActivity;
 import com.yuen.xiuka.beans.MYBean;
+import com.yuen.xiuka.beans.PushBean;
+import com.yuen.xiuka.utils.MyEvent;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
 
@@ -38,6 +40,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.UserInfo;
@@ -47,7 +50,7 @@ import io.rong.imlib.model.UserInfo;
  */
 public class WoDeFragment extends BaseFragment implements View.OnClickListener {
     private List<String> wodeItemDec = new ArrayList<String>(Arrays.asList("主播认证", "传媒公司/工会认证",
-            "消息提醒", "联系我们","设置"));
+            "消息提醒", "联系我们", "设置"));
     private TextView tvGuanzhu;
     private TextView tvFensi;
     private ListView lvWode;
@@ -61,12 +64,56 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
     private TextView tv_user_name;
     private boolean switchc = true;
     private MyAdapter myAdapter;
+    private View fensi;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        boolean registered = EventBus.getDefault().isRegistered(this);
+        if (!registered) {
+            EventBus.getDefault().register(this);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        boolean registered = EventBus.getDefault().isRegistered(this);
+        if (registered) {
+            EventBus.getDefault().unregister(this);//反注册EventBus
+        }
+
+    }
+
+    public void onEventMainThread(MyEvent event) {
+        MyEvent.Event eventEvent = event.getEvent();
+        switch (eventEvent) {
+            case REFRESH_FENSI:
+                String getmPush = event.getmPush();
+                Gson gson = new Gson();
+                PushBean pushBean = gson.fromJson(getmPush, PushBean.class);
+                if (pushBean.getTxt().getType().equals("4")) {
+                    fensi.setVisibility(View.VISIBLE);
+                }
+                SPUtil.saveInt("fensij",1);
+                //    initNotify(pushBean);
+                break;
+            case REFRESH_FENSIH:
+                fensi.setVisibility(View.GONE);
+                SPUtil.saveInt("fensij",0);
+                break;
+        }
+        my();
+
+    }
+
 
     private void assignViews(View view) {
         context = getActivity();
         tvGuanzhu = (TextView) view.findViewById(R.id.tv_guanzhu);
         tvFensi = (TextView) view.findViewById(R.id.tv_fensi);
         lvWode = (ListView) view.findViewById(R.id.lv_wode);
+        fensi = view.findViewById(R.id.fensi);
         ll_guanzhu = (LinearLayout) view.findViewById(R.id.ll_guanzhu);
         layout_title_usericon = (LinearLayout) view.findViewById(R.id.layout_title_usericon);
         iv_user_icon = (ImageView) view.findViewById(R.id.iv_user_icon);
@@ -95,7 +142,7 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
                         startActivity(GongHuiRenZhengActivity.class);
                         break;
                     case 3:
-                          startActivity(LianxiwomenActivity.class);
+                        startActivity(LianxiwomenActivity.class);
                         break;
 
                     case 4:
@@ -105,6 +152,12 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
                 }
             }
         });
+        if (SPUtil.getInt("fensij")==1){
+            fensi.setVisibility(View.VISIBLE);
+        }else {
+            fensi.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -164,12 +217,12 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_fensi:
-                if (myBeanData==null)return;
-                startActivity(GuanZhuListActivity.class, "fensi",myBeanData.getUid());
+                if (myBeanData == null) return;
+                startActivity(GuanZhuListActivity.class, "fensi", myBeanData.getUid());
                 break;
             case R.id.ll_guanzhu:
-                if (myBeanData==null)return;
-                startActivity(GuanZhuListActivity.class, "guanzhu",myBeanData.getUid());
+                if (myBeanData == null) return;
+                startActivity(GuanZhuListActivity.class, "guanzhu", myBeanData.getUid());
                 break;
             case R.id.layout_title_usericon:
                 if (myBeanData == null) return;
@@ -209,7 +262,7 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
                 SPUtil.saveString("platform", myBeanData.getPlatform());
                 SPUtil.saveString("token", myBeanData.getToken());
                 SPUtil.saveString("type", myBeanData.getType());
-                RongIM.getInstance().setCurrentUserInfo(new UserInfo(SPUtil.getInt("uid")+"",SPUtil.getString("name"), Uri.parse(URLProvider.BaseImgUrl+SPUtil.getString("icon"))));
+                RongIM.getInstance().setCurrentUserInfo(new UserInfo(SPUtil.getInt("uid") + "", SPUtil.getString("name"), Uri.parse(URLProvider.BaseImgUrl + SPUtil.getString("icon"))));
                 //      Toast.makeText(context,"icon"+myBeanData.getImage(), Toast.LENGTH_LONG).show();
 
             }
@@ -309,7 +362,7 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
             if (position == 2) {
                 sw_tixing.setVisibility(View.VISIBLE);
                 sw_tixing.setChecked(switchc);
-            } else  {
+            } else {
                 sw_tixing.setVisibility(View.GONE);
             }
             tvwodeitemdec.setText(data);

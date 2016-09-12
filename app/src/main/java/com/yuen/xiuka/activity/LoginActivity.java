@@ -85,7 +85,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public void initView() {
         if (!SPUtil.getString("tel").isEmpty()) {
 
-
             if (time()) {
                 startActivity(Close.class);
                 finish();

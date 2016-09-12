@@ -15,14 +15,19 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.umeng.socialize.PlatformConfig;
 import com.yuen.baselib.ApplicationEx;
+import com.yuen.baselib.utils.SPUtil;
 import com.yuen.xiuka.galleryfinal.GlideImageLoader;
 import com.yuen.xiuka.galleryfinal.GlidePauseOnScrollListener;
+import com.yuen.xiuka.utils.URLProvider;
+import com.yuen.xiuka.utils.XUtils;
 
+import org.xutils.common.Callback;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.Locale;
 
 import cn.finalteam.galleryfinal.CoreConfig;
@@ -65,6 +70,40 @@ public class MyApplication extends ApplicationEx {
             }
         }
         return null;
+    }
+
+
+    public static void Jpush(String uid) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("bp_id", uid);
+        map.put("type", "4");//2是评论3是发布
+        map.put("p_name", SPUtil.getString("name"));
+        XUtils.xUtilsPost(URLProvider.JPUSHCOMMETURL, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                //  Toast.makeText(context, "JPUSH_URL", Toast.LENGTH_SHORT).show();
+                //     Log.d("HomeFragment", "---JPUSH_URL------" + result);
+                     /*   Gson gson = new Gson();
+                        BaseBean baseBean = gson.fromJson(result, BaseBean.class);
+                        Toast.makeText(context, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+*/
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     public static String sHA1(Context context) {

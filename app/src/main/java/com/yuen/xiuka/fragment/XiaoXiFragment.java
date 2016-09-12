@@ -27,6 +27,7 @@ import com.yuen.xiuka.activity.WguanZhuConvertList;
 import com.yuen.xiuka.beans.ConverTListViewHolder;
 import com.yuen.xiuka.beans.MYBean;
 import com.yuen.xiuka.beans.PushBean;
+import com.yuen.xiuka.beans.Shuzi;
 import com.yuen.xiuka.utils.MyEvent;
 import com.yuen.xiuka.utils.MyUtils;
 import com.yuen.xiuka.utils.PersonTable;
@@ -69,6 +70,8 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
     private TextView tv_titlecontent;
     private DbManager db;
     private boolean unreadMessage;
+    private boolean pinglundian;
+    private MYBean.DataBean myBeanData;
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(android.os.Message msg) {
@@ -82,7 +85,7 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
                 }
             }
             UserInfo userInfo = msg.getData().getParcelable("user");
-            if (userInfo != null&&userInfo.getPortraitUri().toString().length()>0) {
+            if (userInfo != null && userInfo.getPortraitUri().toString().length() > 0) {
                 PersonTable person = new PersonTable();
                 person.setId(Integer.parseInt(userInfo.getUserId()));
                 person.setName(userInfo.getName());
@@ -105,8 +108,7 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
             return true;
         }
     });
-    private boolean pinglundian;
-    private MYBean.DataBean myBeanData;
+    private int pinglunshuzi = 0;
 
     public void my(String targetId) {
         HashMap<String, String> map = new HashMap<>();
@@ -120,9 +122,40 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
                 PersonTable person = new PersonTable();
                 person.setId(Integer.parseInt(myBeanData.getUid()));
                 person.setName(myBeanData.getName());
-                person.setImg(URLProvider.BaseImgUrl+myBeanData.getImage());
-                MainActivity.userinfomap.put(myBeanData.getUid()+"", person);
+                person.setImg(URLProvider.BaseImgUrl + myBeanData.getImage());
+                MainActivity.userinfomap.put(myBeanData.getUid() + "", person);
 
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+
+    }
+
+    public void shuzi() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("uid", SPUtil.getInt("uid") + "");
+        XUtils.xUtilsPost(URLProvider.SHUZI, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("XiaoXiFragment", result);
+                Gson gson = new Gson();
+                Shuzi shuzi = gson.fromJson(result, Shuzi.class);
+                pinglunshuzi = shuzi.getShuzi();
+                newAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -156,7 +189,6 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
     public void onEventMainThread(MyEvent event) {
         MyEvent.Event eventEvent = event.getEvent();
         switch (eventEvent) {
-
             case NOTIFICATION_PINGLUN:
                 String getmPush = event.getmPush();
                 Gson gson = new Gson();
@@ -165,16 +197,25 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
                     pinglundian = true;
                     newAdapter.notifyDataSetChanged();
                 }
+                shuzi();
+                MyEvent myEvent3 = new MyEvent(MyEvent.Event.REFRESH_PINGLUNDIAN);
+                EventBus.getDefault().post(myEvent3);
+                SPUtil.saveInt("pinglun",1);
                 //    initNotify(pushBean);
                 break;
             case NOTIFICATION_PINGLUNDIAN:
-                    pinglundian = false;
-                    newAdapter.notifyDataSetChanged();
+                pinglundian = false;
+                pinglunshuzi = 0;
+
+               // Toast.makeText(getActivity(), "NOTIFICATION_PINGLUNDIAN", Toast.LENGTH_SHORT).show();
+                newAdapter.notifyDataSetChanged();
+                EventBus.getDefault().post(
+                        new MyEvent(MyEvent.Event.REFRESH_HOUTAIDIAN));
+                SPUtil.saveInt("pinglun",0);
                 //    initNotify(pushBean);
                 break;
 
         }
-
     }
 
 
@@ -210,6 +251,7 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
                     startActivity(GongGaoActivity.class);
                 } else if (position == 1) {
                     pinglundian = false;
+                    pinglunshuzi = 0;
                     Intent intent = new Intent(getActivity(), PinglunListActivity.class);
                     //   intent.putExtra("list", (Serializable) WguanzhuList);
                     startActivity(intent);
@@ -300,6 +342,7 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
     public void onResume() {
         super.onResume();
         getListData();
+        shuzi();
         newAdapter.notifyDataSetChanged();
     }
 
@@ -389,10 +432,11 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
                     viewHolder.time.setVisibility(View.GONE);
                     viewHolder.content.setVisibility(View.GONE);
                     viewHolder.icon.setBackgroundResource(R.drawable.pinglunlist);
-                    if (pinglundian) {
-                        viewHolder.pinglundian.setVisibility(View.VISIBLE);
+                    if (pinglundian || pinglunshuzi > 0) {
+                        viewHolder.count.setText(pinglunshuzi+"");
+                        viewHolder.count.setVisibility(View.VISIBLE);
                     } else {
-                        viewHolder.pinglundian.setVisibility(View.GONE);
+                        viewHolder.count.setVisibility(View.GONE);
                     }
                     break;
                 case 2:

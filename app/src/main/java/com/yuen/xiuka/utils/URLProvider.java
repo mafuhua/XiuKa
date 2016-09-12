@@ -46,5 +46,6 @@ public class URLProvider {
     public static String DEL = BaseUrl + "del";
     public static String ABOUTUS = BaseUrl + "aboutus";
     public static String COMMENTSOTHER = BaseUrl + "commentsother";
+    public static String SHUZI = BaseUrl + "shuzi";
 
 }

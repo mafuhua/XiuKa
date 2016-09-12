@@ -82,6 +82,8 @@ public class PingLunActivity extends BaseActivity implements View.OnClickListene
         initView();
      //   Toast.makeText(context, xiuquanid, Toast.LENGTH_SHORT).show();
         xiuquan(xiuquanid);
+        EventBus.getDefault().post(
+                new MyEvent(MyEvent.Event.NOTIFICATION_PINGLUNDIAN));
     }
 
     @Override

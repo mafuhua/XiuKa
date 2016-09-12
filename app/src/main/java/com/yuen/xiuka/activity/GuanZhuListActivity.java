@@ -20,6 +20,7 @@ import com.yuen.xiuka.MyApplication;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.BaseBean;
 import com.yuen.xiuka.beans.FENSIBean;
+import com.yuen.xiuka.utils.MyEvent;
 import com.yuen.xiuka.utils.PersonTable;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
@@ -32,6 +33,8 @@ import org.xutils.x;
 
 import java.util.HashMap;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 public class GuanZhuListActivity extends BaseActivity implements View.OnClickListener {
 
@@ -64,7 +67,8 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
             getList(URLProvider.GUANZHU, uid);
             tv_titlecontent.setText("关注");
         }
-
+        EventBus.getDefault().post(
+                new MyEvent(MyEvent.Event.REFRESH_FENSIH));
     }
 
     @Override
@@ -203,6 +207,7 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
                         //添加对粉丝的关注
                         if (stringExtra.equals("fensi")){
                             addordelguanzhu(URLProvider.ADD_GUANZHU,data.getUid());
+                            MyApplication.Jpush(data.getUid());
                             try {
                                 PersonTable person = new PersonTable();
                                 person.setId(Integer.parseInt(data.getUid()));
@@ -215,6 +220,7 @@ public class GuanZhuListActivity extends BaseActivity implements View.OnClickLis
                             }
                         }else if (stringExtra.equals("guanzhu")){
                             addordelguanzhu(URLProvider.ADD_GUANZHU,data.getG_uid());
+                            MyApplication.Jpush(data.getG_uid());
                             try {
                                 PersonTable person = new PersonTable();
                                 person.setId(Integer.parseInt(data.getG_uid()));

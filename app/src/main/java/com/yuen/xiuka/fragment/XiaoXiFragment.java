@@ -155,6 +155,11 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
                 Gson gson = new Gson();
                 Shuzi shuzi = gson.fromJson(result, Shuzi.class);
                 pinglunshuzi = shuzi.getShuzi();
+                if (pinglunshuzi>0){
+                    MyEvent myEvent3 = new MyEvent(MyEvent.Event.REFRESH_PINGLUNDIAN);
+                    EventBus.getDefault().post(myEvent3);
+                    SPUtil.saveInt("pinglun",1);
+                }
                 newAdapter.notifyDataSetChanged();
             }
 
@@ -196,11 +201,10 @@ public class XiaoXiFragment extends BaseFragment implements RongIM.UserInfoProvi
                 if (pushBean.getTxt().getType().equals("2")) {
                     pinglundian = true;
                     newAdapter.notifyDataSetChanged();
+                    shuzi();
+
                 }
-                shuzi();
-                MyEvent myEvent3 = new MyEvent(MyEvent.Event.REFRESH_PINGLUNDIAN);
-                EventBus.getDefault().post(myEvent3);
-                SPUtil.saveInt("pinglun",1);
+
                 //    initNotify(pushBean);
                 break;
             case NOTIFICATION_PINGLUNDIAN:

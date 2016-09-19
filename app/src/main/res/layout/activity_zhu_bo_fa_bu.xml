@@ -64,7 +64,7 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_weight="3"
-            android:layout_height="320dp"
+            android:layout_height="300dp"
             android:background="@drawable/juxing"
             android:layout_margin="8dp"
             android:padding="10dp">
@@ -91,11 +91,16 @@
         </RelativeLayout>
 
     </LinearLayout>
+    <TextView
+        android:text="秀咖声明：每位主播每天限制发送两条直播动态，主播发布的直播动态信息，关注该主播的粉丝都可收到直播消息推送！"
+        android:layout_width="match_parent"
+        android:textSize="12sp"
+        android:layout_margin="10dp"
+        android:layout_height="wrap_content" />
     <Button
         android:id="@+id/btn_fabu"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
-        android:layout_marginTop="25dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/anniu"

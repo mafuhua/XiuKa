@@ -2,6 +2,7 @@ package com.yuen.xiuka.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -65,6 +66,8 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
     private boolean switchc = true;
     private MyAdapter myAdapter;
     private View fensi;
+    private ImageView iv_huangwei;
+    private ImageView iv_lanwei;
 
     @Override
     public void onStart() {
@@ -117,6 +120,8 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
         ll_guanzhu = (LinearLayout) view.findViewById(R.id.ll_guanzhu);
         layout_title_usericon = (LinearLayout) view.findViewById(R.id.layout_title_usericon);
         iv_user_icon = (ImageView) view.findViewById(R.id.iv_user_icon);
+        iv_huangwei = (ImageView) view.findViewById(R.id.iv_huangwei);
+        iv_lanwei = (ImageView) view.findViewById(R.id.iv_lanwei);
         tv_user_tel = (TextView) view.findViewById(R.id.tv_user_tel);
         tv_user_name = (TextView) view.findViewById(R.id.tv_user_name);
         ll_fensi = (LinearLayout) view.findViewById(R.id.ll_fensi);
@@ -244,7 +249,7 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onSuccess(String result) {
                 Log.d("mafuhua", "----MY------" + result);
-                System.out.print(result);
+              //  System.out.print(result);
                 //  Toast.makeText(context, result, Toast.LENGTH_LONG).show();
                 Gson gson = new Gson();
                 MYBean myBean = gson.fromJson(result, MYBean.class);
@@ -264,7 +269,12 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
                 SPUtil.saveString("type", myBeanData.getType());
                 RongIM.getInstance().setCurrentUserInfo(new UserInfo(SPUtil.getInt("uid") + "", SPUtil.getString("name"), Uri.parse(URLProvider.BaseImgUrl + SPUtil.getString("icon"))));
                 //      Toast.makeText(context,"icon"+myBeanData.getImage(), Toast.LENGTH_LONG).show();
-
+                if (myBeanData.getType().equals("1")){
+                    iv_huangwei.setVisibility(View.VISIBLE);
+                }
+                if (myBeanData.getPlatform().length()>0){
+                    iv_lanwei.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -299,11 +309,11 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
     class WoDeHolder extends BaseHolder<String> {
         public ImageView ivwodeitemicon;
         public TextView tvwodeitemdec;
+        public TextView renzheng;
         public Switch sw_tixing;
         public View line;
         private int[] wodeItemImg = new int[]{R.drawable.renzheng, R.drawable.renzheng, R.drawable.xinxi,
                 R.drawable.huihua, R.drawable.shezhi};
-
 
         @Override
         public View initView() {
@@ -312,6 +322,7 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
             sw_tixing = (Switch) root.findViewById(R.id.sw_tixing);
             line = root.findViewById(R.id.line);
             tvwodeitemdec = (TextView) root.findViewById(R.id.tv_wode_item_dec);
+            renzheng = (TextView) root.findViewById(R.id.renzheng);
            /* sw_tixing.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -359,6 +370,24 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
             } else {
                 line.setVisibility(View.GONE);
             }*/
+            if (position == 0&&myBeanData.getType().equals("1")){
+                renzheng.setText("已认证");
+                renzheng.setTextColor(Color.parseColor("#FF5A60"));
+                renzheng.setVisibility(View.VISIBLE);
+            }else if (position ==0){
+                renzheng.setText("未认证");
+                renzheng.setTextColor(Color.GRAY);
+                renzheng.setVisibility(View.VISIBLE);
+            }
+            if (position == 1&&myBeanData.getPlatform().length()>0){
+                renzheng.setText("已认证");
+                renzheng.setTextColor(Color.parseColor("#FF5A60"));
+                renzheng.setVisibility(View.VISIBLE);
+            }else if (position ==1){
+                renzheng.setText("未认证");
+                renzheng.setTextColor(Color.GRAY);
+                renzheng.setVisibility(View.VISIBLE);
+            }
             if (position == 2) {
                 sw_tixing.setVisibility(View.VISIBLE);
                 sw_tixing.setChecked(switchc);

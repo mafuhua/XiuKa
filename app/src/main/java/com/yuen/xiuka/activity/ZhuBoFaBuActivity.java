@@ -362,11 +362,11 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
         map.put("content",platname+ zhibo_time+content);
         // TODO validate success, do something
         fabu(map);
-        Jpush(content);
+
 
     }
 
-    private void fabu(HashMap<String, String> map) {
+    private void fabu(final HashMap<String, String> map) {
         addrenzhengimg();
         XUtils.xUtilsPost(URLProvider.CIRCLE, map, new Callback.CommonCallback<String>() {
 
@@ -376,9 +376,17 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
                 Gson gson = new Gson();
                 ImgBean imgBean = gson.fromJson(result, ImgBean.class);
                 if (ImageList.size() == 0) {
-                    EventBus.getDefault().post(
-                            new MyEvent(MyEvent.Event.REFRESH_XIUQUAN));
-                    Toast.makeText(context,"发布"+ imgBean.getMsg(), Toast.LENGTH_SHORT).show();
+
+                    if (imgBean.getCode().equals("0")) {
+                        EventBus.getDefault().post(
+                                new MyEvent(MyEvent.Event.REFRESH_XIUQUAN));
+                        Toast.makeText(context,"发布"+ imgBean.getMsg(), Toast.LENGTH_SHORT).show();
+                        Jpush(map.get("content"));
+                    } else {
+                        EventBus.getDefault().post(
+                                new MyEvent(MyEvent.Event.REFRESH_XIUQUAN));
+                        Toast.makeText(context,imgBean.getMsg(), Toast.LENGTH_SHORT).show();
+                    }
                     if (mypDialog.isShowing()) {
                         mypDialog.dismiss();
                     }
@@ -389,8 +397,9 @@ public class ZhuBoFaBuActivity extends BaseActivity implements View.OnClickListe
                         resultid = imgBean.getId() + "";
                      //   Toast.makeText(context, imgBean.getMsg(), Toast.LENGTH_SHORT).show();
                         sendComPic();
+                        Jpush(map.get("content"));
                     } else {
-                        Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,imgBean.getMsg(), Toast.LENGTH_SHORT).show();
                         if (mypDialog.isShowing()) {
                             mypDialog.dismiss();
                         }

@@ -9,24 +9,45 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:paddingBottom="20dp"
-        android:paddingLeft="20dp"
         android:paddingTop="20dp">
 
-        <ImageView
-            android:id="@+id/iv_user_icon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/rc_default_portrait"
-            android:paddingBottom="15dp"
-            android:paddingTop="15dp"/>
+        <RelativeLayout
+            android:id="@+id/rl_icon"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_user_icon"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerInParent="true" />
+
+            <ImageView
+                android:id="@+id/iv_huangwei"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:visibility="gone"
+                android:layout_below="@+id/iv_user_icon"
+                android:layout_marginLeft="-10dp"
+                android:layout_toRightOf="@id/iv_user_icon"
+                android:background="@drawable/huangwei" />
+
+            <ImageView
+                android:id="@+id/iv_lanwei"
+                android:layout_width="15dp"
+                android:visibility="gone"
+                android:layout_height="15dp"
+                android:layout_below="@+id/iv_user_icon"
+                android:layout_toRightOf="@id/iv_huangwei"
+                android:background="@drawable/lanwei" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
-            android:layout_toRightOf="@id/iv_user_icon"
+            android:layout_toRightOf="@id/rl_icon"
             android:textSize="16sp"/>
         <TextView
             android:id="@+id/tv_user_tel"
@@ -34,8 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_user_name"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/iv_user_icon"
+            android:layout_toRightOf="@id/rl_icon"
             android:textSize="16sp"/>
         <ImageView
             android:layout_centerVertical="true"

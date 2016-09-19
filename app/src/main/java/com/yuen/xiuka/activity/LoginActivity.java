@@ -353,7 +353,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = formatter.format(currentTime);
 
-        Long aLong = dateToLong("2016-09-20");
+        Long aLong = dateToLong("2016-09-22");
         Long aLong2 = dateToLong(dateString);
         if (aLong2>aLong) {
             return true;

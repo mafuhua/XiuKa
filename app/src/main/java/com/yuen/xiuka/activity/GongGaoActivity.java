@@ -51,7 +51,6 @@ public class GongGaoActivity extends AppCompatActivity implements View.OnClickLi
         tvTitlecontent = (TextView) findViewById(R.id.tv_titlecontent);
         gongaolist = (ListView) findViewById(R.id.gongaolist);
         tvTitlecontent.setText("秀咖");
-
         initdata();
     }
 

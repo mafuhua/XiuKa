@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.yuen.baselib.activity.BaseFragment;
@@ -98,15 +99,19 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
                 if (pushBean.getTxt().getType().equals("4")) {
                     fensi.setVisibility(View.VISIBLE);
                 }
-                SPUtil.saveInt("fensij",1);
+                SPUtil.saveInt("fensij", 1);
+                my();
                 //    initNotify(pushBean);
                 break;
             case REFRESH_FENSIH:
                 fensi.setVisibility(View.GONE);
-                SPUtil.saveInt("fensij",0);
+                SPUtil.saveInt("fensij", 0);
+                my();
+                break;
+            case REFRESH_MY:
+             //   my();
                 break;
         }
-        my();
 
     }
 
@@ -141,10 +146,27 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
 
                 switch (position) {
                     case 0:
-                        startActivity(RenZhengActivity.class);
+                        if (myBeanData.getGhtype().equals("1")) {
+                            Toast.makeText(getActivity(), "已经认证了工会！", Toast.LENGTH_SHORT).show();
+                        } else if (myBeanData.getType().equals("0")) {
+                            Toast.makeText(getActivity(), "正在申请中！", Toast.LENGTH_SHORT).show();
+                        } else if (myBeanData.getType().equals("1")) {
+                            Toast.makeText(getActivity(), "已经认证了主播！", Toast.LENGTH_SHORT).show();
+                        } else {
+                            startActivity(RenZhengActivity.class);
+                        }
+
                         break;
                     case 1:
-                        startActivity(GongHuiRenZhengActivity.class);
+                        if (myBeanData.getType().equals("1")) {
+                            Toast.makeText(getActivity(), "已经认证了主播！", Toast.LENGTH_SHORT).show();
+                        } else if (myBeanData.getGhtype().equals("0")) {
+                            Toast.makeText(getActivity(), "正在申请中！", Toast.LENGTH_SHORT).show();
+                        } else if (myBeanData.getGhtype().equals("1")) {
+                            Toast.makeText(getActivity(), "已经认证了工会！", Toast.LENGTH_SHORT).show();
+                        } else {
+                            startActivity(GongHuiRenZhengActivity.class);
+                        }
                         break;
                     case 3:
                         startActivity(LianxiwomenActivity.class);
@@ -157,9 +179,9 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
                 }
             }
         });
-        if (SPUtil.getInt("fensij")==1){
+        if (SPUtil.getInt("fensij") == 1) {
             fensi.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             fensi.setVisibility(View.GONE);
         }
 
@@ -249,7 +271,7 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onSuccess(String result) {
                 Log.d("mafuhua", "----MY------" + result);
-              //  System.out.print(result);
+                //  System.out.print(result);
                 //  Toast.makeText(context, result, Toast.LENGTH_LONG).show();
                 Gson gson = new Gson();
                 MYBean myBean = gson.fromJson(result, MYBean.class);
@@ -269,12 +291,17 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
                 SPUtil.saveString("type", myBeanData.getType());
                 RongIM.getInstance().setCurrentUserInfo(new UserInfo(SPUtil.getInt("uid") + "", SPUtil.getString("name"), Uri.parse(URLProvider.BaseImgUrl + SPUtil.getString("icon"))));
                 //      Toast.makeText(context,"icon"+myBeanData.getImage(), Toast.LENGTH_LONG).show();
-                if (myBeanData.getType().equals("1")){
+                if (myBeanData.getType().equals("1")) {
                     iv_huangwei.setVisibility(View.VISIBLE);
-                }
-                if (myBeanData.getPlatform().length()>0){
+                } else if (myBeanData.getGhtype().equals("1")) {
                     iv_lanwei.setVisibility(View.VISIBLE);
+                } else {
+                    iv_lanwei.setVisibility(View.GONE);
+                    iv_huangwei.setVisibility(View.GONE);
                 }
+                /*if (myBeanData.getPlatform().length()>0){
+                    iv_lanwei.setVisibility(View.VISIBLE);
+                }*/
             }
 
             @Override
@@ -370,20 +397,20 @@ public class WoDeFragment extends BaseFragment implements View.OnClickListener {
             } else {
                 line.setVisibility(View.GONE);
             }*/
-            if (position == 0&&myBeanData.getType().equals("1")){
+            if (position == 0&& myBeanData.getType().equals("1")) {
                 renzheng.setText("已认证");
                 renzheng.setTextColor(Color.parseColor("#FF5A60"));
                 renzheng.setVisibility(View.VISIBLE);
-            }else if (position ==0){
+            } else if (position == 0) {
                 renzheng.setText("未认证");
                 renzheng.setTextColor(Color.GRAY);
                 renzheng.setVisibility(View.VISIBLE);
             }
-            if (position == 1&&myBeanData.getPlatform().length()>0){
+            if (position == 1 && myBeanData.getGhtype().equals("1")) {
                 renzheng.setText("已认证");
                 renzheng.setTextColor(Color.parseColor("#FF5A60"));
                 renzheng.setVisibility(View.VISIBLE);
-            }else if (position ==1){
+            } else if (position == 1) {
                 renzheng.setText("未认证");
                 renzheng.setTextColor(Color.GRAY);
                 renzheng.setVisibility(View.VISIBLE);

@@ -76,6 +76,7 @@ public class MyEvent {
         GET_TOKEN,
         REFRESH_LIAOTIAN,
         REFRESH_FENSI,
+        REFRESH_MY,
         REFRESH_FENSIH,
         REFRESH_DIAN,
         REFRESH_ADD,

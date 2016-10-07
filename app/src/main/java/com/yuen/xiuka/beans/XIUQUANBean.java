@@ -88,6 +88,26 @@ public class XIUQUANBean implements Serializable{
         private String guanzhu;
         private String image;
         private String name;
+
+        public String getGhtype() {
+            return ghtype;
+        }
+
+        public void setGhtype(String ghtype) {
+            this.ghtype = ghtype;
+        }
+
+        private String ghtype;
+
+        public String getGhname() {
+            return ghname;
+        }
+
+        public void setGhname(String ghname) {
+            this.ghname = ghname;
+        }
+
+        private String ghname;
         private String platform;
         private String platformid;
 

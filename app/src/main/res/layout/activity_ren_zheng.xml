@@ -57,16 +57,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/color_text_normal"/>
-
             <LinearLayout
                 style="@style/ShopDecLL">
-
                 <TextView
                     style="@style/ShopDecTv"
                     android:layout_weight="1"
                     android:text="上传身份证照"/>
-
-
             </LinearLayout>
 
             <TextView
@@ -168,7 +164,6 @@
                         android:text="身份证正面"/>
                 </LinearLayout>
 
-
             </LinearLayout>
 
             <LinearLayout
@@ -237,7 +232,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="提示:如果没有房间号则填写ID号"/>
+                android:textSize="12sp"
+                android:text="提示:有房间号则填写房间号，无房间号则填写直播平台ID号！"/>
 
             <Button
                 android:id="@+id/btn_tijiaoo"

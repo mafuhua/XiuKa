@@ -69,6 +69,16 @@ public class MYBean implements Serializable {
         private int fensi;
         private int guanzhu;
         private String image;
+
+        public String getGhtype() {
+            return ghtype;
+        }
+
+        public void setGhtype(String ghtype) {
+            this.ghtype = ghtype;
+        }
+
+        private String ghtype;
         private String label;
         private String login_time;
         private String name;

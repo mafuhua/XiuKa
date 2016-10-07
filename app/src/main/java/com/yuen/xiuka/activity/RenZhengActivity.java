@@ -24,6 +24,7 @@ import com.yuen.baselib.utils.SPUtil;
 import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.ImgBean;
+import com.yuen.xiuka.utils.MyEvent;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
 
@@ -37,6 +38,8 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 public class RenZhengActivity extends BaseActivity implements View.OnClickListener {
 
@@ -204,22 +207,25 @@ public class RenZhengActivity extends BaseActivity implements View.OnClickListen
         }*/
 
         String zhibo = et_zhibo.getText().toString().trim();
-        if (TextUtils.isEmpty(zhibo)) {
-            Toast.makeText(this, "直播平台不能为空", Toast.LENGTH_SHORT).show();
+        String zhiboroom = et_zhiboroom.getText().toString().trim();
+        String zhiboid = et_zhiboid.getText().toString().trim();
+
+        if (!TextUtils.isEmpty(zhiboid)||!TextUtils.isEmpty(zhiboroom)) {
+
+        }else {
+            Toast.makeText(this, "直播房间或者直播房间ID不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String zhiboroom = et_zhiboroom.getText().toString().trim();
-        if (TextUtils.isEmpty(zhiboroom)) {
+       /* if (TextUtils.isEmpty(zhiboroom)) {
             Toast.makeText(this, "直播房间不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String zhiboid = et_zhiboid.getText().toString().trim();
         if (TextUtils.isEmpty(zhiboid)) {
             Toast.makeText(this, "直播ID不能为空", Toast.LENGTH_SHORT).show();
             return;
-        }
+        }*/
         if (renzhengimgs.size() < 3) return;
         addrenzheng(name, idcard, zhibo, zhiboroom, zhiboid);
         // TODO validate success, do something
@@ -278,8 +284,6 @@ public class RenZhengActivity extends BaseActivity implements View.OnClickListen
                     }
                     finish();
                 }
-
-
             }
 
             @Override
@@ -304,7 +308,6 @@ public class RenZhengActivity extends BaseActivity implements View.OnClickListen
         if (!file.exists()) return;
         new Thread(new Runnable() {//开启多线程进行压缩处理
             private int options;
-
             @Override
             public void run() {
                 // TODO Auto-generated method stub
@@ -366,6 +369,8 @@ public class RenZhengActivity extends BaseActivity implements View.OnClickListen
                         mypDialog.dismiss();
                     }
                     Toast.makeText(context, "上传成功", Toast.LENGTH_SHORT).show();
+                    EventBus.getDefault().post(
+                            new MyEvent(MyEvent.Event.REFRESH_MY));
                     finish();
                 }
             }

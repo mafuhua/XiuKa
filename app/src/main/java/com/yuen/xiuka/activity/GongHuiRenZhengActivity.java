@@ -24,6 +24,7 @@ import com.yuen.baselib.utils.SPUtil;
 import com.yuen.baselib.utils.SysExitUtil;
 import com.yuen.xiuka.R;
 import com.yuen.xiuka.beans.ImgBean;
+import com.yuen.xiuka.utils.MyEvent;
 import com.yuen.xiuka.utils.URLProvider;
 import com.yuen.xiuka.utils.XUtils;
 
@@ -37,6 +38,8 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 public class GongHuiRenZhengActivity extends BaseActivity implements View.OnClickListener {
 
@@ -241,6 +244,8 @@ public class GongHuiRenZhengActivity extends BaseActivity implements View.OnClic
                         mypDialog.dismiss();
                     }
                     Toast.makeText(context, "上传成功", Toast.LENGTH_SHORT).show();
+                    EventBus.getDefault().post(
+                            new MyEvent(MyEvent.Event.REFRESH_MY));
                     finish();
                 }
             }

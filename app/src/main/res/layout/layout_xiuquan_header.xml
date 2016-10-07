@@ -39,10 +39,11 @@
             <ImageView
                 android:id="@+id/iv_lanwei"
                 android:layout_width="15dp"
-                android:visibility="gone"
                 android:layout_height="15dp"
+                android:visibility="gone"
                 android:layout_below="@+id/iv_user_icon"
-                android:layout_toRightOf="@id/iv_huangwei"
+                android:layout_marginLeft="-10dp"
+                android:layout_toRightOf="@id/iv_user_icon"
                 android:background="@drawable/lanwei" />
         </RelativeLayout>
 

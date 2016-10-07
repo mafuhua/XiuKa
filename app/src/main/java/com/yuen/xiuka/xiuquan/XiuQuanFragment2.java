@@ -301,19 +301,19 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
         tv_fensi.setText("粉丝" + xiuquanDatas.getFensi());
         tv_guanzhu.setText("关注" + xiuquanDatas.getGuanzhu());
         tv_name.setText(xiuquanDatas.getName());
-        if (xiuquanBeanDatas.getPlatform() != null && xiuquanBeanDatas.getPlatform().length() > 0) {
-            tv_renzheng.setText("认证平台" + xiuquanBeanDatas.getPlatform());
+        if (xiuquanBeanDatas.getGhname() != null && xiuquanBeanDatas.getGhname().length() > 0) {
+            tv_renzheng.setText("认证平台:" + xiuquanBeanDatas.getGhname());
         }
         x.image().bind(iv_user_icon, URLProvider.BaseImgUrl + xiuquanDatas.getImage(), MyApplication.options);
         x.image().bind(iv_bj, URLProvider.BaseImgUrl + xiuquanDatas.getBj_image(), MyApplication.optionsxq);
         if (xiuquanDatas.getPlatformname().length() > 0&&xiuquanDatas.getPlatformid().length()>0) {
-            tv_fangjian.setText("房间号：" + xiuquanDatas.getPlatformname()+" 房间ID："+xiuquanDatas.getPlatformid());
+            tv_fangjian.setText("房间号：" + xiuquanDatas.getPlatformname()+" 直播平台ID："+xiuquanDatas.getPlatformid());
         }else if (xiuquanDatas.getPlatformname().length() > 0){
             tv_fangjian.setText("房间号：" + xiuquanDatas.getPlatformname());
         }else if(xiuquanDatas.getPlatformid().length() > 0){
-            tv_fangjian.setText("房间ID："+xiuquanDatas.getPlatformid());
+            tv_fangjian.setText("直播平台ID："+xiuquanDatas.getPlatformid());
         }
-        if (xiuquanBeanDatas.getShifou_ren() == 0) {
+     /*   if (xiuquanBeanDatas.getShifou_ren() == 0) {
             iv_lanwei.setVisibility(View.GONE);
         } else if (xiuquanBeanDatas.getShifou_ren() == 1) {
             iv_lanwei.setVisibility(View.VISIBLE);
@@ -322,7 +322,18 @@ public class XiuQuanFragment2 extends BaseFragment implements View.OnClickListen
             iv_huangwei.setVisibility(View.GONE);
         } else if (xiuquanBeanDatas.getType().equals("1")) {
             iv_huangwei.setVisibility(View.VISIBLE);
+        }*/
+
+
+
+        if (xiuquanBeanDatas.getType().equals("0")) {
+            iv_huangwei.setVisibility(View.GONE);
+        } else if (xiuquanBeanDatas.getType().equals("1")) {
+            iv_huangwei.setVisibility(View.VISIBLE);
+        }if (xiuquanBeanDatas.getGhtype().equals("1")) {
+            iv_lanwei.setVisibility(View.VISIBLE);
         }
+
         //Glide.with(context).load(URLProvider.BaseImgUrl + SPUtil.getString("icon")).centerCrop().error(R.drawable.cuowu).crossFade().into(iv_user_icon);
 
 

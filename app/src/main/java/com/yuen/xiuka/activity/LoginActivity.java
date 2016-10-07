@@ -135,13 +135,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.btn_get_yzm:
                 time = new TimeCount(60000, 1000);
-
                 submit();
-
                 break;
             case R.id.btn_login:
                 login();
-
                 break;
             case R.id.btn_qq:
                 platform = SHARE_MEDIA.QQ;
@@ -353,13 +350,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = formatter.format(currentTime);
 
-        Long aLong = dateToLong("2016-09-30");
+        Long aLong = dateToLong("2016-10-10");
         Long aLong2 = dateToLong(dateString);
-        if (aLong2>aLong) {
+       /* if (aLong2>aLong) {
             return true;
         }else {
             return false;
-        }
-
+        }*/
+        return false;
     }
 }

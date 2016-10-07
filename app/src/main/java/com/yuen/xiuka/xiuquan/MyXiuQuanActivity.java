@@ -326,27 +326,25 @@ public class MyXiuQuanActivity extends com.yuen.xiuka.activity.BaseActivity impl
 
         tv_guanzhu.setText("关注" + xiuquanBeanDatas.getGuanzhu());
         tv_name.setText(xiuquanBeanDatas.getName());
-        if (xiuquanBeanDatas.getPlatform() != null && xiuquanBeanDatas.getPlatform().length() > 0) {
-            tv_renzheng.setText("认证平台" + xiuquanBeanDatas.getPlatform());
+        if (xiuquanBeanDatas.getGhname() != null && xiuquanBeanDatas.getGhname().length() > 0) {
+            tv_renzheng.setText("认证平台:" + xiuquanBeanDatas.getGhname());
         }
         x.image().bind(iv_user_icon, URLProvider.BaseImgUrl + xiuquanBeanDatas.getImage(), MyApplication.options);
         x.image().bind(iv_bj, URLProvider.BaseImgUrl + xiuquanBeanDatas.getBj_image(), MyApplication.optionsxq);
         if (xiuquanBeanDatas.getPlatformname().length() > 0&&xiuquanBeanDatas.getPlatformid().length()>0) {
-            tv_fangjian.setText("房间号：" + xiuquanBeanDatas.getPlatformname()+" 房间ID："+xiuquanBeanDatas.getPlatformid());
+            tv_fangjian.setText("房间号：" + xiuquanBeanDatas.getPlatformname()+" 直播平台ID："+xiuquanBeanDatas.getPlatformid());
         }else if (xiuquanBeanDatas.getPlatformname().length() > 0){
             tv_fangjian.setText("房间号：" + xiuquanBeanDatas.getPlatformname());
         }else if(xiuquanBeanDatas.getPlatformid().length() > 0){
-            tv_fangjian.setText("房间ID："+xiuquanBeanDatas.getPlatformid());
+            tv_fangjian.setText("直播平台ID："+xiuquanBeanDatas.getPlatformid());
         }
-        if (xiuquanBeanDatas.getShifou_ren() == 0) {
-            iv_lanwei.setVisibility(View.GONE);
-        } else if (xiuquanBeanDatas.getShifou_ren() == 1) {
-            iv_lanwei.setVisibility(View.VISIBLE);
-        }
+
         if (xiuquanBeanDatas.getType().equals("0")) {
             iv_huangwei.setVisibility(View.GONE);
         } else if (xiuquanBeanDatas.getType().equals("1")) {
             iv_huangwei.setVisibility(View.VISIBLE);
+        }if (xiuquanBeanDatas.getGhtype().equals("1")) {
+            iv_lanwei.setVisibility(View.VISIBLE);
         }
         if (xiuquanBeanDatas.getShifou()==1) {
             tv_jiaguanzhu.setText("取消关注");
